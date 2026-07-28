@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ሳምንታዊ የሥራ ሪፖርትና ግምገማ</title>
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h2, h3 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 75px;
+        }
+
+        button {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #003d82;
+        }
+
+        .report-item {
+            border-bottom: 1px solid #eeeeee;
+            padding: 12px 0;
+        }
+
+        .report-item:last-child {
+            border-bottom: none;
+        }
+
+        .badge {
+            background-color: #e3f2fd;
+            color: #0d47a1;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .rating {
+            color: #ff9800;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>ሳምንታዊ የሥራ ሪፖርት</h2>
+
+    <!-- Form Section -->
+    <div class="card">
+        <h3>አዲስ ሪፖርት ማስገቢያ</h3>
+        <form id="reportForm">
+            <div class="form-group">
+                <label for="staffName">የሰራተኛው ስም</label>
+                <input type="text" id="staffName" placeholder="ሙሉ ስም ያስገቡ" required>
+            </div>
+
+            <div class="form-group">
+                <label for="weekDate">የሳምንቱ መደምደሚያ ቀን</label>
+                <input type="date" id="weekDate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="tasksDone">የተከናወኑ ዋና ዋና ተግባራት</label>
+                <textarea id="tasksDone" placeholder="የተሰሩ ስራዎችን በዝርዝር ይፃፉ..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="challenges">ያጋጠሙ ችግሮችና የተወሰዱ መፍትሔዎች</label>
+                <textarea id="challenges" placeholder="ችግሮችና መፍትሔዎችን ያስገቡ..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="nextPlan">የቀጣይ ሳምንት ዕቅድ</label>
+                <textarea id="nextPlan" placeholder="የሚመጣው ሳምንት ዋና ዋና ዕቅዶች..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="rating">የሥራ አፈፃፀም ግምገማ (ደረጃ)</label>
+                <select id="rating" required>
+                    <option value="5">⭐⭐⭐⭐⭐ (በጣም ከፍተኛ - 5/5)</option>
+                    <option value="4">⭐⭐⭐⭐ (ከፍተኛ - 4/5)</option>
+                    <option value="3">⭐⭐⭐ (መካከለኛ - 3/5)</option>
+                    <option value="2">⭐⭐ (ዝቅተኛ - 2/5)</option>
+                    <option value="1">⭐ (በጣም ዝቅተኛ - 1/5)</option>
+                </select>
+            </div>
+
+            <button type="submit">ሪፖርት ላክ</button>
+        </form>
+    </div>
+
+    <!-- Submitted Reports Section -->
+    <div class="card">
+        <h3>የተላኩ ሪፖርቶችና ግምገማዎች</h3>
+        <div id="reportsList">
+            <p style="text-align: center; color: #777777;">ምንም የተላከ ሪፖርት የለም።</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', loadReports);
+
+    const reportForm = document.getElementById('reportForm');
+    const reportsList = document.getElementById('reportsList');
+
+    reportForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const newReport = {
+            id: Date.now(),
+            staffName: document.getElementById('staffName').value,
+            weekDate: document.getElementById('weekDate').value,
+            tasksDone: document.getElementById('tasksDone').value,
+            challenges: document.getElementById('challenges').value,
+            nextPlan: document.getElementById('nextPlan').value,
+            rating: document.getElementById('rating').value
+        };
+
+        let reports = JSON.parse(localStorage.getItem('weekly_reports') || '[]');
+        reports.unshift(newReport);
+        localStorage.setItem('weekly_reports', JSON.stringify(reports));
+
+        reportForm.reset();
+        loadReports();
+    });
+
+    function loadReports() {
+        let reports = JSON.parse(localStorage.getItem('weekly_reports') || '[]');
+        
+        if (reports.length === 0) {
+            reportsList.innerHTML = '<p style="text-align: center; color: #777777;">ምንም የተላከ ሪፖርት የለም።</p>';
+            return;
+        }
+
+        reportsList.innerHTML = '';
+        reports.forEach(report => {
+            const stars = '⭐'.repeat(parseInt(report.rating));
+            const item = document.createElement('div');
+            item.className = 'report-item';
+            item.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                    <strong>${escapeHtml(report.staffName)}</strong>
+                    <span class="badge">${escapeHtml(report.weekDate)}</span>
+                </div>
+                <p style="margin: 5px 0;"><strong>ተግባራት:</strong> ${escapeHtml(report.tasksDone)}</p>
+                ${report.challenges ? `<p style="margin: 5px 0;"><strong>ችግሮች/መፍትሔ:</strong> ${escapeHtml(report.challenges)}</p>` : ''}
+                <p style="margin: 5px 0;"><strong>የቀጣይ ዕቅድ:</strong> ${escapeHtml(report.nextPlan)}</p>
+                <p style="margin: 5px 0;" class="rating"><strong>ግምገማ:</strong> ${stars} (${report.rating}/5)</p>
+            `;
+            reportsList.appendChild(item);
+        });
+    }
+
+    function escapeHtml(text) {
+        return text ? text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+    }
+</script>
+
+</body>
+</html>
