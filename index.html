@@ -251,19 +251,6 @@
             border: 1px solid #eee;
         }
 
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 1000;
-        }
-        .modal-box {
-            background: white; padding: 20px; border-radius: 10px;
-            width: 90%; max-width: 450px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            max-height: 85vh; overflow-y: auto;
-        }
-
         .hidden { display: none !important; }
     </style>
 </head>
@@ -401,7 +388,7 @@
             </div>
         </div>
 
-        <!-- Overall Staff Report Summary (For All Staff Aggregated) -->
+        <!-- Overall Staff Report Summary -->
         <div id="summaryReportCard" class="card">
             <h3 style="margin-top:0; color:var(--cbe-purple);" id="txt_summary_title">📊 የሁሉም ሰራተኞች አጠቃላይ ሪፖርት ማጠቃለያ (Summary)</h3>
             <div style="overflow-x:auto;">
@@ -424,7 +411,8 @@
         <div class="card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                 <h3 style="margin:0; color:var(--cbe-purple);" id="txt_form_title">📝 አዲስ የሰራተኛ ሪፖርት መሙያ</h3>
-                <button type="button" class="btn-excel" style="width:auto; padding:5px 12px; font-size:11px;" onclick="openManageDropdownModal()" id="btn_manage_dropdown">⚙️ የድሮፕ ዳውን ስሞችን አስተካክል</button>
+                <!-- Manage Staff List Button - hidden by default for non-admins -->
+                <button type="button" class="btn-excel hidden" style="width:auto; padding:5px 12px; font-size:11px;" onclick="openManageDropdownModal()" id="btn_manage_dropdown">⚙️ የድሮፕ ዳውን ስሞችን አስተካክል</button>
             </div>
             
             <form id="reportForm">
@@ -497,7 +485,6 @@
 </div>
 
 <script>
-    // System Languages Text Translations
     const translations = {
         am: {
             app_title: "የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ",
@@ -729,6 +716,17 @@
         document.getElementById('loginForm').reset();
     }
 
+    function openManageDropdownModal() {
+        const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
+        const isApprover = currentUserSession.role === 'Approver';
+        
+        if (isSuperAdmin || isApprover) {
+            alert(currentLang === 'am' ? 'የሰራተኞች ድሮፕ ዳውን ማስተካከያ ይከፈታል...' : 'Opening Staff Dropdown Manager...');
+        } else {
+            alert(currentLang === 'am' ? 'ይህንን ለማድረግ ፈቃድ የለዎትም!' : 'Access denied! Only admins can perform this action.');
+        }
+    }
+
     function initDashboard() {
         document.getElementById('loginSection').classList.add('hidden');
         document.getElementById('appSection').classList.remove('hidden');
@@ -740,21 +738,26 @@
         const exportBtns = document.getElementById('exportButtons');
         const userControlSec = document.getElementById('adminUserControlSection');
         const branchCreatorSec = document.getElementById('branchCreatorSection');
+        const manageDropdownBtn = document.getElementById('btn_manage_dropdown');
 
         const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
         const isApprover = currentUserSession.role === 'Approver';
 
+        // 1. Manage Staff List setting toggle (Enabled for Approver and SuperAdmin)
         if (isSuperAdmin || isApprover) {
             adminCard.classList.remove('hidden');
             exportBtns.classList.remove('hidden');
             userControlSec.classList.remove('hidden');
+            manageDropdownBtn.classList.remove('hidden');
             renderUserTable();
         } else {
             adminCard.classList.add('hidden');
             exportBtns.classList.add('hidden');
             userControlSec.classList.add('hidden');
+            manageDropdownBtn.classList.add('hidden');
         }
 
+        // 2. Branch Creator toggle (Enabled ONLY for SuperAdmin)
         if (isSuperAdmin) {
             branchCreatorSec.classList.remove('hidden');
         } else {
@@ -772,6 +775,11 @@
     }
 
     function addNewBranch() {
+        if (currentUserSession.role !== 'SuperAdmin') {
+            alert(currentLang === 'am' ? 'ቅርንጫፍ ለመጨመር የ SuperAdmin ፈቃድ ያስፈልጋል!' : 'Only SuperAdmin can add branches!');
+            return;
+        }
+
         const input = document.getElementById('newBranchNameInput');
         const val = input.value.trim();
         if(!val) return;
@@ -884,7 +892,6 @@
 
             let actionButtonsHtml = '';
 
-            // Rule 2 Check: Prevent self-approval (አፕሩቨር የራሱን ሪፖርት ማፅደቅ አይችልም!)
             const isOwnReport = (report.staffName === currentUserSession.name || report.submittedBy === currentUserSession.name);
 
             if (report.status === 'Pending') {
@@ -923,7 +930,6 @@
         });
     }
 
-    /* Aggregated Overall Summary Table for All Staff */
     function renderOverallSummaryTable(reports) {
         const tbody = document.getElementById('summaryReportTableBody');
         tbody.innerHTML = '';
