@@ -480,7 +480,7 @@
                     <div>
                         <label for="staffNameSelect">የሰራተኛው ስም</label>
                         <select id="staffNameSelect" required>
-                            <!-- Replaced last item Adem with All Staff -->
+                            <!-- Populated by JS -->
                         </select>
                     </div>
                     <div>
@@ -601,9 +601,9 @@
 </div>
 
 <script>
-    // Updated Staff list: Replaced "Adem" at the end with "All Staff"
+    // Updated Staff list
     const allExcelStaff = [
-        "Adem Seid",
+        "All staff",
         "Mulugeta Shume",
         "Gedion Yohans",
         "Hermela Getachew",
@@ -620,13 +620,12 @@
         "Seada Hussen",
         "Amare Mola",
         "Fisiha Legese",
-        "Asrat Zewdu",
-        "All Staff"
+        "Asrat Zewdu"
     ];
 
     // Phone List
     let staffPhoneNumbers = [
-        { phone: "+251968114058", raw: "+251 96 811 4058", name: "Adem Seid" },
+        { phone: "+251968114058", raw: "+251 96 811 4058", name: "All staff" },
         { phone: "+251925037481", raw: "+251 92 503 7481", name: "Alemayehu Worku" },
         { phone: "+251908880024", raw: "+251 90 888 0024", name: "Asrat Zewdu" },
         { phone: "+251991716169", raw: "+251 99 171 6169", name: "Bethlehem Tsegaye" },
@@ -641,22 +640,22 @@
         { phone: "+251920613498", raw: "+251 92 061 3498", name: "Yonas Mekonnen" }
     ];
 
-    // Default users database
+    // Default users database - "adem" replaced with "staff" and Employee Name updated to "All staff"
     const defaultUsersDatabase = {
         "fisiha": { name: "Fisiha Legese", role: "SuperAdmin", pass: "1234" },
         "dawit": { name: "Dawit Solomon", role: "Approver", pass: "1234" },
         "asrat": { name: "Asrat Zewdu", role: "Approver", pass: "1234" },
         "sintayehu": { name: "Sintayehu Degefaw", role: "Approver", pass: "1234" },
-        "adem": { name: "Adem Seid", role: "Staff", pass: "1234" }
+        "staff": { name: "All staff", role: "Staff", pass: "1234" }
     };
 
     function getUsersDB() {
-        const savedDB = localStorage.getItem('cbe_users_db_v6');
+        const savedDB = localStorage.getItem('cbe_users_db_v7');
         return savedDB ? JSON.parse(savedDB) : defaultUsersDatabase;
     }
 
     function saveUsersDB(db) {
-        localStorage.setItem('cbe_users_db_v6', JSON.stringify(db));
+        localStorage.setItem('cbe_users_db_v7', JSON.stringify(db));
     }
 
     let currentUserSession = null;
@@ -669,7 +668,7 @@
         populateStaffDropdown();
         renderPhoneListTable();
         
-        const savedSession = localStorage.getItem('cbe_user_session_v6');
+        const savedSession = localStorage.getItem('cbe_user_session_v7');
         if (savedSession) {
             const parsedData = JSON.parse(savedSession);
             currentUserSession = parsedData.session;
@@ -702,7 +701,7 @@
         if (db[userKey] && db[userKey].pass === passKey) {
             currentUserSession = db[userKey];
             currentUsernameKey = userKey;
-            localStorage.setItem('cbe_user_session_v6', JSON.stringify({ session: currentUserSession, usernameKey: userKey }));
+            localStorage.setItem('cbe_user_session_v7', JSON.stringify({ session: currentUserSession, usernameKey: userKey }));
             initDashboard();
         } else {
             alert('የተሳሳተ የተጠቃሚ ስም ወይም ይለፍ ቃል!');
@@ -710,7 +709,7 @@
     });
 
     function logout() {
-        localStorage.removeItem('cbe_user_session_v6');
+        localStorage.removeItem('cbe_user_session_v7');
         currentUserSession = null;
         currentUsernameKey = null;
         document.getElementById('appSection').classList.add('hidden');
@@ -733,7 +732,7 @@
         const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
         const isApprover = currentUserSession.role === 'Approver';
 
-        // SMS Card is hidden for Dawit, Sintayehu, and Asrat (Only visible to SuperAdmin)
+        // SMS Card is strictly visible ONLY to SuperAdmin (hidden for Dawit, Sintayehu, Asrat, and Staff)
         if (isSuperAdmin) {
             smsCard.classList.remove('hidden');
         } else {
@@ -928,9 +927,9 @@
             approvedBy: ''
         };
 
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v6') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v7') || '[]');
         reports.unshift(newReport);
-        localStorage.setItem('cbe_borkena_reports_v6', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v7', JSON.stringify(reports));
 
         reportForm.reset();
         document.getElementById('dailyPlan').value = "118184.95";
@@ -942,7 +941,7 @@
     });
 
     function loadReports() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v6') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v7') || '[]');
         const reportsList = document.getElementById('reportsList');
         
         const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
@@ -1019,7 +1018,7 @@
     }
 
     function changeStatus(id, newStatus) {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v6') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v7') || '[]');
         reports = reports.map(r => {
             if (r.id === id) {
                 r.status = newStatus;
@@ -1027,7 +1026,7 @@
             }
             return r;
         });
-        localStorage.setItem('cbe_borkena_reports_v6', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v7', JSON.stringify(reports));
         loadReports();
     }
 
@@ -1035,7 +1034,7 @@
         let reason = prompt("የሪቨርሳል ምክንያት ይጻፉ:");
         if (!reason) return;
 
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v6') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v7') || '[]');
         reports = reports.map(r => {
             if (r.id === id) {
                 r.status = 'Reversal_Requested';
@@ -1043,15 +1042,15 @@
             }
             return r;
         });
-        localStorage.setItem('cbe_borkena_reports_v6', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v7', JSON.stringify(reports));
         loadReports();
     }
 
     function deleteReport(id) {
         if (!confirm("እርግጠኛ ነዎት ይጥፋ?")) return;
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v6') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v7') || '[]');
         reports = reports.filter(r => r.id !== id);
-        localStorage.setItem('cbe_borkena_reports_v6', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v7', JSON.stringify(reports));
         loadReports();
     }
 
@@ -1110,7 +1109,7 @@
     }
 
     function exportToExcel() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v6') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v7') || '[]');
         if (reports.length === 0) return alert('የሚወርድ ሪፖርት የለም!');
         let csvContent = "data:text/csv;charset=utf-8,\uFEFFቀን,ሰራተኛ,ፕላን,ተሰበሰበ,አፈፃፀም %,ሁኔታ\n";
         reports.forEach(r => {
@@ -1125,7 +1124,7 @@
     }
 
     function exportToWord() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v6') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v7') || '[]');
         if (reports.length === 0) return alert('የሚወርድ ሪፖርት የለም!');
         let htmlDoc = `<html xmlns:w='urn:schemas-microsoft-com:office:word'><body><h2>የኢትዮጵያ ንግድ ባንክ - ቦርከና ቅርንጫፍ ሪፖርት</h2><table border="1"><tr><th>ቀን</th><th>ሰራተኛ</th><th>ተሰበሰበ</th><th>ሁኔታ</th></tr>`;
         reports.forEach(r => {
