@@ -524,9 +524,8 @@
 
             <!-- User Accounts Table (Admin Only) -->
             <div id="adminUserControlSection" style="margin-top:20px;" class="hidden">
-                <div style="display:flex; justify-style:space-between; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
                     <h4 style="color:var(--cbe-purple); margin:0;">👥 የሰራተኞች አካውንት፣ ዩዘርኔም እና ስም ማስተካከያ (Edit/Reset Menu)</h4>
-                    <button type="button" class="btn-excel" style="width:auto; padding:5px 12px; font-size:11px;" onclick="openManageDropdownModal()">⚙️ የድሮፕ ዳውን ስሞችን ብቻ አስተካክል</button>
                 </div>
                 <div style="overflow-x:auto;">
                     <table class="user-list-table">
@@ -625,7 +624,10 @@
 
         <!-- Report Submission Form -->
         <div class="card">
-            <h3 style="margin-top:0; color:var(--cbe-purple);">📝 አዲስ የሰራተኛ ሪፖርት መሙያ</h3>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <h3 style="margin:0; color:var(--cbe-purple);">📝 አዲስ የሰራተኛ ሪፖርት መሙያ</h3>
+                <button type="button" class="btn-excel" style="width:auto; padding:5px 12px; font-size:11px;" onclick="openManageDropdownModal()">⚙️ የድሮፕ ዳውን ስሞችን አስተካክል</button>
+            </div>
             
             <form id="reportForm">
                 
@@ -633,7 +635,7 @@
                     <div>
                         <label for="staffNameSelect">የሰራተኛው ስም</label>
                         <select id="staffNameSelect" class="notranslate" translate="no" required>
-                            <!-- Populated dynamically by JS based on user role -->
+                            <!-- Populated dynamically by JS -->
                         </select>
                     </div>
                     <div>
@@ -834,38 +836,34 @@
         startClockAndAlarm();
     });
 
-    /* የተቀየረውና የተሻሻለው የሰራተኞች Dropdown Function */
+    /* ለሁሉም ተጠቃሚዎች (Staff ን ጨምሮ) የDropdown መሙያ Function */
     function populateStaffDropdown() {
         const select = document.getElementById('staffNameSelect');
-        select.innerHTML = '';
+        const currentVal = select.value;
+        select.innerHTML = '<option value="" disabled selected>-- የሰራተኛ ስም ይምረጡ --</option>';
 
         if (!currentUserSession) return;
 
-        const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
-        const isApprover = currentUserSession.role === 'Approver';
+        const db = getUsersDB();
+        const staffList = getCustomStaffList();
+        
+        let dynamicStaff = new Set(staffList);
+        Object.values(db).forEach(u => dynamicStaff.add(u.name));
 
-        if (isSuperAdmin || isApprover) {
-            select.innerHTML = '<option value="" disabled selected>-- ሰራተኛ ይምረጡ (አድሚን) --</option>';
-            const db = getUsersDB();
-            const staffList = getCustomStaffList();
-            
-            let dynamicStaff = new Set(staffList);
-            Object.values(db).forEach(u => dynamicStaff.add(u.name));
-
-            dynamicStaff.forEach(name => {
-                const opt = document.createElement('option');
-                opt.value = name;
-                opt.innerText = name;
-                select.appendChild(opt);
-            });
-            select.disabled = false;
-        } else {
+        dynamicStaff.forEach(name => {
             const opt = document.createElement('option');
-            opt.value = currentUserSession.name;
-            opt.innerText = currentUserSession.name;
-            opt.selected = true;
+            opt.value = name;
+            opt.innerText = name;
             select.appendChild(opt);
-            select.disabled = true;
+        });
+
+        // Staff ተጠቃሚም ቢሆን መምረጥ እንዲችል Enabled ይደረጋል
+        select.disabled = false;
+
+        if (currentVal && Array.from(select.options).some(o => o.value === currentVal)) {
+            select.value = currentVal;
+        } else if (currentUserSession.role === 'Staff') {
+            select.value = currentUserSession.name;
         }
     }
 
