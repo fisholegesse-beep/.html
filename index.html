@@ -265,7 +265,7 @@
 
     <div class="header-box">
         <h2 id="txt_app_title">የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h2>
-        <p id="txt_app_sub">የሥራ አፈፃፀም ዳሽቦርድ እና የኤስኤምኤስ (SMS) ማስታወሻ ሲስተም</p>
+        <p id="txt_app_sub">የሥራ አፈፃፀም ዳሽቦርድ እና የመረጃ ቋት ሲስተም</p>
     </div>
 
     <div id="loginSection" class="login-card">
@@ -317,7 +317,6 @@
             </form>
         </div>
 
-        <!-- Best & Lowest Performer Card with Certificates & Warning Letters -->
         <div id="bestPerformerCard" class="card best-performer-card">
             <h3 id="txt_star_title">🏆 የሳምንቱ ከፍተኛ እና ዝቅተኛ አፈፃፀም ያሳዩ ሰራተኞች</h3>
             <div id="bestPerformerContent">
@@ -348,9 +347,9 @@
             </div>
 
             <div id="branchCreatorSection" style="margin-top:15px; background:#f9f4fc; padding:10px; border-radius:8px;" class="hidden">
-                <h4 style="margin:0 0 8px 0; color:var(--cbe-purple);" id="txt_branch_mgr_title">🏛️ አዲስ ቅርንጫፍ / ዘፍ መፍጠሪያ (Branch/Zone Creator)</h4>
+                <h4 style="margin:0 0 8px 0; color:var(--cbe-purple);" id="txt_branch_mgr_title">🏛️ አዲስ ቅርንጫፍ / ዞን መፍጠሪያ</h4>
                 <div style="display:flex; gap:8px;">
-                    <input type="text" id="newBranchNameInput" placeholder="የቅርንጫፍ/ዘፍ ስም ያስገቡ">
+                    <input type="text" id="newBranchNameInput" placeholder="የቅርንጫፍ/ዞን ስም ያስገቡ">
                     <button type="button" onclick="addNewBranch()" style="width:auto; padding:6px 12px; white-space:nowrap;" id="btn_add_branch">➕ ቅርንጫፍ ጨምር</button>
                 </div>
                 <div style="margin-top:8px; font-size:12px;">
@@ -526,7 +525,7 @@
     const translations = {
         am: {
             app_title: "የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ",
-            app_sub: "የሥራ አፈፃፀም ዳሽቦርድ እና የኤስኤምኤስ (SMS) ማስታወሻ ሲስተም",
+            app_sub: "የሥራ አፈፃፀም ዳሽቦርድ እና የመረጃ ቋት ሲስተም",
             login_header: "🔐 የሲስተም መግቢያ",
             lbl_username: "የተጠቃሚ ስም (Username)",
             lbl_password: "ይለፍ ቃል (Password)",
@@ -546,7 +545,7 @@
             m_achieve: "አማካኝ አፈፃፀም (% Achievement)",
             m_acc: "የጸደቁ አዳዲስ ሂሳቦች",
             m_digital: "ጠቅላላ የዲጂታል ባንኪንግ",
-            branch_mgr_title: "🏛️ አዲስ ቅርንጫፍ / ዘፍ መፍጠሪያ (Branch/Zone Creator)",
+            branch_mgr_title: "🏛️ አዲስ ቅርንጫፍ / ዞን መፍጠሪያ",
             btn_add_branch: "➕ ቅርንጫፍ ጨምር",
             user_control_title: "👥 የሰራተኞች አካውንት፣ ዩዘርኔም እና ስም ማስተካከያ",
             th_name: "የሰራተኛ ስም",
@@ -578,7 +577,7 @@
         },
         en: {
             app_title: "Commercial Bank of Ethiopia - Borkena Branch",
-            app_sub: "Performance Dashboard & Notification System",
+            app_sub: "Performance Dashboard System",
             login_header: "🔐 System Login",
             lbl_username: "Username",
             lbl_password: "Password",
@@ -887,7 +886,7 @@
         localStorage.setItem('cbe_branches_v1', JSON.stringify(branches));
         input.value = '';
         renderBranches();
-        alert(currentLang === 'am' ? 'አዲስ ዘፍ/ቅርንጫፍ ተፈጥሯል!' : 'New Branch/Zone created!');
+        alert(currentLang === 'am' ? 'አዲስ ዞን/ቅርንጫፍ ተፈጥሯል!' : 'New Branch/Zone created!');
     }
 
     function renderBranches() {
@@ -1057,7 +1056,6 @@
             }
         });
 
-        // Admin Dashboard Stats
         document.getElementById('totalDepositVal').innerText = totalApprovedDeposit.toLocaleString('en-US', {minimumFractionDigits: 2}) + ' ብር';
         document.getElementById('totalAccountsVal').innerText = totalApprovedAcc;
         document.getElementById('totalDigitalVal').innerText = totalApprovedDigital;
@@ -1091,7 +1089,6 @@
             }
         });
 
-        // Best Performer Section Rendering
         const bestContent = document.getElementById('bestPerformerContent');
         if (bestStaff) {
             const bestNameSanitized = bestStaff.name.replace(/'/g, "\\'");
@@ -1233,73 +1230,71 @@
         saveUsersDB(db);
         renderUserTable();
         closeEditUserModal();
-        alert("የተጠቃሚው መረጃ (Username፣ ስም እና ሚና) በተሳካ ሁኔታ ተስተካክሏል!");
+        alert("የተጠቃሚው መረጃ በተሳካ ሁኔታ ተስተካክሏል!");
     }
 
-    // --- CERTIFICATE & WARNING GENERATORS (FIXED) ---
+    // --- CERTIFICATE & WARNING GENERATORS ---
     function downloadCertificate(staffName, achPct) {
-        const certHtml = `
-            <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-            <head>
-                <meta charset='utf-8'>
-                <title>Certificate</title>
-                <style>
-                    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 40px; border: 10px solid #5c068c; }
-                    h1 { color: #5c068c; font-size: 26px; }
-                    h2 { color: #e67e22; font-size: 22px; }
-                    .name { color: #33004b; font-size: 24px; text-decoration: underline; font-weight: bold; margin: 20px 0; }
-                </style>
-            </head>
-            <body>
-                <h1>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h1>
-                <h2>🏆 የላቀ የሥራ አፈፃፀም ምስክር ወረቀት</h2>
-                <hr style="border: 1px solid #5c068c; width: 80%;">
-                <br><br>
-                <p style="font-size: 16px;">ይህ ምስክር ወረቀት ለሰራተኛ፦</p>
-                <div class="name">${staffName}</div>
-                <p style="font-size: 16px;">በሳምንቱ የሥራ አፈፃፀም ግምገማ <b>${achPct}%</b> በማስመዝገብ የሳምንቱ <b>ምርጥ ሰራተኛ (Star Performer)</b> በመሆን ስለተለዩ ይህ የዕውቅና ምስክር ወረቀት ተሰጥቷቸዋል።</p>
-                <br><br><br>
-                <table style="width:100%; margin-top:50px;">
-                    <tr>
-                        <td style="text-align:center;">
-                            <p>____________________</p>
-                            <p><b>የቅርንጫፍ ሥራ አስኪያጅ</b></p>
-                        </td>
-                    </tr>
-                </table>
-            </body>
-            </html>
-        `;
+        const certHtml = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Certificate</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 40px; border: 10px solid #5c068c; }
+        h1 { color: #5c068c; font-size: 26px; }
+        h2 { color: #e67e22; font-size: 22px; }
+        .name { color: #33004b; font-size: 24px; text-decoration: underline; font-weight: bold; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h1>
+    <h2>🏆 የላቀ የሥራ አፈፃፀም ምስክር ወረቀት</h2>
+    <hr style="border: 1px solid #5c068c; width: 80%;">
+    <br><br>
+    <p style="font-size: 16px;">ይህ ምስክር ወረቀት ለሰራተኛ፦</p>
+    <div class="name">${staffName}</div>
+    <p style="font-size: 16px;">በሳምንቱ የሥራ አፈፃፀም ግምገማ <b>${achPct}%</b> በማስመዝገብ የሳምንቱ <b>ምርጥ ሰራተኛ (Star Performer)</b> በመሆን ስለተለዩ ይህ የዕውቅና ምስክር ወረቀት ተሰጥቷቸዋል።</p>
+    <br><br><br>
+    <table style="width:100%; margin-top:50px;">
+        <tr>
+            <td style="text-align:center;">
+                <p>____________________</p>
+                <p><b>የቅርንጫፍ ሥራ አስኪያጅ</b></p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>`;
         blobDownload(certHtml, `Certificate_${staffName.replace(/\s+/g, '_')}.doc`, 'application/msword;charset=utf-8');
     }
 
     function downloadWarningLetter(staffName, achPct) {
-        const warningHtml = `
-            <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-            <head>
-                <meta charset='utf-8'>
-                <title>Warning Letter</title>
-                <style>
-                    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 30px; }
-                    h2 { color: #5c068c; text-align: center; }
-                </style>
-            </head>
-            <body>
-                <h2>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h2>
-                <p style="text-align: right;"><b>ቀን፦</b> ${new Date().toLocaleDateString('am-ET')}</p>
-                <p><b>ለ፦</b> ${staffName}</p>
-                <p><b>ጉዳዩ፦</b> <u>የአፈፃፀም ማሻሻያ ማስታወሻ (Notice of Low Performance)</u></p>
-                <br>
-                <p>በተጠናቀቀው ሳምንታዊ የሥራ አፈፃፀም ግምገማ መሠረት ያስመዘገቡት የሥራ አፈፃፀም <b>${achPct}%</b> በመሆኑ እና ከቅርንጫፉ የሚጠበቀውን ዝቅተኛ ግብ ያላሟላ በመሆኑ ይህ ማስታወሻ ሊሰጥዎ ተችሏል።</p>
-                <p>ስለሆነም በሚቀጥሉት የሥራ ቀናት የሥራ አፈፃፀምዎን በማሻሻል የተቀመጡ ግቦችን እንድታስመዘግቡና አስፈላጊውን ጥረት እንድታደርጉ እናሳስባለን።</p>
-                <br><br><br>
-                <p>ከሰላምታ ጋር፣</p>
-                <br>
-                <p>____________________</p>
-                <p><b>የቅርንጫፍ ሥራ አስኪያጅ</b></p>
-            </body>
-            </html>
-        `;
+        const warningHtml = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Warning Letter</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 30px; }
+        h2 { color: #5c068c; text-align: center; }
+    </style>
+</head>
+<body>
+    <h2>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h2>
+    <p style="text-align: right;"><b>ቀን፦</b> ${new Date().toLocaleDateString('am-ET')}</p>
+    <p><b>ለ፦</b> ${staffName}</p>
+    <p><b>ጉዳዩ፦</b> <u>የአፈፃፀም ማሻሻያ ማስታወሻ (Notice of Low Performance)</u></p>
+    <br>
+    <p>በተጠናቀቀው ሳምንታዊ የሥራ አፈፃፀም ግምገማ መሠረት ያስመዘገቡት የሥራ አፈፃፀም <b>${achPct}%</b> በመሆኑ እና ከቅርንጫፉ የሚጠበቀውን ዝቅተኛ ግብ ያላሟላ በመሆኑ ይህ ማስታወሻ ሊሰጥዎ ተችሏል።</p>
+    <p>ስለሆነም በሚቀጥሉት የሥራ ቀናት የሥራ አፈፃፀምዎን በማሻሻል የተቀመጡ ግቦችን እንድታስመዘግቡና አስፈላጊውን ጥረት እንድታደርጉ እናሳስባለን።</p>
+    <br><br><br>
+    <p>ከሰላምታ ጋር፣</p>
+    <br>
+    <p>____________________</p>
+    <p><b>የቅርንጫፍ ሥራ አስኪያጅ</b></p>
+</body>
+</html>`;
         blobDownload(warningHtml, `Warning_Letter_${staffName.replace(/\s+/g, '_')}.doc`, 'application/msword;charset=utf-8');
     }
 
@@ -1340,50 +1335,52 @@
             `;
         });
 
-        let wordHtml = `
-            <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-            <head><meta charset='utf-8'><title>Branch Performance Report</title></head>
-            <body style="font-family: Arial, sans-serif; padding: 20px;">
-                <h2 style="color: #5c068c; text-align: center;">የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h2>
-                <h3 style="color: #33004b; text-align: center;">ሳምንታዊ የሥራ አፈፃፀም ዝርዝር ማብራሪያ ሪፖርት</h3>
-                <hr style="border: 1px solid #5c068c;">
-                
-                <p><b>ቀን፦</b> ${new Date().toLocaleDateString('am-ET')}</p>
-                <p><b>የሪፖርቱ አጠቃላይ ማጠቃለያ፦</b></p>
-                <p>በተጠናቀቀው ሳምንት የቦርከና ቅርንጫፍ በጠቅላላው <b>${totalDeposit.toLocaleString()} ብር</b> የተቀማጭ ገንዘብ መሰብሰብ የቻለ ሲሆን፣ የሁሉም ሰራተኞች ዝርዝር አፈፃፀም ከዚህ በታች በሰንጠረዡ ተብራርቷል።</p>
-                
-                <table style="width:100%; border-collapse:collapse; margin-top:15px; font-size:12px;">
-                    <thead>
-                        <tr style="background-color:#5c068c; color:white;">
-                            <th style="padding:8px; border:1px solid #ddd;">ተ.ቁ</th>
-                            <th style="padding:8px; border:1px solid #ddd;">የሰራተኛ ስም</th>
-                            <th style="padding:8px; border:1px solid #ddd;">ቀን</th>
-                            <th style="padding:8px; border:1px solid #ddd;">የተሰበሰበ ተቀማጭ</th>
-                            <th style="padding:8px; border:1px solid #ddd;">አፈፃፀም %</th>
-                            <th style="padding:8px; border:1px solid #ddd;">ዲጂታል</th>
-                            <th style="padding:8px; border:1px solid #ddd;">አዲስ ሂሳብ</th>
-                            <th style="padding:8px; border:1px solid #ddd;">ያጋጠሙ ችግሮች/ማብራሪያ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${tableRows}
-                    </tbody>
-                </table>
+        let wordHtml = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Branch Performance Report</title>
+</head>
+<body style="font-family: Arial, sans-serif; padding: 20px;">
+    <h2 style="color: #5c068c; text-align: center;">የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h2>
+    <h3 style="color: #33004b; text-align: center;">ሳምንታዊ የሥራ አፈፃፀም ዝርዝር ማብራሪያ ሪፖርት</h3>
+    <hr style="border: 1px solid #5c068c;">
+    
+    <p><b>ቀን፦</b> ${new Date().toLocaleDateString('am-ET')}</p>
+    <p><b>የሪፖርቱ አጠቃላይ ማጠቃለያ፦</b></p>
+    <p>በተጠናቀቀው ሳምንት የቦርከና ቅርንጫፍ በጠቅላላው <b>${totalDeposit.toLocaleString()} ብር</b> የተቀማጭ ገንዘብ መሰብሰብ የቻለ ሲሆን፣ የሁሉም ሰራተኞች ዝርዝር አፈፃፀም ከዚህ በታች በሰንጠረዡ ተብራርቷል።</p>
+    
+    <table style="width:100%; border-collapse:collapse; margin-top:15px; font-size:12px;">
+        <thead>
+            <tr style="background-color:#5c068c; color:white;">
+                <th style="padding:8px; border:1px solid #ddd;">ተ.ቁ</th>
+                <th style="padding:8px; border:1px solid #ddd;">የሰራተኛ ስም</th>
+                <th style="padding:8px; border:1px solid #ddd;">ቀን</th>
+                <th style="padding:8px; border:1px solid #ddd;">የተሰበሰበ ተቀማጭ</th>
+                <th style="padding:8px; border:1px solid #ddd;">አፈፃፀም %</th>
+                <th style="padding:8px; border:1px solid #ddd;">ዲጂታል</th>
+                <th style="padding:8px; border:1px solid #ddd;">አዲስ ሂሳብ</th>
+                <th style="padding:8px; border:1px solid #ddd;">ያጋጠሙ ችግሮች/ማብራሪያ</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${tableRows}
+        </tbody>
+    </table>
 
-                <br><br>
-                <p><b>አዘጋጅ፦</b> ${currentUserSession.name} (${currentUserSession.role})</p>
-                <p><b>ፊርማ፦</b> ____________________</p>
-            </body>
-            </html>
-        `;
+    <br><br>
+    <p><b>አዘጋጅ፦</b> ${currentUserSession ? currentUserSession.name : ''} (${currentUserSession ? currentUserSession.role : ''})</p>
+    <p><b>ፊርማ፦</b> ____________________</p>
+</body>
+</html>`;
 
         blobDownload(wordHtml, `CBE_Borkena_Detailed_Report_${new Date().toISOString().slice(0,10)}.doc`, 'application/msword;charset=utf-8');
     }
 
-    // Blob Generator with Unicode BOM (\uFEFF) Fix
+    // Reliable Blob Generator with UTF-8 BOM (\uFEFF)
     function blobDownload(content, filename, contentType) {
-        // Adding \uFEFF ensures MS Word & Excel handle UTF-8 Amharic characters smoothly
-        const blob = new Blob(['\uFEFF' + content], { type: contentType });
+        const bom = new Uint8Array([0xEF, 0xBB, 0xBF]); // UTF-8 BOM for Word/Excel encoding
+        const blob = new Blob([bom, content], { type: contentType });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -1391,7 +1388,7 @@
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        setTimeout(() => URL.revokeObjectURL(url), 200);
+        setTimeout(() => URL.revokeObjectURL(url), 500);
     }
 </script>
 
