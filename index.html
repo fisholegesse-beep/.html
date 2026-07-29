@@ -44,15 +44,6 @@
             box-shadow: 0 4px 15px rgba(92, 6, 140, 0.2);
         }
 
-        .header-box svg {
-            max-height: 50px;
-            width: auto;
-            margin-bottom: 6px;
-            background: #fff;
-            padding: 4px 10px;
-            border-radius: 6px;
-        }
-
         .header-box h2 {
             margin: 4px 0 2px 0;
             font-size: 19px;
@@ -95,6 +86,21 @@
             box-shadow: 0 3px 10px rgba(0,0,0,0.05);
             margin-bottom: 16px;
             border: 1px solid #eaedf1;
+        }
+
+        .best-performer-card {
+            background: linear-gradient(135deg, #fff9e6, #fff3cc);
+            border: 2px solid var(--cbe-gold);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .best-performer-card h3 {
+            color: #b78103;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .login-card {
@@ -146,10 +152,6 @@
             font-weight: bold;
             color: var(--cbe-purple);
             margin-top: 5px;
-        }
-
-        .stat-box.admin-metric .number {
-            color: var(--success-color);
         }
 
         /* Forms & Inputs */
@@ -213,20 +215,8 @@
         .btn-sms { background-color: #0288d1; }
         .btn-sms:hover { background-color: #01579b; }
 
-        .btn-logout {
-            background-color: var(--danger-color);
-            padding: 5px 10px;
-            font-size: 11px;
-            width: auto;
-        }
-
-        .btn-pwd {
-            background-color: var(--cbe-purple);
-            padding: 5px 10px;
-            font-size: 11px;
-            width: auto;
-        }
-
+        .btn-logout { background-color: var(--danger-color); padding: 5px 10px; font-size: 11px; width: auto; }
+        .btn-pwd { background-color: var(--cbe-purple); padding: 5px 10px; font-size: 11px; width: auto; }
         .btn-approve { background-color: var(--success-color); padding: 4px 8px; font-size: 11px; width: auto; }
         .btn-reject { background-color: var(--danger-color); padding: 4px 8px; font-size: 11px; width: auto; }
         .btn-reversal { background-color: var(--warning-color); padding: 4px 8px; font-size: 11px; width: auto; }
@@ -304,13 +294,6 @@
 
     <!-- Header Box -->
     <div class="header-box">
-        <svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
-            <rect width="300" height="80" rx="6" fill="#5c068c"/>
-            <path d="M30 15 L55 55 L5 55 Z" fill="#ffb81c"/>
-            <circle cx="30" cy="42" r="10" fill="#ffffff"/>
-            <text x="70" y="38" fill="#ffffff" font-family="Arial, sans-serif" font-size="18" font-weight="bold">CBE / የኢትዮጵያ ንግድ ባንክ</text>
-            <text x="70" y="58" fill="#ffb81c" font-family="Arial, sans-serif" font-size="12">Commercial Bank of Ethiopia</text>
-        </svg>
         <h2>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h2>
         <p>የሥራ አፈፃፀም ዳሽቦርድ እና የኤስኤምኤስ (SMS) ማስታወሻ ሲስተም</p>
     </div>
@@ -368,11 +351,18 @@
             </form>
         </div>
 
+        <!-- Best Performer of the Week Menu Card -->
+        <div id="bestPerformerCard" class="card best-performer-card">
+            <h3>🏆 የሳምንቱ ምርጥ አፈፃፀም ያሳየ ሰራተኛ (Star Performer)</h3>
+            <div id="bestPerformerContent">
+                <p style="text-align:center; color:#888;">በቂ የጸደቀ ሪፖርት መረጃ አልተገኘም።</p>
+            </div>
+        </div>
+
         <!-- Admin Dashboard Overview & User Accounts Management -->
         <div id="adminDashboardCard" class="card hidden">
             <h3 style="margin-top:0; color:var(--cbe-purple);">📊 የቅርንጫፍ አጠቃላይ አፈፃፀም (አድሚን ዳሽቦርድ)</h3>
             
-            <!-- Overall Totals Grid -->
             <div class="dashboard-grid">
                 <div class="stat-box">
                     <h4>ጠቅላላ የጸደቀ የተቀማጭ ገንዘብ</h4>
@@ -392,7 +382,6 @@
                 </div>
             </div>
 
-            <!-- Admin Activity Status Indicators -->
             <div class="dashboard-grid" style="margin-top: 10px;">
                 <div class="stat-box admin-metric">
                     <h4>የዛሬ የገቡ ሪፖርቶች</h4>
@@ -430,16 +419,16 @@
             </div>
         </div>
 
-        <!-- SMS Reminder System Card (SuperAdmin Only) -->
+        <!-- SMS Reminder System Card (SuperAdmin Only - Bulk Only) -->
         <div id="smsReminderCard" class="card hidden">
-            <h3 style="margin-top:0; color:var(--cbe-purple);">📱 የየቀኑ የኤስኤምኤስ (SMS) ማስታወሻ (17:30 / 11:30 ከሰዓት)</h3>
+            <h3 style="margin-top:0; color:var(--cbe-purple);">📱 የየቀኑ የኤስኤምኤስ (SMS) በጥቅል መላኪያ ማስታወሻ</h3>
             
             <div class="alarm-banner">
                 <div>
                     <strong>⏱ የማስታወሻ ሰዓት:</strong> <span style="color:var(--cbe-purple); font-weight:bold;">17:30</span> | 
                     <small>የአሁኑ ሰዓት: <span id="currentTimeDisplay">--:--:--</span></small>
                 </div>
-                <button type="button" class="btn-sms" style="width:auto; padding:5px 10px;" onclick="triggerSmsReminderNow()">📲 አሁኑኑ SMS ላክ</button>
+                <button type="button" class="btn-sms" style="width:auto; padding:5px 10px;" onclick="sendSmsToAll()">📲 በጥቅል SMS ላክ</button>
             </div>
 
             <div style="margin-bottom: 10px;">
@@ -447,9 +436,8 @@
                 <textarea id="smsMessageTemplate">ማስታወሻ፦ የዛሬውን የሥራ አፈፃፀም ሪፖርት በሲስተሙ እስከ 11:30 (17:30) ድረስ እንዲልኩ በትህትና እናስታውሳለን። - የኢትዮጵያ ንግድ ባንክ የቦርከና ቅርንጫፍ</textarea>
             </div>
 
-            <!-- Consolidated SMS Actions (No table, sent in bulk) -->
             <div style="margin-top: 15px; display:flex; gap:10px;">
-                <button type="button" class="btn-sms" onclick="sendSmsToAll()">📩 ለሁሉም ሰራተኞች በአንድ ጊዜ SMS ላክ</button>
+                <button type="button" class="btn-sms" onclick="sendSmsToAll()">📩 ለሁሉም ሰራተኞች በጥቅል SMS ላክ</button>
                 <button type="button" class="btn-excel" onclick="copyAllPhoneNumbers()">📋 ስልክ ቁጥሮቹን ኮፒ አድርግ</button>
             </div>
         </div>
@@ -574,7 +562,7 @@
             <h3 style="margin-top:0; color:var(--cbe-purple);">📋 የተላኩ ሪፖርቶችና ማጽደቂያዎች</h3>
             <div id="exportButtons" class="grid-2 hidden">
                 <button onclick="exportToExcel()" class="btn-excel">📥 በ Excel አውርድ (CSV)</button>
-                <button onclick="exportToWord()" class="btn-word">📄 በ Word አውርድ (Doc)</button>
+                <button onclick="exportToWord()" class="btn-word">📄 በ Word አውርድ (ከዝርዝር ማብራሪያ ጋር)</button>
             </div>
             <div id="reportsList" style="margin-top:10px;">
                 <p style="text-align: center; color: #777777;">ምንም የተመዘገበ ሪፖርት የለም።</p>
@@ -585,60 +573,60 @@
 </div>
 
 <script>
-    // Staff List - All Staff Enabled
+    // Staff List - Replaced with requested exact names
     const allExcelStaff = [
-        "All staff",
-        "Mulugeta Shume",
-        "Gedion Yohans",
-        "Hermela Getachew",
-        "Mengistu Mule",
-        "Jemal Seid",
-        "Aytenew Dereje",
-        "Eshetu Melese",
-        "Sosna Tadesse",
-        "Dagmawit Afework",
-        "Giyons Tadesse",
-        "Dawit Solomon",
-        "Sintayehu Degefaw",
-        "Seada Hussen",
-        "Amare Mola",
-        "Fisiha Legese",
-        "Asrat Zewdu"
+        "Fiseha legesse",
+        "Asrat Zewudu",
+        "Dawit solomon",
+        "Sintayehu Gedefaw",
+        "Hermela getachew",
+        "Adem seid",
+        "Eshet melese",
+        "Sosina tadesse",
+        "Gedion yohannes",
+        "Jemal ahmed",
+        "Seid adem",
+        "Mengistu mule",
+        "Mulugeta shume",
+        "Ayitenew Dereje",
+        "Dagmawit Afework"
     ];
 
-    // Phone List matched with Correct Staff Names
+    // Matched Phone List with Updated Names
     let staffPhoneNumbers = [
-        { phone: "+251968114058", raw: "+251 96 811 4058", name: "All staff" },
-        { phone: "+251925037481", raw: "+251 92 503 7481", name: "Aytenew Dereje" },
-        { phone: "+251908880024", raw: "+251 90 888 0024", name: "Asrat Zewdu" },
+        { phone: "+251925037481", raw: "+251 92 503 7481", name: "Ayitenew Dereje" },
+        { phone: "+251908880024", raw: "+251 90 888 0024", name: "Asrat Zewudu" },
         { phone: "+251991716169", raw: "+251 99 171 6169", name: "Dagmawit Afework" },
-        { phone: "+251914059999", raw: "+251 91 405 9999", name: "Gedion Yohans" },
-        { phone: "+251921040793", raw: "+251 92 104 0793", name: "Dawit Solomon" },
-        { phone: "+251912249499", raw: "+251 91 224 9499", name: "Hermela Getachew" },
-        { phone: "+251920460844", raw: "+251 92 046 0844", name: "Fisiha Legese" },
-        { phone: "+251921455784", raw: "+251 92 145 5784", name: "Mengistu Mule" },
-        { phone: "+251920797474", raw: "+251 92 079 7474", name: "Jemal Seid" },
-        { phone: "+251919988924", raw: "+251 91 998 8924", name: "Sosna Tadesse" },
-        { phone: "+251922895112", raw: "+251 92 289 5112", name: "Sintayehu Degefaw" },
-        { phone: "+251920613498", raw: "+251 92 061 3498", name: "Seada Hussen" }
+        { phone: "+251914059999", raw: "+251 91 405 9999", name: "Gedion yohannes" },
+        { phone: "+251921040793", raw: "+251 92 104 0793", name: "Dawit solomon" },
+        { phone: "+251912249499", raw: "+251 91 224 9499", name: "Hermela getachew" },
+        { phone: "+251920460844", raw: "+251 92 046 0844", name: "Fiseha legesse" },
+        { phone: "+251921455784", raw: "+251 92 145 5784", name: "Mengistu mule" },
+        { phone: "+251920797474", raw: "+251 92 079 7474", name: "Jemal ahmed" },
+        { phone: "+251919988924", raw: "+251 91 998 8924", name: "Sosina tadesse" },
+        { phone: "+251922895112", raw: "+251 92 289 5112", name: "Sintayehu Gedefaw" },
+        { phone: "+251920613498", raw: "+251 92 061 3498", name: "Adem seid" },
+        { phone: "+251968114058", raw: "+251 96 811 4058", name: "Mulugeta shume" },
+        { phone: "+251911000000", raw: "+251 91 100 0000", name: "Eshet melese" },
+        { phone: "+251922000000", raw: "+251 92 200 0000", name: "Seid adem" }
     ];
 
-    // Default users database - "adem" replaced with "staff" ("All staff")
+    // Default users database updated with replaced names
     const defaultUsersDatabase = {
-        "fisiha": { name: "Fisiha Legese", role: "SuperAdmin", pass: "1234" },
-        "dawit": { name: "Dawit Solomon", role: "Approver", pass: "1234" },
-        "asrat": { name: "Asrat Zewdu", role: "Approver", pass: "1234" },
-        "sintayehu": { name: "Sintayehu Degefaw", role: "Approver", pass: "1234" },
-        "staff": { name: "All staff", role: "Staff", pass: "1234" }
+        "fiseha": { name: "Fiseha legesse", role: "SuperAdmin", pass: "1234" },
+        "dawit": { name: "Dawit solomon", role: "Approver", pass: "1234" },
+        "asrat": { name: "Asrat Zewudu", role: "Approver", pass: "1234" },
+        "sintayehu": { name: "Sintayehu Gedefaw", role: "Approver", pass: "1234" },
+        "staff": { name: "Staff Member", role: "Staff", pass: "1234" }
     };
 
     function getUsersDB() {
-        const savedDB = localStorage.getItem('cbe_users_db_v8');
+        const savedDB = localStorage.getItem('cbe_users_db_v9');
         return savedDB ? JSON.parse(savedDB) : defaultUsersDatabase;
     }
 
     function saveUsersDB(db) {
-        localStorage.setItem('cbe_users_db_v8', JSON.stringify(db));
+        localStorage.setItem('cbe_users_db_v9', JSON.stringify(db));
     }
 
     let currentUserSession = null;
@@ -647,10 +635,9 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('weekDate').valueAsDate = new Date();
-        
         populateStaffDropdown();
         
-        const savedSession = localStorage.getItem('cbe_user_session_v8');
+        const savedSession = localStorage.getItem('cbe_user_session_v9');
         if (savedSession) {
             const parsedData = JSON.parse(savedSession);
             currentUserSession = parsedData.session;
@@ -661,7 +648,6 @@
         startClockAndAlarm();
     });
 
-    // Populate dropdown
     function populateStaffDropdown() {
         const select = document.getElementById('staffNameSelect');
         select.innerHTML = '<option value="" disabled selected>-- ሰራተኛ ይምረጡ --</option>';
@@ -673,7 +659,6 @@
         });
     }
 
-    // Login Form Submission
     document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const db = getUsersDB();
@@ -683,7 +668,7 @@
         if (db[userKey] && db[userKey].pass === passKey) {
             currentUserSession = db[userKey];
             currentUsernameKey = userKey;
-            localStorage.setItem('cbe_user_session_v8', JSON.stringify({ session: currentUserSession, usernameKey: userKey }));
+            localStorage.setItem('cbe_user_session_v9', JSON.stringify({ session: currentUserSession, usernameKey: userKey }));
             initDashboard();
         } else {
             alert('የተሳሳተ የተጠቃሚ ስም ወይም ይለፍ ቃል!');
@@ -691,7 +676,7 @@
     });
 
     function logout() {
-        localStorage.removeItem('cbe_user_session_v8');
+        localStorage.removeItem('cbe_user_session_v9');
         currentUserSession = null;
         currentUsernameKey = null;
         document.getElementById('appSection').classList.add('hidden');
@@ -745,12 +730,10 @@
         const confirmPass = document.getElementById('confirmPassword').value;
 
         const db = getUsersDB();
-
         if (db[currentUsernameKey].pass !== currentPass) {
             alert('የአሁኑ ይለፍ ቃል የተሳሳተ ነው!');
             return;
         }
-
         if (newPass !== confirmPass) {
             alert('አዲሱ ይለፍ ቃል እና ማረጋገጫው አይመሳሰሉም!');
             return;
@@ -796,16 +779,11 @@
         }
     }
 
+    // Bulk SMS Send Function
     function sendSmsToAll() {
         const msg = encodeURIComponent(document.getElementById('smsMessageTemplate').value);
         const allPhones = staffPhoneNumbers.map(p => p.phone).join(',');
         window.open(`sms:${allPhones}?body=${msg}`, '_self');
-    }
-
-    function triggerSmsReminderNow() {
-        if (confirm("ለሰራተኞች የማስታወሻ ኤስኤምኤስ እንዲላክ ይፈልጋሉ?")) {
-            sendSmsToAll();
-        }
     }
 
     function copyAllPhoneNumbers() {
@@ -862,7 +840,7 @@
             hasDeposit: includeDeposit,
             dailyPlan: plan,
             dailyDeposit: actual,
-            achievementPct: achievementPct,
+            achievementPct: parseFloat(achievementPct),
             monthlyDeposit: includeDeposit ? (document.getElementById('monthlyDeposit').value || '0') : '0',
             quarterlyDeposit: includeDeposit ? (document.getElementById('quarterlyDeposit').value || '0') : '0',
             hasDigital: includeDigital,
@@ -876,14 +854,14 @@
             loansProcessed: includeDigital ? (document.getElementById('loansProcessed').value || '-') : '-',
             hasNotes: includeNotes,
             challenges: includeNotes ? document.getElementById('challenges').value : '',
-            rating: document.getElementById('rating').value,
+            rating: parseInt(document.getElementById('rating').value),
             status: 'Pending',
             approvedBy: ''
         };
 
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v8') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v9') || '[]');
         reports.unshift(newReport);
-        localStorage.setItem('cbe_borkena_reports_v8', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v9', JSON.stringify(reports));
 
         reportForm.reset();
         document.getElementById('dailyPlan').value = "118184.95";
@@ -895,7 +873,7 @@
     });
 
     function loadReports() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v8') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v9') || '[]');
         const reportsList = document.getElementById('reportsList');
         
         const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
@@ -907,6 +885,7 @@
         }
 
         updateDashboard(reports);
+        calculateBestPerformer(reports);
 
         if (visibleReports.length === 0) {
             reportsList.innerHTML = '<p style="text-align: center; color: #777777;">ምንም የተመዘገበ ሪፖርት የለም።</p>';
@@ -971,8 +950,76 @@
         });
     }
 
+    // Logic to Calculate & Display the Best Performer of the Week Menu
+    function calculateBestPerformer(reports) {
+        const approvedReports = reports.filter(r => r.status === 'Approved');
+        const contentDiv = document.getElementById('bestPerformerContent');
+
+        if (approvedReports.length === 0) {
+            contentDiv.innerHTML = '<p style="text-align:center; color:#888;">በቂ የጸደቀ ሪፖርት መረጃ አልተገኘም።</p>';
+            return;
+        }
+
+        let staffPerformance = {};
+
+        approvedReports.forEach(r => {
+            if (!staffPerformance[r.staffName]) {
+                staffPerformance[r.staffName] = {
+                    name: r.staffName,
+                    totalDeposit: 0,
+                    avgAchievement: 0,
+                    digitalTotal: 0,
+                    newAccounts: 0,
+                    count: 0,
+                    score: 0
+                };
+            }
+            let sp = staffPerformance[r.staffName];
+            sp.totalDeposit += parseFloat(r.dailyDeposit) || 0;
+            sp.avgAchievement += parseFloat(r.achievementPct) || 0;
+            sp.newAccounts += parseInt(r.newAccounts) || 0;
+            let digital = (r.mbCount || 0) + (r.atmCount || 0) + (r.cbeBirrCount || 0) + (r.internetBanking || 0) + (r.agentCount || 0) + (r.merchantCount || 0);
+            sp.digitalTotal += digital;
+            sp.count++;
+        });
+
+        let best = null;
+        let highestScore = -1;
+
+        Object.keys(staffPerformance).forEach(name => {
+            let sp = staffPerformance[name];
+            let avgAch = sp.avgAchievement / sp.count;
+            // Weighted Performance Score Calculation
+            sp.score = (avgAch * 0.5) + (sp.digitalTotal * 3) + (sp.newAccounts * 5);
+            
+            if (sp.score > highestScore) {
+                highestScore = sp.score;
+                best = sp;
+            }
+        });
+
+        if (best) {
+            contentDiv.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                    <div>
+                        <h4 style="margin:0; font-size:16px; color:var(--cbe-dark);">🎖️ <strong>${escapeHtml(best.name)}</strong></h4>
+                        <p style="margin:4px 0 0 0; font-size:12px; color:#555;">
+                            አማካኝ አፈፃፀም: <strong>${(best.avgAchievement / best.count).toFixed(2)}%</strong> | 
+                            የተሰበሰበ የተቀማጭ ገንዘብ: <strong>${best.totalDeposit.toLocaleString('en-US')} ብር</strong>
+                        </p>
+                    </div>
+                    <div style="text-align:right;">
+                        <span style="background:var(--cbe-purple); color:white; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:bold;">
+                            📱 ዲጂታል ባንኪንግ: ${best.digitalTotal} | 💳 አዲስ ሂሳብ: ${best.newAccounts}
+                        </span>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
     function changeStatus(id, newStatus) {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v8') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v9') || '[]');
         reports = reports.map(r => {
             if (r.id === id) {
                 r.status = newStatus;
@@ -980,7 +1027,7 @@
             }
             return r;
         });
-        localStorage.setItem('cbe_borkena_reports_v8', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v9', JSON.stringify(reports));
         loadReports();
     }
 
@@ -988,7 +1035,7 @@
         let reason = prompt("የሪቨርሳል ምክንያት ይጻፉ:");
         if (!reason) return;
 
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v8') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v9') || '[]');
         reports = reports.map(r => {
             if (r.id === id) {
                 r.status = 'Reversal_Requested';
@@ -996,15 +1043,15 @@
             }
             return r;
         });
-        localStorage.setItem('cbe_borkena_reports_v8', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v9', JSON.stringify(reports));
         loadReports();
     }
 
     function deleteReport(id) {
         if (!confirm("እርግጠኛ ነዎት ይጥፋ?")) return;
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v8') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v9') || '[]');
         reports = reports.filter(r => r.id !== id);
-        localStorage.setItem('cbe_borkena_reports_v8', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v9', JSON.stringify(reports));
         loadReports();
     }
 
@@ -1062,9 +1109,8 @@
         return text.toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
-    // Export to Excel separated by Categories
     function exportToExcel() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v8') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v9') || '[]');
         if (reports.length === 0) return alert('የሚወርድ ሪፖርት የለም!');
 
         let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
@@ -1083,41 +1129,62 @@
         link.click();
     }
 
-    // Export to Word separated by Categories
+    // Export to Word with Detailed Narratives & Explanations (ተጨማሪ ማብራሪያ አብሮ የተካተተበት)
     function exportToWord() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v8') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v9') || '[]');
         if (reports.length === 0) return alert('የሚወርድ ሪፖርት የለም!');
+
+        let totalDepositSum = 0;
+        let totalDigitalSum = 0;
+        let totalAccountsSum = 0;
+
+        reports.forEach(r => {
+            totalDepositSum += parseFloat(r.dailyDeposit) || 0;
+            totalAccountsSum += parseInt(r.newAccounts) || 0;
+            totalDigitalSum += (r.mbCount || 0) + (r.atmCount || 0) + (r.cbeBirrCount || 0) + (r.internetBanking || 0) + (r.agentCount || 0) + (r.merchantCount || 0);
+        });
 
         let htmlDoc = `<html xmlns:w='urn:schemas-microsoft-com:office:word'>
         <head><style>
-            table { border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; font-size: 11pt; }
-            th { background-color: #5c068c; color: white; padding: 6px; }
+            body { font-family: Arial, sans-serif; font-size: 11pt; line-height: 1.5; }
+            table { border-collapse: collapse; width: 100%; margin-top: 10px; margin-bottom: 15px; }
+            th { background-color: #5c068c; color: white; padding: 6px; border: 1px solid #ddd; }
             td { border: 1px solid #ddd; padding: 6px; text-align: center; }
-            h2, h3 { color: #5c068c; }
+            h2, h3 { color: #5c068c; margin-bottom: 5px; }
+            .explanation-box { background-color: #f9f9f9; border-left: 4px solid #5c068c; padding: 10px; margin: 10px 0; }
         </style></head>
         <body>
-            <h2>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ የሥራ አፈፃፀም ሪፖርት</h2>
+            <h2>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h2>
+            <h3>የሥራ አፈፃፀም ዝርዝር እና ማብራሪያ ያለው ሪፖርት</h3>
             <hr/>
             
-            <h3>1. የተቀማጭ ገንዘብ (Deposit) አፈፃፀም</h3>
+            <div class="explanation-box">
+                <strong>📌 የአፈፃፀም ማጠቃለያ ማብራሪያ (Executive Summary):</strong><br/>
+                በዚህ የሪፖርት ወቅት በቅርንጫፉ አጠቃላይ <strong>${totalDepositSum.toLocaleString('en-US')} ብር</strong> የተቀማጭ ገንዘብ የተሰበሰበ ሲሆን፣ 
+                በአጠቃላይ <strong>${totalAccountsSum}</strong> አዳዲስ ሂሳቦች እና <strong>${totalDigitalSum}</strong> የዲጂታል ባንኪንግ አገልግሎቶች (Mobile Banking, ATM, CBE Birr) ለደንበኞች ተሰጥተዋል።
+            </div>
+
+            <h3>1. የተቀማጭ ገንዘብ (Deposit) አፈፃፀም ዝርዝር</h3>
             <table>
-                <tr><th>ቀን</th><th>ሰራተኛ</th><th>የቀን ፕላን</th><th>የተሰበሰበ (ብር)</th><th>አፈፃፀም %</th></tr>`;
+                <tr><th>ቀን</th><th>ሰራተኛ</th><th>የቀን ፕላን (ብር)</th><th>የተሰበሰበ (ብር)</th><th>አፈፃፀም %</th></tr>`;
         reports.forEach(r => {
             htmlDoc += `<tr><td>${r.weekDate}</td><td>${r.staffName}</td><td>${r.dailyPlan}</td><td>${r.dailyDeposit}</td><td>${r.achievementPct}%</td></tr>`;
         });
 
-        htmlDoc += `</table><br/><h3>2. የዲጂታል ባንኪንግ አፈፃፀም</h3>
+        htmlDoc += `</table>
+            <h3>2. የዲጂታል ባንኪንግ እና የአዳዲስ ደንበኞች ምልመላ ዝርዝር</h3>
             <table>
-                <tr><th>ቀን</th><th>ሰራተኛ</th><th>MB</th><th>ATM</th><th>CBE Birr</th><th>Internet</th><th>Agent</th><th>Merchant</th></tr>`;
+                <tr><th>ቀን</th><th>ሰራተኛ</th><th>MB</th><th>ATM</th><th>CBE Birr</th><th>Internet</th><th>Agent</th><th>Merchant</th><th>አዳዲስ ሂሳቦች</th></tr>`;
         reports.forEach(r => {
-            htmlDoc += `<tr><td>${r.weekDate}</td><td>${r.staffName}</td><td>${r.mbCount}</td><td>${r.atmCount}</td><td>${r.cbeBirrCount}</td><td>${r.internetBanking}</td><td>${r.agentCount}</td><td>${r.merchantCount}</td></tr>`;
+            htmlDoc += `<tr><td>${r.weekDate}</td><td>${r.staffName}</td><td>${r.mbCount}</td><td>${r.atmCount}</td><td>${r.cbeBirrCount}</td><td>${r.internetBanking}</td><td>${r.agentCount}</td><td>${r.merchantCount}</td><td>${r.newAccounts}</td></tr>`;
         });
 
-        htmlDoc += `</table><br/><h3>3. አዳዲስ ደንበኞች ምልመላ እና ብድር (Accounts & Loans)</h3>
+        htmlDoc += `</table>
+            <h3>3. የሰራተኞች አስተያየት፣ ያጋጠሙ ማነቆዎች እና ማብራሪያዎች</h3>
             <table>
-                <tr><th>ቀን</th><th>ሰራተኛ</th><th>አዳዲስ ሂሳቦች (Accounts)</th><th>የተስተናገደ ብድር (Loans)</th><th>ሁኔታ</th></tr>`;
+                <tr><th>ቀን</th><th>ሰራተኛ</th><th>የሥራ ደረጃ (Rating)</th><th>ያጋጠሙ ችግሮች እና ቀጣይ ዕቅዶች</th></tr>`;
         reports.forEach(r => {
-            htmlDoc += `<tr><td>${r.weekDate}</td><td>${r.staffName}</td><td>${r.newAccounts}</td><td>${r.loansProcessed}</td><td>${r.status}</td></tr>`;
+            htmlDoc += `<tr><td>${r.weekDate}</td><td>${r.staffName}</td><td>${r.rating}/5</td><td>${escapeHtml(r.challenges) || 'ምንም አልተገለፀም'}</td></tr>`;
         });
 
         htmlDoc += `</table></body></html>`;
