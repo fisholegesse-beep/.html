@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ሳምንታዊ የሥራ ሪፖርትና ግምገማ</title>
+    <title>ሳምንታዊ የሥራ አፈፃፀም ሪፖርትና ግምገማ</title>
     <style>
         :root {
-            --primary-color: #0056b3;
+            --primary-color: #6a1b9a; /* የባንክ አገልግሎት መለያ ቀለም */
+            --secondary-color: #8e24aa;
             --bg-color: #f4f6f9;
             --card-bg: #ffffff;
             --text-color: #333333;
@@ -17,53 +18,77 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 15px;
+            padding: 12px;
             display: flex;
             justify-content: center;
         }
 
         .container {
             width: 100%;
-            max-width: 500px;
+            max-width: 550px;
         }
 
         h2, h3 {
             text-align: center;
             color: var(--primary-color);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .card {
             background: var(--card-bg);
-            padding: 20px;
+            padding: 18px;
             border-radius: 12px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.08);
             margin-bottom: 20px;
         }
 
+        .section-title {
+            background: #f3e5f5;
+            color: var(--primary-color);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary-color);
+        }
+
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
         }
 
         label {
             display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 13px;
         }
 
         input, textarea, select {
             width: 100%;
-            padding: 10px;
+            padding: 8px 10px;
             border: 1px solid #cccccc;
-            border-radius: 8px;
+            border-radius: 6px;
             box-sizing: border-box;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         textarea {
             resize: vertical;
-            height: 75px;
+            height: 60px;
         }
 
         button {
@@ -73,19 +98,20 @@
             border: none;
             padding: 12px;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.3s;
+            margin-top: 10px;
         }
 
         button:hover {
-            background-color: #003d82;
+            background-color: #4a148c;
         }
 
         .report-item {
             border-bottom: 1px solid #eeeeee;
             padding: 12px 0;
+            font-size: 13px;
         }
 
         .report-item:last-child {
@@ -93,12 +119,20 @@
         }
 
         .badge {
-            background-color: #e3f2fd;
-            color: #0d47a1;
-            padding: 4px 8px;
+            background-color: #e1bee7;
+            color: #4a148c;
+            padding: 3px 6px;
             border-radius: 4px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
+        }
+
+        .data-grid {
+            background: #fafafa;
+            padding: 8px;
+            border-radius: 6px;
+            margin: 6px 0;
+            border: 1px solid #eee;
         }
 
         .rating {
@@ -110,39 +144,93 @@
 <body>
 
 <div class="container">
-    <h2>ሳምንታዊ የሥራ ሪፖርት</h2>
+    <h2>የሰራተኞች ሳምንታዊ አፈፃፀም ሪፖርት</h2>
 
     <!-- Form Section -->
     <div class="card">
-        <h3>አዲስ ሪፖርት ማስገቢያ</h3>
+        <h3>አዲስ ሪፖርት መሙያ</h3>
         <form id="reportForm">
+            
+            <div class="form-group grid-2">
+                <div>
+                    <label for="staffName">የሰራተኛው ስም</label>
+                    <input type="text" id="staffName" placeholder="ስም ያስገቡ" required>
+                </div>
+                <div>
+                    <label for="weekDate">የሳምንቱ መደምደሚያ</label>
+                    <input type="date" id="weekDate" required>
+                </div>
+            </div>
+
+            <!-- Deposit Section -->
+            <div class="section-title">1. የተቀማጭ ገንዘብ (Deposit) አፈፃፀም</div>
+            <div class="grid-3">
+                <div class="form-group">
+                    <label for="dailyDeposit">የቀን (ብር)</label>
+                    <input type="number" id="dailyDeposit" placeholder="0.00" min="0" step="any">
+                </div>
+                <div class="form-group">
+                    <label for="monthlyDeposit">የወር (ብር)</label>
+                    <input type="number" id="monthlyDeposit" placeholder="0.00" min="0" step="any">
+                </div>
+                <div class="form-group">
+                    <label for="quarterlyDeposit">የሩብ ዓመት (ብር)</label>
+                    <input type="number" id="quarterlyDeposit" placeholder="0.00" min="0" step="any">
+                </div>
+            </div>
+
+            <!-- Digital Banking & Products Section -->
+            <div class="section-title">2. ዲጂታል ባንኪንግ እና አዳዲስ ሂሳቦች (በብዛት)</div>
+            <div class="grid-3">
+                <div class="form-group">
+                    <label for="mbCount">Mobile Banking</label>
+                    <input type="number" id="mbCount" placeholder="0" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="atmCount">ATM Card</label>
+                    <input type="number" id="atmCount" placeholder="0" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="cbeBirrCount">CBE Birr</label>
+                    <input type="number" id="cbeBirrCount" placeholder="0" min="0">
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="form-group">
+                    <label for="internetBanking">Internet Bank.</label>
+                    <input type="number" id="internetBanking" placeholder="0" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="agentCount">Agent Banking</label>
+                    <input type="number" id="agentCount" placeholder="0" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="merchantCount">Merchant</label>
+                    <input type="number" id="merchantCount" placeholder="0" min="0">
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="newAccounts">አዳዲስ ሂሳብ ከፈታ (Acc.)</label>
+                    <input type="number" id="newAccounts" placeholder="0" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="loansProcessed">ብድር/Loans (በብር/ብዛት)</label>
+                    <input type="text" id="loansProcessed" placeholder="ለምሳሌ፦ 2 (500,000)">
+                </div>
+            </div>
+
+            <!-- Evaluation and Remarks -->
+            <div class="section-title">3. ተጨማሪ መረጃ እና ግምገማ</div>
             <div class="form-group">
-                <label for="staffName">የሰራተኛው ስም</label>
-                <input type="text" id="staffName" placeholder="ሙሉ ስም ያስገቡ" required>
+                <label for="challenges">ያጋጠሙ ችግሮች / የቀጣይ ሳምንት ዕቅድ</label>
+                <textarea id="challenges" placeholder="ያጋጠሙ ተዳክሞዎች እና የቀጣይ ሳምንት ግብ..."></textarea>
             </div>
 
             <div class="form-group">
-                <label for="weekDate">የሳምንቱ መደምደሚያ ቀን</label>
-                <input type="date" id="weekDate" required>
-            </div>
-
-            <div class="form-group">
-                <label for="tasksDone">የተከናወኑ ዋና ዋና ተግባራት</label>
-                <textarea id="tasksDone" placeholder="የተሰሩ ስራዎችን በዝርዝር ይፃፉ..." required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="challenges">ያጋጠሙ ችግሮችና የተወሰዱ መፍትሔዎች</label>
-                <textarea id="challenges" placeholder="ችግሮችና መፍትሔዎችን ያስገቡ..."></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="nextPlan">የቀጣይ ሳምንት ዕቅድ</label>
-                <textarea id="nextPlan" placeholder="የሚመጣው ሳምንት ዋና ዋና ዕቅዶች..." required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="rating">የሥራ አፈፃፀም ግምገማ (ደረጃ)</label>
+                <label for="rating">የሥራ አፈፃፀም ደረጃ</label>
                 <select id="rating" required>
                     <option value="5">⭐⭐⭐⭐⭐ (በጣም ከፍተኛ - 5/5)</option>
                     <option value="4">⭐⭐⭐⭐ (ከፍተኛ - 4/5)</option>
@@ -152,15 +240,15 @@
                 </select>
             </div>
 
-            <button type="submit">ሪፖርት ላክ</button>
+            <button type="submit">ሪፖርት መዝግብ / ላክ</button>
         </form>
     </div>
 
-    <!-- Submitted Reports Section -->
+    <!-- Reports View Section -->
     <div class="card">
         <h3>የተላኩ ሪፖርቶችና ግምገማዎች</h3>
         <div id="reportsList">
-            <p style="text-align: center; color: #777777;">ምንም የተላከ ሪፖርት የለም።</p>
+            <p style="text-align: center; color: #777777;">ምንም የተመዘገበ ሪፖርት የለም።</p>
         </div>
     </div>
 </div>
@@ -178,25 +266,34 @@
             id: Date.now(),
             staffName: document.getElementById('staffName').value,
             weekDate: document.getElementById('weekDate').value,
-            tasksDone: document.getElementById('tasksDone').value,
+            dailyDeposit: document.getElementById('dailyDeposit').value || '0',
+            monthlyDeposit: document.getElementById('monthlyDeposit').value || '0',
+            quarterlyDeposit: document.getElementById('quarterlyDeposit').value || '0',
+            mbCount: document.getElementById('mbCount').value || '0',
+            atmCount: document.getElementById('atmCount').value || '0',
+            cbeBirrCount: document.getElementById('cbeBirrCount').value || '0',
+            internetBanking: document.getElementById('internetBanking').value || '0',
+            agentCount: document.getElementById('agentCount').value || '0',
+            merchantCount: document.getElementById('merchantCount').value || '0',
+            newAccounts: document.getElementById('newAccounts').value || '0',
+            loansProcessed: document.getElementById('loansProcessed').value || '-',
             challenges: document.getElementById('challenges').value,
-            nextPlan: document.getElementById('nextPlan').value,
             rating: document.getElementById('rating').value
         };
 
-        let reports = JSON.parse(localStorage.getItem('weekly_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('bank_weekly_reports') || '[]');
         reports.unshift(newReport);
-        localStorage.setItem('weekly_reports', JSON.stringify(reports));
+        localStorage.setItem('bank_weekly_reports', JSON.stringify(reports));
 
         reportForm.reset();
         loadReports();
     });
 
     function loadReports() {
-        let reports = JSON.parse(localStorage.getItem('weekly_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('bank_weekly_reports') || '[]');
         
         if (reports.length === 0) {
-            reportsList.innerHTML = '<p style="text-align: center; color: #777777;">ምንም የተላከ ሪፖርት የለም።</p>';
+            reportsList.innerHTML = '<p style="text-align: center; color: #777777;">ምንም የተመዘገበ ሪፖርት የለም።</p>';
             return;
         }
 
@@ -207,12 +304,26 @@
             item.className = 'report-item';
             item.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-                    <strong>${escapeHtml(report.staffName)}</strong>
+                    <strong style="font-size: 15px; color: var(--primary-color);">${escapeHtml(report.staffName)}</strong>
                     <span class="badge">${escapeHtml(report.weekDate)}</span>
                 </div>
-                <p style="margin: 5px 0;"><strong>ተግባራት:</strong> ${escapeHtml(report.tasksDone)}</p>
-                ${report.challenges ? `<p style="margin: 5px 0;"><strong>ችግሮች/መፍትሔ:</strong> ${escapeHtml(report.challenges)}</p>` : ''}
-                <p style="margin: 5px 0;"><strong>የቀጣይ ዕቅድ:</strong> ${escapeHtml(report.nextPlan)}</p>
+                
+                <div class="data-grid">
+                    <strong>💰 ዲፖዚት:</strong> ቀን: ${escapeHtml(report.dailyDeposit)} | ወር: ${escapeHtml(report.monthlyDeposit)} | ሩብ ዓመት: ${escapeHtml(report.quarterlyDeposit)}
+                </div>
+
+                <div class="data-grid">
+                    <strong>📱 ዲጂታል ባንኪንግ:</strong><br>
+                    • MB: ${escapeHtml(report.mbCount)} | ATM: ${escapeHtml(report.atmCount)} | CBE Birr: ${escapeHtml(report.cbeBirrCount)}<br>
+                    • Internet Bank: ${escapeHtml(report.internetBanking)} | Agent: ${escapeHtml(report.agentCount)} | Merchant: ${escapeHtml(report.merchantCount)}
+                </div>
+
+                <div class="data-grid">
+                    <strong>📋 አዳዲስ ሂሳቦችና ብድር:</strong><br>
+                    • አዲስ ሂሳብ: ${escapeHtml(report.newAccounts)} | ብድር (Loans): ${escapeHtml(report.loansProcessed)}
+                </div>
+
+                ${report.challenges ? `<p style="margin: 5px 0;"><strong>ማስታወሻ/ዕቅድ:</strong> ${escapeHtml(report.challenges)}</p>` : ''}
                 <p style="margin: 5px 0;" class="rating"><strong>ግምገማ:</strong> ${stars} (${report.rating}/5)</p>
             `;
             reportsList.appendChild(item);
