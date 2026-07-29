@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>የቦርከና ቅርንጫፍ የሥራ አፈፃፀም ሪፖርትና ዳሽቦርድ</title>
+    <title>የቦርከና ቅርንጫፍ የሥራ አፈፃፀም ሪፖርትና ማጽደቂያ ዳሽቦርድ</title>
     <style>
         :root {
             --primary-color: #6a1b9a;
@@ -12,6 +12,8 @@
             --card-bg: #ffffff;
             --text-color: #333333;
             --success-color: #2e7d32;
+            --warning-color: #f57c00;
+            --danger-color: #c62828;
         }
 
         body {
@@ -26,7 +28,7 @@
 
         .container {
             width: 100%;
-            max-width: 650px;
+            max-width: 680px;
         }
 
         h2, h3 {
@@ -151,9 +153,33 @@
             background-color: #1e3d6b;
         }
 
+        .btn-approve {
+            background-color: var(--success-color);
+            padding: 6px 10px;
+            font-size: 12px;
+            width: auto;
+            margin: 2px;
+        }
+
+        .btn-reject {
+            background-color: var(--danger-color);
+            padding: 6px 10px;
+            font-size: 12px;
+            width: auto;
+            margin: 2px;
+        }
+
+        .btn-reversal {
+            background-color: var(--warning-color);
+            padding: 6px 10px;
+            font-size: 12px;
+            width: auto;
+            margin: 2px;
+        }
+
         .report-item {
             border-bottom: 1px solid #eeeeee;
-            padding: 12px 0;
+            padding: 14px 0;
             font-size: 13px;
         }
 
@@ -165,6 +191,19 @@
             font-size: 11px;
             font-weight: bold;
         }
+
+        .status-badge {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .status-pending { background-color: #fff3e0; color: #e65100; }
+        .status-approved { background-color: #e8f5e9; color: #2e7d32; }
+        .status-rejected { background-color: #ffebee; color: #c62828; }
+        .status-rev-requested { background-color: #ede7f6; color: #512da8; }
+        .status-reversed { background-color: #eceff1; color: #37474f; text-decoration: line-through; }
 
         .data-grid {
             background: #fafafa;
@@ -178,19 +217,57 @@
             color: #ff9800;
             font-weight: bold;
         }
+
+        .user-switch-box {
+            background: #fff8e1;
+            border: 1px solid #ffe082;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>የቦርከና ቅርንጫፍ የሥራ አፈፃፀም ሪፖርትና ዳሽቦርድ</h2>
+    <h2>የቦርከና ቅርንጫፍ የሥራ አፈፃፀም ሪፖርትና ማጽደቂያ ዳሽቦርድ</h2>
+
+    <!-- Role / User Switcher for Testing Approvals -->
+    <div class="user-switch-box">
+        <label for="currentUser">🔐 የአሁን ተጠቃሚ/ሚና (Current User Role):</label>
+        <select id="currentUser" onchange="handleUserChange()">
+            <optgroup label="አፀዳቂዎች (Approvers - ሊያጸድቁ/ሊያስተካክሉ የሚችሉ)">
+                <option value="Dawit Solomon">ዳዊት (Dawit Solomon)</option>
+                <option value="Sintayehu Degefaw">ስንታየሁ (Sintayehu Degefaw)</option>
+                <option value="Fisiha Legese">ፈስሀ (Fisiha Legese)</option>
+                <option value="Asrat Zewdu">አስራት (Asrat Zewdu)</option>
+            </optgroup>
+            <optgroup label="ሌሎች ሰራተኞች (Staff / Reporters)">
+                <option value="Adem Seid">Adem Seid</option>
+                <option value="Mulugeta Shume">Mulugeta Shume</option>
+                <option value="Gedion Yohans">Gedion Yohans</option>
+                <option value="Hermela Getachew">Hermela Getachew</option>
+                <option value="Mengistu Mule">Mengistu Mule</option>
+                <option value="Jemal Seid">Jemal Seid</option>
+                <option value="Aytenew Dereje">Aytenew Dereje</option>
+                <option value="Eshetu Melese">Eshetu Melese</option>
+                <option value="Sosna Tadesse">Sosna Tadesse</option>
+                <option value="Seid Adem">Seid Adem</option>
+                <option value="Dagmawit Afework">Dagmawit Afework</option>
+                <option value="Giyons Tadesse">Giyons Tadesse</option>
+                <option value="Seada Hussen">Seada Hussen</option>
+                <option value="Amare Mola">Amare Mola</option>
+            </optgroup>
+        </select>
+        <small style="color: #d84315; display: block; margin-top: 4px;" id="roleInfoNote"></small>
+    </div>
 
     <!-- Manager Dashboard Section -->
     <div class="card">
         <h3>📊 የስራ አስኪያጅ መከታተያ ዳሽቦርድ</h3>
         <div class="dashboard-grid">
             <div class="stat-box">
-                <h4>ጠቅላላ Actual Deposit (ብር)</h4>
+                <h4>ጠቅላላ Valid Actual Deposit (ብር)</h4>
                 <div class="number" id="totalDepositVal">0.00</div>
             </div>
             <div class="stat-box">
@@ -198,7 +275,7 @@
                 <div class="number" id="avgAchievementVal">0%</div>
             </div>
             <div class="stat-box">
-                <h4>የተከፈቱ አዳዲስ ሂሳቦች</h4>
+                <h4>የጸደቁ አዳዲስ ሂሳቦች</h4>
                 <div class="number" id="totalAccountsVal">0</div>
             </div>
             <div class="stat-box">
@@ -334,7 +411,7 @@
 
     <!-- Reports View Section -->
     <div class="card">
-        <h3>የተላኩ ሪፖርቶችና ግምገማዎች</h3>
+        <h3>የተላኩ ሪፖርቶችና ማጽደቂያዎች</h3>
         <div class="grid-2">
             <button onclick="exportToExcel()" class="btn-excel">📥 በ Excel አውርድ (CSV)</button>
             <button onclick="exportToWord()" class="btn-word">📄 በ Word አውርድ (Doc)</button>
@@ -347,7 +424,22 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', loadReports);
+    const approvers = ["Dawit Solomon", "Sintayehu Degefaw", "Fisiha Legese", "Asrat Zewdu"];
+
+    document.addEventListener('DOMContentLoaded', () => {
+        handleUserChange();
+        loadReports();
+    });
+
+    function handleUserChange() {
+        const user = document.getElementById('currentUser').value;
+        const note = document.getElementById('roleInfoNote');
+        if (approvers.includes(user)) {
+            note.innerText = `✓ '${user}' ማጽደቅ (Approve/Reject) እና ሪቨርሳል አውተራይዝ/ሪጀክት የማድረግ ሙሉ ፈቃድ አለው።`;
+        } else {
+            note.innerText = `ℹ '${user}' ሪፖርት መመዝገብ እና ለጸደቁት ሪፖርቶች የሪቨርሳል ጥያቄ ማቅረብ ይችላል።`;
+        }
+    }
 
     const reportForm = document.getElementById('reportForm');
     const reportsList = document.getElementById('reportsList');
@@ -358,6 +450,7 @@
         const plan = parseFloat(document.getElementById('dailyPlan').value) || 118184.95;
         const actual = parseFloat(document.getElementById('dailyDeposit').value) || 0;
         const achievementPct = ((actual / plan) * 100).toFixed(2);
+        const currentUser = document.getElementById('currentUser').value;
 
         const newReport = {
             id: Date.now(),
@@ -377,12 +470,16 @@
             newAccounts: parseInt(document.getElementById('newAccounts').value) || 0,
             loansProcessed: document.getElementById('loansProcessed').value || '-',
             challenges: document.getElementById('challenges').value,
-            rating: document.getElementById('rating').value
+            rating: document.getElementById('rating').value,
+            status: 'Pending', // Pending, Approved, Rejected, Reversal_Requested, Reversed, Reversal_Rejected
+            submittedBy: currentUser,
+            approvedBy: '',
+            reversalReason: ''
         };
 
-        let reports = JSON.parse(localStorage.getItem('bank_weekly_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('bank_weekly_reports_v2') || '[]');
         reports.unshift(newReport);
-        localStorage.setItem('bank_weekly_reports', JSON.stringify(reports));
+        localStorage.setItem('bank_weekly_reports_v2', JSON.stringify(reports));
 
         reportForm.reset();
         document.getElementById('dailyPlan').value = "118184.95";
@@ -390,8 +487,10 @@
     });
 
     function loadReports() {
-        let reports = JSON.parse(localStorage.getItem('bank_weekly_reports') || '[]');
-        
+        let reports = JSON.parse(localStorage.getItem('bank_weekly_reports_v2') || '[]');
+        const currentUser = document.getElementById('currentUser').value;
+        const isApprover = approvers.includes(currentUser);
+
         updateDashboard(reports);
 
         if (reports.length === 0) {
@@ -404,10 +503,60 @@
             const stars = '⭐'.repeat(parseInt(report.rating));
             const item = document.createElement('div');
             item.className = 'report-item';
+
+            let statusClass = 'status-pending';
+            let statusText = 'በመጠባበቅ ላይ (Pending)';
+            if (report.status === 'Approved') {
+                statusClass = 'status-approved';
+                statusText = `ጸድቋል (Approved by ${report.approvedBy || 'Manager'})`;
+            } else if (report.status === 'Rejected') {
+                statusClass = 'status-rejected';
+                statusText = 'ውድቅ ተደርጓል (Rejected)';
+            } else if (report.status === 'Reversal_Requested') {
+                statusClass = 'status-rev-requested';
+                statusText = 'የሪቨርሳል ጥያቄ ቀርቧል (Reversal Requested)';
+            } else if (report.status === 'Reversed') {
+                statusClass = 'status-reversed';
+                statusText = 'ሪቨርሳል ጸድቋል (Reversed & Cancelled)';
+            } else if (report.status === 'Reversal_Rejected') {
+                statusClass = 'status-rejected';
+                statusText = 'የሪቨርሳል ጥያቄ ውድቅ ተደርጓል';
+            }
+
+            // Action buttons based on status and user role
+            let actionButtonsHtml = '';
+
+            if (report.status === 'Pending') {
+                if (isApprover) {
+                    actionButtonsHtml += `
+                        <button class="btn-approve" onclick="changeStatus(${report.id}, 'Approved', '${currentUser}')">✔ አፕሩቭ (Approve)</button>
+                        <button class="btn-reject" onclick="changeStatus(${report.id}, 'Rejected', '${currentUser}')">✖ ሪጀክት (Reject)</button>
+                    `;
+                } else {
+                    actionButtonsHtml += `<span style="color:#e65100; font-size:12px;">ማጽደቂዎቹ (ዳዊት፣ ስንታየሁ፣ ፈስሀ፣ አስራት) እስኪያጸድቁት በመጠባበቅ ላይ ነው።</span>`;
+                }
+            } else if (report.status === 'Approved') {
+                actionButtonsHtml += `
+                    <button class="btn-reversal" onclick="requestReversal(${report.id})">🔄 ሪቨርሳል ጠይቅ (Request Reversal)</button>
+                `;
+            } else if (report.status === 'Reversal_Requested') {
+                if (isApprover) {
+                    actionButtonsHtml += `
+                        <button class="btn-approve" onclick="changeStatus(${report.id}, 'Reversed', '${currentUser}')">✔ ሪቨርሳል አውተራይዝ (Auth. Reversal)</button>
+                        <button class="btn-reject" onclick="changeStatus(${report.id}, 'Reversal_Rejected', '${currentUser}')">✖ ሪቨርሳል ሪጀክት (Reject Rev.)</button>
+                    `;
+                } else {
+                    actionButtonsHtml += `<span style="color:#512da8; font-size:12px;">የሪቨርሳል ጥያቄ ቀርቧል፣ በአፀዳቂዎች ማረጋገጫ ይጠብቃል።</span>`;
+                }
+            }
+
             item.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
                     <strong style="font-size: 15px; color: var(--primary-color);">${escapeHtml(report.staffName)}</strong>
-                    <span class="badge">${escapeHtml(report.weekDate)}</span>
+                    <div>
+                        <span class="status-badge ${statusClass}">${statusText}</span>
+                        <span class="badge">${escapeHtml(report.weekDate)}</span>
+                    </div>
                 </div>
                 
                 <div class="data-grid">
@@ -428,13 +577,50 @@
 
                 ${report.challenges ? `<p style="margin: 5px 0;"><strong>ማስታወሻ/ዕቅድ:</strong> ${escapeHtml(report.challenges)}</p>` : ''}
                 <p style="margin: 5px 0;" class="rating"><strong>ግምገማ:</strong> ${stars} (${report.rating}/5)</p>
+                <div style="margin-top: 8px; border-top: 1px dashed #ddd; padding-top: 6px;">
+                    ${actionButtonsHtml}
+                </div>
             `;
             reportsList.appendChild(item);
         });
     }
 
+    function changeStatus(id, newStatus, approverName) {
+        let reports = JSON.parse(localStorage.getItem('bank_weekly_reports_v2') || '[]');
+        reports = reports.map(r => {
+            if (r.id === id) {
+                r.status = newStatus;
+                if (newStatus === 'Approved') {
+                    r.approvedBy = approverName;
+                }
+            }
+            return r;
+        });
+        localStorage.setItem('bank_weekly_reports_v2', JSON.stringify(reports));
+        loadReports();
+    }
+
+    function requestReversal(id) {
+        let reason = prompt("እባክዎ የሪቨርሳል ምክንያት (Reason for Reversal) ይጻፉ:");
+        if (reason === null) return;
+
+        let reports = JSON.parse(localStorage.getItem('bank_weekly_reports_v2') || '[]');
+        reports = reports.map(r => {
+            if (r.id === id) {
+                r.status = 'Reversal_Requested';
+                r.reversalReason = reason;
+            }
+            return r;
+        });
+        localStorage.setItem('bank_weekly_reports_v2', JSON.stringify(reports));
+        loadReports();
+    }
+
     function updateDashboard(reports) {
-        if (reports.length === 0) {
+        // Only count Approved reports for general totals
+        const validReports = reports.filter(r => r.status === 'Approved');
+
+        if (validReports.length === 0) {
             document.getElementById('totalDepositVal').innerText = "0.00";
             document.getElementById('avgAchievementVal').innerText = "0%";
             document.getElementById('totalAccountsVal').innerText = "0";
@@ -447,7 +633,7 @@
         let totalAccounts = 0;
         let totalDigital = 0;
 
-        reports.forEach(r => {
+        validReports.forEach(r => {
             totalDeposit += parseFloat(r.dailyDeposit) || 0;
             totalPct += parseFloat(r.achievementPct) || 0;
             totalAccounts += parseInt(r.newAccounts) || 0;
@@ -455,7 +641,7 @@
                              (parseInt(r.internetBanking)||0) + (parseInt(r.agentCount)||0) + (parseInt(r.merchantCount)||0);
         });
 
-        const avgPct = (totalPct / reports.length).toFixed(1);
+        const avgPct = (totalPct / validReports.length).toFixed(1);
 
         document.getElementById('totalDepositVal').innerText = totalDeposit.toLocaleString('en-US', {minimumFractionDigits: 2});
         document.getElementById('avgAchievementVal').innerText = avgPct + "%";
@@ -464,16 +650,18 @@
     }
 
     function exportToExcel() {
-        let reports = JSON.parse(localStorage.getItem('bank_weekly_reports') || '[]');
-        if (reports.length === 0) {
-            alert("የሚወርድ ሪፖርት የለም!");
+        let reports = JSON.parse(localStorage.getItem('bank_weekly_reports_v2') || '[]');
+        const validReports = reports.filter(r => r.status === 'Approved');
+
+        if (validReports.length === 0) {
+            alert("የሚወርድ የጸደቀ ሪፖርት የለም!");
             return;
         }
 
         let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
-        csvContent += "Staff Name,Date,Plan,Actual Deposit,Achievement %,Monthly Deposit,Quarterly Deposit,Mobile Banking,ATM Card,CBE Birr,Internet Banking,Agent Banking,Merchant,New Accounts,Loans,Challenges,Rating\n";
+        csvContent += "Staff Name,Date,Plan,Actual Deposit,Achievement %,Monthly Deposit,Quarterly Deposit,Mobile Banking,ATM Card,CBE Birr,Internet Banking,Agent Banking,Merchant,New Accounts,Loans,Challenges,Rating,Approved By\n";
 
-        reports.forEach(r => {
+        validReports.forEach(r => {
             let row = [
                 `"${r.staffName}"`,
                 `"${r.weekDate}"`,
@@ -491,7 +679,8 @@
                 r.newAccounts,
                 `"${r.loansProcessed}"`,
                 `"${(r.challenges || '').replace(/"/g, '""')}"`,
-                r.rating
+                r.rating,
+                `"${r.approvedBy}"`
             ].join(",");
             csvContent += row + "\n";
         });
@@ -499,30 +688,32 @@
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "Borkena_Branch_Performance_Report.csv");
+        link.setAttribute("download", "Borkena_Branch_Approved_Reports.csv");
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
     }
 
     function exportToWord() {
-        let reports = JSON.parse(localStorage.getItem('bank_weekly_reports') || '[]');
-        if (reports.length === 0) {
-            alert("የሚወርድ ሪፖርት የለም!");
+        let reports = JSON.parse(localStorage.getItem('bank_weekly_reports_v2') || '[]');
+        const validReports = reports.filter(r => r.status === 'Approved');
+
+        if (validReports.length === 0) {
+            alert("የሚወርድ የጸደቀ ሪፖርት የለም!");
             return;
         }
 
         let htmlContent = `
             <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-            <head><title>Borkena Branch Performance Report</title></head>
+            <head><title>Borkena Branch Approved Reports</title></head>
             <body>
-            <h2>የቦርከና ቅርንጫፍ የሥራ አፈፃፀም ሪፖርት</h2>
+            <h2>የቦርከና ቅርንጫፍ የጸደቁ ሪፖርቶች ማጠቃለያ</h2>
             <table border="1" style="border-collapse:collapse; width:100%;">
                 <tr style="background-color:#f2f2f2;">
-                    <th>Staff Name</th><th>Date</th><th>Plan</th><th>Actual</th><th>%</th><th>New Acc</th><th>Digital Total</th><th>Loans</th>
+                    <th>Staff Name</th><th>Date</th><th>Plan</th><th>Actual</th><th>%</th><th>New Acc</th><th>Digital Total</th><th>Loans</th><th>Approved By</th>
                 </tr>`;
 
-        reports.forEach(r => {
+        validReports.forEach(r => {
             let digitalTotal = r.mbCount + r.atmCount + r.cbeBirrCount + r.internetBanking + r.agentCount + r.merchantCount;
             htmlContent += `
                 <tr>
@@ -534,6 +725,7 @@
                     <td>${r.newAccounts}</td>
                     <td>${digitalTotal}</td>
                     <td>${r.loansProcessed}</td>
+                    <td>${r.approvedBy}</td>
                 </tr>`;
         });
 
@@ -546,7 +738,7 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'Borkena_Branch_Performance_Report.doc';
+        a.download = 'Borkena_Branch_Approved_Reports.doc';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
