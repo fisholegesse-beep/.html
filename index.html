@@ -201,6 +201,7 @@
         .btn-logout { background-color: var(--danger-color); padding: 5px 10px; font-size: 11px; width: auto; }
         .btn-pwd { background-color: var(--cbe-purple); padding: 5px 10px; font-size: 11px; width: auto; }
         .btn-edit { background-color: #f39c12; color: white; padding: 3px 7px; font-size: 11px; width: auto; margin-right: 3px; }
+        .btn-delete { background-color: var(--danger-color); color: white; padding: 3px 7px; font-size: 11px; width: auto; }
         .btn-approve { background-color: var(--success-color); padding: 4px 8px; font-size: 11px; width: auto; }
         .btn-reject { background-color: var(--danger-color); padding: 4px 8px; font-size: 11px; width: auto; }
         .btn-reversal { background-color: var(--warning-color); padding: 4px 8px; font-size: 11px; width: auto; }
@@ -241,7 +242,6 @@
         .status-pending { background-color: #fff3e0; color: #e65100; }
         .status-approved { background-color: #e8f5e9; color: #2e7d32; }
         .status-rejected { background-color: #ffebee; color: #c62828; }
-        .status-rev-requested { background-color: #ede7f6; color: #512da8; }
 
         .data-grid {
             background: #fafafa;
@@ -249,6 +249,25 @@
             border-radius: 6px;
             margin: 4px 0;
             border: 1px solid #eee;
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
         .hidden { display: none !important; }
@@ -484,6 +503,34 @@
     </div>
 </div>
 
+<!-- Modal for Managing Dropdown Names -->
+<div id="manageDropdownModal" class="modal hidden">
+    <div class="modal-content">
+        <h3 style="color: var(--cbe-purple); margin-top:0;">⚙️ የድሮፕ ዳውን ሰራተኞች ስም ማስተካከያ</h3>
+        
+        <div style="display:flex; gap:8px; margin-bottom:15px;">
+            <input type="text" id="newStaffInput" placeholder="አዲስ የሰራተኛ ስም ያስገቡ...">
+            <button type="button" onclick="addDropdownStaff()" style="width:auto; padding:6px 12px;">➕ ጨምር</button>
+        </div>
+
+        <div style="max-height: 250px; overflow-y: auto; border: 1px solid #ddd; padding: 8px; border-radius:6px;">
+            <table class="user-list-table">
+                <thead>
+                    <tr>
+                        <th>የሰራተኛ ስም</th>
+                        <th style="width:100px;">እርምጃ</th>
+                    </tr>
+                </thead>
+                <tbody id="dropdownStaffTableBody"></tbody>
+            </table>
+        </div>
+
+        <div style="margin-top: 15px; text-align: right;">
+            <button type="button" onclick="closeManageDropdownModal()" style="background:#777; width:auto; padding:6px 15px;">ዝጋ</button>
+        </div>
+    </div>
+</div>
+
 <script>
     const translations = {
         am: {
@@ -667,6 +714,15 @@
         "staff": { name: "Staff Member", role: "Staff", pass: "1234" }
     };
 
+    function getCustomStaffList() {
+        const saved = localStorage.getItem('cbe_custom_staff_v11');
+        return saved ? JSON.parse(saved) : defaultExcelStaff;
+    }
+
+    function saveCustomStaffList(list) {
+        localStorage.setItem('cbe_custom_staff_v11', JSON.stringify(list));
+    }
+
     function getUsersDB() {
         const savedDB = localStorage.getItem('cbe_users_db_v11');
         return savedDB ? JSON.parse(savedDB) : defaultUsersDatabase;
@@ -716,12 +772,69 @@
         document.getElementById('loginForm').reset();
     }
 
+    /* Dropdown Manager Modal Functions */
     function openManageDropdownModal() {
-        // Restricted ONLY to SuperAdmin
         if (currentUserSession.role === 'SuperAdmin') {
-            alert(currentLang === 'am' ? 'የሰራተኞች ድሮፕ ዳውን ማስተካከያ ይከፈታል...' : 'Opening Staff Dropdown Manager...');
+            document.getElementById('manageDropdownModal').classList.remove('hidden');
+            renderDropdownStaffTable();
         } else {
             alert(currentLang === 'am' ? 'ይህንን ለማድረግ ፈቃድ የለዎትም!' : 'Access denied! Only SuperAdmin can perform this action.');
+        }
+    }
+
+    function closeManageDropdownModal() {
+        document.getElementById('manageDropdownModal').classList.add('hidden');
+    }
+
+    function renderDropdownStaffTable() {
+        const list = getCustomStaffList();
+        const tbody = document.getElementById('dropdownStaffTableBody');
+        tbody.innerHTML = '';
+
+        list.forEach((name, index) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong>${escapeHtml(name)}</strong></td>
+                <td>
+                    <button type="button" class="btn-edit" onclick="editDropdownStaff(${index})">✏️</button>
+                    <button type="button" class="btn-delete" onclick="deleteDropdownStaff(${index})">🗑️</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function addDropdownStaff() {
+        const input = document.getElementById('newStaffInput');
+        const val = input.value.trim();
+        if(!val) return alert('እባክዎን ስም ያስገቡ!');
+
+        let list = getCustomStaffList();
+        list.push(val);
+        saveCustomStaffList(list);
+        input.value = '';
+        renderDropdownStaffTable();
+        populateStaffDropdown();
+    }
+
+    function editDropdownStaff(index) {
+        let list = getCustomStaffList();
+        const newName = prompt('የሰራተኛውን ስም ያስተካክሉ፦', list[index]);
+        if (newName && newName.trim() !== '') {
+            list[index] = newName.trim();
+            saveCustomStaffList(list);
+            renderDropdownStaffTable();
+            populateStaffDropdown();
+        }
+    }
+
+    function deleteDropdownStaff(index) {
+        if (confirm('እርግጠኛ ነዎት ይህንን ስም መሰረዝ ይፈልጋሉ?')) {
+            let list = getCustomStaffList();
+            list.splice(index, 1);
+            saveCustomStaffList(list);
+            renderDropdownStaffTable();
+            populateStaffDropdown();
         }
     }
 
@@ -741,7 +854,6 @@
         const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
         const isApprover = currentUserSession.role === 'Approver';
 
-        // Display Admin View / Export options for SuperAdmin & Approver
         if (isSuperAdmin || isApprover) {
             adminCard.classList.remove('hidden');
             exportBtns.classList.remove('hidden');
@@ -753,17 +865,11 @@
             userControlSec.classList.add('hidden');
         }
 
-        // Manage Staff List Dropdown Button enabled ONLY for SuperAdmin (Hidden for Approver and Staff)
         if (isSuperAdmin) {
             manageDropdownBtn.classList.remove('hidden');
-        } else {
-            manageDropdownBtn.classList.add('hidden');
-        }
-
-        // Branch Creator toggle (Enabled ONLY for SuperAdmin)
-        if (isSuperAdmin) {
             branchCreatorSec.classList.remove('hidden');
         } else {
+            manageDropdownBtn.classList.add('hidden');
             branchCreatorSec.classList.add('hidden');
         }
 
@@ -771,7 +877,6 @@
         loadReports();
     }
 
-    /* Branch Management Logic */
     function getBranches() {
         const saved = localStorage.getItem('cbe_branches_v1');
         return saved ? JSON.parse(saved) : ["የቦርከና ቅርንጫፍ (Borkena Branch)"];
@@ -804,11 +909,9 @@
         const select = document.getElementById('staffNameSelect');
         select.innerHTML = '<option value="" disabled selected>-- ሰራተኛ ይምረጡ --</option>';
 
-        const db = getUsersDB();
-        let dynamicStaff = new Set(defaultExcelStaff);
-        Object.values(db).forEach(u => dynamicStaff.add(u.name));
+        let staffList = getCustomStaffList();
 
-        dynamicStaff.forEach(name => {
+        staffList.forEach(name => {
             const opt = document.createElement('option');
             opt.value = name;
             opt.innerText = name;
@@ -1001,10 +1104,22 @@
                 <td><code style="color:var(--cbe-purple); font-weight:bold;">${escapeHtml(userKey)}</code></td>
                 <td><span style="background:#eee; padding:2px 6px; border-radius:4px;">${escapeHtml(user.pass)}</span></td>
                 <td><span class="badge">${escapeHtml(user.role)}</span></td>
-                <td><button type="button" class="btn-edit" onclick="alert('User: ${userKey}')">✏️ Edit</button></td>
+                <td><button type="button" class="btn-edit" onclick="editUser('${userKey}')">✏️ Edit</button></td>
             `;
             tbody.appendChild(tr);
         });
+    }
+
+    function editUser(userKey) {
+        const db = getUsersDB();
+        const user = db[userKey];
+        const newName = prompt("የተጠቃሚውን ስም ያስተካክሉ፦", user.name);
+        if (newName && newName.trim() !== "") {
+            db[userKey].name = newName.trim();
+            saveUsersDB(db);
+            renderUserTable();
+            alert("የተጠቃሚው ስም ተስተካክሏል!");
+        }
     }
 </script>
 
