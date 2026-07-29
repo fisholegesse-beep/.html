@@ -409,7 +409,7 @@
                 </div>
             </div>
 
-            <!-- User Accounts Table (Admin Only) -->
+            <!-- User Accounts Table (Admin Only - Reset Menu Included for Dawit & Asrat) -->
             <div id="adminUserControlSection" style="margin-top:20px;" class="hidden">
                 <h4 style="color:var(--cbe-purple); margin-bottom:5px;">👥 የሰራተኞች አካውንት፣ ዩዘርኔም እና ፓስወርድ መቆጣጠሪያ (Reset Menu)</h4>
                 <div style="overflow-x:auto;">
@@ -431,7 +431,7 @@
             </div>
         </div>
 
-        <!-- SMS Reminder System Card (SuperAdmin Only) -->
+        <!-- SMS Reminder System Card (Admin / SuperAdmin Only) -->
         <div id="smsReminderCard" class="card hidden">
             <h3 style="margin-top:0; color:var(--cbe-purple);">📱 የየቀኑ የኤስኤምኤስ (SMS) ማስታወሻ (17:30 / 11:30 ከሰዓት)</h3>
             
@@ -459,7 +459,7 @@
                         </tr>
                     </thead>
                     <tbody id="phoneListTableBody">
-                        <!-- Excludes Dawit, Sintayehu & Asrat -->
+                        <!-- Dynamic Phone Numbers -->
                     </tbody>
                 </table>
             </div>
@@ -480,7 +480,7 @@
                     <div>
                         <label for="staffNameSelect">የሰራተኛው ስም</label>
                         <select id="staffNameSelect" required>
-                            <!-- Default Option Empty -->
+                            <!-- Default Option: All Staff / Select Staff -->
                         </select>
                     </div>
                     <div>
@@ -601,7 +601,7 @@
 </div>
 
 <script>
-    // Exact Staff list from Excel image provided
+    // Corrected Staff list
     const allExcelStaff = [
         "Adem Seid",
         "Mulugeta Shume",
@@ -623,41 +623,39 @@
         "Asrat Zewdu"
     ];
 
-    // Phone list (Excludes Dawit, Sintayehu, Asrat from SMS notifications)
+    // Phone List Updated according to image names & numbers
     let staffPhoneNumbers = [
         { phone: "+251968114058", raw: "+251 96 811 4058", name: "Adem Seid" },
-        { phone: "+251911000001", raw: "+251 91 100 0001", name: "Mulugeta Shume" },
-        { phone: "+251911000002", raw: "+251 91 100 0002", name: "Gedion Yohans" },
-        { phone: "+251911000003", raw: "+251 91 100 0003", name: "Hermela Getachew" },
-        { phone: "+251911000004", raw: "+251 91 100 0004", name: "Mengistu Mule" },
-        { phone: "+251911000005", raw: "+251 91 100 0005", name: "Jemal Seid" },
-        { phone: "+251911000006", raw: "+251 91 100 0006", name: "Aytenew Dereje" },
-        { phone: "+251911000007", raw: "+251 91 100 0007", name: "Eshetu Melese" },
-        { phone: "+251911000008", raw: "+251 91 100 0008", name: "Sosna Tadesse" },
-        { phone: "+251911000009", raw: "+251 91 100 0009", name: "Seid Adem" },
-        { phone: "+251911000010", raw: "+251 91 100 0010", name: "Dagmawit Afework" },
-        { phone: "+251911000011", raw: "+251 91 100 0011", name: "Giyons Tadesse" },
-        { phone: "+251911000012", raw: "+251 91 100 0012", name: "Seada Hussen" },
-        { phone: "+251911000013", raw: "+251 91 100 0013", name: "Amare Mola" },
-        { phone: "+251920460844", raw: "+251 92 046 0844", name: "Fisiha Legese" }
+        { phone: "+251925037481", raw: "+251 92 503 7481", name: "Alemayehu Worku" },
+        { phone: "+251908880024", raw: "+251 90 888 0024", name: "Asrat Zewdu" },
+        { phone: "+251991716169", raw: "+251 99 171 6169", name: "Bethlehem Tsegaye" },
+        { phone: "+251914059999", raw: "+251 91 405 9999", name: "Call Mom" },
+        { phone: "+251921040793", raw: "+251 92 104 0793", name: "Dawit Solomon" },
+        { phone: "+251912249499", raw: "+251 91 224 9499", name: "Ermias Haile" },
+        { phone: "+251920460844", raw: "+251 92 046 0844", name: "Fisiha Legese" },
+        { phone: "+251921455784", raw: "+251 92 145 5784", name: "Genet Assefa" },
+        { phone: "+251920797474", raw: "+251 92 079 7474", name: "Hassan Omar" },
+        { phone: "+251919988924", raw: "+251 91 998 8924", name: "Kebede Tadesse" },
+        { phone: "+251922895112", raw: "+251 92 289 5112", name: "Sintayehu Degefaw" },
+        { phone: "+251920613498", raw: "+251 92 061 3498", name: "Yonas Mekonnen" }
     ];
 
-    // Initial Database with Approvers (Dawit, Sintayehu, Asrat included)
+    // Database with Dawit and Asrat included for Reset menu options
     const defaultUsersDatabase = {
         "fisiha": { name: "Fisiha Legese", role: "SuperAdmin", pass: "1234" },
         "dawit": { name: "Dawit Solomon", role: "Approver", pass: "1234" },
-        "sintayehu": { name: "Sintayehu Degefaw", role: "Approver", pass: "1234" },
         "asrat": { name: "Asrat Zewdu", role: "Approver", pass: "1234" },
+        "sintayehu": { name: "Sintayehu Degefaw", role: "Approver", pass: "1234" },
         "adem": { name: "Adem Seid", role: "Staff", pass: "1234" }
     };
 
     function getUsersDB() {
-        const savedDB = localStorage.getItem('cbe_users_db_v4');
+        const savedDB = localStorage.getItem('cbe_users_db_v5');
         return savedDB ? JSON.parse(savedDB) : defaultUsersDatabase;
     }
 
     function saveUsersDB(db) {
-        localStorage.setItem('cbe_users_db_v4', JSON.stringify(db));
+        localStorage.setItem('cbe_users_db_v5', JSON.stringify(db));
     }
 
     let currentUserSession = null;
@@ -670,7 +668,7 @@
         populateStaffDropdown();
         renderPhoneListTable();
         
-        const savedSession = localStorage.getItem('cbe_user_session_v4');
+        const savedSession = localStorage.getItem('cbe_user_session_v5');
         if (savedSession) {
             const parsedData = JSON.parse(savedSession);
             currentUserSession = parsedData.session;
@@ -681,10 +679,10 @@
         startClockAndAlarm();
     });
 
-    // Populate dropdown without selecting a default name
+    // Populate dropdown with "All Staff" option
     function populateStaffDropdown() {
         const select = document.getElementById('staffNameSelect');
-        select.innerHTML = '<option value="" disabled selected>-- ሰራተኛ ይምረጡ --</option>';
+        select.innerHTML = '<option value="" disabled selected>-- All Staff / ሰራተኛ ይምረጡ --</option>';
         allExcelStaff.forEach(name => {
             const opt = document.createElement('option');
             opt.value = name;
@@ -703,7 +701,7 @@
         if (db[userKey] && db[userKey].pass === passKey) {
             currentUserSession = db[userKey];
             currentUsernameKey = userKey;
-            localStorage.setItem('cbe_user_session_v4', JSON.stringify({ session: currentUserSession, usernameKey: userKey }));
+            localStorage.setItem('cbe_user_session_v5', JSON.stringify({ session: currentUserSession, usernameKey: userKey }));
             initDashboard();
         } else {
             alert('የተሳሳተ የተጠቃሚ ስም ወይም ይለፍ ቃል!');
@@ -711,7 +709,7 @@
     });
 
     function logout() {
-        localStorage.removeItem('cbe_user_session_v4');
+        localStorage.removeItem('cbe_user_session_v5');
         currentUserSession = null;
         currentUsernameKey = null;
         document.getElementById('appSection').classList.add('hidden');
@@ -734,28 +732,24 @@
         const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
         const isApprover = currentUserSession.role === 'Approver';
 
-        // Visibility Rules: SMS Notification ONLY for SuperAdmin
-        if (isSuperAdmin) {
+        // SMS Card and Reset Menu shown for Admin/SuperAdmin
+        if (isSuperAdmin || isApprover) {
             smsCard.classList.remove('hidden');
+            adminCard.classList.remove('hidden');
+            exportBtns.classList.remove('hidden');
             userControlSec.classList.remove('hidden');
             renderUserTable();
         } else {
             smsCard.classList.add('hidden');
-            userControlSec.classList.add('hidden');
-        }
-
-        if (isSuperAdmin || isApprover) {
-            adminCard.classList.remove('hidden');
-            exportBtns.classList.remove('hidden');
-        } else {
             adminCard.classList.add('hidden');
             exportBtns.classList.add('hidden');
+            userControlSec.classList.add('hidden');
         }
 
         loadReports();
     }
 
-    /* Password Change for Logged-in User */
+    /* Password Change Modal Toggle */
     function togglePasswordModal() {
         document.getElementById('passwordCard').classList.toggle('hidden');
     }
@@ -785,7 +779,7 @@
         togglePasswordModal();
     });
 
-    /* Admin Password Reset Functionality (Includes Dawit and Asrat Reset Option) */
+    /* Admin Password Reset Table (Includes Dawit and Asrat Reset Option) */
     function renderUserTable() {
         const db = getUsersDB();
         const tbody = document.getElementById('userListTableBody');
@@ -819,7 +813,7 @@
         }
     }
 
-    /* Phone Table Rendering (Excludes Dawit, Sintayehu & Asrat) */
+    /* Phone Table Rendering */
     function renderPhoneListTable() {
         const tbody = document.getElementById('phoneListTableBody');
         tbody.innerHTML = '';
@@ -873,7 +867,7 @@
 
             if (hours === "17" && minutes === "30" && !alarmTriggeredToday) {
                 alarmTriggeredToday = true;
-                if(currentUserSession && currentUserSession.role === 'SuperAdmin') {
+                if(currentUserSession && (currentUserSession.role === 'SuperAdmin' || currentUserSession.role === 'Approver')) {
                     alert("⏰ ሰዓቱ 11:30 (17:30) ሆኗል! ለሰራተኞች የሪፖርት ማስታወሻ SMS የመላኪያ ሰዓት ደርሷል።");
                 }
             }
@@ -882,7 +876,7 @@
         }, 1000);
     }
 
-    // Report Submit Form
+    // Report Form Submit Handler
     const reportForm = document.getElementById('reportForm');
     reportForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -928,9 +922,9 @@
             approvedBy: ''
         };
 
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v4') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v5') || '[]');
         reports.unshift(newReport);
-        localStorage.setItem('cbe_borkena_reports_v4', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v5', JSON.stringify(reports));
 
         reportForm.reset();
         document.getElementById('dailyPlan').value = "118184.95";
@@ -942,7 +936,7 @@
     });
 
     function loadReports() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v4') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v5') || '[]');
         const reportsList = document.getElementById('reportsList');
         
         const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
@@ -1019,7 +1013,7 @@
     }
 
     function changeStatus(id, newStatus) {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v4') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v5') || '[]');
         reports = reports.map(r => {
             if (r.id === id) {
                 r.status = newStatus;
@@ -1027,7 +1021,7 @@
             }
             return r;
         });
-        localStorage.setItem('cbe_borkena_reports_v4', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v5', JSON.stringify(reports));
         loadReports();
     }
 
@@ -1035,7 +1029,7 @@
         let reason = prompt("የሪቨርሳል ምክንያት ይጻፉ:");
         if (!reason) return;
 
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v4') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v5') || '[]');
         reports = reports.map(r => {
             if (r.id === id) {
                 r.status = 'Reversal_Requested';
@@ -1043,15 +1037,15 @@
             }
             return r;
         });
-        localStorage.setItem('cbe_borkena_reports_v4', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v5', JSON.stringify(reports));
         loadReports();
     }
 
     function deleteReport(id) {
         if (!confirm("እርግጠኛ ነዎት ይጥፋ?")) return;
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v4') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v5') || '[]');
         reports = reports.filter(r => r.id !== id);
-        localStorage.setItem('cbe_borkena_reports_v4', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v5', JSON.stringify(reports));
         loadReports();
     }
 
@@ -1110,7 +1104,7 @@
     }
 
     function exportToExcel() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v4') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v5') || '[]');
         if (reports.length === 0) return alert('የሚወርድ ሪፖርት የለም!');
         let csvContent = "data:text/csv;charset=utf-8,\uFEFFቀን,ሰራተኛ,ፕላን,ተሰበሰበ,አፈፃፀም %,ሁኔታ\n";
         reports.forEach(r => {
@@ -1125,7 +1119,7 @@
     }
 
     function exportToWord() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v4') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v5') || '[]');
         if (reports.length === 0) return alert('የሚወርድ ሪፖርት የለም!');
         let htmlDoc = `<html xmlns:w='urn:schemas-microsoft-com:office:word'><body><h2>የኢትዮጵያ ንግድ ባንክ - ቦርከና ቅርንጫፍ ሪፖርት</h2><table border="1"><tr><th>ቀን</th><th>ሰራተኛ</th><th>ተሰበሰበ</th><th>ሁኔታ</th></tr>`;
         reports.forEach(r => {
