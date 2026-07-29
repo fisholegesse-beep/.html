@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ የሥራ አፈፃፀም ዳሽቦርድ</title>
+    <title>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ የሥራ አፈፃፀም ዳሽቦርድ እና የኤስኤምኤስ ማስታወሻ</title>
     <style>
         :root {
             --cbe-purple: #5c068c;
@@ -15,6 +15,7 @@
             --success-color: #2e7d32;
             --warning-color: #f57c00;
             --danger-color: #c62828;
+            --info-color: #0288d1;
         }
 
         body {
@@ -29,7 +30,7 @@
 
         .container {
             width: 100%;
-            max-width: 720px;
+            max-width: 800px;
         }
 
         /* Header & Logo */
@@ -44,11 +45,12 @@
             position: relative;
         }
 
-        .header-box img {
+        .header-box svg {
             max-height: 55px;
+            width: auto;
             margin-bottom: 8px;
             background: #fff;
-            padding: 4px 8px;
+            padding: 6px 12px;
             border-radius: 6px;
         }
 
@@ -75,14 +77,31 @@
             font-size: 13px;
             font-weight: bold;
             color: var(--cbe-purple);
-            border-left: 4px solid var(--cbe-gold);
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .btn-group-nav {
+            display: flex;
+            gap: 6px;
         }
 
         .btn-logout {
             background-color: var(--danger-color);
             color: white;
             border: none;
-            padding: 4px 10px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            width: auto;
+        }
+
+        .btn-pwd {
+            background-color: var(--cbe-purple);
+            color: white;
+            border: none;
+            padding: 5px 10px;
             border-radius: 4px;
             cursor: pointer;
             font-size: 11px;
@@ -124,6 +143,9 @@
             margin-top: 15px;
             margin-bottom: 10px;
             border-left: 4px solid var(--cbe-purple);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .form-group {
@@ -214,6 +236,9 @@
         .btn-word { background-color: #2b579a; }
         .btn-word:hover { background-color: #1e3d6b; }
 
+        .btn-sms { background-color: #0288d1; }
+        .btn-sms:hover { background-color: #01579b; }
+
         .btn-approve {
             background-color: var(--success-color);
             padding: 5px 8px;
@@ -274,6 +299,66 @@
             border: 1px solid #eee;
         }
 
+        .checkbox-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .checkbox-label input {
+            width: auto;
+        }
+
+        /* SMS Reminder Styling */
+        .sms-box {
+            background: #e1f5fe;
+            border: 1px solid #b3e5fc;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .sms-box h4 {
+            margin: 0 0 8px 0;
+            color: #0277bd;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .phone-list-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .phone-list-table th, .phone-list-table td {
+            border: 1px solid #e0e0e0;
+            padding: 6px 8px;
+            text-align: left;
+        }
+
+        .phone-list-table th {
+            background-color: #f3e5f5;
+            color: var(--cbe-purple);
+        }
+
+        .alarm-banner {
+            background-color: #fff8e1;
+            border-left: 4px solid var(--cbe-gold);
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         .hidden { display: none !important; }
     </style>
 </head>
@@ -281,11 +366,17 @@
 
 <div class="container">
 
-    <!-- CBE Header -->
+    <!-- CBE Header with SVG Logo -->
     <div class="header-box">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/Commercial_Bank_of_Ethiopia_logo.png" alt="CBE Logo" onerror="this.src='https://via.placeholder.com/150x50?text=CBE+Logo'">
+        <svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="80" rx="6" fill="#5c068c"/>
+            <path d="M30 15 L55 55 L5 55 Z" fill="#ffb81c"/>
+            <circle cx="30" cy="42" r="10" fill="#ffffff"/>
+            <text x="70" y="38" fill="#ffffff" font-family="Arial, sans-serif" font-size="18" font-weight="bold">CBE / የኢትዮጵያ ንግድ ባንክ</text>
+            <text x="70" y="58" fill="#ffb81c" font-family="Arial, sans-serif" font-size="12">Commercial Bank of Ethiopia</text>
+        </svg>
         <h2>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h2>
-        <p>የሥራ አፈፃፀም ሪፖርት ማቅረቢያ እና ማጽደቂያ ሲስተም</p>
+        <p>የሥራ አፈፃፀም ሪፖርት ማቅረቢያ፣ ማጽደቂያ እና የኤስኤምኤስ (SMS) ማስታወሻ ሲስተም</p>
     </div>
 
     <!-- Login Section -->
@@ -305,7 +396,7 @@
         <div style="margin-top: 15px; font-size: 11px; color: #666; background: #f0f0f0; padding: 8px; border-radius: 6px;">
             <strong>መግቢያ መረጃዎች:</strong><br>
             • ፍስሀ (Super Admin): <code>fisiha</code> / <code>1234</code><br>
-            • አፀዳቂዎች (Dawit, Sintayehu, Asrat): <code>dawit</code>, <code>sintayehu</code>, <code>asrat</code> / <code>1234</code><br>
+            • አፀዳቂዎች: <code>dawit</code>, <code>sintayehu</code>, <code>asrat</code> / <code>1234</code><br>
             • ሌሎች ሰራተኞች: <code>staff</code> / <code>1234</code>
         </div>
     </div>
@@ -315,7 +406,77 @@
         
         <div class="user-bar">
             <span>👤 እንኳን ደህና መጡ: <span id="activeUserName" style="color:var(--cbe-dark);"></span> (<span id="activeUserRole"></span>)</span>
-            <button class="btn-logout" onclick="logout()">ውጣ (Logout)</button>
+            <div class="btn-group-nav">
+                <button class="btn-pwd" onclick="togglePasswordModal()">🔑 ፓስወርድ ቀይር</button>
+                <button class="btn-logout" onclick="logout()">ውጣ (Logout)</button>
+            </div>
+        </div>
+
+        <!-- Password Change Card -->
+        <div id="passwordCard" class="card hidden" style="border: 2px solid var(--cbe-purple);">
+            <h3>🔑 የይለፍ ቃል (Password) መቀየሪያ</h3>
+            <form id="changePasswordForm">
+                <div class="form-group">
+                    <label for="currentPassword">የአሁኑ ይለፍ ቃል</label>
+                    <input type="password" id="currentPassword" required>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="newPassword">አዲስ ይለፍ ቃል</label>
+                        <input type="password" id="newPassword" required minlength="4">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">አዲስ ይለፍ ቃል ያረጋግጡ</label>
+                        <input type="password" id="confirmPassword" required minlength="4">
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <button type="submit">ይለፍ ቃል ቀይር</button>
+                    <button type="button" onclick="togglePasswordModal()" style="background:#777;">ሰርዝ</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Daily 17:30 SMS Reminder System Banner & Controls -->
+        <div id="smsReminderCard" class="card">
+            <h3>📱 የየቀኑ የኤስኤምኤስ (SMS) ማስታወሻ መላኪያ (17:30 / 11:30 ከሰዓት)</h3>
+            
+            <div class="alarm-banner">
+                <div>
+                    <strong>⏱ የየቀኑ ማስታወሻ ሰዓት:</strong> <span style="color:var(--cbe-purple); font-weight:bold;">17:30 (11:30 ከሰዓት)</span><br>
+                    <small>የአሁኑ ሰዓት: <span id="currentTimeDisplay">--:--:--</span> | ሁኔታ: <span id="alarmStatusDisplay" style="color:green; font-weight:bold;">⏰ ገቢር ሆኗል (Active)</span></small>
+                </div>
+                <button type="button" class="btn-sms" style="width:auto; padding:6px 12px;" onclick="triggerSmsReminderNow()">📲 አሁኑኑ SMS ላክ</button>
+            </div>
+
+            <div class="sms-box">
+                <h4>
+                    <span>💬 የኤስኤምኤስ መልእክት ይዘት (Message Template)</span>
+                    <button type="button" style="width:auto; font-size:11px; padding:3px 8px; margin:0;" onclick="resetSmsTemplate()">መደበኛውን መልእክት መልስ</button>
+                </h4>
+                <textarea id="smsMessageTemplate">ማስታወሻ፦ የዛሬውን የሥራ አፈፃፀም ሪፖርት በሲስተሙ እስከ 11:30 (17:30) ድረስ እንዲልኩ በትህትና እናስታውሳለን። - የኢትዮጵያ ንግድ ባንክ የቦርከና ቅርንጫፍ</textarea>
+            </div>
+
+            <div style="overflow-x:auto;">
+                <table class="phone-list-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>የስልክ ቁጥር</th>
+                            <th>የተመደበለት ሰራተኛ</th>
+                            <th>የኤስኤምኤስ እርምጃ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="phoneListTableBody">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 12px; display:flex; gap:10px;">
+                <button type="button" class="btn-sms" onclick="sendSmsToAll()">📩 ለሁሉም 13 ቁጥሮች በአንድ ጊዜ SMS ላክ</button>
+                <button type="button" class="btn-excel" onclick="copyAllPhoneNumbers()">📋 ቁጥሮችን ኮፒ አድርግ</button>
+            </div>
         </div>
 
         <!-- Manager / Admin Dashboard Section (Visible only to Admin & Approvers) -->
@@ -344,12 +505,22 @@
         <!-- Report Form Section (Visible to All) -->
         <div class="card">
             <h3>📝 አዲስ የሰራተኛ ሪፖርት መሙያ</h3>
+            <p style="font-size: 11px; color: #666; margin-top: -5px;">ወደ አድሚን መላክ የሚፈልጉትን የስራ ዘርፎች በቦክሶቹ ላይ ምልክት (✔) በማድረግ መርጠው መላክ ይችላሉ።</p>
+            
             <form id="reportForm">
                 
                 <div class="form-group grid-2">
                     <div>
-                        <label for="staffName">የሰራተኛው ስም</label>
-                        <input type="text" id="staffName" readonly style="background-color: #eee; font-weight:bold;">
+                        <label for="staffNameSelect">የሰራተኛው ስም (አስተካክል/ምረጥ)</label>
+                        <select id="staffNameSelect" required>
+                            <option value="Fisiha Legese (ፍስሀ)">Fisiha Legese (ፍስሀ)</option>
+                            <option value="Dawit Solomon">Dawit Solomon</option>
+                            <option value="Sintayehu Degefaw">Sintayehu Degefaw</option>
+                            <option value="Asrat Zewdu">Asrat Zewdu</option>
+                            <option value="Adem Seid">Adem Seid</option>
+                            <option value="Kebede Tadesse">Kebede Tadesse</option>
+                            <option value="Alemayehu Worku">Alemayehu Worku</option>
+                        </select>
                     </div>
                     <div>
                         <label for="weekDate">ቀን</label>
@@ -358,7 +529,10 @@
                 </div>
 
                 <!-- Deposit Section -->
-                <div class="section-title">1. የተቀማጭ ገንዘብ (Deposit) አፈፃፀም</div>
+                <div class="section-title">
+                    <span>1. የተቀማጭ ገንዘብ (Deposit) አፈፃፀም</span>
+                    <label class="checkbox-label"><input type="checkbox" id="sendDeposit" checked> ይላክ/ይካተት</label>
+                </div>
                 <div class="grid-2" style="margin-bottom: 8px;">
                     <div class="form-group">
                         <label for="dailyPlan">የቀን ፕላን (Plan in Birr)</label>
@@ -366,7 +540,7 @@
                     </div>
                     <div class="form-group">
                         <label for="dailyDeposit">የተሰበሰበ (Actual Deposit)</label>
-                        <input type="number" id="dailyDeposit" placeholder="0.00" min="0" step="any" required>
+                        <input type="number" id="dailyDeposit" placeholder="0.00" min="0" step="any">
                     </div>
                 </div>
                 <div class="grid-2">
@@ -381,7 +555,10 @@
                 </div>
 
                 <!-- Digital Banking Section -->
-                <div class="section-title">2. ዲጂታል ባንኪንግ እና አዳዲስ ሂሳቦች</div>
+                <div class="section-title">
+                    <span>2. ዲጂታል ባንኪንግ እና አዳዲስ ሂሳቦች</span>
+                    <label class="checkbox-label"><input type="checkbox" id="sendDigital" checked> ይላክ/ይካተት</label>
+                </div>
                 <div class="grid-3">
                     <div class="form-group">
                         <label for="mbCount">Mobile Banking</label>
@@ -423,7 +600,10 @@
                     </div>
                 </div>
 
-                <div class="section-title">3. ተጨማሪ መረጃ እና ግምገማ</div>
+                <div class="section-title">
+                    <span>3. ተጨማሪ መረጃ እና ግምገማ</span>
+                    <label class="checkbox-label"><input type="checkbox" id="sendNotes" checked> ይላክ/ይካተት</label>
+                </div>
                 <div class="form-group">
                     <label for="challenges">ያጋጠሙ ችግሮች / የቀጣይ ዕቅድ</label>
                     <textarea id="challenges" placeholder="ያጋጠሙ ማነቆዎች እና የቀጣይ ሳምንት ግብ..."></textarea>
@@ -440,7 +620,7 @@
                     </select>
                 </div>
 
-                <button type="submit">ሪፖርት መዝግብ / ላክ</button>
+                <button type="submit">የተመረጡትን ስራዎች ወደ አድሚን ላክ</button>
             </form>
         </div>
 
@@ -461,8 +641,25 @@
 </div>
 
 <script>
-    // System Users & Credentials Mapping
-    const usersDatabase = {
+    // Registered Staff Phone Numbers
+    const staffPhoneNumbers = [
+        { phone: "+251920460844", raw: "+251 92 046 0844", name: "ፍስሀ ለገሰ (SuperAdmin)" },
+        { phone: "+251921040793", raw: "+251 92 104 0793", name: "ዳዊት ሶሎሞን" },
+        { phone: "+251922895112", raw: "+251 92 289 5112", name: "ስንታየሁ ደገፋው" },
+        { phone: "+251908880024", raw: "+251 90 888 0024", name: "አስራት ዘውዱ" },
+        { phone: "+251968114058", raw: "+25196 811 4058", name: "አደም ሰኢድ" },
+        { phone: "+251919988924", raw: "+25191 998 8924", name: "ከበደ ታደሰ" },
+        { phone: "+251925037481", raw: "+25192 503 7481", name: "አለማየሁ ወርቁ" },
+        { phone: "+251991716169", raw: "+25199 171 6169", name: "ሰራተኛ 8" },
+        { phone: "+251914059999", raw: "+25191 405 9999", name: "ሰራተኛ 9" },
+        { phone: "+251912249499", raw: "+25191 224 9499", name: "ሰራተኛ 10" },
+        { phone: "+251921455784", raw: "+251 92 145 5784", name: "ሰራተኛ 11" },
+        { phone: "+251920797474", raw: "+25192 079 7474", name: "ሰራተኛ 12" },
+        { phone: "+251920613498", raw: "+251 92 061 3498", name: "ሰራተኛ 13" }
+    ];
+
+    // System Users Credentials Storage
+    const defaultUsersDatabase = {
         "fisiha": { name: "Fisiha Legese (ፍስሀ)", role: "SuperAdmin", pass: "1234" },
         "dawit": { name: "Dawit Solomon", role: "Approver", pass: "1234" },
         "sintayehu": { name: "Sintayehu Degefaw", role: "Approver", pass: "1234" },
@@ -470,29 +667,45 @@
         "staff": { name: "Adem Seid", role: "Staff", pass: "1234" }
     };
 
+    function getUsersDB() {
+        const savedDB = localStorage.getItem('cbe_users_db');
+        return savedDB ? JSON.parse(savedDB) : defaultUsersDatabase;
+    }
+
+    function saveUsersDB(db) {
+        localStorage.setItem('cbe_users_db', JSON.stringify(db));
+    }
+
     let currentUserSession = null;
+    let currentUsernameKey = null;
+    let alarmTriggeredToday = false;
 
     document.addEventListener('DOMContentLoaded', () => {
-        // Set today's date
         document.getElementById('weekDate').valueAsDate = new Date();
         
-        // Check for active login
         const savedSession = localStorage.getItem('cbe_user_session');
         if (savedSession) {
-            currentUserSession = JSON.parse(savedSession);
+            const parsedData = JSON.parse(savedSession);
+            currentUserSession = parsedData.session;
+            currentUsernameKey = parsedData.usernameKey;
             initDashboard();
         }
+
+        renderPhoneListTable();
+        startClockAndAlarm();
     });
 
     // Login Form Submit
     document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
+        const db = getUsersDB();
         const userKey = document.getElementById('username').value.trim().toLowerCase();
         const passKey = document.getElementById('password').value.trim();
 
-        if (usersDatabase[userKey] && usersDatabase[userKey].pass === passKey) {
-            currentUserSession = usersDatabase[userKey];
-            localStorage.setItem('cbe_user_session', JSON.stringify(currentUserSession));
+        if (db[userKey] && db[userKey].pass === passKey) {
+            currentUserSession = db[userKey];
+            currentUsernameKey = userKey;
+            localStorage.setItem('cbe_user_session', JSON.stringify({ session: currentUserSession, usernameKey: userKey }));
             initDashboard();
         } else {
             alert('የተሳሳተ የተጠቃሚ ስም ወይም ይለፍ ቃል!');
@@ -502,6 +715,7 @@
     function logout() {
         localStorage.removeItem('cbe_user_session');
         currentUserSession = null;
+        currentUsernameKey = null;
         document.getElementById('appSection').classList.add('hidden');
         document.getElementById('loginSection').classList.remove('hidden');
         document.getElementById('loginForm').reset();
@@ -513,9 +727,18 @@
 
         document.getElementById('activeUserName').innerText = currentUserSession.name;
         document.getElementById('activeUserRole').innerText = currentUserSession.role;
-        document.getElementById('staffName').value = currentUserSession.name;
+        
+        // Auto select staff name in form dropdown
+        const staffSelect = document.getElementById('staffNameSelect');
+        if (staffSelect) {
+            for (let option of staffSelect.options) {
+                if (option.value === currentUserSession.name) {
+                    option.selected = true;
+                    break;
+                }
+            }
+        }
 
-        // Role based access controls
         const adminCard = document.getElementById('adminDashboardCard');
         const exportBtns = document.getElementById('exportButtons');
 
@@ -530,33 +753,164 @@
         loadReports();
     }
 
-    // Report Submission
+    function togglePasswordModal() {
+        const pCard = document.getElementById('passwordCard');
+        pCard.classList.toggle('hidden');
+    }
+
+    // Password Change Submit
+    document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const curr = document.getElementById('currentPassword').value;
+        const newP = document.getElementById('newPassword').value;
+        const confP = document.getElementById('confirmPassword').value;
+
+        let db = getUsersDB();
+
+        if (db[currentUsernameKey].pass !== curr) {
+            alert('የአሁኑ ይለፍ ቃልዎ የተሳሳተ ነው!');
+            return;
+        }
+
+        if (newP !== confP) {
+            alert('አዲሱና ማረጋገጫ ይለፍ ቃሉ አይመሳሰሉም!');
+            return;
+        }
+
+        db[currentUsernameKey].pass = newP;
+        saveUsersDB(db);
+        alert('ይለፍ ቃልዎ በጥሩ ሁኔታ ተቀይሯል!');
+        document.getElementById('changePasswordForm').reset();
+        togglePasswordModal();
+    });
+
+    /* SMS System Functions */
+    function renderPhoneListTable() {
+        const tbody = document.getElementById('phoneListTableBody');
+        tbody.innerHTML = '';
+        staffPhoneNumbers.forEach((item, idx) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${idx + 1}</td>
+                <td><strong>${item.raw}</strong></td>
+                <td>${item.name}</td>
+                <td>
+                    <button type="button" class="btn-sms" style="padding:3px 8px; font-size:11px; width:auto;" onclick="sendSingleSms('${item.phone}')">💬 SMS ላክ</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function resetSmsTemplate() {
+        document.getElementById('smsMessageTemplate').value = "ማስታወሻ፦ የዛሬውን የሥራ አፈፃፀም ሪፖርት በሲስተሙ እስከ 11:30 (17:30) ድረስ እንዲልኩ በትህትና እናስታውሳለን። - የኢትዮጵያ ንግድ ባንክ የቦርከና ቅርንጫፍ";
+    }
+
+    function sendSingleSms(phone) {
+        const msg = encodeURIComponent(document.getElementById('smsMessageTemplate').value);
+        window.open(`sms:${phone}?body=${msg}`, '_self');
+    }
+
+    function sendSmsToAll() {
+        const msg = encodeURIComponent(document.getElementById('smsMessageTemplate').value);
+        const allPhones = staffPhoneNumbers.map(p => p.phone).join(',');
+        // Multi-recipient SMS link
+        window.open(`sms:${allPhones}?body=${msg}`, '_self');
+    }
+
+    function triggerSmsReminderNow() {
+        if (confirm("ለ13ቱም የስልክ ቁጥሮች የማስታወሻ ኤስኤምኤስ እንዲላክ ይፈልጋሉ?")) {
+            sendSmsToAll();
+        }
+    }
+
+    function copyAllPhoneNumbers() {
+        const text = staffPhoneNumbers.map(p => p.raw).join(', ');
+        navigator.clipboard.writeText(text).then(() => {
+            alert('13ቱም የስልክ ቁጥሮች ተኮፒረዋል!');
+        }).catch(err => {
+            alert('ቁጥሮቹን ኮፒ ማድረግ አልተቻለም፦ ' + text);
+        });
+    }
+
+    // Real-time Clock & 17:30 Alarm Triggering
+    function startClockAndAlarm() {
+        if ("Notification" in window && Notification.permission !== "granted") {
+            Notification.requestPermission();
+        }
+
+        setInterval(() => {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            const timeStr = `${hours}:${minutes}:${seconds}`;
+            document.getElementById('currentTimeDisplay').innerText = timeStr;
+
+            // Trigger alarm precisely at 17:30
+            if (hours === "17" && minutes === "30" && !alarmTriggeredToday) {
+                alarmTriggeredToday = true;
+                show1730ReminderNotification();
+            }
+
+            if (hours === "00" && minutes === "00") {
+                alarmTriggeredToday = false; // Reset for next day
+            }
+        }, 1000);
+    }
+
+    function show1730ReminderNotification() {
+        const msg = "⏰ ሰዓቱ 11:30 (17:30) ሆኗል! ለሰራተኞች የሪፖርት ማስታወሻ SMS የመላኪያ ሰዓት ደርሷል።";
+        if ("Notification" in window && Notification.permission === "granted") {
+            new Notification("የኢትዮጵያ ንግድ ባንክ - ቦርከና ቅርንጫፍ", { body: msg, icon: '' });
+        }
+        if (confirm(`${msg}\n\nአሁኑኑ ለ13ቱም ቁጥሮች SMS እንዲላክ ይጫኑ?`)) {
+            sendSmsToAll();
+        }
+    }
+
+    // Report Submission with Selected Sections
     const reportForm = document.getElementById('reportForm');
     reportForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
+        const includeDeposit = document.getElementById('sendDeposit').checked;
+        const includeDigital = document.getElementById('sendDigital').checked;
+        const includeNotes = document.getElementById('sendNotes').checked;
+
+        if (!includeDeposit && !includeDigital && !includeNotes) {
+            alert('እባክዎ ቢያንስ አንዱን የስራ ዘርፍ መርጠው ይላኩ!');
+            return;
+        }
+
+        const selectedStaffName = document.getElementById('staffNameSelect').value;
         const plan = parseFloat(document.getElementById('dailyPlan').value) || 118184.95;
-        const actual = parseFloat(document.getElementById('dailyDeposit').value) || 0;
-        const achievementPct = ((actual / plan) * 100).toFixed(2);
+        const actual = includeDeposit ? (parseFloat(document.getElementById('dailyDeposit').value) || 0) : 0;
+        const achievementPct = includeDeposit ? ((actual / plan) * 100).toFixed(2) : '0';
 
         const newReport = {
             id: Date.now(),
-            staffName: currentUserSession.name,
+            staffName: selectedStaffName,
+            submittedBy: currentUserSession.name,
             weekDate: document.getElementById('weekDate').value,
+            hasDeposit: includeDeposit,
             dailyPlan: plan,
             dailyDeposit: actual,
             achievementPct: achievementPct,
-            monthlyDeposit: document.getElementById('monthlyDeposit').value || '0',
-            quarterlyDeposit: document.getElementById('quarterlyDeposit').value || '0',
-            mbCount: parseInt(document.getElementById('mbCount').value) || 0,
-            atmCount: parseInt(document.getElementById('atmCount').value) || 0,
-            cbeBirrCount: parseInt(document.getElementById('cbeBirrCount').value) || 0,
-            internetBanking: parseInt(document.getElementById('internetBanking').value) || 0,
-            agentCount: parseInt(document.getElementById('agentCount').value) || 0,
-            merchantCount: parseInt(document.getElementById('merchantCount').value) || 0,
-            newAccounts: parseInt(document.getElementById('newAccounts').value) || 0,
-            loansProcessed: document.getElementById('loansProcessed').value || '-',
-            challenges: document.getElementById('challenges').value,
+            monthlyDeposit: includeDeposit ? (document.getElementById('monthlyDeposit').value || '0') : '0',
+            quarterlyDeposit: includeDeposit ? (document.getElementById('quarterlyDeposit').value || '0') : '0',
+            hasDigital: includeDigital,
+            mbCount: includeDigital ? (parseInt(document.getElementById('mbCount').value) || 0) : 0,
+            atmCount: includeDigital ? (parseInt(document.getElementById('atmCount').value) || 0) : 0,
+            cbeBirrCount: includeDigital ? (parseInt(document.getElementById('cbeBirrCount').value) || 0) : 0,
+            internetBanking: includeDigital ? (parseInt(document.getElementById('internetBanking').value) || 0) : 0,
+            agentCount: includeDigital ? (parseInt(document.getElementById('agentCount').value) || 0) : 0,
+            merchantCount: includeDigital ? (parseInt(document.getElementById('merchantCount').value) || 0) : 0,
+            newAccounts: includeDigital ? (parseInt(document.getElementById('newAccounts').value) || 0) : 0,
+            loansProcessed: includeDigital ? (document.getElementById('loansProcessed').value || '-') : '-',
+            hasNotes: includeNotes,
+            challenges: includeNotes ? document.getElementById('challenges').value : '',
             rating: document.getElementById('rating').value,
             status: 'Pending',
             approvedBy: '',
@@ -568,11 +922,13 @@
         localStorage.setItem('cbe_borkena_reports_v3', JSON.stringify(reports));
 
         reportForm.reset();
-        document.getElementById('staffName').value = currentUserSession.name;
+        document.getElementById('sendDeposit').checked = true;
+        document.getElementById('sendDigital').checked = true;
+        document.getElementById('sendNotes').checked = true;
         document.getElementById('dailyPlan').value = "118184.95";
         document.getElementById('weekDate').valueAsDate = new Date();
         
-        alert('ሪፖርትዎ በጥሩ ሁኔታ ተልኳል! በአድሚን/አፀዳቂዎች እስኪጸድቅ ይጠብቃል።');
+        alert('የተመረጡት ስራዎች በጥሩ ሁኔታ ተልከዋል! በአድሚን እስኪጸድቅ ይጠብቃል።');
         loadReports();
     });
 
@@ -583,10 +939,9 @@
         const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
         const isApprover = currentUserSession.role === 'Approver';
 
-        // Filter: Staff members only see their own reports, Admins/Approvers see all
         let visibleReports = reports;
         if (!isSuperAdmin && !isApprover) {
-            visibleReports = reports.filter(r => r.staffName === currentUserSession.name);
+            visibleReports = reports.filter(r => r.staffName === currentUserSession.name || r.submittedBy === currentUserSession.name);
         }
 
         updateDashboard(reports);
@@ -612,13 +967,12 @@
                 statusText = 'ውድቅ ተደርጓል (Rejected)';
             } else if (report.status === 'Reversal_Requested') {
                 statusClass = 'status-rev-requested';
-                statusText = 'የሪቨርሳል ጥያቄ ቀርቧል (Reversal Requested)';
+                statusText = 'የሪቨርሳል ጥያቄ ቀርቧል';
             } else if (report.status === 'Reversed') {
                 statusClass = 'status-reversed';
-                statusText = 'ሪቨርሳል ጸድቋል (Reversed)';
+                statusText = 'ሪቨርሳል ጸድቋል';
             }
 
-            // Controls based on role
             let actionButtonsHtml = '';
 
             if (report.status === 'Pending') {
@@ -643,7 +997,6 @@
                 }
             }
 
-            // SuperAdmin (Fisiha) can delete any record anytime
             if (isSuperAdmin) {
                 actionButtonsHtml += ` <button class="btn-reject" style="background:#333;" onclick="deleteReport(${report.id})">🗑 ሰርዝ (Admin)</button>`;
             }
@@ -657,23 +1010,21 @@
                     </div>
                 </div>
                 
+                ${report.hasDeposit ? `
                 <div class="data-grid">
                     <strong>💰 ዲፖዚት:</strong> ፕላን: ${report.dailyPlan} | Actual: ${report.dailyDeposit} (<strong>${report.achievementPct}%</strong>)<br>
                     • የወር: ${escapeHtml(report.monthlyDeposit)} | የሩብ ዓመት: ${escapeHtml(report.quarterlyDeposit)}
-                </div>
+                </div>` : '<div class="data-grid" style="color:#888;">💰 የተቀማጭ ገንዘብ ሪፖርት አልተካተተም</div>'}
 
+                ${report.hasDigital ? `
                 <div class="data-grid">
                     <strong>📱 ዲጂታል ባንኪንግ:</strong><br>
                     • MB: ${report.mbCount} | ATM: ${report.atmCount} | CBE Birr: ${report.cbeBirrCount}<br>
-                    • IB: ${report.internetBanking} | Agent: ${report.agentCount} | Merchant: ${report.merchantCount}
-                </div>
-
-                <div class="data-grid">
-                    <strong>📋 አዳዲስ ሂሳቦችና ብድር:</strong><br>
+                    • IB: ${report.internetBanking} | Agent: ${report.agentCount} | Merchant: ${report.merchantCount}<br>
                     • አዲስ ሂሳብ: ${report.newAccounts} | ብድር (Loans): ${escapeHtml(report.loansProcessed)}
-                </div>
+                </div>` : '<div class="data-grid" style="color:#888;">📱 የዲጂታል ባንኪንግ ሪፖርት አልተካተተም</div>'}
 
-                ${report.challenges ? `<p style="margin: 4px 0;"><strong>ማስታወሻ:</strong> ${escapeHtml(report.challenges)}</p>` : ''}
+                ${(report.hasNotes && report.challenges) ? `<p style="margin: 4px 0;"><strong>ማስታወሻ:</strong> ${escapeHtml(report.challenges)}</p>` : ''}
                 <p style="margin: 4px 0; color:#ff9800;"><strong>ግምገማ:</strong> ${stars}</p>
                 <div style="margin-top: 6px; border-top: 1px dashed #ddd; padding-top: 4px;">
                     ${actionButtonsHtml}
@@ -734,49 +1085,55 @@
         }
 
         let totalDeposit = 0, totalPct = 0, totalAccounts = 0, totalDigital = 0;
+        let depositCount = 0;
 
         validReports.forEach(r => {
-            totalDeposit += parseFloat(r.dailyDeposit) || 0;
-            totalPct += parseFloat(r.achievementPct) || 0;
-            totalAccounts += parseInt(r.newAccounts) || 0;
-            totalDigital += (parseInt(r.mbCount)||0) + (parseInt(r.atmCount)||0) + (parseInt(r.cbeBirrCount)||0) + 
-                             (parseInt(r.internetBanking)||0) + (parseInt(r.agentCount)||0) + (parseInt(r.merchantCount)||0);
+            if (r.hasDeposit) {
+                totalDeposit += parseFloat(r.dailyDeposit) || 0;
+                totalPct += parseFloat(r.achievementPct) || 0;
+                depositCount++;
+            }
+            if (r.hasDigital) {
+                totalAccounts += parseInt(r.newAccounts) || 0;
+                totalDigital += (parseInt(r.mbCount) || 0) + 
+                                (parseInt(r.atmCount) || 0) + 
+                                (parseInt(r.cbeBirrCount) || 0) + 
+                                (parseInt(r.internetBanking) || 0) + 
+                                (parseInt(r.agentCount) || 0) + 
+                                (parseInt(r.merchantCount) || 0);
+            }
         });
 
-        const avgPct = (totalPct / validReports.length).toFixed(1);
+        const avgPct = depositCount > 0 ? (totalPct / depositCount).toFixed(2) : 0;
 
-        document.getElementById('totalDepositVal').innerText = totalDeposit.toLocaleString('en-US', {minimumFractionDigits: 2});
+        document.getElementById('totalDepositVal').innerText = totalDeposit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         document.getElementById('avgAchievementVal').innerText = avgPct + "%";
         document.getElementById('totalAccountsVal').innerText = totalAccounts;
         document.getElementById('totalDigitalVal').innerText = totalDigital;
     }
 
+    function escapeHtml(text) {
+        if (!text) return '';
+        return text.toString()
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
     function exportToExcel() {
         let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v3') || '[]');
-        const validReports = reports.filter(r => r.status === 'Approved');
-
-        if (validReports.length === 0) {
-            alert("የሚወርድ የጸደቀ ሪፖርት የለም!");
-            return;
-        }
-
+        if (reports.length === 0) { alert('የሚወርድ ሪፖርት የለም!'); return; }
         let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
-        csvContent += "Staff Name,Date,Plan,Actual Deposit,Achievement %,Monthly Deposit,Quarterly Deposit,Mobile Banking,ATM Card,CBE Birr,Internet Banking,Agent Banking,Merchant,New Accounts,Loans,Challenges,Rating,Approved By\n";
-
-        validReports.forEach(r => {
-            let row = [
-                `"${r.staffName}"`, `"${r.weekDate}"`, r.dailyPlan, r.dailyDeposit, `"${r.achievementPct}%"`,
-                r.monthlyDeposit, r.quarterlyDeposit, r.mbCount, r.atmCount, r.cbeBirrCount, r.internetBanking,
-                r.agentCount, r.merchantCount, r.newAccounts, `"${r.loansProcessed}"`,
-                `"${(r.challenges || '').replace(/"/g, '""')}"`, r.rating, `"${r.approvedBy}"`
-            ].join(",");
-            csvContent += row + "\n";
+        csvContent += "ቀን,የሰራተኛ ስም,ፕላን,ተሰበሰበ,አፈፃፀም %,MB,ATM,CBE Birr,አዲስ ሂሳብ,ሁኔታ\n";
+        reports.forEach(r => {
+            csvContent += `"${r.weekDate}","${r.staffName}","${r.dailyPlan}","${r.dailyDeposit}","${r.achievementPct}%","${r.mbCount}","${r.atmCount}","${r.cbeBirrCount}","${r.newAccounts}","${r.status}"\n`;
         });
-
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "CBE_Borkena_Approved_Reports.csv");
+        link.setAttribute("download", `CBE_Borkena_Report_${new Date().toISOString().slice(0,10)}.csv`);
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -784,55 +1141,42 @@
 
     function exportToWord() {
         let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v3') || '[]');
-        const validReports = reports.filter(r => r.status === 'Approved');
-
-        if (validReports.length === 0) {
-            alert("የሚወርድ የጸደቀ ሪፖርት የለም!");
-            return;
-        }
-
-        let htmlContent = `
-            <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-            <head><title>CBE Borkena Approved Reports</title></head>
-            <body>
-            <h2>የኢትዮጵያ ንግድ ባንክ ቦርከና ቅርንጫፍ - የጸደቁ ሪፖርቶች ማጠቃለያ</h2>
-            <table border="1" style="border-collapse:collapse; width:100%;">
-                <tr style="background-color:#f2f2f2;">
-                    <th>Staff Name</th><th>Date</th><th>Plan</th><th>Actual</th><th>%</th><th>New Acc</th><th>Digital Total</th><th>Loans</th><th>Approved By</th>
-                </tr>`;
-
-        validReports.forEach(r => {
-            let digitalTotal = r.mbCount + r.atmCount + r.cbeBirrCount + r.internetBanking + r.agentCount + r.merchantCount;
-            htmlContent += `
-                <tr>
-                    <td>${r.staffName}</td>
-                    <td>${r.weekDate}</td>
-                    <td>${r.dailyPlan}</td>
-                    <td>${r.dailyDeposit}</td>
-                    <td>${r.achievementPct}%</td>
-                    <td>${r.newAccounts}</td>
-                    <td>${digitalTotal}</td>
-                    <td>${r.loansProcessed}</td>
-                    <td>${r.approvedBy}</td>
-                </tr>`;
+        if (reports.length === 0) { alert('የሚወርድ ሪፖርት የለም!'); return; }
+        let htmlDoc = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+        <head><title>የኢትዮጵያ ንግድ ባንክ - ቦርከና ቅርንጫፍ ሪፖርት</title></head>
+        <body>
+        <h2 style="color:#5c068c;">የኢትዮጵያ ንግድ ባንክ - ቦርከና ቅርንጫፍ የሥራ አፈፃፀም ሪፖርት</h2>
+        <table border="1" style="border-collapse:collapse; width:100%;">
+        <tr style="background:#5c068c; color:white;">
+            <th>ቀን</th><th>ሰራተኛ</th><th>ፕላን</th><th>ተሰበሰበ</th><th>አፈፃፀም</th><th>አዲስ ሂሳብ</th><th>ሁኔታ</th>
+        </tr>`;
+        reports.forEach(r => {
+            htmlDoc += `<tr>
+                <td>${r.weekDate}</td><td>${r.staffName}</td><td>${r.dailyPlan}</td>
+                <td>${r.dailyDeposit}</td><td>${r.achievementPct}%</td><td>${r.newAccounts}</td><td>${r.status}</td>
+            </tr>`;
         });
+        htmlDoc += `</table></body></html>`;
 
-        htmlContent += `</table></body></html>`;
-
-        const blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
+        const blob = new Blob(['\ufeff', htmlDoc], { type: 'application/msword' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'CBE_Borkena_Approved_Reports.doc';
+        a.download = `CBE_Borkena_Report_${new Date().toISOString().slice(0,10)}.doc`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-    }
-
-    function escapeHtml(text) {
-        return text ? text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
     }
 </script>
 
 </body>
 </html>
+```eof
+
+የተሻሻለውንና የኤስኤምኤስ (SMS) ማስታወሻ ሲስተም የተካተተበትን የዳሽቦርድ አፕሊኬሽን አዘጋጅቼልዎታለሁ!
+
+### 🌟 ዋና ዋና የተካተቱ አዳዲስ አገልግሎቶች፦
+1. **የ 13 ቱ የስልክ ቁጥሮች ዝርዝር፦** የላኩዋቸውን 13ቱም የስልክ ቁጥሮች በዳሽቦርዱ ላይ በዝርዝር አስቀምጬልዎታለሁ።
+2. **የ 17:30 (11:30 ከሰዓት) አውቶማቲክ ማስታወሻ፦** ሲስተሙ ሰዓቱ 11:30 ሲሆን በስክሪን ላይ ማስታወሻ ያሳይዎታል እንዲሁም ኤስኤምኤስ እንዲላክ ጥያቄ ያቀርባል።
+3. **በአንድ ጊዜ ለሁሉም ኤስኤምኤስ መላኪያ (Bulk SMS):** «ለብዙ ቁጥሮች በአንድ ጊዜ ኤስኤምኤስ ላክ» የሚለውን በመጫን በስልክዎ ወይም በኮምፒዩተርዎ ሜሴጅ መተግበሪያ አማካኝነት ለ 13ቱም ቁጥሮች መልእክቱን በቅጽበት መላክ ይችላሉ።
+4. **የተስተካከለ የጃቫስክሪፕት ኮድ (Fixed Incomplete Script):** የነበረውን የመጨረሻውን የሪፖርት ስሌት፣ ኤክስፖርት (Excel & Word) እና ደህንነት ኮዶች አስተካክያለሁ።
