@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ሳምንታዊ የሥራ አፈፃፀም ሪፖርትና ዳሽቦርድ</title>
+    <title>የቦርከና ቅርንጫፍ የሥራ አፈፃፀም ሪፖርትና ዳሽቦርድ</title>
     <style>
         :root {
             --primary-color: #6a1b9a;
@@ -183,7 +183,7 @@
 <body>
 
 <div class="container">
-    <h2>የቅርንጫፍ ሥራ አፈፃፀም ሪፖርትና ዳሽቦርድ</h2>
+    <h2>የቦርከና ቅርንጫፍ የሥራ አፈፃፀም ሪፖርትና ዳሽቦርድ</h2>
 
     <!-- Manager Dashboard Section -->
     <div class="card">
@@ -499,7 +499,7 @@
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "Weekly_Bank_Performance_Report.csv");
+        link.setAttribute("download", "Borkena_Branch_Performance_Report.csv");
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -514,9 +514,9 @@
 
         let htmlContent = `
             <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-            <head><title>Weekly Report</title></head>
+            <head><title>Borkena Branch Performance Report</title></head>
             <body>
-            <h2>የቅርንጫፍ ሳምንታዊ የሥራ አፈፃፀም ሪፖርት</h2>
+            <h2>የቦርከና ቅርንጫፍ የሥራ አፈፃፀም ሪፖርት</h2>
             <table border="1" style="border-collapse:collapse; width:100%;">
                 <tr style="background-color:#f2f2f2;">
                     <th>Staff Name</th><th>Date</th><th>Plan</th><th>Actual</th><th>%</th><th>New Acc</th><th>Digital Total</th><th>Loans</th>
@@ -546,7 +546,7 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'Weekly_Bank_Performance_Report.doc';
+        a.download = 'Borkena_Branch_Performance_Report.doc';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
