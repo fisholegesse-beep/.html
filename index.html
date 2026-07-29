@@ -217,6 +217,8 @@
 
         .btn-logout { background-color: var(--danger-color); padding: 5px 10px; font-size: 11px; width: auto; }
         .btn-pwd { background-color: var(--cbe-purple); padding: 5px 10px; font-size: 11px; width: auto; }
+        .btn-edit { background-color: #f39c12; color: white; padding: 3px 7px; font-size: 11px; width: auto; margin-right: 3px; }
+        .btn-edit:hover { background-color: #d35400; }
         .btn-approve { background-color: var(--success-color); padding: 4px 8px; font-size: 11px; width: auto; }
         .btn-reject { background-color: var(--danger-color); padding: 4px 8px; font-size: 11px; width: auto; }
         .btn-reversal { background-color: var(--warning-color); padding: 4px 8px; font-size: 11px; width: auto; }
@@ -283,6 +285,19 @@
             border-radius: 6px;
             margin: 4px 0;
             border: 1px solid #eee;
+        }
+
+        /* Modal styling for Edit Staff */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000;
+        }
+        .modal-box {
+            background: white; padding: 20px; border-radius: 10px;
+            width: 90%; max-width: 400px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
         .hidden { display: none !important; }
@@ -399,7 +414,7 @@
 
             <!-- User Accounts Table (Admin Only) -->
             <div id="adminUserControlSection" style="margin-top:20px;" class="hidden">
-                <h4 style="color:var(--cbe-purple); margin-bottom:5px;">👥 የሰራተኞች አካውንት፣ ዩዘርኔም እና ፓስወርድ መቆጣጠሪያ (Reset Menu)</h4>
+                <h4 style="color:var(--cbe-purple); margin-bottom:5px;">👥 የሰራተኞች አካውንት፣ ዩዘርኔም እና ስም ማስተካከያ (Edit/Reset Menu)</h4>
                 <div style="overflow-x:auto;">
                     <table class="user-list-table">
                         <thead>
@@ -408,7 +423,7 @@
                                 <th>Username</th>
                                 <th>Password</th>
                                 <th>ሚና (Role)</th>
-                                <th>እርምጃ</th>
+                                <th>እርምጃ (Action)</th>
                             </tr>
                         </thead>
                         <tbody id="userListTableBody">
@@ -416,6 +431,36 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+
+        <!-- Edit Staff User Modal -->
+        <div id="editUserModal" class="modal-overlay hidden">
+            <div class="modal-box">
+                <h3 style="color:var(--cbe-purple); margin-top:0;">✏️ የሰራተኛ መረጃ ማስተካከያ</h3>
+                <form id="editUserForm">
+                    <input type="hidden" id="editOriginalKey">
+                    <div class="form-group">
+                        <label for="editStaffName">የሰራተኛው ሙሉ ስም</label>
+                        <input type="text" id="editStaffName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editUsername">የተጠቃሚ ስም (Username)</label>
+                        <input type="text" id="editUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editRole">ሚና (Role)</label>
+                        <select id="editRole" required>
+                            <option value="Staff">Staff</option>
+                            <option value="Approver">Approver</option>
+                            <option value="SuperAdmin">SuperAdmin</option>
+                        </select>
+                    </div>
+                    <div class="grid-2" style="margin-top:15px;">
+                        <button type="submit">ለውጦችን መዝግብ</button>
+                        <button type="button" onclick="closeEditModal()" style="background:#777;">ሰርዝ</button>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -573,8 +618,8 @@
 </div>
 
 <script>
-    // Staff List - Replaced with requested exact names
-    const allExcelStaff = [
+    // Initial Staff List
+    let allExcelStaff = [
         "Fiseha legesse",
         "Asrat Zewudu",
         "Dawit solomon",
@@ -611,7 +656,7 @@
         { phone: "+251922000000", raw: "+251 92 200 0000", name: "Seid adem" }
     ];
 
-    // Default users database updated with replaced names
+    // Default users database
     const defaultUsersDatabase = {
         "fiseha": { name: "Fiseha legesse", role: "SuperAdmin", pass: "1234" },
         "dawit": { name: "Dawit solomon", role: "Approver", pass: "1234" },
@@ -621,12 +666,12 @@
     };
 
     function getUsersDB() {
-        const savedDB = localStorage.getItem('cbe_users_db_v9');
+        const savedDB = localStorage.getItem('cbe_users_db_v10');
         return savedDB ? JSON.parse(savedDB) : defaultUsersDatabase;
     }
 
     function saveUsersDB(db) {
-        localStorage.setItem('cbe_users_db_v9', JSON.stringify(db));
+        localStorage.setItem('cbe_users_db_v10', JSON.stringify(db));
     }
 
     let currentUserSession = null;
@@ -637,7 +682,7 @@
         document.getElementById('weekDate').valueAsDate = new Date();
         populateStaffDropdown();
         
-        const savedSession = localStorage.getItem('cbe_user_session_v9');
+        const savedSession = localStorage.getItem('cbe_user_session_v10');
         if (savedSession) {
             const parsedData = JSON.parse(savedSession);
             currentUserSession = parsedData.session;
@@ -651,7 +696,13 @@
     function populateStaffDropdown() {
         const select = document.getElementById('staffNameSelect');
         select.innerHTML = '<option value="" disabled selected>-- ሰራተኛ ይምረጡ --</option>';
-        allExcelStaff.forEach(name => {
+        
+        // Dynamically get staff names from active DB + Default array
+        const db = getUsersDB();
+        let dynamicStaff = new Set(allExcelStaff);
+        Object.values(db).forEach(u => dynamicStaff.add(u.name));
+
+        dynamicStaff.forEach(name => {
             const opt = document.createElement('option');
             opt.value = name;
             opt.innerText = name;
@@ -668,7 +719,7 @@
         if (db[userKey] && db[userKey].pass === passKey) {
             currentUserSession = db[userKey];
             currentUsernameKey = userKey;
-            localStorage.setItem('cbe_user_session_v9', JSON.stringify({ session: currentUserSession, usernameKey: userKey }));
+            localStorage.setItem('cbe_user_session_v10', JSON.stringify({ session: currentUserSession, usernameKey: userKey }));
             initDashboard();
         } else {
             alert('የተሳሳተ የተጠቃሚ ስም ወይም ይለፍ ቃል!');
@@ -676,7 +727,7 @@
     });
 
     function logout() {
-        localStorage.removeItem('cbe_user_session_v9');
+        localStorage.removeItem('cbe_user_session_v10');
         currentUserSession = null;
         currentUsernameKey = null;
         document.getElementById('appSection').classList.add('hidden');
@@ -760,12 +811,72 @@
                 <td><span style="background:#eee; padding:2px 6px; border-radius:4px; font-family:monospace;">${escapeHtml(user.pass)}</span></td>
                 <td><span class="badge">${escapeHtml(user.role)}</span></td>
                 <td>
+                    <button type="button" class="btn-edit" onclick="openEditModal('${userKey}')">✏️ Edit</button>
                     <button type="button" class="btn-reversal" style="font-size:10px; padding:2px 6px;" onclick="resetUserPassword('${userKey}')">🔄 Reset Pass</button>
                 </td>
             `;
             tbody.appendChild(tr);
         });
     }
+
+    // --- Staff Edit Functions ---
+    function openEditModal(userKey) {
+        const db = getUsersDB();
+        const user = db[userKey];
+        if (!user) return;
+
+        document.getElementById('editOriginalKey').value = userKey;
+        document.getElementById('editStaffName').value = user.name;
+        document.getElementById('editUsername').value = userKey;
+        document.getElementById('editRole').value = user.role;
+
+        document.getElementById('editUserModal').classList.remove('hidden');
+    }
+
+    function closeEditModal() {
+        document.getElementById('editUserModal').classList.add('hidden');
+        document.getElementById('editUserForm').reset();
+    }
+
+    document.getElementById('editUserForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const origKey = document.getElementById('editOriginalKey').value;
+        const newName = document.getElementById('editStaffName').value.trim();
+        const newUsername = document.getElementById('editUsername').value.trim().toLowerCase();
+        const newRole = document.getElementById('editRole').value;
+
+        let db = getUsersDB();
+
+        if (newUsername !== origKey && db[newUsername]) {
+            alert('ይህ የተጠቃሚ ስም (Username) ቀደም ሲል በስራ ላይ ውሏል! እባክዎን ሌላ ይምረጡ።');
+            return;
+        }
+
+        const oldUserObj = db[origKey];
+        delete db[origKey];
+
+        db[newUsername] = {
+            name: newName,
+            role: newRole,
+            pass: oldUserObj.pass
+        };
+
+        saveUsersDB(db);
+
+        // Update active session if edited self
+        if (origKey === currentUsernameKey) {
+            currentUserSession = db[newUsername];
+            currentUsernameKey = newUsername;
+            localStorage.setItem('cbe_user_session_v10', JSON.stringify({ session: currentUserSession, usernameKey: newUsername }));
+            document.getElementById('activeUserName').innerText = newName;
+            document.getElementById('activeUserRole').innerText = newRole;
+        }
+
+        populateStaffDropdown();
+        renderUserTable();
+        closeEditModal();
+        alert('የሰራተኛው መረጃ በተሳካ ሁኔታ ተስተካክሏል!');
+    });
 
     function resetUserPassword(userKey) {
         if (confirm(`የተጠቃሚ "${userKey}" ይለፍ ቃል ወደ "1234" መመለስ ይፈልጋሉ?`)) {
@@ -950,7 +1061,6 @@
         });
     }
 
-    // Logic to Calculate & Display the Best Performer of the Week Menu
     function calculateBestPerformer(reports) {
         const approvedReports = reports.filter(r => r.status === 'Approved');
         const contentDiv = document.getElementById('bestPerformerContent');
@@ -989,7 +1099,6 @@
         Object.keys(staffPerformance).forEach(name => {
             let sp = staffPerformance[name];
             let avgAch = sp.avgAchievement / sp.count;
-            // Weighted Performance Score Calculation
             sp.score = (avgAch * 0.5) + (sp.digitalTotal * 3) + (sp.newAccounts * 5);
             
             if (sp.score > highestScore) {
@@ -1129,7 +1238,6 @@
         link.click();
     }
 
-    // Export to Word with Detailed Narratives & Explanations (ተጨማሪ ማብራሪያ አብሮ የተካተተበት)
     function exportToWord() {
         let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v9') || '[]');
         if (reports.length === 0) return alert('የሚወርድ ሪፖርት የለም!');
