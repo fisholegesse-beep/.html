@@ -244,20 +244,21 @@
             justify-content: space-between;
         }
 
-        .phone-list-table {
+        .phone-list-table, .user-list-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 12px;
             margin-top: 8px;
         }
 
-        .phone-list-table th, .phone-list-table td {
+        .phone-list-table th, .phone-list-table td,
+        .user-list-table th, .user-list-table td {
             border: 1px solid #e0e0e0;
             padding: 6px 8px;
             text-align: left;
         }
 
-        .phone-list-table th {
+        .phone-list-table th, .user-list-table th {
             background-color: #f3e5f5;
             color: var(--cbe-purple);
         }
@@ -368,8 +369,8 @@
             </form>
         </div>
 
-        <!-- Admin Only Dashboard Overview (Updated with clear features & metrics) -->
-        <div id="adminDashboardCard" class="card">
+        <!-- Admin Dashboard Overview & User Accounts Management -->
+        <div id="adminDashboardCard" class="card hidden">
             <h3 style="margin-top:0; color:var(--cbe-purple);">📊 የቅርንጫፍ አጠቃላይ አፈፃፀም (አድሚን ዳሽቦርድ)</h3>
             
             <!-- Overall Totals Grid -->
@@ -407,10 +408,31 @@
                     <div class="number" id="reversalRequestsCount" style="color:var(--cbe-purple);">0</div>
                 </div>
             </div>
+
+            <!-- User Accounts Table (Admin Only) -->
+            <div id="adminUserControlSection" style="margin-top:20px;" class="hidden">
+                <h4 style="color:var(--cbe-purple); margin-bottom:5px;">👥 የሰራተኞች አካውንት፣ ዩዘርኔም እና ፓስወርድ መቆጣጠሪያ</h4>
+                <div style="overflow-x:auto;">
+                    <table class="user-list-table">
+                        <thead>
+                            <tr>
+                                <th>የሰራተኛ ስም</th>
+                                <th>Username</th>
+                                <th>Password</th>
+                                <th>ሚና (Role)</th>
+                                <th>እርምጃ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userListTableBody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
-        <!-- Daily 17:30 SMS Reminder System Banner & Controls -->
-        <div id="smsReminderCard" class="card">
+        <!-- SMS Reminder System Card (Admin Only) -->
+        <div id="smsReminderCard" class="card hidden">
             <h3 style="margin-top:0; color:var(--cbe-purple);">📱 የየቀኑ የኤስኤምኤስ (SMS) ማስታወሻ (17:30 / 11:30 ከሰዓት)</h3>
             
             <div class="alarm-banner">
@@ -581,22 +603,22 @@
 <script>
     // Staff Database (Sorted Alphabetically by Name dynamically)
     let staffPhoneNumbers = [
-        { phone: "+251920460844", raw: "+251 92 046 0844", name: "Fisiha Legese (ፍስሀ)" },
-        { phone: "+251921040793", raw: "+251 92 104 0793", name: "Dawit Solomon" },
-        { phone: "+251922895112", raw: "+251 92 289 5112", name: "Sintayehu Degefaw" },
+        { phone: "+251968114058", raw: "+251 96 811 4058", name: "Adem Seid" },
+        { phone: "+251925037481", raw: "+251 92 503 7481", name: "Alemayehu Worku" },
         { phone: "+251908880024", raw: "+251 90 888 0024", name: "Asrat Zewdu" },
-        { phone: "+251968114058", raw: "+25196 811 4058", name: "Adem Seid" },
-        { phone: "+251919988924", raw: "+25191 998 8924", name: "Kebede Tadesse" },
-        { phone: "+251925037481", raw: "+25192 503 7481", name: "Alemayehu Worku" },
-        { phone: "+251991716169", raw: "+25199 171 6169", name: "Betelehem Tsegaye" },
-        { phone: "+251914059999", raw: "+25191 405 9999", name: "Chala Mamo" },
-        { phone: "+251912249499", raw: "+25191 224 9499", name: "Ermias Haile" },
+        { phone: "+251991716169", raw: "+251 99 171 6169", name: "Betelehem Tsegaye" },
+        { phone: "+251914059999", raw: "+251 91 405 9999", name: "Chala Mamo" },
+        { phone: "+251921040793", raw: "+251 92 104 0793", name: "Dawit Solomon" },
+        { phone: "+251912249499", raw: "+251 91 224 9499", name: "Ermias Haile" },
+        { phone: "+251920460844", raw: "+251 92 046 0844", name: "Fisiha Legese (ፍስሀ)" },
         { phone: "+251921455784", raw: "+251 92 145 5784", name: "Genet Assefa" },
-        { phone: "+251920797474", raw: "+25192 079 7474", name: "Hassan Omar" },
+        { phone: "+251920797474", raw: "+251 92 079 7474", name: "Hassan Omar" },
+        { phone: "+251919988924", raw: "+251 91 998 8924", name: "Kebede Tadesse" },
+        { phone: "+251922895112", raw: "+251 92 289 5112", name: "Sintayehu Degefaw" },
         { phone: "+251920613498", raw: "+251 92 061 3498", name: "Yonas Mekonnen" }
     ];
 
-    // Alphabetical Sorting Function for Staff
+    // Alphabetical Sorting Function
     staffPhoneNumbers.sort((a, b) => a.name.localeCompare(b.name));
 
     const defaultUsersDatabase = {
@@ -648,7 +670,7 @@
         });
     }
 
-    // Login Form
+    // Login Form Submission
     document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const db = getUsersDB();
@@ -692,21 +714,96 @@
         }
 
         const adminCard = document.getElementById('adminDashboardCard');
+        const smsCard = document.getElementById('smsReminderCard');
         const exportBtns = document.getElementById('exportButtons');
+        const userControlSec = document.getElementById('adminUserControlSection');
 
-        if (currentUserSession.role === 'SuperAdmin' || currentUserSession.role === 'Approver') {
+        const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
+        const isApprover = currentUserSession.role === 'Approver';
+
+        // Visibility Rules
+        if (isSuperAdmin || isApprover) {
             adminCard.classList.remove('hidden');
+            smsCard.classList.remove('hidden'); // SMS card visible to Admin only
             exportBtns.classList.remove('hidden');
         } else {
             adminCard.classList.add('hidden');
+            smsCard.classList.add('hidden'); // Hidden from regular staff
             exportBtns.classList.add('hidden');
+        }
+
+        if (isSuperAdmin) {
+            userControlSec.classList.remove('hidden');
+            renderUserTable();
+        } else {
+            userControlSec.classList.add('hidden');
         }
 
         loadReports();
     }
 
+    /* Password Change for Logged-in User */
     function togglePasswordModal() {
         document.getElementById('passwordCard').classList.toggle('hidden');
+    }
+
+    document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const currentPass = document.getElementById('currentPassword').value;
+        const newPass = document.getElementById('newPassword').value;
+        const confirmPass = document.getElementById('confirmPassword').value;
+
+        const db = getUsersDB();
+
+        if (db[currentUsernameKey].pass !== currentPass) {
+            alert('የአሁኑ ይለፍ ቃል የተሳሳተ ነው!');
+            return;
+        }
+
+        if (newPass !== confirmPass) {
+            alert('አዲሱ ይለፍ ቃል እና ማረጋገጫው አይመሳሰሉም!');
+            return;
+        }
+
+        db[currentUsernameKey].pass = newPass;
+        saveUsersDB(db);
+        alert('ይለፍ ቃልዎ በጥሩ ሁኔታ ተቀይሯል!');
+        document.getElementById('changePasswordForm').reset();
+        togglePasswordModal();
+    });
+
+    /* Admin Password Reset Functionality */
+    function renderUserTable() {
+        const db = getUsersDB();
+        const tbody = document.getElementById('userListTableBody');
+        tbody.innerHTML = '';
+
+        Object.keys(db).forEach(userKey => {
+            const user = db[userKey];
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong>${escapeHtml(user.name)}</strong></td>
+                <td><code style="color:var(--cbe-purple); font-weight:bold;">${escapeHtml(userKey)}</code></td>
+                <td><span style="background:#eee; padding:2px 6px; border-radius:4px; font-family:monospace;">${escapeHtml(user.pass)}</span></td>
+                <td><span class="badge">${escapeHtml(user.role)}</span></td>
+                <td>
+                    <button type="button" class="btn-reversal" style="font-size:10px; padding:2px 6px;" onclick="resetUserPassword('${userKey}')">🔄 Reset (1234)</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function resetUserPassword(userKey) {
+        if (confirm(`የተጠቃሚ "${userKey}" ይለፍ ቃል ወደ "1234" መመለስ ይፈልጋሉ?`)) {
+            const db = getUsersDB();
+            if (db[userKey]) {
+                db[userKey].pass = "1234";
+                saveUsersDB(db);
+                alert(`የተጠቃሚ ${userKey} ይለፍ ቃል በስኬት ወደ 1234 ተቀይሯል!`);
+                renderUserTable();
+            }
+        }
     }
 
     /* Phone Table Rendering (Alphabetically Ordered) */
@@ -717,8 +814,8 @@
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${idx + 1}</td>
-                <td><strong>${item.name}</strong></td>
-                <td>${item.raw}</td>
+                <td><strong>${escapeHtml(item.name)}</strong></td>
+                <td>${escapeHtml(item.raw)}</td>
                 <td>
                     <button type="button" class="btn-sms" style="padding:2px 6px; font-size:10px; width:auto;" onclick="sendSingleSms('${item.phone}')">💬 SMS</button>
                 </td>
@@ -758,7 +855,8 @@
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
             
-            document.getElementById('currentTimeDisplay').innerText = `${hours}:${minutes}:${seconds}`;
+            const timeElem = document.getElementById('currentTimeDisplay');
+            if(timeElem) timeElem.innerText = `${hours}:${minutes}:${seconds}`;
 
             if (hours === "17" && minutes === "30" && !alarmTriggeredToday) {
                 alarmTriggeredToday = true;
@@ -843,7 +941,6 @@
 
         reportsList.innerHTML = '';
         visibleReports.forEach(report => {
-            const stars = '⭐'.repeat(parseInt(report.rating));
             const item = document.createElement('div');
             item.className = 'report-item';
 
@@ -940,7 +1037,6 @@
     function updateDashboard(reports) {
         const todayStr = new Date().toISOString().slice(0,10);
         
-        // Dynamic Admin Metrics
         const todayCount = reports.filter(r => r.weekDate === todayStr).length;
         const pendingCount = reports.filter(r => r.status === 'Pending').length;
         const reversalCount = reports.filter(r => r.status === 'Reversal_Requested').length;
