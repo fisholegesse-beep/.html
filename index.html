@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="am">
+<html lang="am" class="notranslate" translate="no">
 <head>
     <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ የሥራ አፈፃፀም ዳሽቦርድ</title>
     <style>
@@ -300,6 +301,7 @@
         .modal-box {
             background: white; padding: 20px; border-radius: 10px;
             width: 90%; max-width: 450px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            max-height: 85vh; overflow-y: auto;
         }
 
         /* Printable Certificate Styling */
@@ -376,7 +378,7 @@
         .hidden { display: none !important; }
     </style>
 </head>
-<body>
+<body class="notranslate">
 
 <div class="container">
 
@@ -522,7 +524,10 @@
 
             <!-- User Accounts Table (Admin Only) -->
             <div id="adminUserControlSection" style="margin-top:20px;" class="hidden">
-                <h4 style="color:var(--cbe-purple); margin-bottom:5px;">👥 የሰራተኞች አካውንት፣ ዩዘርኔም እና ስም ማስተካከያ (Edit/Reset Menu)</h4>
+                <div style="display:flex; justify-style:space-between; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
+                    <h4 style="color:var(--cbe-purple); margin:0;">👥 የሰራተኞች አካውንት፣ ዩዘርኔም እና ስም ማስተካከያ (Edit/Reset Menu)</h4>
+                    <button type="button" class="btn-excel" style="width:auto; padding:5px 12px; font-size:11px;" onclick="openManageDropdownModal()">⚙️ የድሮፕ ዳውን ስሞችን ብቻ አስተካክል</button>
+                </div>
                 <div style="overflow-x:auto;">
                     <table class="user-list-table">
                         <thead>
@@ -572,6 +577,29 @@
             </div>
         </div>
 
+        <!-- Dedicated Dropdown Manager Modal -->
+        <div id="manageDropdownModal" class="modal-overlay hidden">
+            <div class="modal-box">
+                <h3 style="color:var(--cbe-purple); margin-top:0;">⚙️ የሰራተኞች ድሮፕዳውን ስም አስተካክል</h3>
+                <p style="font-size:11px; color:#666;">በሪፖርት መሙያ ዝርዝር (Dropdown) ውስጥ የሚታዩ ስሞችን እዚህ ማከል፣ ማስተካከል ወይም መሰረዝ ይችላሉ።</p>
+                
+                <div style="display:flex; gap:6px; margin-bottom:12px;">
+                    <input type="text" id="newStaffDropdownInput" placeholder="አዲስ የሰራተኛ ስም ያስገቡ">
+                    <button type="button" onclick="addNewDropdownStaff()" style="width:auto; padding:6px 12px; white-space:nowrap;">➕ ጨምር</button>
+                </div>
+
+                <div style="max-height: 250px; overflow-y: auto; border: 1px solid #eee; border-radius:6px; padding:6px;">
+                    <ul id="dropdownStaffListUI" style="list-style:none; padding:0; margin:0;">
+                        <!-- JS populated -->
+                    </ul>
+                </div>
+
+                <div style="margin-top:15px;">
+                    <button type="button" onclick="closeManageDropdownModal()" style="background:#777;">ዝጋ (Done)</button>
+                </div>
+            </div>
+        </div>
+
         <!-- SMS Reminder System Card (SuperAdmin Only - Bulk Only) -->
         <div id="smsReminderCard" class="card hidden">
             <h3 style="margin-top:0; color:var(--cbe-purple);">📱 የየቀኑ የኤስኤምኤስ (SMS) በጥቅል መላኪያ ማስታወሻ</h3>
@@ -604,7 +632,7 @@
                 <div class="form-group grid-2">
                     <div>
                         <label for="staffNameSelect">የሰራተኛው ስም</label>
-                        <select id="staffNameSelect" required>
+                        <select id="staffNameSelect" class="notranslate" translate="no" required>
                             <!-- Populated dynamically by JS based on user role -->
                         </select>
                     </div>
@@ -726,7 +754,7 @@
 </div>
 
 <script>
-    let allExcelStaff = [
+    const defaultExcelStaff = [
         "Fiseha legesse",
         "Asrat Zewudu",
         "Dawit solomon",
@@ -743,6 +771,15 @@
         "Ayitenew Dereje",
         "Dagmawit Afework"
     ];
+
+    function getCustomStaffList() {
+        const saved = localStorage.getItem('cbe_custom_staff_list_v1');
+        return saved ? JSON.parse(saved) : defaultExcelStaff;
+    }
+
+    function saveCustomStaffList(list) {
+        localStorage.setItem('cbe_custom_staff_list_v1', JSON.stringify(list));
+    }
 
     let staffPhoneNumbers = [
         { phone: "+251925037481", raw: "+251 92 503 7481", name: "Ayitenew Dereje" },
@@ -807,11 +844,12 @@
         const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
         const isApprover = currentUserSession.role === 'Approver';
 
-        // አድሚን ወይም አፕሩቨር ከሆነ የሁሉም ሰራተኞች ዝርዝር ይታያል
         if (isSuperAdmin || isApprover) {
             select.innerHTML = '<option value="" disabled selected>-- ሰራተኛ ይምረጡ (አድሚን) --</option>';
             const db = getUsersDB();
-            let dynamicStaff = new Set(allExcelStaff);
+            const staffList = getCustomStaffList();
+            
+            let dynamicStaff = new Set(staffList);
             Object.values(db).forEach(u => dynamicStaff.add(u.name));
 
             dynamicStaff.forEach(name => {
@@ -822,7 +860,6 @@
             });
             select.disabled = false;
         } else {
-            // ተራ ሰራተኛ ከሆነ የራሱ ስም ብቻ በስተመጨረሻ ተመርጦ ይታያል፣ እንዳይቀይረውም ይቆለፋል (Disabled)
             const opt = document.createElement('option');
             opt.value = currentUserSession.name;
             opt.innerText = currentUserSession.name;
@@ -942,6 +979,72 @@
         });
     }
 
+    /* --- Modal & Dropdown Management Functions --- */
+    function openManageDropdownModal() {
+        renderDropdownManagerList();
+        document.getElementById('manageDropdownModal').classList.remove('hidden');
+    }
+
+    function closeManageDropdownModal() {
+        document.getElementById('manageDropdownModal').classList.add('hidden');
+    }
+
+    function renderDropdownManagerList() {
+        const ul = document.getElementById('dropdownStaffListUI');
+        ul.innerHTML = '';
+        const list = getCustomStaffList();
+
+        list.forEach((name, index) => {
+            const li = document.createElement('li');
+            li.style.cssText = "display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #eee;";
+            li.innerHTML = `
+                <span style="font-size:13px;">${escapeHtml(name)}</span>
+                <div>
+                    <button type="button" class="btn-edit" style="font-size:10px; padding:2px 5px;" onclick="editDropdownStaffName(${index})">✏️ ቀይር</button>
+                    <button type="button" class="btn-reject" style="font-size:10px; padding:2px 5px;" onclick="deleteDropdownStaffName(${index})">🗑</button>
+                </div>
+            `;
+            ul.appendChild(li);
+        });
+    }
+
+    function addNewDropdownStaff() {
+        const input = document.getElementById('newStaffDropdownInput');
+        const newName = input.value.trim();
+        if (!newName) return alert('እባክዎን ስም ያስገቡ!');
+
+        let list = getCustomStaffList();
+        if (list.includes(newName)) return alert('ይህ ስም ቀደም ሲል በዝርዝሩ ውስጥ አለ!');
+
+        list.push(newName);
+        saveCustomStaffList(list);
+        input.value = '';
+        renderDropdownManagerList();
+        populateStaffDropdown();
+    }
+
+    function editDropdownStaffName(index) {
+        let list = getCustomStaffList();
+        const oldName = list[index];
+        const updatedName = prompt("የሰራተኛውን ስም ያስተካክሉ:", oldName);
+
+        if (updatedName && updatedName.trim() !== "") {
+            list[index] = updatedName.trim();
+            saveCustomStaffList(list);
+            renderDropdownManagerList();
+            populateStaffDropdown();
+        }
+    }
+
+    function deleteDropdownStaffName(index) {
+        if (!confirm("እርግጠኛ ነዎት ይህን ስም ከድሮፕዳውን ዝርዝር መሰረዝ ይፈልጋሉ?")) return;
+        let list = getCustomStaffList();
+        list.splice(index, 1);
+        saveCustomStaffList(list);
+        renderDropdownManagerList();
+        populateStaffDropdown();
+    }
+
     // --- Staff Edit Functions ---
     function openEditModal(userKey) {
         const db = getUsersDB();
@@ -1051,7 +1154,6 @@
     reportForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        // ሪፖርት በሚላክበት ጊዜ ስሙ የሚወሰደው በሲስተሙ ከተፈቀደው dropdown ነው
         const selectElem = document.getElementById('staffNameSelect');
         const selectedStaffName = selectElem.value || currentUserSession.name;
 
@@ -1163,7 +1265,7 @@
 
             item.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <strong style="color: var(--cbe-purple); font-size:13px;">${escapeHtml(report.staffName)}</strong>
+                    <strong style="color: var(--cbe-purple); font-size:13px;" class="notranslate" translate="no">${escapeHtml(report.staffName)}</strong>
                     <div>
                         <span class="status-badge ${statusClass}">${statusText}</span>
                         <span class="badge">${escapeHtml(report.weekDate)}</span>
@@ -1236,7 +1338,7 @@
             contentDiv.innerHTML = `
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
                     <div>
-                        <h4 style="margin:0; font-size:16px; color:var(--cbe-dark);">🎖️ <strong>${escapeHtml(best.name)}</strong></h4>
+                        <h4 style="margin:0; font-size:16px; color:var(--cbe-dark);">🎖️ <strong class="notranslate" translate="no">${escapeHtml(best.name)}</strong></h4>
                         <p style="margin:4px 0 0 0; font-size:12px; color:#555;">
                             አማካኝ አፈፃፀም: <strong>${(best.avgAchievement / best.count).toFixed(2)}%</strong> | 
                             የተሰበሰበ የተቀማጭ ገንዘብ: <strong>${best.totalDeposit.toLocaleString('en-US')} ብር</strong>
@@ -1253,7 +1355,6 @@
         }
     }
 
-    // --- Certificate Modal Functions ---
     function openCertModal(staffName) {
         document.getElementById('certStaffName').innerText = staffName;
         const today = new Date().toLocaleDateString('en-GB');
