@@ -522,7 +522,11 @@
         <h3 style="color: var(--cbe-purple); margin-top:0;">✏️ የተጠቃሚ መረጃ ማስተካከያ (SuperAdmin)</h3>
         <input type="hidden" id="editUserKeyTarget">
         <div class="form-group">
-            <label>የሰራተኛ ስም (Name)</label>
+            <label>የተጠቃሚ ስም (Username)</label>
+            <input type="text" id="editUsernameInput">
+        </div>
+        <div class="form-group">
+            <label>የሰራተኛ ሙሉ ስም (Full Name)</label>
             <input type="text" id="editFullnameInput">
         </div>
         <div class="form-group">
@@ -931,7 +935,6 @@
             select.appendChild(opt);
         });
 
-        // Ensure element is enabled for all valid users
         select.disabled = false;
     }
 
@@ -1139,6 +1142,7 @@
         const user = db[userKey];
 
         document.getElementById('editUserKeyTarget').value = userKey;
+        document.getElementById('editUsernameInput').value = userKey;
         document.getElementById('editFullnameInput').value = user.name;
         document.getElementById('editPasswordInput').value = user.pass;
         document.getElementById('editRoleSelect').value = user.role;
@@ -1151,27 +1155,50 @@
     }
 
     function saveUserEditDetails() {
-        const userKey = document.getElementById('editUserKeyTarget').value;
+        const oldUserKey = document.getElementById('editUserKeyTarget').value;
+        const newUsername = document.getElementById('editUsernameInput').value.trim().toLowerCase();
         const newName = document.getElementById('editFullnameInput').value.trim();
         const newPass = document.getElementById('editPasswordInput').value.trim();
         const newRole = document.getElementById('editRoleSelect').value;
 
-        if (!newName || !newPass) {
+        if (!newUsername || !newName || !newPass) {
             alert("እባክዎን ሁሉንም መስኮች ያሟሉ!");
             return;
         }
 
         const db = getUsersDB();
-        if (db[userKey]) {
-            db[userKey].name = newName;
-            db[userKey].pass = newPass;
-            db[userKey].role = newRole;
 
-            saveUsersDB(db);
-            renderUserTable();
-            closeEditUserModal();
-            alert("የተጠቃሚው መረጃ በተሳካ ሁኔታ ተስተካክሏል!");
+        // ዩዘርኔም ከተቀየረ እና አዲሱ ዩዘርኔም ሌላ ሰው ላይ ካለ ማረጋገጥ
+        if (newUsername !== oldUserKey && db[newUsername]) {
+            alert("ይህ Username ቀደም ብሎ ተይዟል! እባክዎን ሌላ ይምረጡ።");
+            return;
         }
+
+        // ዳታቤዙን ማዘመን
+        const userObject = {
+            name: newName,
+            pass: newPass,
+            role: newRole
+        };
+
+        if (newUsername !== oldUserKey) {
+            delete db[oldUserKey];
+        }
+        db[newUsername] = userObject;
+
+        // የአሁኑ ሰራተኛ የራሱን አካውንት ከቀየረ ሴሽኑን ማዘመን
+        if (currentUsernameKey === oldUserKey) {
+            currentUsernameKey = newUsername;
+            currentUserSession = userObject;
+            localStorage.setItem('cbe_user_session_v11', JSON.stringify({ session: currentUserSession, usernameKey: newUsername }));
+            document.getElementById('activeUserName').innerText = newName;
+            document.getElementById('activeUserRole').innerText = newRole;
+        }
+
+        saveUsersDB(db);
+        renderUserTable();
+        closeEditUserModal();
+        alert("የተጠቃሚው መረጃ (Username፣ ስም እና ሚና) በተሳካ ሁኔታ ተስተካክሏል!");
     }
 </script>
 
