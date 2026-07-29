@@ -411,7 +411,7 @@
         <div class="card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                 <h3 style="margin:0; color:var(--cbe-purple);" id="txt_form_title">📝 አዲስ የሰራተኛ ሪፖርት መሙያ</h3>
-                <!-- Manage Staff List Button - hidden by default for non-admins -->
+                <!-- Manage Staff List Button - Visible ONLY to SuperAdmin -->
                 <button type="button" class="btn-excel hidden" style="width:auto; padding:5px 12px; font-size:11px;" onclick="openManageDropdownModal()" id="btn_manage_dropdown">⚙️ የድሮፕ ዳውን ስሞችን አስተካክል</button>
             </div>
             
@@ -717,13 +717,11 @@
     }
 
     function openManageDropdownModal() {
-        const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
-        const isApprover = currentUserSession.role === 'Approver';
-        
-        if (isSuperAdmin || isApprover) {
+        // Restricted ONLY to SuperAdmin
+        if (currentUserSession.role === 'SuperAdmin') {
             alert(currentLang === 'am' ? 'የሰራተኞች ድሮፕ ዳውን ማስተካከያ ይከፈታል...' : 'Opening Staff Dropdown Manager...');
         } else {
-            alert(currentLang === 'am' ? 'ይህንን ለማድረግ ፈቃድ የለዎትም!' : 'Access denied! Only admins can perform this action.');
+            alert(currentLang === 'am' ? 'ይህንን ለማድረግ ፈቃድ የለዎትም!' : 'Access denied! Only SuperAdmin can perform this action.');
         }
     }
 
@@ -743,21 +741,26 @@
         const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
         const isApprover = currentUserSession.role === 'Approver';
 
-        // 1. Manage Staff List setting toggle (Enabled for Approver and SuperAdmin)
+        // Display Admin View / Export options for SuperAdmin & Approver
         if (isSuperAdmin || isApprover) {
             adminCard.classList.remove('hidden');
             exportBtns.classList.remove('hidden');
             userControlSec.classList.remove('hidden');
-            manageDropdownBtn.classList.remove('hidden');
             renderUserTable();
         } else {
             adminCard.classList.add('hidden');
             exportBtns.classList.add('hidden');
             userControlSec.classList.add('hidden');
+        }
+
+        // Manage Staff List Dropdown Button enabled ONLY for SuperAdmin (Hidden for Approver and Staff)
+        if (isSuperAdmin) {
+            manageDropdownBtn.classList.remove('hidden');
+        } else {
             manageDropdownBtn.classList.add('hidden');
         }
 
-        // 2. Branch Creator toggle (Enabled ONLY for SuperAdmin)
+        // Branch Creator toggle (Enabled ONLY for SuperAdmin)
         if (isSuperAdmin) {
             branchCreatorSec.classList.remove('hidden');
         } else {
