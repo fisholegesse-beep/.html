@@ -138,18 +138,6 @@
             border: 1px solid #e1d5e7;
         }
 
-        .stat-box.admin-metric {
-            background: #eefbe7;
-            border-color: #c8e6c9;
-        }
-
-        .stat-box h4 {
-            margin: 0;
-            font-size: 11px;
-            color: #555;
-            text-transform: uppercase;
-        }
-
         .stat-box .number {
             font-size: 18px;
             font-weight: bold;
@@ -196,15 +184,12 @@
         button:hover { background-color: var(--cbe-dark); }
         .btn-excel { background-color: #1d6f42; }
         .btn-word { background-color: #2b579a; }
-        .btn-sms { background-color: #0288d1; }
-        .btn-cert { background-color: #d4af37; color: #33004b; font-weight: bold; }
         .btn-logout { background-color: var(--danger-color); padding: 5px 10px; font-size: 11px; width: auto; }
         .btn-pwd { background-color: var(--cbe-purple); padding: 5px 10px; font-size: 11px; width: auto; }
-        .btn-edit { background-color: #f39c12; color: white; padding: 3px 7px; font-size: 11px; width: auto; margin-right: 3px; }
-        .btn-delete { background-color: var(--danger-color); color: white; padding: 3px 7px; font-size: 11px; width: auto; }
+        .btn-edit { background-color: #f39c12; color: white; padding: 4px 8px; font-size: 11px; width: auto; margin-right: 3px; cursor: pointer; border-radius:4px; }
+        .btn-delete { background-color: var(--danger-color); color: white; padding: 4px 8px; font-size: 11px; width: auto; cursor: pointer; border-radius:4px; }
         .btn-approve { background-color: var(--success-color); padding: 4px 8px; font-size: 11px; width: auto; }
         .btn-reject { background-color: var(--danger-color); padding: 4px 8px; font-size: 11px; width: auto; }
-        .btn-reversal { background-color: var(--warning-color); padding: 4px 8px; font-size: 11px; width: auto; }
 
         .section-title {
             background: #f3e5f5;
@@ -375,7 +360,7 @@
                 </div>
             </div>
 
-            <!-- Branch / Zone Creator Section (SuperAdmin Only) -->
+            <!-- Branch Creator Section (SuperAdmin Only) -->
             <div id="branchCreatorSection" style="margin-top:15px; background:#f9f4fc; padding:10px; border-radius:8px;" class="hidden">
                 <h4 style="margin:0 0 8px 0; color:var(--cbe-purple);" id="txt_branch_mgr_title">🏛️ አዲስ ቅርንጫፍ / ዘፍ መፍጠሪያ (Branch/Zone Creator)</h4>
                 <div style="display:flex; gap:8px;">
@@ -387,7 +372,7 @@
                 </div>
             </div>
 
-            <!-- User Accounts Table -->
+            <!-- User Accounts Table (SuperAdmin Controls) -->
             <div id="adminUserControlSection" style="margin-top:20px;" class="hidden">
                 <h4 style="color:var(--cbe-purple); margin:0 0 8px 0;" id="txt_user_control_title">👥 የሰራተኞች አካውንት፣ ዩዘርኔም እና ስም ማስተካከያ</h4>
                 <div style="overflow-x:auto;">
@@ -527,6 +512,34 @@
 
         <div style="margin-top: 15px; text-align: right;">
             <button type="button" onclick="closeManageDropdownModal()" style="background:#777; width:auto; padding:6px 15px;">ዝጋ</button>
+        </div>
+    </div>
+</div>
+
+<!-- Edit User Modal for SuperAdmin -->
+<div id="editUserModal" class="modal hidden">
+    <div class="modal-content">
+        <h3 style="color: var(--cbe-purple); margin-top:0;">✏️ የተጠቃሚ መረጃ ማስተካከያ (SuperAdmin)</h3>
+        <input type="hidden" id="editUserKeyTarget">
+        <div class="form-group">
+            <label>የሰራተኛ ስም (Name)</label>
+            <input type="text" id="editFullnameInput">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="text" id="editPasswordInput">
+        </div>
+        <div class="form-group">
+            <label>ሚና (Role)</label>
+            <select id="editRoleSelect">
+                <option value="SuperAdmin">SuperAdmin</option>
+                <option value="Approver">Approver</option>
+                <option value="Staff">Staff</option>
+            </select>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:15px;">
+            <button type="button" onclick="saveUserEditDetails()">💾 አስቀምጥ</button>
+            <button type="button" onclick="closeEditUserModal()" style="background:#777;">ሰርዝ</button>
         </div>
     </div>
 </div>
@@ -774,7 +787,7 @@
 
     /* Dropdown Manager Modal Functions */
     function openManageDropdownModal() {
-        if (currentUserSession.role === 'SuperAdmin') {
+        if (currentUserSession && currentUserSession.role === 'SuperAdmin') {
             document.getElementById('manageDropdownModal').classList.remove('hidden');
             renderDropdownStaffTable();
         } else {
@@ -918,6 +931,7 @@
             select.appendChild(opt);
         });
 
+        // Ensure element is enabled for all valid users
         select.disabled = false;
     }
 
@@ -1091,10 +1105,13 @@
         document.getElementById('passwordCard').classList.toggle('hidden');
     }
 
+    /* User Management by SuperAdmin */
     function renderUserTable() {
         const db = getUsersDB();
         const tbody = document.getElementById('userListTableBody');
         tbody.innerHTML = '';
+
+        const isSuperAdmin = currentUserSession && currentUserSession.role === 'SuperAdmin';
 
         Object.keys(db).forEach(userKey => {
             const user = db[userKey];
@@ -1104,21 +1121,56 @@
                 <td><code style="color:var(--cbe-purple); font-weight:bold;">${escapeHtml(userKey)}</code></td>
                 <td><span style="background:#eee; padding:2px 6px; border-radius:4px;">${escapeHtml(user.pass)}</span></td>
                 <td><span class="badge">${escapeHtml(user.role)}</span></td>
-                <td><button type="button" class="btn-edit" onclick="editUser('${userKey}')">✏️ Edit</button></td>
+                <td>
+                    ${isSuperAdmin ? `<button type="button" class="btn-edit" onclick="editUser('${userKey}')">✏️ Edit</button>` : '<span style="color:#aaa;">No access</span>'}
+                </td>
             `;
             tbody.appendChild(tr);
         });
     }
 
     function editUser(userKey) {
+        if (!currentUserSession || currentUserSession.role !== 'SuperAdmin') {
+            alert("SuperAdmin ብቻ ነው ሰራተኛ ኤዲት ማድረግ የሚችለው!");
+            return;
+        }
+
         const db = getUsersDB();
         const user = db[userKey];
-        const newName = prompt("የተጠቃሚውን ስም ያስተካክሉ፦", user.name);
-        if (newName && newName.trim() !== "") {
-            db[userKey].name = newName.trim();
+
+        document.getElementById('editUserKeyTarget').value = userKey;
+        document.getElementById('editFullnameInput').value = user.name;
+        document.getElementById('editPasswordInput').value = user.pass;
+        document.getElementById('editRoleSelect').value = user.role;
+
+        document.getElementById('editUserModal').classList.remove('hidden');
+    }
+
+    function closeEditUserModal() {
+        document.getElementById('editUserModal').classList.add('hidden');
+    }
+
+    function saveUserEditDetails() {
+        const userKey = document.getElementById('editUserKeyTarget').value;
+        const newName = document.getElementById('editFullnameInput').value.trim();
+        const newPass = document.getElementById('editPasswordInput').value.trim();
+        const newRole = document.getElementById('editRoleSelect').value;
+
+        if (!newName || !newPass) {
+            alert("እባክዎን ሁሉንም መስኮች ያሟሉ!");
+            return;
+        }
+
+        const db = getUsersDB();
+        if (db[userKey]) {
+            db[userKey].name = newName;
+            db[userKey].pass = newPass;
+            db[userKey].role = newRole;
+
             saveUsersDB(db);
             renderUserTable();
-            alert("የተጠቃሚው ስም ተስተካክሏል!");
+            closeEditUserModal();
+            alert("የተጠቃሚው መረጃ በተሳካ ሁኔታ ተስተካክሏል!");
         }
     }
 </script>
