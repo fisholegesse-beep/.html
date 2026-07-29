@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>የቦርከና ቅርንጫፍ የሥራ አፈፃፀም ሪፖርትና ማጽደቂያ ዳሽቦርድ</title>
+    <title>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ የሥራ አፈፃፀም ዳሽቦርድ</title>
     <style>
         :root {
-            --primary-color: #6a1b9a;
-            --secondary-color: #8e24aa;
-            --bg-color: #f4f6f9;
+            --cbe-purple: #5c068c;
+            --cbe-gold: #ffb81c;
+            --cbe-dark: #33004b;
+            --bg-color: #f8f9fa;
             --card-bg: #ffffff;
-            --text-color: #333333;
+            --text-color: #2b2b2b;
             --success-color: #2e7d32;
             --warning-color: #f57c00;
             --danger-color: #c62828;
@@ -28,13 +29,81 @@
 
         .container {
             width: 100%;
-            max-width: 680px;
+            max-width: 720px;
         }
 
-        h2, h3 {
+        /* Header & Logo */
+        .header-box {
+            background: linear-gradient(135deg, var(--cbe-purple), var(--cbe-dark));
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
             text-align: center;
-            color: var(--primary-color);
-            margin-bottom: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+        .header-box img {
+            max-height: 55px;
+            margin-bottom: 8px;
+            background: #fff;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .header-box h2 {
+            margin: 5px 0 2px 0;
+            font-size: 18px;
+            color: var(--cbe-gold);
+        }
+
+        .header-box p {
+            margin: 0;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .user-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ede7f6;
+            padding: 8px 14px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--cbe-purple);
+            border-left: 4px solid var(--cbe-gold);
+        }
+
+        .btn-logout {
+            background-color: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            width: auto;
+        }
+
+        /* Login Card */
+        .login-card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 380px;
+            margin: 40px auto;
+        }
+
+        .login-card h3 {
+            text-align: center;
+            color: var(--cbe-purple);
+            margin-top: 0;
+            margin-bottom: 15px;
         }
 
         .card {
@@ -47,14 +116,14 @@
 
         .section-title {
             background: #f3e5f5;
-            color: var(--primary-color);
+            color: var(--cbe-purple);
             padding: 6px 10px;
             border-radius: 6px;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13px;
             margin-top: 15px;
             margin-bottom: 10px;
-            border-left: 4px solid var(--primary-color);
+            border-left: 4px solid var(--cbe-purple);
         }
 
         .form-group {
@@ -81,31 +150,31 @@
         }
 
         .stat-box {
-            background: #f3e5f5;
+            background: #fdf8ec;
             padding: 12px;
             border-radius: 8px;
             text-align: center;
-            border: 1px solid #e1bee7;
+            border: 1px solid #ffe0b2;
         }
 
         .stat-box h4 {
             margin: 0;
-            font-size: 12px;
-            color: #4a148c;
+            font-size: 11px;
+            color: #e65100;
         }
 
         .stat-box .number {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: bold;
-            color: var(--primary-color);
-            margin-top: 5px;
+            color: var(--cbe-purple);
+            margin-top: 4px;
         }
 
         label {
             display: block;
             font-weight: 600;
             margin-bottom: 4px;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         input, textarea, select {
@@ -119,83 +188,75 @@
 
         textarea {
             resize: vertical;
-            height: 60px;
+            height: 55px;
         }
 
         button {
             width: 100%;
-            background-color: var(--primary-color);
+            background-color: var(--cbe-purple);
             color: white;
             border: none;
             padding: 10px 12px;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
             cursor: pointer;
             margin-top: 8px;
         }
 
         button:hover {
-            background-color: #4a148c;
+            background-color: var(--cbe-dark);
         }
 
-        .btn-excel {
-            background-color: #1d6f42;
-        }
-        .btn-excel:hover {
-            background-color: #155231;
-        }
+        .btn-excel { background-color: #1d6f42; }
+        .btn-excel:hover { background-color: #155231; }
 
-        .btn-word {
-            background-color: #2b579a;
-        }
-        .btn-word:hover {
-            background-color: #1e3d6b;
-        }
+        .btn-word { background-color: #2b579a; }
+        .btn-word:hover { background-color: #1e3d6b; }
 
         .btn-approve {
             background-color: var(--success-color);
-            padding: 6px 10px;
-            font-size: 12px;
+            padding: 5px 8px;
+            font-size: 11px;
             width: auto;
             margin: 2px;
         }
 
         .btn-reject {
             background-color: var(--danger-color);
-            padding: 6px 10px;
-            font-size: 12px;
+            padding: 5px 8px;
+            font-size: 11px;
             width: auto;
             margin: 2px;
         }
 
         .btn-reversal {
             background-color: var(--warning-color);
-            padding: 6px 10px;
-            font-size: 12px;
+            padding: 5px 8px;
+            font-size: 11px;
             width: auto;
             margin: 2px;
         }
 
         .report-item {
             border-bottom: 1px solid #eeeeee;
-            padding: 14px 0;
-            font-size: 13px;
+            padding: 12px 0;
+            font-size: 12px;
         }
 
         .badge {
             background-color: #e1bee7;
-            color: #4a148c;
+            color: var(--cbe-purple);
             padding: 3px 6px;
             border-radius: 4px;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: bold;
         }
 
         .status-badge {
-            padding: 3px 8px;
+            padding: 3px 6px;
             border-radius: 4px;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: bold;
             display: inline-block;
         }
@@ -213,248 +274,274 @@
             border: 1px solid #eee;
         }
 
-        .rating {
-            color: #ff9800;
-            font-weight: bold;
-        }
-
-        .user-switch-box {
-            background: #fff8e1;
-            border: 1px solid #ffe082;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>የቦርከና ቅርንጫፍ የሥራ አፈፃፀም ሪፖርትና ማጽደቂያ ዳሽቦርድ</h2>
 
-    <!-- Role / User Switcher for Testing Approvals -->
-    <div class="user-switch-box">
-        <label for="currentUser">🔐 የአሁን ተጠቃሚ/ሚና (Current User Role):</label>
-        <select id="currentUser" onchange="handleUserChange()">
-            <optgroup label="አፀዳቂዎች (Approvers - ሊያጸድቁ/ሊያስተካክሉ የሚችሉ)">
-                <option value="Dawit Solomon">ዳዊት (Dawit Solomon)</option>
-                <option value="Sintayehu Degefaw">ስንታየሁ (Sintayehu Degefaw)</option>
-                <option value="Fisiha Legese">ፈስሀ (Fisiha Legese)</option>
-                <option value="Asrat Zewdu">አስራት (Asrat Zewdu)</option>
-            </optgroup>
-            <optgroup label="ሌሎች ሰራተኞች (Staff / Reporters)">
-                <option value="Adem Seid">Adem Seid</option>
-                <option value="Mulugeta Shume">Mulugeta Shume</option>
-                <option value="Gedion Yohans">Gedion Yohans</option>
-                <option value="Hermela Getachew">Hermela Getachew</option>
-                <option value="Mengistu Mule">Mengistu Mule</option>
-                <option value="Jemal Seid">Jemal Seid</option>
-                <option value="Aytenew Dereje">Aytenew Dereje</option>
-                <option value="Eshetu Melese">Eshetu Melese</option>
-                <option value="Sosna Tadesse">Sosna Tadesse</option>
-                <option value="Seid Adem">Seid Adem</option>
-                <option value="Dagmawit Afework">Dagmawit Afework</option>
-                <option value="Giyons Tadesse">Giyons Tadesse</option>
-                <option value="Seada Hussen">Seada Hussen</option>
-                <option value="Amare Mola">Amare Mola</option>
-            </optgroup>
-        </select>
-        <small style="color: #d84315; display: block; margin-top: 4px;" id="roleInfoNote"></small>
+    <!-- CBE Header -->
+    <div class="header-box">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/Commercial_Bank_of_Ethiopia_logo.png" alt="CBE Logo" onerror="this.src='https://via.placeholder.com/150x50?text=CBE+Logo'">
+        <h2>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h2>
+        <p>የሥራ አፈፃፀም ሪፖርት ማቅረቢያ እና ማጽደቂያ ሲስተም</p>
     </div>
 
-    <!-- Manager Dashboard Section -->
-    <div class="card">
-        <h3>📊 የስራ አስኪያጅ መከታተያ ዳሽቦርድ</h3>
-        <div class="dashboard-grid">
-            <div class="stat-box">
-                <h4>ጠቅላላ Valid Actual Deposit (ብር)</h4>
-                <div class="number" id="totalDepositVal">0.00</div>
+    <!-- Login Section -->
+    <div id="loginSection" class="login-card">
+        <h3>🔐 የሲስተም መግቢያ</h3>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">የተጠቃሚ ስም (Username)</label>
+                <input type="text" id="username" placeholder="ስምዎን ያስገቡ" required>
             </div>
-            <div class="stat-box">
-                <h4>አማካኝ አፈፃፀም (% achievement)</h4>
-                <div class="number" id="avgAchievementVal">0%</div>
+            <div class="form-group">
+                <label for="password">ይለፍ ቃል (Password)</label>
+                <input type="password" id="password" placeholder="******" required>
             </div>
-            <div class="stat-box">
-                <h4>የጸደቁ አዳዲስ ሂሳቦች</h4>
-                <div class="number" id="totalAccountsVal">0</div>
-            </div>
-            <div class="stat-box">
-                <h4>ጠቅላላ የዲጂታል ባንኪንግ ብዛት</h4>
-                <div class="number" id="totalDigitalVal">0</div>
-            </div>
+            <button type="submit">ይግቡ (Login)</button>
+        </form>
+        <div style="margin-top: 15px; font-size: 11px; color: #666; background: #f0f0f0; padding: 8px; border-radius: 6px;">
+            <strong>መግቢያ መረጃዎች:</strong><br>
+            • ፍስሀ (Super Admin): <code>fisiha</code> / <code>1234</code><br>
+            • አፀዳቂዎች (Dawit, Sintayehu, Asrat): <code>dawit</code>, <code>sintayehu</code>, <code>asrat</code> / <code>1234</code><br>
+            • ሌሎች ሰራተኞች: <code>staff</code> / <code>1234</code>
         </div>
     </div>
 
-    <!-- Form Section -->
-    <div class="card">
-        <h3>አዲስ የሰራተኛ ሪፖርት መሙያ</h3>
-        <form id="reportForm">
-            
-            <div class="form-group grid-2">
-                <div>
-                    <label for="staffName">የሰራተኛው ስም</label>
-                    <select id="staffName" required>
-                        <option value="">ስም ይምረጡ</option>
-                        <option value="1. Adem Seid">1. Adem Seid</option>
-                        <option value="2. Mulugeta Shume">2. Mulugeta Shume</option>
-                        <option value="3. Gedion Yohans">3. Gedion Yohans</option>
-                        <option value="4. Hermela Getachew">4. Hermela Getachew</option>
-                        <option value="5. Mengistu Mule">5. Mengistu Mule</option>
-                        <option value="6. Jemal Seid">6. Jemal Seid</option>
-                        <option value="7. Aytenew Dereje">7. Aytenew Dereje</option>
-                        <option value="8. Eshetu Melese">8. Eshetu Melese</option>
-                        <option value="9. Sosna Tadesse">9. Sosna Tadesse</option>
-                        <option value="10. Seid Adem">10. Seid Adem</option>
-                        <option value="11. Dagmawit Afework">11. Dagmawit Afework</option>
-                        <option value="12. Giyons Tadesse">12. Giyons Tadesse</option>
-                        <option value="13. Dawit Solomon">13. Dawit Solomon</option>
-                        <option value="14. Sintayehu Degefaw">14. Sintayehu Degefaw</option>
-                        <option value="15. Seada Hussen">15. Seada Hussen</option>
-                        <option value="16. Amare Mola">16. Amare Mola</option>
-                        <option value="17. Fisiha Legese">17. Fisiha Legese</option>
-                        <option value="18. Asrat Zewdu">18. Asrat Zewdu</option>
+    <!-- Main Dashboard Application Section -->
+    <div id="appSection" class="hidden">
+        
+        <div class="user-bar">
+            <span>👤 እንኳን ደህና መጡ: <span id="activeUserName" style="color:var(--cbe-dark);"></span> (<span id="activeUserRole"></span>)</span>
+            <button class="btn-logout" onclick="logout()">ውጣ (Logout)</button>
+        </div>
+
+        <!-- Manager / Admin Dashboard Section (Visible only to Admin & Approvers) -->
+        <div id="adminDashboardCard" class="card">
+            <h3>📊 የቅርንጫፍ አጠቃላይ አፈፃፀም (አድሚን ዳሽቦርድ)</h3>
+            <div class="dashboard-grid">
+                <div class="stat-box">
+                    <h4>ጠቅላላ የጸደቀ የተቀማጭ ገንዘብ (ብር)</h4>
+                    <div class="number" id="totalDepositVal">0.00</div>
+                </div>
+                <div class="stat-box">
+                    <h4>አማካኝ አፈፃፀም (% Achievement)</h4>
+                    <div class="number" id="avgAchievementVal">0%</div>
+                </div>
+                <div class="stat-box">
+                    <h4>የጸደቁ አዳዲስ ሂሳቦች</h4>
+                    <div class="number" id="totalAccountsVal">0</div>
+                </div>
+                <div class="stat-box">
+                    <h4>ጠቅላላ የዲጂታል ባንኪንግ ብዛት</h4>
+                    <div class="number" id="totalDigitalVal">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Report Form Section (Visible to All) -->
+        <div class="card">
+            <h3>📝 አዲስ የሰራተኛ ሪፖርት መሙያ</h3>
+            <form id="reportForm">
+                
+                <div class="form-group grid-2">
+                    <div>
+                        <label for="staffName">የሰራተኛው ስም</label>
+                        <input type="text" id="staffName" readonly style="background-color: #eee; font-weight:bold;">
+                    </div>
+                    <div>
+                        <label for="weekDate">ቀን</label>
+                        <input type="date" id="weekDate" required>
+                    </div>
+                </div>
+
+                <!-- Deposit Section -->
+                <div class="section-title">1. የተቀማጭ ገንዘብ (Deposit) አፈፃፀም</div>
+                <div class="grid-2" style="margin-bottom: 8px;">
+                    <div class="form-group">
+                        <label for="dailyPlan">የቀን ፕላን (Plan in Birr)</label>
+                        <input type="number" id="dailyPlan" value="118184.95" readonly style="background-color: #eee;">
+                    </div>
+                    <div class="form-group">
+                        <label for="dailyDeposit">የተሰበሰበ (Actual Deposit)</label>
+                        <input type="number" id="dailyDeposit" placeholder="0.00" min="0" step="any" required>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="monthlyDeposit">የወር (ብር)</label>
+                        <input type="number" id="monthlyDeposit" placeholder="0.00" min="0" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label for="quarterlyDeposit">የሩብ ዓመት (ብር)</label>
+                        <input type="number" id="quarterlyDeposit" placeholder="0.00" min="0" step="any">
+                    </div>
+                </div>
+
+                <!-- Digital Banking Section -->
+                <div class="section-title">2. ዲጂታል ባንኪንግ እና አዳዲስ ሂሳቦች</div>
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label for="mbCount">Mobile Banking</label>
+                        <input type="number" id="mbCount" placeholder="0" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="atmCount">ATM Card</label>
+                        <input type="number" id="atmCount" placeholder="0" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="cbeBirrCount">CBE Birr</label>
+                        <input type="number" id="cbeBirrCount" placeholder="0" min="0">
+                    </div>
+                </div>
+
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label for="internetBanking">Internet Bank.</label>
+                        <input type="number" id="internetBanking" placeholder="0" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="agentCount">Agent Banking</label>
+                        <input type="number" id="agentCount" placeholder="0" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="merchantCount">Merchant</label>
+                        <input type="number" id="merchantCount" placeholder="0" min="0">
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="newAccounts">አዳዲስ ሂሳብ (Acc.)</label>
+                        <input type="number" id="newAccounts" placeholder="0" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="loansProcessed">ብድር/Loans (ብር/ብዛት)</label>
+                        <input type="text" id="loansProcessed" placeholder="ለምሳሌ፦ 2 (500,000)">
+                    </div>
+                </div>
+
+                <div class="section-title">3. ተጨማሪ መረጃ እና ግምገማ</div>
+                <div class="form-group">
+                    <label for="challenges">ያጋጠሙ ችግሮች / የቀጣይ ዕቅድ</label>
+                    <textarea id="challenges" placeholder="ያጋጠሙ ማነቆዎች እና የቀጣይ ሳምንት ግብ..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="rating">የሥራ አፈፃፀም ደረጃ</label>
+                    <select id="rating" required>
+                        <option value="5">⭐⭐⭐⭐⭐ (በጣም ከፍተኛ - 5/5)</option>
+                        <option value="4">⭐⭐⭐⭐ (ከፍተኛ - 4/5)</option>
+                        <option value="3">⭐⭐⭐ (መካከለኛ - 3/5)</option>
+                        <option value="2">⭐⭐ (ዝቅተኛ - 2/5)</option>
+                        <option value="1">⭐ (በጣም ዝቅተኛ - 1/5)</option>
                     </select>
                 </div>
-                <div>
-                    <label for="weekDate">ቀን</label>
-                    <input type="date" id="weekDate" required>
-                </div>
-            </div>
 
-            <!-- Deposit Section with Daily Plan -->
-            <div class="section-title">1. የተቀማጭ ገንዘብ (Deposit) አፈፃፀም</div>
-            <div class="grid-2" style="margin-bottom: 8px;">
-                <div class="form-group">
-                    <label for="dailyPlan">የቀን ፕላን (Plan in Birr)</label>
-                    <input type="number" id="dailyPlan" value="118184.95" readonly style="background-color: #eee;">
-                </div>
-                <div class="form-group">
-                    <label for="dailyDeposit">የተሰበሰበ (Actual Deposit)</label>
-                    <input type="number" id="dailyDeposit" placeholder="0.00" min="0" step="any" required>
-                </div>
-            </div>
-            <div class="grid-2">
-                <div class="form-group">
-                    <label for="monthlyDeposit">የወር (ብር)</label>
-                    <input type="number" id="monthlyDeposit" placeholder="0.00" min="0" step="any">
-                </div>
-                <div class="form-group">
-                    <label for="quarterlyDeposit">የሩብ ዓመት (ብር)</label>
-                    <input type="number" id="quarterlyDeposit" placeholder="0.00" min="0" step="any">
-                </div>
-            </div>
-
-            <!-- Digital Banking & Products Section -->
-            <div class="section-title">2. ዲጂታል ባንኪንግ እና አዳዲስ ሂሳቦች (በብዛት)</div>
-            <div class="grid-3">
-                <div class="form-group">
-                    <label for="mbCount">Mobile Banking</label>
-                    <input type="number" id="mbCount" placeholder="0" min="0">
-                </div>
-                <div class="form-group">
-                    <label for="atmCount">ATM Card</label>
-                    <input type="number" id="atmCount" placeholder="0" min="0">
-                </div>
-                <div class="form-group">
-                    <label for="cbeBirrCount">CBE Birr</label>
-                    <input type="number" id="cbeBirrCount" placeholder="0" min="0">
-                </div>
-            </div>
-
-            <div class="grid-3">
-                <div class="form-group">
-                    <label for="internetBanking">Internet Bank.</label>
-                    <input type="number" id="internetBanking" placeholder="0" min="0">
-                </div>
-                <div class="form-group">
-                    <label for="agentCount">Agent Banking</label>
-                    <input type="number" id="agentCount" placeholder="0" min="0">
-                </div>
-                <div class="form-group">
-                    <label for="merchantCount">Merchant</label>
-                    <input type="number" id="merchantCount" placeholder="0" min="0">
-                </div>
-            </div>
-
-            <div class="grid-2">
-                <div class="form-group">
-                    <label for="newAccounts">አዳዲስ ሂሳብ ከፈታ (Acc.)</label>
-                    <input type="number" id="newAccounts" placeholder="0" min="0">
-                </div>
-                <div class="form-group">
-                    <label for="loansProcessed">ብድር/Loans (በብር/ብዛት)</label>
-                    <input type="text" id="loansProcessed" placeholder="ለምሳሌ፦ 2 (500,000)">
-                </div>
-            </div>
-
-            <!-- Evaluation -->
-            <div class="section-title">3. ተጨማሪ መረጃ እና ግምገማ</div>
-            <div class="form-group">
-                <label for="challenges">ያጋጠሙ ችግሮች / የቀጣይ ዕቅድ</label>
-                <textarea id="challenges" placeholder="ያጋጠሙ ተዳክሞዎች እና የቀጣይ ሳምንት ግብ..."></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="rating">የሥራ አፈፃፀም ደረጃ</label>
-                <select id="rating" required>
-                    <option value="5">⭐⭐⭐⭐⭐ (በጣም ከፍተኛ - 5/5)</option>
-                    <option value="4">⭐⭐⭐⭐ (ከፍተኛ - 4/5)</option>
-                    <option value="3">⭐⭐⭐ (መካከለኛ - 3/5)</option>
-                    <option value="2">⭐⭐ (ዝቅተኛ - 2/5)</option>
-                    <option value="1">⭐ (በጣም ዝቅተኛ - 1/5)</option>
-                </select>
-            </div>
-
-            <button type="submit">ሪፖርት መዝግብ / ላክ</button>
-        </form>
-    </div>
-
-    <!-- Reports View Section -->
-    <div class="card">
-        <h3>የተላኩ ሪፖርቶችና ማጽደቂያዎች</h3>
-        <div class="grid-2">
-            <button onclick="exportToExcel()" class="btn-excel">📥 በ Excel አውርድ (CSV)</button>
-            <button onclick="exportToWord()" class="btn-word">📄 በ Word አውርድ (Doc)</button>
+                <button type="submit">ሪፖርት መዝግብ / ላክ</button>
+            </form>
         </div>
-        <br>
-        <div id="reportsList">
-            <p style="text-align: center; color: #777777;">ምንም የተመዘገበ ሪፖርት የለም።</p>
+
+        <!-- Reports View Section -->
+        <div class="card">
+            <h3>📋 የተላኩ ሪፖርቶችና ማጽደቂያዎች</h3>
+            <div id="exportButtons" class="grid-2 hidden">
+                <button onclick="exportToExcel()" class="btn-excel">📥 በ Excel አውርድ (CSV)</button>
+                <button onclick="exportToWord()" class="btn-word">📄 በ Word አውርድ (Doc)</button>
+            </div>
+            <br>
+            <div id="reportsList">
+                <p style="text-align: center; color: #777777;">ምንም የተመዘገበ ሪፖርት የለም።</p>
+            </div>
         </div>
+
     </div>
 </div>
 
 <script>
-    const approvers = ["Dawit Solomon", "Sintayehu Degefaw", "Fisiha Legese", "Asrat Zewdu"];
+    // System Users & Credentials Mapping
+    const usersDatabase = {
+        "fisiha": { name: "Fisiha Legese (ፍስሀ)", role: "SuperAdmin", pass: "1234" },
+        "dawit": { name: "Dawit Solomon", role: "Approver", pass: "1234" },
+        "sintayehu": { name: "Sintayehu Degefaw", role: "Approver", pass: "1234" },
+        "asrat": { name: "Asrat Zewdu", role: "Approver", pass: "1234" },
+        "staff": { name: "Adem Seid", role: "Staff", pass: "1234" }
+    };
+
+    let currentUserSession = null;
 
     document.addEventListener('DOMContentLoaded', () => {
-        handleUserChange();
-        loadReports();
+        // Set today's date
+        document.getElementById('weekDate').valueAsDate = new Date();
+        
+        // Check for active login
+        const savedSession = localStorage.getItem('cbe_user_session');
+        if (savedSession) {
+            currentUserSession = JSON.parse(savedSession);
+            initDashboard();
+        }
     });
 
-    function handleUserChange() {
-        const user = document.getElementById('currentUser').value;
-        const note = document.getElementById('roleInfoNote');
-        if (approvers.includes(user)) {
-            note.innerText = `✓ '${user}' ማጽደቅ (Approve/Reject) እና ሪቨርሳል አውተራይዝ/ሪጀክት የማድረግ ሙሉ ፈቃድ አለው።`;
+    // Login Form Submit
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const userKey = document.getElementById('username').value.trim().toLowerCase();
+        const passKey = document.getElementById('password').value.trim();
+
+        if (usersDatabase[userKey] && usersDatabase[userKey].pass === passKey) {
+            currentUserSession = usersDatabase[userKey];
+            localStorage.setItem('cbe_user_session', JSON.stringify(currentUserSession));
+            initDashboard();
         } else {
-            note.innerText = `ℹ '${user}' ሪፖርት መመዝገብ እና ለጸደቁት ሪፖርቶች የሪቨርሳል ጥያቄ ማቅረብ ይችላል።`;
+            alert('የተሳሳተ የተጠቃሚ ስም ወይም ይለፍ ቃል!');
         }
+    });
+
+    function logout() {
+        localStorage.removeItem('cbe_user_session');
+        currentUserSession = null;
+        document.getElementById('appSection').classList.add('hidden');
+        document.getElementById('loginSection').classList.remove('hidden');
+        document.getElementById('loginForm').reset();
     }
 
-    const reportForm = document.getElementById('reportForm');
-    const reportsList = document.getElementById('reportsList');
+    function initDashboard() {
+        document.getElementById('loginSection').classList.add('hidden');
+        document.getElementById('appSection').classList.remove('hidden');
 
+        document.getElementById('activeUserName').innerText = currentUserSession.name;
+        document.getElementById('activeUserRole').innerText = currentUserSession.role;
+        document.getElementById('staffName').value = currentUserSession.name;
+
+        // Role based access controls
+        const adminCard = document.getElementById('adminDashboardCard');
+        const exportBtns = document.getElementById('exportButtons');
+
+        if (currentUserSession.role === 'SuperAdmin' || currentUserSession.role === 'Approver') {
+            adminCard.classList.remove('hidden');
+            exportBtns.classList.remove('hidden');
+        } else {
+            adminCard.classList.add('hidden');
+            exportBtns.classList.add('hidden');
+        }
+
+        loadReports();
+    }
+
+    // Report Submission
+    const reportForm = document.getElementById('reportForm');
     reportForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
         const plan = parseFloat(document.getElementById('dailyPlan').value) || 118184.95;
         const actual = parseFloat(document.getElementById('dailyDeposit').value) || 0;
         const achievementPct = ((actual / plan) * 100).toFixed(2);
-        const currentUser = document.getElementById('currentUser').value;
 
         const newReport = {
             id: Date.now(),
-            staffName: document.getElementById('staffName').value,
+            staffName: currentUserSession.name,
             weekDate: document.getElementById('weekDate').value,
             dailyPlan: plan,
             dailyDeposit: actual,
@@ -471,35 +558,46 @@
             loansProcessed: document.getElementById('loansProcessed').value || '-',
             challenges: document.getElementById('challenges').value,
             rating: document.getElementById('rating').value,
-            status: 'Pending', // Pending, Approved, Rejected, Reversal_Requested, Reversed, Reversal_Rejected
-            submittedBy: currentUser,
+            status: 'Pending',
             approvedBy: '',
             reversalReason: ''
         };
 
-        let reports = JSON.parse(localStorage.getItem('bank_weekly_reports_v2') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v3') || '[]');
         reports.unshift(newReport);
-        localStorage.setItem('bank_weekly_reports_v2', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v3', JSON.stringify(reports));
 
         reportForm.reset();
+        document.getElementById('staffName').value = currentUserSession.name;
         document.getElementById('dailyPlan').value = "118184.95";
+        document.getElementById('weekDate').valueAsDate = new Date();
+        
+        alert('ሪፖርትዎ በጥሩ ሁኔታ ተልኳል! በአድሚን/አፀዳቂዎች እስኪጸድቅ ይጠብቃል።');
         loadReports();
     });
 
     function loadReports() {
-        let reports = JSON.parse(localStorage.getItem('bank_weekly_reports_v2') || '[]');
-        const currentUser = document.getElementById('currentUser').value;
-        const isApprover = approvers.includes(currentUser);
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v3') || '[]');
+        const reportsList = document.getElementById('reportsList');
+        
+        const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
+        const isApprover = currentUserSession.role === 'Approver';
+
+        // Filter: Staff members only see their own reports, Admins/Approvers see all
+        let visibleReports = reports;
+        if (!isSuperAdmin && !isApprover) {
+            visibleReports = reports.filter(r => r.staffName === currentUserSession.name);
+        }
 
         updateDashboard(reports);
 
-        if (reports.length === 0) {
+        if (visibleReports.length === 0) {
             reportsList.innerHTML = '<p style="text-align: center; color: #777777;">ምንም የተመዘገበ ሪፖርት የለም።</p>';
             return;
         }
 
         reportsList.innerHTML = '';
-        reports.forEach(report => {
+        visibleReports.forEach(report => {
             const stars = '⭐'.repeat(parseInt(report.rating));
             const item = document.createElement('div');
             item.className = 'report-item';
@@ -508,7 +606,7 @@
             let statusText = 'በመጠባበቅ ላይ (Pending)';
             if (report.status === 'Approved') {
                 statusClass = 'status-approved';
-                statusText = `ጸድቋል (Approved by ${report.approvedBy || 'Manager'})`;
+                statusText = `ጸድቋል (Approved by ${report.approvedBy})`;
             } else if (report.status === 'Rejected') {
                 statusClass = 'status-rejected';
                 statusText = 'ውድቅ ተደርጓል (Rejected)';
@@ -517,42 +615,42 @@
                 statusText = 'የሪቨርሳል ጥያቄ ቀርቧል (Reversal Requested)';
             } else if (report.status === 'Reversed') {
                 statusClass = 'status-reversed';
-                statusText = 'ሪቨርሳል ጸድቋል (Reversed & Cancelled)';
-            } else if (report.status === 'Reversal_Rejected') {
-                statusClass = 'status-rejected';
-                statusText = 'የሪቨርሳል ጥያቄ ውድቅ ተደርጓል';
+                statusText = 'ሪቨርሳል ጸድቋል (Reversed)';
             }
 
-            // Action buttons based on status and user role
+            // Controls based on role
             let actionButtonsHtml = '';
 
             if (report.status === 'Pending') {
-                if (isApprover) {
+                if (isSuperAdmin || isApprover) {
                     actionButtonsHtml += `
-                        <button class="btn-approve" onclick="changeStatus(${report.id}, 'Approved', '${currentUser}')">✔ አፕሩቭ (Approve)</button>
-                        <button class="btn-reject" onclick="changeStatus(${report.id}, 'Rejected', '${currentUser}')">✖ ሪጀክት (Reject)</button>
+                        <button class="btn-approve" onclick="changeStatus(${report.id}, 'Approved')">✔ አፕሩቭ አድርግ</button>
+                        <button class="btn-reject" onclick="changeStatus(${report.id}, 'Rejected')">✖ ውድቅ አድርግ</button>
                     `;
                 } else {
-                    actionButtonsHtml += `<span style="color:#e65100; font-size:12px;">ማጽደቂዎቹ (ዳዊት፣ ስንታየሁ፣ ፈስሀ፣ አስራት) እስኪያጸድቁት በመጠባበቅ ላይ ነው።</span>`;
+                    actionButtonsHtml += `<span style="color:#e65100; font-size:11px;">በአፀዳቂዎች ማረጋገጫ ይጠብቃል።</span>`;
                 }
             } else if (report.status === 'Approved') {
                 actionButtonsHtml += `
-                    <button class="btn-reversal" onclick="requestReversal(${report.id})">🔄 ሪቨርሳል ጠይቅ (Request Reversal)</button>
+                    <button class="btn-reversal" onclick="requestReversal(${report.id})">🔄 ሪቨርሳል ጠይቅ</button>
                 `;
             } else if (report.status === 'Reversal_Requested') {
-                if (isApprover) {
+                if (isSuperAdmin || isApprover) {
                     actionButtonsHtml += `
-                        <button class="btn-approve" onclick="changeStatus(${report.id}, 'Reversed', '${currentUser}')">✔ ሪቨርሳል አውተራይዝ (Auth. Reversal)</button>
-                        <button class="btn-reject" onclick="changeStatus(${report.id}, 'Reversal_Rejected', '${currentUser}')">✖ ሪቨርሳል ሪጀክት (Reject Rev.)</button>
+                        <button class="btn-approve" onclick="changeStatus(${report.id}, 'Reversed')">✔ ሪቨርሳል አጽድቅ</button>
+                        <button class="btn-reject" onclick="changeStatus(${report.id}, 'Approved')">✖ ሪቨርሳል ሰርዝ</button>
                     `;
-                } else {
-                    actionButtonsHtml += `<span style="color:#512da8; font-size:12px;">የሪቨርሳል ጥያቄ ቀርቧል፣ በአፀዳቂዎች ማረጋገጫ ይጠብቃል።</span>`;
                 }
+            }
+
+            // SuperAdmin (Fisiha) can delete any record anytime
+            if (isSuperAdmin) {
+                actionButtonsHtml += ` <button class="btn-reject" style="background:#333;" onclick="deleteReport(${report.id})">🗑 ሰርዝ (Admin)</button>`;
             }
 
             item.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-                    <strong style="font-size: 15px; color: var(--primary-color);">${escapeHtml(report.staffName)}</strong>
+                    <strong style="font-size: 14px; color: var(--cbe-purple);">${escapeHtml(report.staffName)}</strong>
                     <div>
                         <span class="status-badge ${statusClass}">${statusText}</span>
                         <span class="badge">${escapeHtml(report.weekDate)}</span>
@@ -567,7 +665,7 @@
                 <div class="data-grid">
                     <strong>📱 ዲጂታል ባንኪንግ:</strong><br>
                     • MB: ${report.mbCount} | ATM: ${report.atmCount} | CBE Birr: ${report.cbeBirrCount}<br>
-                    • Internet Bank: ${report.internetBanking} | Agent: ${report.agentCount} | Merchant: ${report.merchantCount}
+                    • IB: ${report.internetBanking} | Agent: ${report.agentCount} | Merchant: ${report.merchantCount}
                 </div>
 
                 <div class="data-grid">
@@ -575,9 +673,9 @@
                     • አዲስ ሂሳብ: ${report.newAccounts} | ብድር (Loans): ${escapeHtml(report.loansProcessed)}
                 </div>
 
-                ${report.challenges ? `<p style="margin: 5px 0;"><strong>ማስታወሻ/ዕቅድ:</strong> ${escapeHtml(report.challenges)}</p>` : ''}
-                <p style="margin: 5px 0;" class="rating"><strong>ግምገማ:</strong> ${stars} (${report.rating}/5)</p>
-                <div style="margin-top: 8px; border-top: 1px dashed #ddd; padding-top: 6px;">
+                ${report.challenges ? `<p style="margin: 4px 0;"><strong>ማስታወሻ:</strong> ${escapeHtml(report.challenges)}</p>` : ''}
+                <p style="margin: 4px 0; color:#ff9800;"><strong>ግምገማ:</strong> ${stars}</p>
+                <div style="margin-top: 6px; border-top: 1px dashed #ddd; padding-top: 4px;">
                     ${actionButtonsHtml}
                 </div>
             `;
@@ -585,26 +683,26 @@
         });
     }
 
-    function changeStatus(id, newStatus, approverName) {
-        let reports = JSON.parse(localStorage.getItem('bank_weekly_reports_v2') || '[]');
+    function changeStatus(id, newStatus) {
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v3') || '[]');
         reports = reports.map(r => {
             if (r.id === id) {
                 r.status = newStatus;
                 if (newStatus === 'Approved') {
-                    r.approvedBy = approverName;
+                    r.approvedBy = currentUserSession.name;
                 }
             }
             return r;
         });
-        localStorage.setItem('bank_weekly_reports_v2', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v3', JSON.stringify(reports));
         loadReports();
     }
 
     function requestReversal(id) {
-        let reason = prompt("እባክዎ የሪቨርሳል ምክንያት (Reason for Reversal) ይጻፉ:");
-        if (reason === null) return;
+        let reason = prompt("እባክዎ የሪቨርሳል ምክንያት ይጻፉ:");
+        if (!reason) return;
 
-        let reports = JSON.parse(localStorage.getItem('bank_weekly_reports_v2') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v3') || '[]');
         reports = reports.map(r => {
             if (r.id === id) {
                 r.status = 'Reversal_Requested';
@@ -612,12 +710,19 @@
             }
             return r;
         });
-        localStorage.setItem('bank_weekly_reports_v2', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v3', JSON.stringify(reports));
+        loadReports();
+    }
+
+    function deleteReport(id) {
+        if (!confirm("ይህንን ሪፖርት ማጥፋት እርግጠኛ ነዎት?")) return;
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v3') || '[]');
+        reports = reports.filter(r => r.id !== id);
+        localStorage.setItem('cbe_borkena_reports_v3', JSON.stringify(reports));
         loadReports();
     }
 
     function updateDashboard(reports) {
-        // Only count Approved reports for general totals
         const validReports = reports.filter(r => r.status === 'Approved');
 
         if (validReports.length === 0) {
@@ -628,10 +733,7 @@
             return;
         }
 
-        let totalDeposit = 0;
-        let totalPct = 0;
-        let totalAccounts = 0;
-        let totalDigital = 0;
+        let totalDeposit = 0, totalPct = 0, totalAccounts = 0, totalDigital = 0;
 
         validReports.forEach(r => {
             totalDeposit += parseFloat(r.dailyDeposit) || 0;
@@ -650,7 +752,7 @@
     }
 
     function exportToExcel() {
-        let reports = JSON.parse(localStorage.getItem('bank_weekly_reports_v2') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v3') || '[]');
         const validReports = reports.filter(r => r.status === 'Approved');
 
         if (validReports.length === 0) {
@@ -663,24 +765,10 @@
 
         validReports.forEach(r => {
             let row = [
-                `"${r.staffName}"`,
-                `"${r.weekDate}"`,
-                r.dailyPlan,
-                r.dailyDeposit,
-                `"${r.achievementPct}%"`,
-                r.monthlyDeposit,
-                r.quarterlyDeposit,
-                r.mbCount,
-                r.atmCount,
-                r.cbeBirrCount,
-                r.internetBanking,
-                r.agentCount,
-                r.merchantCount,
-                r.newAccounts,
-                `"${r.loansProcessed}"`,
-                `"${(r.challenges || '').replace(/"/g, '""')}"`,
-                r.rating,
-                `"${r.approvedBy}"`
+                `"${r.staffName}"`, `"${r.weekDate}"`, r.dailyPlan, r.dailyDeposit, `"${r.achievementPct}%"`,
+                r.monthlyDeposit, r.quarterlyDeposit, r.mbCount, r.atmCount, r.cbeBirrCount, r.internetBanking,
+                r.agentCount, r.merchantCount, r.newAccounts, `"${r.loansProcessed}"`,
+                `"${(r.challenges || '').replace(/"/g, '""')}"`, r.rating, `"${r.approvedBy}"`
             ].join(",");
             csvContent += row + "\n";
         });
@@ -688,14 +776,14 @@
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "Borkena_Branch_Approved_Reports.csv");
+        link.setAttribute("download", "CBE_Borkena_Approved_Reports.csv");
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
     }
 
     function exportToWord() {
-        let reports = JSON.parse(localStorage.getItem('bank_weekly_reports_v2') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v3') || '[]');
         const validReports = reports.filter(r => r.status === 'Approved');
 
         if (validReports.length === 0) {
@@ -705,9 +793,9 @@
 
         let htmlContent = `
             <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-            <head><title>Borkena Branch Approved Reports</title></head>
+            <head><title>CBE Borkena Approved Reports</title></head>
             <body>
-            <h2>የቦርከና ቅርንጫፍ የጸደቁ ሪፖርቶች ማጠቃለያ</h2>
+            <h2>የኢትዮጵያ ንግድ ባንክ ቦርከና ቅርንጫፍ - የጸደቁ ሪፖርቶች ማጠቃለያ</h2>
             <table border="1" style="border-collapse:collapse; width:100%;">
                 <tr style="background-color:#f2f2f2;">
                     <th>Staff Name</th><th>Date</th><th>Plan</th><th>Actual</th><th>%</th><th>New Acc</th><th>Digital Total</th><th>Loans</th><th>Approved By</th>
@@ -731,14 +819,11 @@
 
         htmlContent += `</table></body></html>`;
 
-        const blob = new Blob(['\ufeff', htmlContent], {
-            type: 'application/msword'
-        });
-        
+        const blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'Borkena_Branch_Approved_Reports.doc';
+        a.download = 'CBE_Borkena_Approved_Reports.doc';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
