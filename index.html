@@ -214,6 +214,8 @@
         .btn-word:hover { background-color: #1e3d6b; }
         .btn-sms { background-color: #0288d1; }
         .btn-sms:hover { background-color: #01579b; }
+        .btn-cert { background-color: #d4af37; color: #33004b; font-weight: bold; }
+        .btn-cert:hover { background-color: #b89320; }
 
         .btn-logout { background-color: var(--danger-color); padding: 5px 10px; font-size: 11px; width: auto; }
         .btn-pwd { background-color: var(--cbe-purple); padding: 5px 10px; font-size: 11px; width: auto; }
@@ -287,17 +289,88 @@
             border: 1px solid #eee;
         }
 
-        /* Modal styling for Edit Staff */
+        /* Modal styling */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
             display: flex; justify-content: center; align-items: center;
             z-index: 1000;
         }
         .modal-box {
             background: white; padding: 20px; border-radius: 10px;
-            width: 90%; max-width: 400px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            width: 90%; max-width: 450px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Printable Certificate Styling */
+        .cert-modal {
+            background: white;
+            width: 90%;
+            max-width: 700px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            text-align: center;
+            position: relative;
+        }
+
+        .certificate-frame {
+            border: 8px double var(--cbe-gold);
+            padding: 25px;
+            background: #fffdf5;
+            position: relative;
+        }
+
+        .cert-header {
+            color: var(--cbe-purple);
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .cert-subheader {
+            color: var(--cbe-gold);
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .cert-body {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #333;
+            margin: 15px 0;
+        }
+
+        .cert-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--cbe-purple);
+            border-bottom: 2px solid var(--cbe-gold);
+            display: inline-block;
+            padding: 0 15px 5px 15px;
+            margin: 10px 0;
+        }
+
+        .cert-footer {
+            margin-top: 35px;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+        }
+
+        .cert-signature {
+            border-top: 1px dashed #555;
+            padding-top: 5px;
+            font-size: 12px;
+            width: 180px;
+        }
+
+        @media print {
+            body * { visibility: hidden; }
+            #certModal, #certModal * { visibility: visible; }
+            #certModal { position: absolute; left: 0; top: 0; width: 100%; box-shadow: none; }
+            .no-print { display: none !important; }
         }
 
         .hidden { display: none !important; }
@@ -374,6 +447,41 @@
             </div>
         </div>
 
+        <!-- Certificate Generator Modal -->
+        <div id="certModal" class="modal-overlay hidden">
+            <div class="cert-modal">
+                <div class="certificate-frame">
+                    <div class="cert-header">የኢትዮጵያ ንግድ ባንክ</div>
+                    <div class="cert-subheader">COMMERCIAL BANK OF ETHIOPIA - BORKENA BRANCH</div>
+                    <hr style="border:0; border-top: 1px solid var(--cbe-purple); margin-bottom: 20px;">
+                    
+                    <h2 style="color:var(--cbe-purple); margin:10px 0; font-family:Georgia, serif;">የምስክር ወረቀት / CERTIFICATE OF RECOGNITION</h2>
+                    <p style="font-size:12px; color:#666;">ይህ የምስክር ወረቀት ለአስተዋጽኦው ዕውቅና ለመስጠት የተሰጠ ነው</p>
+
+                    <div class="cert-body">
+                        ለአቶ/ወ/ሪት/ሮ <br>
+                        <div class="cert-name" id="certStaffName">--</div> <br>
+                        በቦርከና ቅርንጫፍ በሳምንቱ የነበራቸውን ከፍተኛ የሥራ ተነሳሽነት፣ የተቀማጭ ገንዘብ ሰብሳቢነት እና የዲጂታል ባንኪንግ አገልግሎት ስፋት የላቀ አፈፃፀም በማሳየታቸው <strong>«የሳምንቱ ምርጥ ሰራተኛ» (Star Performer of the Week)</strong> በመሆን ስለተመረጡ ይህ የዕውቅና ምስክር ወረቀት ተበርክቶላቸዋል።
+                    </div>
+
+                    <div class="cert-footer">
+                        <div class="cert-signature">
+                            <strong>የቅርንጫፉ ማናጀር</strong><br>
+                            ፊርማ እና ማህተም
+                        </div>
+                        <div style="font-size:12px; color:#555;">
+                            ቀን፦ <span id="certDateStr">--</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="no-print" style="margin-top:20px; display:flex; gap:10px; justify-content:center;">
+                    <button class="btn-cert" style="width:auto; padding:8px 20px;" onclick="window.print()">🖨️ ሰርተፊኬቱን አትም (Print/PDF)</button>
+                    <button style="width:auto; padding:8px 20px; background:#777;" onclick="closeCertModal()">ዝጋ</button>
+                </div>
+            </div>
+        </div>
+
         <!-- Admin Dashboard Overview & User Accounts Management -->
         <div id="adminDashboardCard" class="card hidden">
             <h3 style="margin-top:0; color:var(--cbe-purple);">📊 የቅርንጫፍ አጠቃላይ አፈፃፀም (አድሚን ዳሽቦርድ)</h3>
@@ -441,7 +549,8 @@
                 <form id="editUserForm">
                     <input type="hidden" id="editOriginalKey">
                     <div class="form-group">
-                        <label for="editStaffName">የሰራተኛው ሙሉ ስም</label>
+                        <label for="editStaffName">የሰራተኛው ሙሉ ስም (Employee Name)</label>
+                        <!-- Editable field for SuperAdmin/Admin -->
                         <input type="text" id="editStaffName" required>
                     </div>
                     <div class="form-group">
@@ -618,7 +727,6 @@
 </div>
 
 <script>
-    // Initial Staff List
     let allExcelStaff = [
         "Fiseha legesse",
         "Asrat Zewudu",
@@ -637,7 +745,6 @@
         "Dagmawit Afework"
     ];
 
-    // Matched Phone List with Updated Names
     let staffPhoneNumbers = [
         { phone: "+251925037481", raw: "+251 92 503 7481", name: "Ayitenew Dereje" },
         { phone: "+251908880024", raw: "+251 90 888 0024", name: "Asrat Zewudu" },
@@ -656,7 +763,6 @@
         { phone: "+251922000000", raw: "+251 92 200 0000", name: "Seid adem" }
     ];
 
-    // Default users database
     const defaultUsersDatabase = {
         "fiseha": { name: "Fiseha legesse", role: "SuperAdmin", pass: "1234" },
         "dawit": { name: "Dawit solomon", role: "Approver", pass: "1234" },
@@ -697,7 +803,6 @@
         const select = document.getElementById('staffNameSelect');
         select.innerHTML = '<option value="" disabled selected>-- ሰራተኛ ይምረጡ --</option>';
         
-        // Dynamically get staff names from active DB + Default array
         const db = getUsersDB();
         let dynamicStaff = new Set(allExcelStaff);
         Object.values(db).forEach(u => dynamicStaff.add(u.name));
@@ -826,7 +931,7 @@
         if (!user) return;
 
         document.getElementById('editOriginalKey').value = userKey;
-        document.getElementById('editStaffName').value = user.name;
+        document.getElementById('editStaffName').value = user.name; // User Name can be fully edited
         document.getElementById('editUsername').value = userKey;
         document.getElementById('editRole').value = user.role;
 
@@ -863,7 +968,6 @@
 
         saveUsersDB(db);
 
-        // Update active session if edited self
         if (origKey === currentUsernameKey) {
             currentUserSession = db[newUsername];
             currentUsernameKey = newUsername;
@@ -875,7 +979,7 @@
         populateStaffDropdown();
         renderUserTable();
         closeEditModal();
-        alert('የሰራተኛው መረጃ በተሳካ ሁኔታ ተስተካክሏል!');
+        alert('የሰራተኛው መረጃና ስም በተሳካ ሁኔታ ተስተካክሏል!');
     });
 
     function resetUserPassword(userKey) {
@@ -1117,14 +1221,27 @@
                             የተሰበሰበ የተቀማጭ ገንዘብ: <strong>${best.totalDeposit.toLocaleString('en-US')} ብር</strong>
                         </p>
                     </div>
-                    <div style="text-align:right;">
+                    <div style="text-align:right; display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
                         <span style="background:var(--cbe-purple); color:white; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:bold;">
                             📱 ዲጂታል ባንኪንግ: ${best.digitalTotal} | 💳 አዲስ ሂሳብ: ${best.newAccounts}
                         </span>
+                        <button type="button" class="btn-cert" style="width:auto; padding:5px 10px; font-size:11px;" onclick="openCertModal('${escapeHtml(best.name)}')">📜 የዕውቅና ሰርተፊኬት አዘጋጅ</button>
                     </div>
                 </div>
             `;
         }
+    }
+
+    // --- Certificate Modal Functions ---
+    function openCertModal(staffName) {
+        document.getElementById('certStaffName').innerText = staffName;
+        const today = new Date().toLocaleDateString('en-GB');
+        document.getElementById('certDateStr').innerText = today;
+        document.getElementById('certModal').classList.remove('hidden');
+    }
+
+    function closeCertModal() {
+        document.getElementById('certModal').classList.add('hidden');
     }
 
     function changeStatus(id, newStatus) {
