@@ -244,21 +244,20 @@
             justify-content: space-between;
         }
 
-        .phone-list-table, .user-list-table {
+        .user-list-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 12px;
             margin-top: 8px;
         }
 
-        .phone-list-table th, .phone-list-table td,
         .user-list-table th, .user-list-table td {
             border: 1px solid #e0e0e0;
             padding: 6px 8px;
             text-align: left;
         }
 
-        .phone-list-table th, .phone-list-table th {
+        .user-list-table th {
             background-color: #f3e5f5;
             color: var(--cbe-purple);
         }
@@ -431,7 +430,7 @@
             </div>
         </div>
 
-        <!-- SMS Reminder System Card (SuperAdmin Only - Hidden for Dawit, Sintayehu & Asrat) -->
+        <!-- SMS Reminder System Card (SuperAdmin Only) -->
         <div id="smsReminderCard" class="card hidden">
             <h3 style="margin-top:0; color:var(--cbe-purple);">📱 የየቀኑ የኤስኤምኤስ (SMS) ማስታወሻ (17:30 / 11:30 ከሰዓት)</h3>
             
@@ -448,25 +447,10 @@
                 <textarea id="smsMessageTemplate">ማስታወሻ፦ የዛሬውን የሥራ አፈፃፀም ሪፖርት በሲስተሙ እስከ 11:30 (17:30) ድረስ እንዲልኩ በትህትና እናስታውሳለን። - የኢትዮጵያ ንግድ ባንክ የቦርከና ቅርንጫፍ</textarea>
             </div>
 
-            <div style="overflow-x:auto;">
-                <table class="phone-list-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>የተመደበለት ሰራተኛ</th>
-                            <th>የስልክ ቁጥር</th>
-                            <th>እርምጃ</th>
-                        </tr>
-                    </thead>
-                    <tbody id="phoneListTableBody">
-                        <!-- Dynamic Phone Numbers -->
-                    </tbody>
-                </table>
-            </div>
-
-            <div style="margin-top: 10px; display:flex; gap:10px;">
-                <button type="button" class="btn-sms" onclick="sendSmsToAll()">📩 ለሁሉም በአንድ ጊዜ SMS ላክ</button>
-                <button type="button" class="btn-excel" onclick="copyAllPhoneNumbers()">📋 ቁጥሮችን ኮፒ አድርግ</button>
+            <!-- Consolidated SMS Actions (No table, sent in bulk) -->
+            <div style="margin-top: 15px; display:flex; gap:10px;">
+                <button type="button" class="btn-sms" onclick="sendSmsToAll()">📩 ለሁሉም ሰራተኞች በአንድ ጊዜ SMS ላክ</button>
+                <button type="button" class="btn-excel" onclick="copyAllPhoneNumbers()">📋 ስልክ ቁጥሮቹን ኮፒ አድርግ</button>
             </div>
         </div>
 
@@ -601,7 +585,7 @@
 </div>
 
 <script>
-    // Updated Staff list
+    // Staff List - All Staff Enabled
     const allExcelStaff = [
         "All staff",
         "Mulugeta Shume",
@@ -612,7 +596,6 @@
         "Aytenew Dereje",
         "Eshetu Melese",
         "Sosna Tadesse",
-        "Seid Adem",
         "Dagmawit Afework",
         "Giyons Tadesse",
         "Dawit Solomon",
@@ -623,24 +606,24 @@
         "Asrat Zewdu"
     ];
 
-    // Phone List
+    // Phone List matched with Correct Staff Names
     let staffPhoneNumbers = [
         { phone: "+251968114058", raw: "+251 96 811 4058", name: "All staff" },
-        { phone: "+251925037481", raw: "+251 92 503 7481", name: "Alemayehu Worku" },
+        { phone: "+251925037481", raw: "+251 92 503 7481", name: "Aytenew Dereje" },
         { phone: "+251908880024", raw: "+251 90 888 0024", name: "Asrat Zewdu" },
-        { phone: "+251991716169", raw: "+251 99 171 6169", name: "Bethlehem Tsegaye" },
-        { phone: "+251914059999", raw: "+251 91 405 9999", name: "Call Mom" },
+        { phone: "+251991716169", raw: "+251 99 171 6169", name: "Dagmawit Afework" },
+        { phone: "+251914059999", raw: "+251 91 405 9999", name: "Gedion Yohans" },
         { phone: "+251921040793", raw: "+251 92 104 0793", name: "Dawit Solomon" },
-        { phone: "+251912249499", raw: "+251 91 224 9499", name: "Ermias Haile" },
+        { phone: "+251912249499", raw: "+251 91 224 9499", name: "Hermela Getachew" },
         { phone: "+251920460844", raw: "+251 92 046 0844", name: "Fisiha Legese" },
-        { phone: "+251921455784", raw: "+251 92 145 5784", name: "Genet Assefa" },
-        { phone: "+251920797474", raw: "+251 92 079 7474", name: "Hassan Omar" },
-        { phone: "+251919988924", raw: "+251 91 998 8924", name: "Kebede Tadesse" },
+        { phone: "+251921455784", raw: "+251 92 145 5784", name: "Mengistu Mule" },
+        { phone: "+251920797474", raw: "+251 92 079 7474", name: "Jemal Seid" },
+        { phone: "+251919988924", raw: "+251 91 998 8924", name: "Sosna Tadesse" },
         { phone: "+251922895112", raw: "+251 92 289 5112", name: "Sintayehu Degefaw" },
-        { phone: "+251920613498", raw: "+251 92 061 3498", name: "Yonas Mekonnen" }
+        { phone: "+251920613498", raw: "+251 92 061 3498", name: "Seada Hussen" }
     ];
 
-    // Default users database - "adem" replaced with "staff" and Employee Name updated to "All staff"
+    // Default users database - "adem" replaced with "staff" ("All staff")
     const defaultUsersDatabase = {
         "fisiha": { name: "Fisiha Legese", role: "SuperAdmin", pass: "1234" },
         "dawit": { name: "Dawit Solomon", role: "Approver", pass: "1234" },
@@ -650,12 +633,12 @@
     };
 
     function getUsersDB() {
-        const savedDB = localStorage.getItem('cbe_users_db_v7');
+        const savedDB = localStorage.getItem('cbe_users_db_v8');
         return savedDB ? JSON.parse(savedDB) : defaultUsersDatabase;
     }
 
     function saveUsersDB(db) {
-        localStorage.setItem('cbe_users_db_v7', JSON.stringify(db));
+        localStorage.setItem('cbe_users_db_v8', JSON.stringify(db));
     }
 
     let currentUserSession = null;
@@ -666,9 +649,8 @@
         document.getElementById('weekDate').valueAsDate = new Date();
         
         populateStaffDropdown();
-        renderPhoneListTable();
         
-        const savedSession = localStorage.getItem('cbe_user_session_v7');
+        const savedSession = localStorage.getItem('cbe_user_session_v8');
         if (savedSession) {
             const parsedData = JSON.parse(savedSession);
             currentUserSession = parsedData.session;
@@ -701,7 +683,7 @@
         if (db[userKey] && db[userKey].pass === passKey) {
             currentUserSession = db[userKey];
             currentUsernameKey = userKey;
-            localStorage.setItem('cbe_user_session_v7', JSON.stringify({ session: currentUserSession, usernameKey: userKey }));
+            localStorage.setItem('cbe_user_session_v8', JSON.stringify({ session: currentUserSession, usernameKey: userKey }));
             initDashboard();
         } else {
             alert('የተሳሳተ የተጠቃሚ ስም ወይም ይለፍ ቃል!');
@@ -709,7 +691,7 @@
     });
 
     function logout() {
-        localStorage.removeItem('cbe_user_session_v7');
+        localStorage.removeItem('cbe_user_session_v8');
         currentUserSession = null;
         currentUsernameKey = null;
         document.getElementById('appSection').classList.add('hidden');
@@ -732,14 +714,12 @@
         const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
         const isApprover = currentUserSession.role === 'Approver';
 
-        // SMS Card is strictly visible ONLY to SuperAdmin (hidden for Dawit, Sintayehu, Asrat, and Staff)
         if (isSuperAdmin) {
             smsCard.classList.remove('hidden');
         } else {
             smsCard.classList.add('hidden');
         }
 
-        // Reset Menu & Admin Dashboard available for SuperAdmin & Approver
         if (isSuperAdmin || isApprover) {
             adminCard.classList.remove('hidden');
             exportBtns.classList.remove('hidden');
@@ -754,7 +734,6 @@
         loadReports();
     }
 
-    /* Password Change Modal Toggle */
     function togglePasswordModal() {
         document.getElementById('passwordCard').classList.toggle('hidden');
     }
@@ -784,7 +763,6 @@
         togglePasswordModal();
     });
 
-    /* Admin Password Reset Table */
     function renderUserTable() {
         const db = getUsersDB();
         const tbody = document.getElementById('userListTableBody');
@@ -818,29 +796,6 @@
         }
     }
 
-    /* Phone Table Rendering */
-    function renderPhoneListTable() {
-        const tbody = document.getElementById('phoneListTableBody');
-        tbody.innerHTML = '';
-        staffPhoneNumbers.forEach((item, idx) => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${idx + 1}</td>
-                <td><strong>${escapeHtml(item.name)}</strong></td>
-                <td>${escapeHtml(item.raw)}</td>
-                <td>
-                    <button type="button" class="btn-sms" style="padding:2px 6px; font-size:10px; width:auto;" onclick="sendSingleSms('${item.phone}')">💬 SMS</button>
-                </td>
-            `;
-            tbody.appendChild(tr);
-        });
-    }
-
-    function sendSingleSms(phone) {
-        const msg = encodeURIComponent(document.getElementById('smsMessageTemplate').value);
-        window.open(`sms:${phone}?body=${msg}`, '_self');
-    }
-
     function sendSmsToAll() {
         const msg = encodeURIComponent(document.getElementById('smsMessageTemplate').value);
         const allPhones = staffPhoneNumbers.map(p => p.phone).join(',');
@@ -856,7 +811,7 @@
     function copyAllPhoneNumbers() {
         const text = staffPhoneNumbers.map(p => p.raw).join(', ');
         navigator.clipboard.writeText(text).then(() => {
-            alert('ቁጥሮቹ ተኮፒረዋል!');
+            alert('ስልክ ቁጥሮቹ ተኮፒረዋል!');
         });
     }
 
@@ -881,7 +836,6 @@
         }, 1000);
     }
 
-    // Report Form Submit Handler
     const reportForm = document.getElementById('reportForm');
     reportForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -927,9 +881,9 @@
             approvedBy: ''
         };
 
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v7') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v8') || '[]');
         reports.unshift(newReport);
-        localStorage.setItem('cbe_borkena_reports_v7', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v8', JSON.stringify(reports));
 
         reportForm.reset();
         document.getElementById('dailyPlan').value = "118184.95";
@@ -941,7 +895,7 @@
     });
 
     function loadReports() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v7') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v8') || '[]');
         const reportsList = document.getElementById('reportsList');
         
         const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
@@ -1008,7 +962,7 @@
 
                 ${report.hasDigital ? `
                 <div class="data-grid">
-                    📱 <strong>ዲጂታል:</strong> MB: ${report.mbCount} | ATM: ${report.atmCount} | CBE Birr: ${report.cbeBirrCount} | አዲስ ሂሳብ: ${report.newAccounts}
+                    📱 <strong>ዲጂታል:</strong> MB: ${report.mbCount} | ATM: ${report.atmCount} | CBE Birr: ${report.cbeBirrCount} | አዲስ ሂሳብ: ${report.newAccounts} | ብድር: ${report.loansProcessed}
                 </div>` : ''}
 
                 <div style="margin-top: 4px;">${actionButtonsHtml}</div>
@@ -1018,7 +972,7 @@
     }
 
     function changeStatus(id, newStatus) {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v7') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v8') || '[]');
         reports = reports.map(r => {
             if (r.id === id) {
                 r.status = newStatus;
@@ -1026,7 +980,7 @@
             }
             return r;
         });
-        localStorage.setItem('cbe_borkena_reports_v7', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v8', JSON.stringify(reports));
         loadReports();
     }
 
@@ -1034,7 +988,7 @@
         let reason = prompt("የሪቨርሳል ምክንያት ይጻፉ:");
         if (!reason) return;
 
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v7') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v8') || '[]');
         reports = reports.map(r => {
             if (r.id === id) {
                 r.status = 'Reversal_Requested';
@@ -1042,15 +996,15 @@
             }
             return r;
         });
-        localStorage.setItem('cbe_borkena_reports_v7', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v8', JSON.stringify(reports));
         loadReports();
     }
 
     function deleteReport(id) {
         if (!confirm("እርግጠኛ ነዎት ይጥፋ?")) return;
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v7') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v8') || '[]');
         reports = reports.filter(r => r.id !== id);
-        localStorage.setItem('cbe_borkena_reports_v7', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v8', JSON.stringify(reports));
         loadReports();
     }
 
@@ -1108,35 +1062,71 @@
         return text.toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
+    // Export to Excel separated by Categories
     function exportToExcel() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v7') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v8') || '[]');
         if (reports.length === 0) return alert('የሚወርድ ሪፖርት የለም!');
-        let csvContent = "data:text/csv;charset=utf-8,\uFEFFቀን,ሰራተኛ,ፕላን,ተሰበሰበ,አፈፃፀም %,ሁኔታ\n";
+
+        let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+        csvContent += "ቀን,ሰራተኛ,የቀን ፕላን,ተቀማጭ (Deposit),አፈፃፀም %,Mobile Banking,ATM,CBE Birr,Internet Bank,Agent,Merchant,ጠቅላላ ዲጂታል,አዳዲስ ደንበኞች (Accounts),ብድር (Loans),ሁኔታ\n";
+
         reports.forEach(r => {
-            csvContent += `"${r.weekDate}","${r.staffName}","${r.dailyPlan}","${r.dailyDeposit}","${r.achievementPct}%","${r.status}"\n`;
+            let digitalTotal = (r.mbCount || 0) + (r.atmCount || 0) + (r.cbeBirrCount || 0) + (r.internetBanking || 0) + (r.agentCount || 0) + (r.merchantCount || 0);
+            csvContent += `"${r.weekDate}","${r.staffName}","${r.dailyPlan}","${r.dailyDeposit}","${r.achievementPct}%","${r.mbCount}","${r.atmCount}","${r.cbeBirrCount}","${r.internetBanking}","${r.agentCount}","${r.merchantCount}","${digitalTotal}","${r.newAccounts}","${r.loansProcessed}","${r.status}"\n`;
         });
+
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
-        link.setAttribute("download", `CBE_Borkena_Report.csv`);
+        link.setAttribute("download", `CBE_Borkena_Detailed_Report.csv`);
         document.body.appendChild(link);
         link.click();
     }
 
+    // Export to Word separated by Categories
     function exportToWord() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v7') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v8') || '[]');
         if (reports.length === 0) return alert('የሚወርድ ሪፖርት የለም!');
-        let htmlDoc = `<html xmlns:w='urn:schemas-microsoft-com:office:word'><body><h2>የኢትዮጵያ ንግድ ባንክ - ቦርከና ቅርንጫፍ ሪፖርት</h2><table border="1"><tr><th>ቀን</th><th>ሰራተኛ</th><th>ተሰበሰበ</th><th>ሁኔታ</th></tr>`;
+
+        let htmlDoc = `<html xmlns:w='urn:schemas-microsoft-com:office:word'>
+        <head><style>
+            table { border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; font-size: 11pt; }
+            th { background-color: #5c068c; color: white; padding: 6px; }
+            td { border: 1px solid #ddd; padding: 6px; text-align: center; }
+            h2, h3 { color: #5c068c; }
+        </style></head>
+        <body>
+            <h2>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ የሥራ አፈፃፀም ሪፖርት</h2>
+            <hr/>
+            
+            <h3>1. የተቀማጭ ገንዘብ (Deposit) አፈፃፀም</h3>
+            <table>
+                <tr><th>ቀን</th><th>ሰራተኛ</th><th>የቀን ፕላን</th><th>የተሰበሰበ (ብር)</th><th>አፈፃፀም %</th></tr>`;
         reports.forEach(r => {
-            htmlDoc += `<tr><td>${r.weekDate}</td><td>${r.staffName}</td><td>${r.dailyDeposit}</td><td>${r.status}</td></tr>`;
+            htmlDoc += `<tr><td>${r.weekDate}</td><td>${r.staffName}</td><td>${r.dailyPlan}</td><td>${r.dailyDeposit}</td><td>${r.achievementPct}%</td></tr>`;
         });
+
+        htmlDoc += `</table><br/><h3>2. የዲጂታል ባንኪንግ አፈፃፀም</h3>
+            <table>
+                <tr><th>ቀን</th><th>ሰራተኛ</th><th>MB</th><th>ATM</th><th>CBE Birr</th><th>Internet</th><th>Agent</th><th>Merchant</th></tr>`;
+        reports.forEach(r => {
+            htmlDoc += `<tr><td>${r.weekDate}</td><td>${r.staffName}</td><td>${r.mbCount}</td><td>${r.atmCount}</td><td>${r.cbeBirrCount}</td><td>${r.internetBanking}</td><td>${r.agentCount}</td><td>${r.merchantCount}</td></tr>`;
+        });
+
+        htmlDoc += `</table><br/><h3>3. አዳዲስ ደንበኞች ምልመላ እና ብድር (Accounts & Loans)</h3>
+            <table>
+                <tr><th>ቀን</th><th>ሰራተኛ</th><th>አዳዲስ ሂሳቦች (Accounts)</th><th>የተስተናገደ ብድር (Loans)</th><th>ሁኔታ</th></tr>`;
+        reports.forEach(r => {
+            htmlDoc += `<tr><td>${r.weekDate}</td><td>${r.staffName}</td><td>${r.newAccounts}</td><td>${r.loansProcessed}</td><td>${r.status}</td></tr>`;
+        });
+
         htmlDoc += `</table></body></html>`;
 
         const blob = new Blob(['\ufeff', htmlDoc], { type: 'application/msword' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `CBE_Borkena_Report.doc`;
+        a.download = `CBE_Borkena_Detailed_Report.doc`;
         document.body.appendChild(a);
         a.click();
     }
