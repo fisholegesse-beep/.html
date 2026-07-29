@@ -550,7 +550,6 @@
                     <input type="hidden" id="editOriginalKey">
                     <div class="form-group">
                         <label for="editStaffName">የሰራተኛው ሙሉ ስም (Employee Name)</label>
-                        <!-- Editable field for SuperAdmin/Admin -->
                         <input type="text" id="editStaffName" required>
                     </div>
                     <div class="form-group">
@@ -606,7 +605,7 @@
                     <div>
                         <label for="staffNameSelect">የሰራተኛው ስም</label>
                         <select id="staffNameSelect" required>
-                            <!-- Populated by JS -->
+                            <!-- Populated dynamically by JS based on user role -->
                         </select>
                     </div>
                     <div>
@@ -786,7 +785,6 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('weekDate').valueAsDate = new Date();
-        populateStaffDropdown();
         
         const savedSession = localStorage.getItem('cbe_user_session_v10');
         if (savedSession) {
@@ -799,20 +797,39 @@
         startClockAndAlarm();
     });
 
+    /* የተቀየረውና የተሻሻለው የሰራተኞች Dropdown Function */
     function populateStaffDropdown() {
         const select = document.getElementById('staffNameSelect');
-        select.innerHTML = '<option value="" disabled selected>-- ሰራተኛ ይምረጡ --</option>';
-        
-        const db = getUsersDB();
-        let dynamicStaff = new Set(allExcelStaff);
-        Object.values(db).forEach(u => dynamicStaff.add(u.name));
+        select.innerHTML = '';
 
-        dynamicStaff.forEach(name => {
+        if (!currentUserSession) return;
+
+        const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
+        const isApprover = currentUserSession.role === 'Approver';
+
+        // አድሚን ወይም አፕሩቨር ከሆነ የሁሉም ሰራተኞች ዝርዝር ይታያል
+        if (isSuperAdmin || isApprover) {
+            select.innerHTML = '<option value="" disabled selected>-- ሰራተኛ ይምረጡ (አድሚን) --</option>';
+            const db = getUsersDB();
+            let dynamicStaff = new Set(allExcelStaff);
+            Object.values(db).forEach(u => dynamicStaff.add(u.name));
+
+            dynamicStaff.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.innerText = name;
+                select.appendChild(opt);
+            });
+            select.disabled = false;
+        } else {
+            // ተራ ሰራተኛ ከሆነ የራሱ ስም ብቻ በስተመጨረሻ ተመርጦ ይታያል፣ እንዳይቀይረውም ይቆለፋል (Disabled)
             const opt = document.createElement('option');
-            opt.value = name;
-            opt.innerText = name;
+            opt.value = currentUserSession.name;
+            opt.innerText = currentUserSession.name;
+            opt.selected = true;
             select.appendChild(opt);
-        });
+            select.disabled = true;
+        }
     }
 
     document.getElementById('loginForm').addEventListener('submit', function(e) {
@@ -872,6 +889,7 @@
             userControlSec.classList.add('hidden');
         }
 
+        populateStaffDropdown();
         loadReports();
     }
 
@@ -931,7 +949,7 @@
         if (!user) return;
 
         document.getElementById('editOriginalKey').value = userKey;
-        document.getElementById('editStaffName').value = user.name; // User Name can be fully edited
+        document.getElementById('editStaffName').value = user.name;
         document.getElementById('editUsername').value = userKey;
         document.getElementById('editRole').value = user.role;
 
@@ -1033,7 +1051,10 @@
     reportForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        const selectedStaffName = document.getElementById('staffNameSelect').value;
+        // ሪፖርት በሚላክበት ጊዜ ስሙ የሚወሰደው በሲስተሙ ከተፈቀደው dropdown ነው
+        const selectElem = document.getElementById('staffNameSelect');
+        const selectedStaffName = selectElem.value || currentUserSession.name;
+
         if(!selectedStaffName) {
             alert('እባክዎን መጀመሪያ የሰራተኛ ስም ይምረጡ!');
             return;
