@@ -857,13 +857,11 @@
             select.appendChild(opt);
         });
 
-        // Staff ተጠቃሚም ቢሆን መምረጥ እንዲችል Enabled ይደረጋል
+        // Staff ተጠቃሚም ቢሆን ሁልጊዜ መምረጥ እንዲችል ክፍት (Enabled) ይደረጋል
         select.disabled = false;
 
         if (currentVal && Array.from(select.options).some(o => o.value === currentVal)) {
             select.value = currentVal;
-        } else if (currentUserSession.role === 'Staff') {
-            select.value = currentUserSession.name;
         }
     }
 
@@ -1153,7 +1151,7 @@
         e.preventDefault();
 
         const selectElem = document.getElementById('staffNameSelect');
-        const selectedStaffName = selectElem.value || currentUserSession.name;
+        const selectedStaffName = selectElem.value;
 
         if(!selectedStaffName) {
             alert('እባክዎን መጀመሪያ የሰራተኛ ስም ይምረጡ!');
