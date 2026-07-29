@@ -34,7 +34,6 @@
             max-width: 900px;
         }
 
-        /* Top Bar with Language Selector */
         .top-lang-bar {
             display: flex;
             justify-content: flex-end;
@@ -51,7 +50,6 @@
             cursor: pointer;
         }
 
-        /* Header Box */
         .header-box {
             background: linear-gradient(135deg, var(--cbe-purple), var(--cbe-dark));
             color: white;
@@ -74,7 +72,6 @@
             opacity: 0.9;
         }
 
-        /* User Navigation Bar */
         .user-bar {
             display: flex;
             justify-content: space-between;
@@ -96,7 +93,6 @@
             gap: 6px;
         }
 
-        /* Cards */
         .card {
             background: var(--card-bg);
             padding: 18px;
@@ -122,7 +118,6 @@
             margin: 40px auto;
         }
 
-        /* Metric Grid & Cards */
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
@@ -145,7 +140,6 @@
             margin-top: 5px;
         }
 
-        /* Forms & Inputs */
         .form-group { margin-bottom: 12px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
@@ -167,7 +161,6 @@
             font-size: 13px;
         }
 
-        /* Buttons */
         button {
             width: 100%;
             background-color: var(--cbe-purple);
@@ -190,6 +183,8 @@
         .btn-delete { background-color: var(--danger-color); color: white; padding: 4px 8px; font-size: 11px; width: auto; cursor: pointer; border-radius:4px; }
         .btn-approve { background-color: var(--success-color); padding: 4px 8px; font-size: 11px; width: auto; }
         .btn-reject { background-color: var(--danger-color); padding: 4px 8px; font-size: 11px; width: auto; }
+        .btn-cert { background-color: #e67e22; color: white; margin-top: 8px; }
+        .btn-warning { background-color: #c62828; color: white; margin-top: 8px; }
 
         .section-title {
             background: #f3e5f5;
@@ -236,7 +231,6 @@
             border: 1px solid #eee;
         }
 
-        /* Modal Styles */
         .modal {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -262,7 +256,6 @@
 
 <div class="container">
 
-    <!-- Language Selector Bar -->
     <div class="top-lang-bar">
         <select id="langSelect" class="lang-select" onchange="changeLanguage(this.value)">
             <option value="am">🌐 አማርኛ (Amharic)</option>
@@ -270,13 +263,11 @@
         </select>
     </div>
 
-    <!-- Header Box -->
     <div class="header-box">
         <h2 id="txt_app_title">የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h2>
         <p id="txt_app_sub">የሥራ አፈፃፀም ዳሽቦርድ እና የኤስኤምኤስ (SMS) ማስታወሻ ሲስተም</p>
     </div>
 
-    <!-- Login Section -->
     <div id="loginSection" class="login-card">
         <h3 id="txt_login_header">🔐 የሲስተም መግቢያ</h3>
         <form id="loginForm">
@@ -292,10 +283,8 @@
         </form>
     </div>
 
-    <!-- Main Dashboard Section -->
     <div id="appSection" class="hidden">
         
-        <!-- User Welcome Bar -->
         <div class="user-bar">
             <span>👤 <span id="txt_welcome">እንኳን ደህና መጡ:</span> <span id="activeUserName" style="color:var(--cbe-dark);"></span> (<span id="activeUserRole"></span>)</span>
             <div class="btn-group-nav">
@@ -304,7 +293,6 @@
             </div>
         </div>
 
-        <!-- Password Change Card -->
         <div id="passwordCard" class="card hidden" style="border: 2px solid var(--cbe-purple);">
             <h3 id="txt_pwd_title">🔑 የይለፍ ቃል መቀየሪያ</h3>
             <form id="changePasswordForm">
@@ -329,15 +317,14 @@
             </form>
         </div>
 
-        <!-- Best Performer Card -->
+        <!-- Best & Lowest Performer Card with Certificates & Warning Letters -->
         <div id="bestPerformerCard" class="card best-performer-card">
-            <h3 id="txt_star_title">🏆 የሳምንቱ ምርጥ አፈፃፀም ያሳየ ሰራተኛ (Star Performer)</h3>
+            <h3 id="txt_star_title">🏆 የሳምንቱ ከፍተኛ እና ዝቅተኛ አፈፃፀም ያሳዩ ሰራተኞች</h3>
             <div id="bestPerformerContent">
                 <p style="text-align:center; color:#888;">በቂ የጸደቀ ሪፖርት መረጃ አልተገኘም።</p>
             </div>
         </div>
 
-        <!-- Admin Dashboard Overview -->
         <div id="adminDashboardCard" class="card hidden">
             <h3 style="margin-top:0; color:var(--cbe-purple);" id="txt_admin_title">📊 የቅርንጫፍ አጠቃላይ አፈፃፀም (አድሚን ዳሽቦርድ)</h3>
             
@@ -360,7 +347,6 @@
                 </div>
             </div>
 
-            <!-- Branch Creator Section (SuperAdmin Only) -->
             <div id="branchCreatorSection" style="margin-top:15px; background:#f9f4fc; padding:10px; border-radius:8px;" class="hidden">
                 <h4 style="margin:0 0 8px 0; color:var(--cbe-purple);" id="txt_branch_mgr_title">🏛️ አዲስ ቅርንጫፍ / ዘፍ መፍጠሪያ (Branch/Zone Creator)</h4>
                 <div style="display:flex; gap:8px;">
@@ -372,7 +358,6 @@
                 </div>
             </div>
 
-            <!-- User Accounts Table (SuperAdmin Controls) -->
             <div id="adminUserControlSection" style="margin-top:20px;" class="hidden">
                 <h4 style="color:var(--cbe-purple); margin:0 0 8px 0;" id="txt_user_control_title">👥 የሰራተኞች አካውንት፣ ዩዘርኔም እና ስም ማስተካከያ</h4>
                 <div style="overflow-x:auto;">
@@ -392,7 +377,6 @@
             </div>
         </div>
 
-        <!-- Overall Staff Report Summary -->
         <div id="summaryReportCard" class="card">
             <h3 style="margin-top:0; color:var(--cbe-purple);" id="txt_summary_title">📊 የሁሉም ሰራተኞች አጠቃላይ ሪፖርት ማጠቃለያ (Summary)</h3>
             <div style="overflow-x:auto;">
@@ -411,11 +395,9 @@
             </div>
         </div>
 
-        <!-- Report Submission Form -->
         <div class="card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                 <h3 style="margin:0; color:var(--cbe-purple);" id="txt_form_title">📝 አዲስ የሰራተኛ ሪፖርት መሙያ</h3>
-                <!-- Manage Staff List Button - Visible ONLY to SuperAdmin -->
                 <button type="button" class="btn-excel hidden" style="width:auto; padding:5px 12px; font-size:11px;" onclick="openManageDropdownModal()" id="btn_manage_dropdown">⚙️ የድሮፕ ዳውን ስሞችን አስተካክል</button>
             </div>
             
@@ -431,7 +413,6 @@
                     </div>
                 </div>
 
-                <!-- Deposit Section -->
                 <div class="section-title">
                     <span id="txt_sec_deposit">1. የተቀማጭ ገንዘብ (Deposit) አፈፃፀም</span>
                     <label style="font-size:11px;"><input type="checkbox" id="sendDeposit" checked> <span id="txt_inc_1">ይካተት</span></label>
@@ -447,7 +428,6 @@
                     </div>
                 </div>
 
-                <!-- Digital Banking Section -->
                 <div class="section-title">
                     <span id="txt_sec_digital">2. ዲጂታል ባንኪንግ እና አዳዲስ ሂሳቦች</span>
                     <label style="font-size:11px;"><input type="checkbox" id="sendDigital" checked> <span id="txt_inc_2">ይካተት</span></label>
@@ -475,12 +455,11 @@
             </form>
         </div>
 
-        <!-- Reports View Section -->
         <div class="card">
             <h3 style="margin-top:0; color:var(--cbe-purple);" id="txt_reports_list_title">📋 የተላኩ ሪፖርቶችና ማጽደቂያዎች</h3>
             <div id="exportButtons" class="grid-2 hidden">
-                <button onclick="exportToExcel()" class="btn-excel" id="btn_exp_excel">📥 በ Excel አውርድ (CSV)</button>
-                <button onclick="exportToWord()" class="btn-word" id="btn_exp_word">📄 በ Word አውርድ</button>
+                <button onclick="exportToExcel()" class="btn-excel" id="btn_exp_excel">📥 በ Excel አውርድ (.csv)</button>
+                <button onclick="exportToWord()" class="btn-word" id="btn_exp_word">📄 በ Word አውርድ (.doc)</button>
             </div>
             <div id="reportsList" style="margin-top:10px;"></div>
         </div>
@@ -488,16 +467,13 @@
     </div>
 </div>
 
-<!-- Modal for Managing Dropdown Names -->
 <div id="manageDropdownModal" class="modal hidden">
     <div class="modal-content">
         <h3 style="color: var(--cbe-purple); margin-top:0;">⚙️ የድሮፕ ዳውን ሰራተኞች ስም ማስተካከያ</h3>
-        
         <div style="display:flex; gap:8px; margin-bottom:15px;">
             <input type="text" id="newStaffInput" placeholder="አዲስ የሰራተኛ ስም ያስገቡ...">
             <button type="button" onclick="addDropdownStaff()" style="width:auto; padding:6px 12px;">➕ ጨምር</button>
         </div>
-
         <div style="max-height: 250px; overflow-y: auto; border: 1px solid #ddd; padding: 8px; border-radius:6px;">
             <table class="user-list-table">
                 <thead>
@@ -509,14 +485,12 @@
                 <tbody id="dropdownStaffTableBody"></tbody>
             </table>
         </div>
-
         <div style="margin-top: 15px; text-align: right;">
             <button type="button" onclick="closeManageDropdownModal()" style="background:#777; width:auto; padding:6px 15px;">ዝጋ</button>
         </div>
     </div>
 </div>
 
-<!-- Edit User Modal for SuperAdmin -->
 <div id="editUserModal" class="modal hidden">
     <div class="modal-content">
         <h3 style="color: var(--cbe-purple); margin-top:0;">✏️ የተጠቃሚ መረጃ ማስተካከያ (SuperAdmin)</h3>
@@ -566,7 +540,7 @@
             lbl_conf_pwd: "አዲስ ይለፍ ቃል ያረጋግጡ",
             btn_save_pwd: "ይለፍ ቃል ቀይር",
             btn_cancel_pwd: "ሰርዝ",
-            star_title: "🏆 የሳምንቱ ምርጥ አፈፃፀም ያሳየ ሰራተኛ (Star Performer)",
+            star_title: "🏆 የሳምንቱ ከፍተኛ እና ዝቅተኛ አፈፃፀም ያሳዩ ሰራተኞች",
             admin_title: "📊 የቅርንጫፍ አጠቃላይ አፈፃፀም (አድሚን ዳሽቦርድ)",
             m_deposit: "ጠቅላላ የጸደቀ የተቀማጭ ገንዘብ",
             m_achieve: "አማካኝ አፈፃፀም (% Achievement)",
@@ -599,8 +573,8 @@
             lbl_challenges: "ያጋጠሙ ችግሮች / የቀጣይ ዕቅድ",
             btn_submit_report: "ሪፖርት ወደ አድሚን ላክ",
             reports_list_title: "📋 የተላኩ ሪፖርቶችና ማጽደቂያዎች",
-            btn_exp_excel: "📥 በ Excel አውርድ (CSV)",
-            btn_exp_word: "📄 በ Word አውርድ"
+            btn_exp_excel: "📥 በ Excel አውርድ (.csv)",
+            btn_exp_word: "📄 በ Word አውርድ (.doc)"
         },
         en: {
             app_title: "Commercial Bank of Ethiopia - Borkena Branch",
@@ -618,7 +592,7 @@
             lbl_conf_pwd: "Confirm New Password",
             btn_save_pwd: "Change Password",
             btn_cancel_pwd: "Cancel",
-            star_title: "🏆 Star Performer of the Week",
+            star_title: "🏆 Weekly Top and Lowest Performers",
             admin_title: "📊 Branch Overall Dashboard (Admin)",
             m_deposit: "Total Approved Deposit",
             m_achieve: "Average Achievement %",
@@ -651,8 +625,8 @@
             lbl_challenges: "Challenges / Next Strategy",
             btn_submit_report: "Submit Report",
             reports_list_title: "📋 Submitted Reports & Approvals",
-            btn_exp_excel: "📥 Export Excel (CSV)",
-            btn_exp_word: "📄 Export Word Document"
+            btn_exp_excel: "📥 Export Excel (.csv)",
+            btn_exp_word: "📄 Export Word Document (.doc)"
         }
     };
 
@@ -789,7 +763,6 @@
         document.getElementById('loginForm').reset();
     }
 
-    /* Dropdown Manager Modal Functions */
     function openManageDropdownModal() {
         if (currentUserSession && currentUserSession.role === 'SuperAdmin') {
             document.getElementById('manageDropdownModal').classList.remove('hidden');
@@ -1058,6 +1031,12 @@
         tbody.innerHTML = '';
 
         let staffSummary = {};
+        let approvedReports = reports.filter(r => r.status === 'Approved');
+
+        let totalApprovedDeposit = 0;
+        let totalApprovedAcc = 0;
+        let totalApprovedDigital = 0;
+        let totalAchSum = 0;
 
         reports.forEach(r => {
             if (!staffSummary[r.staffName]) {
@@ -1069,7 +1048,25 @@
             s.digital += (r.mbCount || 0) + (r.atmCount || 0) + (r.cbeBirrCount || 0);
             s.acc += parseInt(r.newAccounts) || 0;
             s.count++;
+
+            if (r.status === 'Approved') {
+                totalApprovedDeposit += parseFloat(r.dailyDeposit) || 0;
+                totalApprovedAcc += parseInt(r.newAccounts) || 0;
+                totalApprovedDigital += (r.mbCount || 0) + (r.atmCount || 0) + (r.cbeBirrCount || 0);
+                totalAchSum += parseFloat(r.achievementPct) || 0;
+            }
         });
+
+        // Admin Dashboard Stats
+        document.getElementById('totalDepositVal').innerText = totalApprovedDeposit.toLocaleString('en-US', {minimumFractionDigits: 2}) + ' ብር';
+        document.getElementById('totalAccountsVal').innerText = totalApprovedAcc;
+        document.getElementById('totalDigitalVal').innerText = totalApprovedDigital;
+        document.getElementById('avgAchievementVal').innerText = approvedReports.length > 0 ? (totalAchSum / approvedReports.length).toFixed(2) + '%' : '0%';
+
+        let bestStaff = null;
+        let lowestStaff = null;
+        let maxAch = -1;
+        let minAch = 999999;
 
         Object.keys(staffSummary).forEach(staff => {
             const s = staffSummary[staff];
@@ -1083,7 +1080,41 @@
                 <td>${s.acc}</td>
             `;
             tbody.appendChild(tr);
+
+            if (parseFloat(avgAch) > maxAch) {
+                maxAch = parseFloat(avgAch);
+                bestStaff = { name: staff, ach: avgAch, deposit: s.deposit, digital: s.digital, acc: s.acc };
+            }
+            if (parseFloat(avgAch) < minAch) {
+                minAch = parseFloat(avgAch);
+                lowestStaff = { name: staff, ach: avgAch, deposit: s.deposit, digital: s.digital, acc: s.acc };
+            }
         });
+
+        // Best Performer Section Rendering
+        const bestContent = document.getElementById('bestPerformerContent');
+        if (bestStaff) {
+            bestContent.innerHTML = `
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div style="background:#e8f5e9; padding:10px; border-radius:8px; border:1px solid #2e7d32;">
+                        <h4 style="margin:0 0 5px 0; color:#2e7d32;">🥇 የሳምንቱ ምርጥ ሰራተኛ</h4>
+                        <p style="margin:2px 0;"><strong>ስም:</strong> ${escapeHtml(bestStaff.name)}</p>
+                        <p style="margin:2px 0;"><strong>አፈፃፀም:</strong> ${bestStaff.ach}%</p>
+                        <p style="margin:2px 0;"><strong>ተቀማጭ:</strong> ${bestStaff.deposit.toLocaleString()} ብር</p>
+                        <button class="btn-cert" onclick="downloadCertificate('${escapeHtml(bestStaff.name)}', '${bestStaff.ach}')">📜 የልዩ አፈፃፀም ምስክር ወረቀት አውርድ (Certificate)</button>
+                    </div>
+                    <div style="background:#ffebee; padding:10px; border-radius:8px; border:1px solid #c62828;">
+                        <h4 style="margin:0 0 5px 0; color:#c62828;">⚠️ ዝቅተኛ አፈፃፀም ያሳየ ሰራተኛ</h4>
+                        <p style="margin:2px 0;"><strong>ስም:</strong> ${escapeHtml(lowestStaff.name)}</p>
+                        <p style="margin:2px 0;"><strong>አፈፃፀም:</strong> ${lowestStaff.ach}%</p>
+                        <p style="margin:2px 0;"><strong>ተቀማጭ:</strong> ${lowestStaff.deposit.toLocaleString()} ብር</p>
+                        <button class="btn-warning" onclick="downloadWarningLetter('${escapeHtml(lowestStaff.name)}', '${lowestStaff.ach}')">✉️ የቅጣት / ማስጠንቀቂያ ደብዳቤ አውርድ (Notice Letter)</button>
+                    </div>
+                </div>
+            `;
+        } else {
+            bestContent.innerHTML = '<p style="text-align:center; color:#888;">በቂ የጸደቀ ሪፖርት መረጃ አልተገኘም።</p>';
+        }
     }
 
     function changeStatus(id, newStatus) {
@@ -1108,7 +1139,6 @@
         document.getElementById('passwordCard').classList.toggle('hidden');
     }
 
-    /* User Management by SuperAdmin */
     function renderUserTable() {
         const db = getUsersDB();
         const tbody = document.getElementById('userListTableBody');
@@ -1168,13 +1198,11 @@
 
         const db = getUsersDB();
 
-        // ዩዘርኔም ከተቀየረ እና አዲሱ ዩዘርኔም ሌላ ሰው ላይ ካለ ማረጋገጥ
         if (newUsername !== oldUserKey && db[newUsername]) {
             alert("ይህ Username ቀደም ብሎ ተይዟል! እባክዎን ሌላ ይምረጡ።");
             return;
         }
 
-        // ዳታቤዙን ማዘመን
         const userObject = {
             name: newName,
             pass: newPass,
@@ -1186,7 +1214,6 @@
         }
         db[newUsername] = userObject;
 
-        // የአሁኑ ሰራተኛ የራሱን አካውንት ከቀየረ ሴሽኑን ማዘመን
         if (currentUsernameKey === oldUserKey) {
             currentUsernameKey = newUsername;
             currentUserSession = userObject;
@@ -1199,6 +1226,146 @@
         renderUserTable();
         closeEditUserModal();
         alert("የተጠቃሚው መረጃ (Username፣ ስም እና ሚና) በተሳካ ሁኔታ ተስተካክሏል!");
+    }
+
+    // --- CERTIFICATE & WARNING GENERATORS ---
+    function downloadCertificate(staffName, achPct) {
+        const certHtml = `
+            <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+            <head><title>Certificate</title></head>
+            <body style="font-family: Arial, sans-serif; text-align: center; padding: 40px; border: 10px solid #5c068c;">
+                <h1 style="color: #5c068c; font-size: 28px;">የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h1>
+                <h2 style="color: #ffb81c; font-size: 24px;">🏆 የላቀ የሥራ አፈፃፀም ምስክር ወረቀት</h2>
+                <hr style="border: 1px solid #5c068c; width: 80%;">
+                <br><br>
+                <p style="font-size: 18px;">ይህ ምስክር ወረቀት ለሰራተኛ፦</p>
+                <h2 style="color: #33004b; font-size: 26px; text-decoration: underline;">${staffName}</h2>
+                <p style="font-size: 16px;">በሳምንቱ የሥራ አፈፃፀም ግምገማ <strong>${achPct}%</strong> በማስመዝገብ የሳምንቱ **ምርጥ ሰራተኛ (Star Performer)** በመሆን ስለተለዩ ይህ የዕውቅና ምስክር ወረቀት ተሰጥቷቸዋል።</p>
+                <br><br><br>
+                <div style="display: flex; justify-content: space-between; margin-top: 50px;">
+                    <div>
+                        <p>____________________</p>
+                        <p><strong>የቅርንጫፍ ማናጀር</strong></p>
+                    </div>
+                </div>
+            </body>
+            </html>
+        `;
+        blobDownload(certHtml, `Certificate_${staffName}.doc`, 'application/msword');
+    }
+
+    function downloadWarningLetter(staffName, achPct) {
+        const warningHtml = `
+            <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+            <head><title>Warning Letter</title></head>
+            <body style="font-family: Arial, sans-serif; padding: 30px;">
+                <h2 style="color: #5c068c; text-align: center;">የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h2>
+                <p style="text-align: right;"><strong>ቀን፦</strong> ${new Date().toLocaleDateString()}</p>
+                <p><strong>ለ፦</strong> ${staffName}</p>
+                <p><strong>ጉዳዩ፦</strong> <u>የአፈፃፀም ማሻሻያ ማስታወሻ (Notice of Low Performance)</u></p>
+                <br>
+                <p>በተጠናቀቀው ሳምንታዊ የሥራ አፈፃፀም ግምገማ መሠረት ያስመዘገቡት የሥራ አፈፃፀም <strong>${achPct}%</strong> በመሆኑ እና ከቅርንጫፉ የሚጠበቀውን ዝቅተኛ ግብ ያላሟላ በመሆኑ ይህ ማስታወሻ ሊሰጥዎ ተችሏል።</p>
+                <p>ስለሆነም በሚቀጥሉት የሥራ ቀናት የሥራ አፈፃፀምዎን በማሻሻል የተቀመጡ ግቦችን እንድታስመዘግቡና አስፈላጊውን ጥረት እንድታደርጉ እናሳስባለን።</p>
+                <br><br><br>
+                <p>ከሰላምታ ጋር፣</p>
+                <br>
+                <p>____________________</p>
+                <p><strong>የቅርንጫፍ ሥራ አስኪያጅ</strong></p>
+            </body>
+            </html>
+        `;
+        blobDownload(warningHtml, `Warning_Letter_${staffName}.doc`, 'application/msword');
+    }
+
+    // --- EXCEL & WORD EXPORT FIXES ---
+    function exportToExcel() {
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v11') || '[]');
+        if (reports.length === 0) return alert('የሚወርድ ዳታ የለም!');
+
+        // Add UTF-8 BOM to prevent Amharic character corruption in Excel
+        let csvContent = "\uFEFF";
+        csvContent += "ተ.ቁ,የሰራተኛ ስም,ቀን,የተሰበሰበ ተቀማጭ,አፈፃፀም %,MB,ATM,CBE Birr,አዲስ ሂሳብ,ሁኔታ\n";
+
+        reports.forEach((r, idx) => {
+            csvContent += `${idx + 1},"${r.staffName}","${r.weekDate}",${r.dailyDeposit},${r.achievementPct}%,${r.mbCount},${r.atmCount},${r.cbeBirrCount},${r.newAccounts},"${r.status}"\n`;
+        });
+
+        blobDownload(csvContent, `CBE_Borkena_Report_${new Date().toISOString().slice(0,10)}.csv`, 'text/csv;charset=utf-8;');
+    }
+
+    function exportToWord() {
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v11') || '[]');
+        if (reports.length === 0) return alert('የሚወርድ ዳታ የለም!');
+
+        let approvedReports = reports.filter(r => r.status === 'Approved');
+        let totalDeposit = approvedReports.reduce((sum, r) => sum + (parseFloat(r.dailyDeposit) || 0), 0);
+
+        let tableRows = '';
+        reports.forEach((r, index) => {
+            tableRows += `
+                <tr>
+                    <td style="border:1px solid #ddd; padding:8px;">${index + 1}</td>
+                    <td style="border:1px solid #ddd; padding:8px;"><b>${escapeHtml(r.staffName)}</b></td>
+                    <td style="border:1px solid #ddd; padding:8px;">${r.weekDate}</td>
+                    <td style="border:1px solid #ddd; padding:8px;">${r.dailyDeposit.toLocaleString()} ብር</td>
+                    <td style="border:1px solid #ddd; padding:8px;"><b>${r.achievementPct}%</b></td>
+                    <td style="border:1px solid #ddd; padding:8px;">${r.mbCount + r.atmCount + r.cbeBirrCount}</td>
+                    <td style="border:1px solid #ddd; padding:8px;">${r.newAccounts}</td>
+                    <td style="border:1px solid #ddd; padding:8px;">${r.challenges || '-'}</td>
+                </tr>
+            `;
+        });
+
+        let wordHtml = `
+            <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+            <head><meta charset='utf-8'><title>Branch Performance Report</title></head>
+            <body style="font-family: Arial, sans-serif; padding: 20px;">
+                <h2 style="color: #5c068c; text-align: center;">የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h2>
+                <h3 style="color: #33004b; text-align: center;">ሳምንታዊ የሥራ አፈፃፀም ዝርዝር ማብራሪያ ሪፖርት</h3>
+                <hr style="border: 1px solid #5c068c;">
+                
+                <p><b>ቀን፦</b> ${new Date().toLocaleDateString()}</p>
+                <p><b>የሪፖርቱ አጠቃላይ ማጠቃለያ፦</b></p>
+                <p>በተጠናቀቀው ሳምንት የቦርከና ቅርንጫፍ በጠቅላላው <b>${totalDeposit.toLocaleString()} ብር</b> የተቀማጭ ገንዘብ መሰብሰብ የቻለ ሲሆን፣ የሁሉም ሰራተኞች ዝርዝር አፈፃፀም ከዚህ በታች በሰንጠረዡ ተብራርቷል።</p>
+                
+                <table style="width:100%; border-collapse:collapse; margin-top:15px; font-size:12px;">
+                    <thead>
+                        <tr style="background-color:#5c068c; color:white;">
+                            <th style="padding:8px; border:1px solid #ddd;">ተ.ቁ</th>
+                            <th style="padding:8px; border:1px solid #ddd;">የሰራተኛ ስም</th>
+                            <th style="padding:8px; border:1px solid #ddd;">ቀን</th>
+                            <th style="padding:8px; border:1px solid #ddd;">የተሰበሰበ ተቀማጭ</th>
+                            <th style="padding:8px; border:1px solid #ddd;">አፈፃፀም %</th>
+                            <th style="padding:8px; border:1px solid #ddd;">ዲጂታል</th>
+                            <th style="padding:8px; border:1px solid #ddd;">አዲስ ሂሳብ</th>
+                            <th style="padding:8px; border:1px solid #ddd;">ያጋጠሙ ችግሮች/ማብራሪያ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${tableRows}
+                    </tbody>
+                </table>
+
+                <br><br>
+                <p><b>አዘጋጅ፦</b> ${currentUserSession.name} (${currentUserSession.role})</p>
+                <p><b>ፊርማ፦</b> ____________________</p>
+            </body>
+            </html>
+        `;
+
+        blobDownload(wordHtml, `CBE_Borkena_Detailed_Report_${new Date().toISOString().slice(0,10)}.doc`, 'application/msword');
+    }
+
+    function blobDownload(content, filename, contentType) {
+        const blob = new Blob([content], { type: contentType });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
     }
 </script>
 
