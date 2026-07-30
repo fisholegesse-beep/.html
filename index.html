@@ -1091,9 +1091,9 @@
 
         const bestContent = document.getElementById('bestPerformerContent');
         if (bestStaff) {
-            const bestNameSanitized = bestStaff.name.replace(/'/g, "\\'");
-            const lowestNameSanitized = lowestStaff ? lowestStaff.name.replace(/'/g, "\\'") : '';
-            
+            window.currentBestPerformer = bestStaff;
+            window.currentLowestPerformer = lowestStaff;
+
             bestContent.innerHTML = `
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div style="background:#e8f5e9; padding:10px; border-radius:8px; border:1px solid #2e7d32;">
@@ -1101,14 +1101,14 @@
                         <p style="margin:2px 0;"><strong>ስም:</strong> ${escapeHtml(bestStaff.name)}</p>
                         <p style="margin:2px 0;"><strong>አፈፃፀም:</strong> ${bestStaff.ach}%</p>
                         <p style="margin:2px 0;"><strong>ተቀማጭ:</strong> ${bestStaff.deposit.toLocaleString()} ብር</p>
-                        <button class="btn-cert" onclick="downloadCertificate('${bestNameSanitized}', '${bestStaff.ach}')">📜 የልዩ አፈፃፀም ምስክር ወረቀት አውርድ (Certificate)</button>
+                        <button class="btn-cert" onclick="downloadCertificate()">📜 የልዩ አፈፃፀም ምስክር ወረቀት አውርድ (Certificate)</button>
                     </div>
                     <div style="background:#ffebee; padding:10px; border-radius:8px; border:1px solid #c62828;">
                         <h4 style="margin:0 0 5px 0; color:#c62828;">⚠️ ዝቅተኛ አፈፃፀም ያሳየ ሰራተኛ</h4>
-                        <p style="margin:2px 0;"><strong>ስም:</strong> ${escapeHtml(lowestStaff.name)}</p>
-                        <p style="margin:2px 0;"><strong>አፈፃፀም:</strong> ${lowestStaff.ach}%</p>
-                        <p style="margin:2px 0;"><strong>ተቀማጭ:</strong> ${lowestStaff.deposit.toLocaleString()} ብር</p>
-                        <button class="btn-warning" onclick="downloadWarningLetter('${lowestNameSanitized}', '${lowestStaff.ach}')">✉️ የቅጣት / ማስጠንቀቂያ ደብዳቤ አውርድ (Notice Letter)</button>
+                        <p style="margin:2px 0;"><strong>ስም:</strong> ${escapeHtml(lowestStaff ? lowestStaff.name : '-')}</p>
+                        <p style="margin:2px 0;"><strong>አፈፃፀም:</strong> ${lowestStaff ? lowestStaff.ach : 0}%</p>
+                        <p style="margin:2px 0;"><strong>ተቀማጭ:</strong> ${lowestStaff ? lowestStaff.deposit.toLocaleString() : 0} ብር</p>
+                        <button class="btn-warning" onclick="downloadWarningLetter()">✉️ የቅጣት / ማስጠንቀቂያ ደብዳቤ አውርድ (Notice Letter)</button>
                     </div>
                 </div>
             `;
@@ -1233,8 +1233,12 @@
         alert("የተጠቃሚው መረጃ በተሳካ ሁኔታ ተስተካክሏል!");
     }
 
-    // --- CERTIFICATE & WARNING GENERATORS ---
-    function downloadCertificate(staffName, achPct) {
+    // --- CERTIFICATE & WARNING GENERATORS (FIXED) ---
+    function downloadCertificate() {
+        if(!window.currentBestPerformer) return alert("ምንም የተመረጠ ሰራተኛ የለም!");
+        const staffName = window.currentBestPerformer.name;
+        const achPct = window.currentBestPerformer.ach;
+
         const certHtml = `<!DOCTYPE html>
 <html>
 <head>
@@ -1253,7 +1257,7 @@
     <hr style="border: 1px solid #5c068c; width: 80%;">
     <br><br>
     <p style="font-size: 16px;">ይህ ምስክር ወረቀት ለሰራተኛ፦</p>
-    <div class="name">${staffName}</div>
+    <div class="name">${escapeHtml(staffName)}</div>
     <p style="font-size: 16px;">በሳምንቱ የሥራ አፈፃፀም ግምገማ <b>${achPct}%</b> በማስመዝገብ የሳምንቱ <b>ምርጥ ሰራተኛ (Star Performer)</b> በመሆን ስለተለዩ ይህ የዕውቅና ምስክር ወረቀት ተሰጥቷቸዋል።</p>
     <br><br><br>
     <table style="width:100%; margin-top:50px;">
@@ -1266,10 +1270,14 @@
     </table>
 </body>
 </html>`;
-        blobDownload(certHtml, `Certificate_${staffName.replace(/\s+/g, '_')}.doc`, 'application/msword;charset=utf-8');
+        blobDownload(certHtml, `Certificate_${staffName.replace(/\s+/g, '_')}.doc`, 'application/msword');
     }
 
-    function downloadWarningLetter(staffName, achPct) {
+    function downloadWarningLetter() {
+        if(!window.currentLowestPerformer) return alert("ምንም የተመረጠ ሰራተኛ የለም!");
+        const staffName = window.currentLowestPerformer.name;
+        const achPct = window.currentLowestPerformer.ach;
+
         const warningHtml = `<!DOCTYPE html>
 <html>
 <head>
@@ -1283,7 +1291,7 @@
 <body>
     <h2>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h2>
     <p style="text-align: right;"><b>ቀን፦</b> ${new Date().toLocaleDateString('am-ET')}</p>
-    <p><b>ለ፦</b> ${staffName}</p>
+    <p><b>ለ፦</b> ${escapeHtml(staffName)}</p>
     <p><b>ጉዳዩ፦</b> <u>የአፈፃፀም ማሻሻያ ማስታወሻ (Notice of Low Performance)</u></p>
     <br>
     <p>በተጠናቀቀው ሳምንታዊ የሥራ አፈፃፀም ግምገማ መሠረት ያስመዘገቡት የሥራ አፈፃፀም <b>${achPct}%</b> በመሆኑ እና ከቅርንጫፉ የሚጠበቀውን ዝቅተኛ ግብ ያላሟላ በመሆኑ ይህ ማስታወሻ ሊሰጥዎ ተችሏል።</p>
@@ -1295,7 +1303,7 @@
     <p><b>የቅርንጫፍ ሥራ አስኪያጅ</b></p>
 </body>
 </html>`;
-        blobDownload(warningHtml, `Warning_Letter_${staffName.replace(/\s+/g, '_')}.doc`, 'application/msword;charset=utf-8');
+        blobDownload(warningHtml, `Warning_Letter_${staffName.replace(/\s+/g, '_')}.doc`, 'application/msword');
     }
 
     // --- EXCEL & WORD EXPORT FIXES ---
@@ -1309,7 +1317,7 @@
             csvContent += `${idx + 1},"${r.staffName}","${r.weekDate}",${r.dailyDeposit},${r.achievementPct}%,${r.mbCount},${r.atmCount},${r.cbeBirrCount},${r.newAccounts},"${r.status}"\n`;
         });
 
-        blobDownload(csvContent, `CBE_Borkena_Report_${new Date().toISOString().slice(0,10)}.csv`, 'text/csv;charset=utf-8;');
+        blobDownload(csvContent, `CBE_Borkena_Report_${new Date().toISOString().slice(0,10)}.csv`, 'text/csv');
     }
 
     function exportToWord() {
@@ -1328,9 +1336,9 @@
                     <td style="border:1px solid #ddd; padding:8px;">${r.weekDate}</td>
                     <td style="border:1px solid #ddd; padding:8px;">${r.dailyDeposit.toLocaleString()} ብር</td>
                     <td style="border:1px solid #ddd; padding:8px;"><b>${r.achievementPct}%</b></td>
-                    <td style="border:1px solid #ddd; padding:8px;">${r.mbCount + r.atmCount + r.cbeBirrCount}</td>
+                    <td style="border:1px solid #ddd; padding:8px;">${(r.mbCount||0) + (r.atmCount||0) + (r.cbeBirrCount||0)}</td>
                     <td style="border:1px solid #ddd; padding:8px;">${r.newAccounts}</td>
-                    <td style="border:1px solid #ddd; padding:8px;">${r.challenges || '-'}</td>
+                    <td style="border:1px solid #ddd; padding:8px;">${escapeHtml(r.challenges) || '-'}</td>
                 </tr>
             `;
         });
@@ -1369,26 +1377,30 @@
     </table>
 
     <br><br>
-    <p><b>አዘጋጅ፦</b> ${currentUserSession ? currentUserSession.name : ''} (${currentUserSession ? currentUserSession.role : ''})</p>
+    <p><b>አዘጋጅ፦</b> ${currentUserSession ? escapeHtml(currentUserSession.name) : ''} (${currentUserSession ? escapeHtml(currentUserSession.role) : ''})</p>
     <p><b>ፊርማ፦</b> ____________________</p>
 </body>
 </html>`;
 
-        blobDownload(wordHtml, `CBE_Borkena_Detailed_Report_${new Date().toISOString().slice(0,10)}.doc`, 'application/msword;charset=utf-8');
+        blobDownload(wordHtml, `CBE_Borkena_Detailed_Report_${new Date().toISOString().slice(0,10)}.doc`, 'application/msword');
     }
 
-    // Reliable Blob Generator with UTF-8 BOM (\uFEFF)
+    // Reliable UTF-8 Blob Downloader
     function blobDownload(content, filename, contentType) {
-        const bom = new Uint8Array([0xEF, 0xBB, 0xBF]); // UTF-8 BOM for Word/Excel encoding
-        const blob = new Blob([bom, content], { type: contentType });
+        const bom = new Uint8Array([0xEF, 0xBB, 0xBF]); // UTF-8 BOM for proper Amharic rendering in MS Word/Excel
+        const blob = new Blob([bom, content], { type: contentType + ';charset=utf-8' });
+        
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
         a.download = filename;
         document.body.appendChild(a);
         a.click();
-        document.body.removeChild(a);
-        setTimeout(() => URL.revokeObjectURL(url), 500);
+        
+        setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 300);
     }
 </script>
 
