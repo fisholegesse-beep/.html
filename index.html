@@ -31,7 +31,7 @@
 
         .container {
             width: 100%;
-            max-width: 900px;
+            max-width: 950px;
         }
 
         .top-lang-bar {
@@ -143,6 +143,7 @@
         .form-group { margin-bottom: 12px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
 
         label {
             display: block;
@@ -179,6 +180,7 @@
         .btn-word { background-color: #2b579a; }
         .btn-logout { background-color: var(--danger-color); padding: 5px 10px; font-size: 11px; width: auto; }
         .btn-pwd { background-color: var(--cbe-purple); padding: 5px 10px; font-size: 11px; width: auto; }
+        .btn-plan { background-color: #d35400; color: white; padding: 5px 12px; font-size: 11px; width: auto; }
         .btn-edit { background-color: #f39c12; color: white; padding: 4px 8px; font-size: 11px; width: auto; margin-right: 3px; cursor: pointer; border-radius:4px; }
         .btn-delete { background-color: var(--danger-color); color: white; padding: 4px 8px; font-size: 11px; width: auto; cursor: pointer; border-radius:4px; }
         .btn-approve { background-color: var(--success-color); padding: 4px 8px; font-size: 11px; width: auto; }
@@ -231,6 +233,15 @@
             border: 1px solid #eee;
         }
 
+        .plan-display-box {
+            background: #fff8e1;
+            border: 1px dashed #ffa000;
+            padding: 8px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 11px;
+        }
+
         .modal {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -245,7 +256,9 @@
             padding: 20px;
             border-radius: 12px;
             width: 90%;
-            max-width: 500px;
+            max-width: 650px;
+            max-height: 90vh;
+            overflow-y: auto;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
@@ -288,6 +301,7 @@
         <div class="user-bar">
             <span>👤 <span id="txt_welcome">እንኳን ደህና መጡ:</span> <span id="activeUserName" style="color:var(--cbe-dark);"></span> (<span id="activeUserRole"></span>)</span>
             <div class="btn-group-nav">
+                <button class="btn-plan hidden" onclick="openPlanManagementModal()" id="btn_manage_plans">🎯 ፕላን ማስተካከያ</button>
                 <button class="btn-pwd" onclick="togglePasswordModal()" id="btn_change_pwd">🔑 ፓስወርድ ቀይር</button>
                 <button class="btn-logout" onclick="logout()" id="btn_logout">ውጣ (Logout)</button>
             </div>
@@ -404,12 +418,17 @@
                 <div class="form-group grid-2">
                     <div>
                         <label id="lbl_select_staff" for="staffNameSelect">የሰራተኛው ስም</label>
-                        <select id="staffNameSelect" required></select>
+                        <select id="staffNameSelect" required onchange="onStaffSelectChange(this.value)"></select>
                     </div>
                     <div>
                         <label id="lbl_date" for="weekDate">ቀን</label>
                         <input type="date" id="weekDate" required>
                     </div>
+                </div>
+
+                <div id="staffPlanDisplayBox" class="plan-display-box hidden">
+                    <strong>🎯 የሰራተኛው የተመደበ ፕላን (Assigned Targets):</strong>
+                    <div id="planSummaryDetails" style="margin-top:4px;"></div>
                 </div>
 
                 <div class="section-title">
@@ -418,8 +437,8 @@
                 </div>
                 <div class="grid-2" style="margin-bottom: 6px;">
                     <div class="form-group">
-                        <label id="lbl_plan">የቀን ፕላን (Plan in Birr)</label>
-                        <input type="number" id="dailyPlan" value="118184.95" readonly style="background-color: #eee;">
+                        <label id="lbl_plan">የቀን ፕላን (Birr)</label>
+                        <input type="number" id="dailyPlan" readonly style="background-color: #eee;">
                     </div>
                     <div class="form-group">
                         <label id="lbl_actual">የተሰበሰበ (Actual Deposit)</label>
@@ -432,9 +451,9 @@
                     <label style="font-size:11px;"><input type="checkbox" id="sendDigital" checked> <span id="txt_inc_2">ይካተት</span></label>
                 </div>
                 <div class="grid-3">
-                    <div class="form-group"><label>Mobile Banking</label><input type="number" id="mbCount" placeholder="0" min="0"></div>
-                    <div class="form-group"><label>ATM Card</label><input type="number" id="atmCount" placeholder="0" min="0"></div>
-                    <div class="form-group"><label>CBE Birr</label><input type="number" id="cbeBirrCount" placeholder="0" min="0"></div>
+                    <div class="form-group"><label>Mobile Banking (አክቱዋል)</label><input type="number" id="mbCount" placeholder="0" min="0"></div>
+                    <div class="form-group"><label>ATM Card (አክቱዋል)</label><input type="number" id="atmCount" placeholder="0" min="0"></div>
+                    <div class="form-group"><label>CBE Birr (አክቱዋል)</label><input type="number" id="cbeBirrCount" placeholder="0" min="0"></div>
                 </div>
                 <div class="grid-2">
                     <div class="form-group"><label id="lbl_new_acc">አዳዲስ ሂሳብ (Acc.)</label><input type="number" id="newAccounts" placeholder="0" min="0"></div>
@@ -463,6 +482,64 @@
             <div id="reportsList" style="margin-top:10px;"></div>
         </div>
 
+    </div>
+</div>
+
+<!-- Plan Management Modal (For Admins/Approvers) -->
+<div id="planManagementModal" class="modal hidden">
+    <div class="modal-content">
+        <h3 style="color: var(--cbe-purple); margin-top:0;">🎯 የሰራተኞች ፕላን/ታርጌት ማስተካከያ (Plan Allocation)</h3>
+        <p style="font-size:12px; color:#666;">ለእያንዳንዱ ሰራተኛ የቀን፣ የሳምንት፣ የወር እና የሩብ አመት ፕላን እዚህ መስጠት እና መቀያየር ይችላሉ።</p>
+        
+        <div class="form-group">
+            <label>ሰራተኛ ይምረጡ</label>
+            <select id="modalPlanStaffSelect" onchange="loadStaffPlanToModal(this.value)"></select>
+        </div>
+
+        <div style="border:1px solid #ddd; padding:10px; border-radius:8px; margin-bottom:12px; background:#fbfbfb;">
+            <h4 style="margin:0 0 8px 0; color:var(--cbe-purple);">💰 የተቀማጭ (Deposit) ፕላን (ብር)</h4>
+            <div class="grid-4">
+                <div class="form-group"><label>የቀን ፕላን</label><input type="number" id="p_dep_daily" placeholder="0"></div>
+                <div class="form-group"><label>የሳምንት ፕላን</label><input type="number" id="p_dep_weekly" placeholder="0"></div>
+                <div class="form-group"><label>የወር ፕላን</label><input type="number" id="p_dep_monthly" placeholder="0"></div>
+                <div class="form-group"><label>የሩብ አመት ፕላን</label><input type="number" id="p_dep_quarterly" placeholder="0"></div>
+            </div>
+        </div>
+
+        <div style="border:1px solid #ddd; padding:10px; border-radius:8px; margin-bottom:12px; background:#fbfbfb;">
+            <h4 style="margin:0 0 8px 0; color:var(--cbe-purple);">📱 Mobile Banking ፕላን (በቁጥር)</h4>
+            <div class="grid-4">
+                <div class="form-group"><label>የቀን</label><input type="number" id="p_mb_daily" placeholder="0"></div>
+                <div class="form-group"><label>የሳምንት</label><input type="number" id="p_mb_weekly" placeholder="0"></div>
+                <div class="form-group"><label>የወር</label><input type="number" id="p_mb_monthly" placeholder="0"></div>
+                <div class="form-group"><label>የሩብ አመት</label><input type="number" id="p_mb_quarterly" placeholder="0"></div>
+            </div>
+        </div>
+
+        <div style="border:1px solid #ddd; padding:10px; border-radius:8px; margin-bottom:12px; background:#fbfbfb;">
+            <h4 style="margin:0 0 8px 0; color:var(--cbe-purple);">💳 ATM Card ፕላን (በቁጥር)</h4>
+            <div class="grid-4">
+                <div class="form-group"><label>የቀን</label><input type="number" id="p_atm_daily" placeholder="0"></div>
+                <div class="form-group"><label>የሳምንት</label><input type="number" id="p_atm_weekly" placeholder="0"></div>
+                <div class="form-group"><label>የወር</label><input type="number" id="p_atm_monthly" placeholder="0"></div>
+                <div class="form-group"><label>የሩብ አመት</label><input type="number" id="p_atm_quarterly" placeholder="0"></div>
+            </div>
+        </div>
+
+        <div style="border:1px solid #ddd; padding:10px; border-radius:8px; margin-bottom:12px; background:#fbfbfb;">
+            <h4 style="margin:0 0 8px 0; color:var(--cbe-purple);">🟣 CBE Birr ፕላን (በቁጥር)</h4>
+            <div class="grid-4">
+                <div class="form-group"><label>የቀን</label><input type="number" id="p_cbe_daily" placeholder="0"></div>
+                <div class="form-group"><label>የሳምንት</label><input type="number" id="p_cbe_weekly" placeholder="0"></div>
+                <div class="form-group"><label>የወር</label><input type="number" id="p_cbe_monthly" placeholder="0"></div>
+                <div class="form-group"><label>የሩብ አመት</label><input type="number" id="p_cbe_quarterly" placeholder="0"></div>
+            </div>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:15px;">
+            <button type="button" onclick="saveStaffPlanDetails()">💾 ፕላን መዝግብ / አስቀምጥ</button>
+            <button type="button" onclick="closePlanManagementModal()" style="background:#777;">ዝጋ</button>
+        </div>
     </div>
 </div>
 
@@ -563,7 +640,7 @@
             lbl_date: "ቀን",
             sec_deposit: "1. የተቀማጭ ገንዘብ (Deposit) አፈፃፀም",
             inc: "ይካተት",
-            lbl_plan: "የቀን ፕላን (Plan in Birr)",
+            lbl_plan: "የቀን ፕላን (Birr)",
             lbl_actual: "የተሰበሰበ (Actual Deposit)",
             sec_digital: "2. ዲጂታል ባንኪንግ እና አዳዲስ ሂሳቦች",
             lbl_new_acc: "አዳዲስ ሂሳብ (Acc.)",
@@ -705,21 +782,31 @@
     };
 
     function getCustomStaffList() {
-        const saved = localStorage.getItem('cbe_custom_staff_v11');
+        const saved = localStorage.getItem('cbe_custom_staff_v12');
         return saved ? JSON.parse(saved) : defaultExcelStaff;
     }
 
     function saveCustomStaffList(list) {
-        localStorage.setItem('cbe_custom_staff_v11', JSON.stringify(list));
+        localStorage.setItem('cbe_custom_staff_v12', JSON.stringify(list));
     }
 
     function getUsersDB() {
-        const savedDB = localStorage.getItem('cbe_users_db_v11');
+        const savedDB = localStorage.getItem('cbe_users_db_v12');
         return savedDB ? JSON.parse(savedDB) : defaultUsersDatabase;
     }
 
     function saveUsersDB(db) {
-        localStorage.setItem('cbe_users_db_v11', JSON.stringify(db));
+        localStorage.setItem('cbe_users_db_v12', JSON.stringify(db));
+    }
+
+    // Storage for Staff Plans
+    function getStaffPlans() {
+        const saved = localStorage.getItem('cbe_staff_plans_v12');
+        return saved ? JSON.parse(saved) : {};
+    }
+
+    function saveStaffPlans(plans) {
+        localStorage.setItem('cbe_staff_plans_v12', JSON.stringify(plans));
     }
 
     let currentUserSession = null;
@@ -727,7 +814,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('weekDate').valueAsDate = new Date();
-        const savedSession = localStorage.getItem('cbe_user_session_v11');
+        const savedSession = localStorage.getItem('cbe_user_session_v12');
         if (savedSession) {
             const parsedData = JSON.parse(savedSession);
             currentUserSession = parsedData.session;
@@ -746,7 +833,7 @@
         if (db[userKey] && db[userKey].pass === passKey) {
             currentUserSession = db[userKey];
             currentUsernameKey = userKey;
-            localStorage.setItem('cbe_user_session_v11', JSON.stringify({ session: currentUserSession, usernameKey: userKey }));
+            localStorage.setItem('cbe_user_session_v12', JSON.stringify({ session: currentUserSession, usernameKey: userKey }));
             initDashboard();
         } else {
             alert(currentLang === 'am' ? 'የተሳሳተ የተጠቃሚ ስም ወይም ይለፍ ቃል!' : 'Invalid username or password!');
@@ -754,7 +841,7 @@
     });
 
     function logout() {
-        localStorage.removeItem('cbe_user_session_v11');
+        localStorage.removeItem('cbe_user_session_v12');
         currentUserSession = null;
         currentUsernameKey = null;
         document.getElementById('appSection').classList.add('hidden');
@@ -839,6 +926,7 @@
         const userControlSec = document.getElementById('adminUserControlSection');
         const branchCreatorSec = document.getElementById('branchCreatorSection');
         const manageDropdownBtn = document.getElementById('btn_manage_dropdown');
+        const managePlansBtn = document.getElementById('btn_manage_plans');
 
         const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
         const isApprover = currentUserSession.role === 'Approver';
@@ -847,11 +935,13 @@
             adminCard.classList.remove('hidden');
             exportBtns.classList.remove('hidden');
             userControlSec.classList.remove('hidden');
+            managePlansBtn.classList.remove('hidden');
             renderUserTable();
         } else {
             adminCard.classList.add('hidden');
             exportBtns.classList.add('hidden');
             userControlSec.classList.add('hidden');
+            managePlansBtn.classList.add('hidden');
         }
 
         if (isSuperAdmin) {
@@ -896,7 +986,10 @@
 
     function populateStaffDropdown() {
         const select = document.getElementById('staffNameSelect');
+        const modalSelect = document.getElementById('modalPlanStaffSelect');
+        
         select.innerHTML = '<option value="" disabled selected>-- ሰራተኛ ይምረጡ --</option>';
+        modalSelect.innerHTML = '<option value="" disabled selected>-- ሰራተኛ ይምረጡ --</option>';
 
         let staffList = getCustomStaffList();
 
@@ -905,9 +998,112 @@
             opt.value = name;
             opt.innerText = name;
             select.appendChild(opt);
+
+            const opt2 = document.createElement('option');
+            opt2.value = name;
+            opt2.innerText = name;
+            modalSelect.appendChild(opt2);
         });
 
         select.disabled = false;
+    }
+
+    function onStaffSelectChange(staffName) {
+        const plans = getStaffPlans();
+        const p = plans[staffName];
+        
+        const displayBox = document.getElementById('staffPlanDisplayBox');
+        const details = document.getElementById('planSummaryDetails');
+        const dailyPlanInput = document.getElementById('dailyPlan');
+
+        if (p) {
+            dailyPlanInput.value = p.dep_daily || 118184.95;
+            displayBox.classList.remove('hidden');
+            details.innerHTML = `
+                💰 <strong>Deposit Plan:</strong> የቀን: ${p.dep_daily || 0} | የሳምንት: ${p.dep_weekly || 0} | የወር: ${p.dep_monthly || 0} | የሩብ አመት: ${p.dep_quarterly || 0} ብር<br>
+                📱 <strong>MB Plan:</strong> የቀን: ${p.mb_daily || 0} | የሳምንት: ${p.mb_weekly || 0} | የወር: ${p.mb_monthly || 0} | የሩብ አመት: ${p.mb_quarterly || 0}<br>
+                💳 <strong>ATM Plan:</strong> የቀን: ${p.atm_daily || 0} | የሳምንት: ${p.atm_weekly || 0} | የወር: ${p.atm_monthly || 0} | የሩብ አመት: ${p.atm_quarterly || 0}<br>
+                🟣 <strong>CBE Birr Plan:</strong> የቀን: ${p.cbe_daily || 0} | የሳምንት: ${p.cbe_weekly || 0} | የወር: ${p.cbe_monthly || 0} | የሩብ አመት: ${p.cbe_quarterly || 0}
+            `;
+        } else {
+            dailyPlanInput.value = "118184.95";
+            displayBox.classList.add('hidden');
+        }
+    }
+
+    // --- PLAN MANAGEMENT MODAL LOGIC ---
+    function openPlanManagementModal() {
+        if (currentUserSession.role === 'SuperAdmin' || currentUserSession.role === 'Approver') {
+            document.getElementById('planManagementModal').classList.remove('hidden');
+        } else {
+            alert('ፈቃድ የለዎትም!');
+        }
+    }
+
+    function closePlanManagementModal() {
+        document.getElementById('planManagementModal').classList.add('hidden');
+    }
+
+    function loadStaffPlanToModal(staffName) {
+        const plans = getStaffPlans();
+        const p = plans[staffName] || {};
+
+        document.getElementById('p_dep_daily').value = p.dep_daily || '';
+        document.getElementById('p_dep_weekly').value = p.dep_weekly || '';
+        document.getElementById('p_dep_monthly').value = p.dep_monthly || '';
+        document.getElementById('p_dep_quarterly').value = p.dep_quarterly || '';
+
+        document.getElementById('p_mb_daily').value = p.mb_daily || '';
+        document.getElementById('p_mb_weekly').value = p.mb_weekly || '';
+        document.getElementById('p_mb_monthly').value = p.mb_monthly || '';
+        document.getElementById('p_mb_quarterly').value = p.mb_quarterly || '';
+
+        document.getElementById('p_atm_daily').value = p.atm_daily || '';
+        document.getElementById('p_atm_weekly').value = p.atm_weekly || '';
+        document.getElementById('p_atm_monthly').value = p.atm_monthly || '';
+        document.getElementById('p_atm_quarterly').value = p.atm_quarterly || '';
+
+        document.getElementById('p_cbe_daily').value = p.cbe_daily || '';
+        document.getElementById('p_cbe_weekly').value = p.cbe_weekly || '';
+        document.getElementById('p_cbe_monthly').value = p.cbe_monthly || '';
+        document.getElementById('p_cbe_quarterly').value = p.cbe_quarterly || '';
+    }
+
+    function saveStaffPlanDetails() {
+        const staffName = document.getElementById('modalPlanStaffSelect').value;
+        if (!staffName) return alert('እባክዎን ሰራተኛ ይምረጡ!');
+
+        let plans = getStaffPlans();
+        plans[staffName] = {
+            dep_daily: parseFloat(document.getElementById('p_dep_daily').value) || 0,
+            dep_weekly: parseFloat(document.getElementById('p_dep_weekly').value) || 0,
+            dep_monthly: parseFloat(document.getElementById('p_dep_monthly').value) || 0,
+            dep_quarterly: parseFloat(document.getElementById('p_dep_quarterly').value) || 0,
+
+            mb_daily: parseInt(document.getElementById('p_mb_daily').value) || 0,
+            mb_weekly: parseInt(document.getElementById('p_mb_weekly').value) || 0,
+            mb_monthly: parseInt(document.getElementById('p_mb_monthly').value) || 0,
+            mb_quarterly: parseInt(document.getElementById('p_mb_quarterly').value) || 0,
+
+            atm_daily: parseInt(document.getElementById('p_atm_daily').value) || 0,
+            atm_weekly: parseInt(document.getElementById('p_atm_weekly').value) || 0,
+            atm_monthly: parseInt(document.getElementById('p_atm_monthly').value) || 0,
+            atm_quarterly: parseInt(document.getElementById('p_atm_quarterly').value) || 0,
+
+            cbe_daily: parseInt(document.getElementById('p_cbe_daily').value) || 0,
+            cbe_weekly: parseInt(document.getElementById('p_cbe_weekly').value) || 0,
+            cbe_monthly: parseInt(document.getElementById('p_cbe_monthly').value) || 0,
+            cbe_quarterly: parseInt(document.getElementById('p_cbe_quarterly').value) || 0
+        };
+
+        saveStaffPlans(plans);
+        alert(`ለ ${staffName} ፕላን በተሳካ ሁኔታ ተመዝግቧል/ተቀይሯል!`);
+        closePlanManagementModal();
+
+        // Refresh main form if same staff selected
+        if (document.getElementById('staffNameSelect').value === staffName) {
+            onStaffSelectChange(staffName);
+        }
     }
 
     const reportForm = document.getElementById('reportForm');
@@ -946,13 +1142,14 @@
             approvedBy: ''
         };
 
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v11') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v12') || '[]');
         reports.unshift(newReport);
-        localStorage.setItem('cbe_borkena_reports_v11', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v12', JSON.stringify(reports));
 
         reportForm.reset();
         document.getElementById('dailyPlan').value = "118184.95";
         document.getElementById('weekDate').valueAsDate = new Date();
+        document.getElementById('staffPlanDisplayBox').classList.add('hidden');
         populateStaffDropdown();
         
         alert('ሪፖርቱ በጥሩ ሁኔታ ተልኳል!');
@@ -960,7 +1157,7 @@
     });
 
     function loadReports() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v11') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v12') || '[]');
         const reportsList = document.getElementById('reportsList');
         
         const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
@@ -1118,7 +1315,7 @@
     }
 
     function changeStatus(id, newStatus) {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v11') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v12') || '[]');
         reports = reports.map(r => {
             if (r.id === id) {
                 r.status = newStatus;
@@ -1126,7 +1323,7 @@
             }
             return r;
         });
-        localStorage.setItem('cbe_borkena_reports_v11', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_reports_v12', JSON.stringify(reports));
         loadReports();
     }
 
@@ -1222,7 +1419,7 @@
         if (currentUsernameKey === oldUserKey) {
             currentUsernameKey = newUsername;
             currentUserSession = userObject;
-            localStorage.setItem('cbe_user_session_v11', JSON.stringify({ session: currentUserSession, usernameKey: newUsername }));
+            localStorage.setItem('cbe_user_session_v12', JSON.stringify({ session: currentUserSession, usernameKey: newUsername }));
             document.getElementById('activeUserName').innerText = newName;
             document.getElementById('activeUserRole').innerText = newRole;
         }
@@ -1233,7 +1430,6 @@
         alert("የተጠቃሚው መረጃ በተሳካ ሁኔታ ተስተካክሏል!");
     }
 
-    // --- CERTIFICATE & WARNING GENERATORS (MS WORD COMPATIBLE) ---
     function downloadCertificate() {
         if(!window.currentBestPerformer) return alert("ምንም የተመረጠ ሰራተኛ የለም!");
         const staffName = window.currentBestPerformer.name;
@@ -1243,15 +1439,6 @@
 <head>
     <meta charset="utf-8">
     <title>Certificate</title>
-    <!--[if gte mso 9]>
-    <xml>
-    <w:WordDocument>
-        <w:View>Print</w:View>
-        <w:Zoom>100</w:Zoom>
-        <w:DoNotOptimizeForCustomXSL/>
-    </w:WordDocument>
-    </xml>
-    <![endif]-->
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 40px; border: 10px solid #5c068c; }
         h1 { color: #5c068c; font-size: 26px; }
@@ -1290,14 +1477,6 @@
 <head>
     <meta charset="utf-8">
     <title>Warning Letter</title>
-    <!--[if gte mso 9]>
-    <xml>
-    <w:WordDocument>
-        <w:View>Print</w:View>
-        <w:Zoom>100</w:Zoom>
-    </w:WordDocument>
-    </xml>
-    <![endif]-->
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 30px; }
         h2 { color: #5c068c; text-align: center; }
@@ -1321,9 +1500,8 @@
         blobDownload(warningHtml, `Warning_Letter_${staffName.replace(/\s+/g, '_')}.doc`, 'application/msword');
     }
 
-    // --- EXCEL & WORD EXPORT FIXES ---
     function exportToExcel() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v11') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v12') || '[]');
         if (reports.length === 0) return alert('የሚወርድ ዳታ የለም!');
 
         let csvContent = "ተ.ቁ,የሰራተኛ ስም,ቀን,የተሰበሰበ ተቀማጭ,አፈፃፀም %,MB,ATM,CBE Birr,አዲስ ሂሳብ,ሁኔታ\n";
@@ -1336,7 +1514,7 @@
     }
 
     function exportToWord() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v11') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v12') || '[]');
         if (reports.length === 0) return alert('የሚወርድ ዳታ የለም!');
 
         let approvedReports = reports.filter(r => r.status === 'Approved');
@@ -1362,14 +1540,6 @@
 <head>
     <meta charset="utf-8">
     <title>Branch Performance Report</title>
-    <!--[if gte mso 9]>
-    <xml>
-    <w:WordDocument>
-        <w:View>Print</w:View>
-        <w:Zoom>100</w:Zoom>
-    </w:WordDocument>
-    </xml>
-    <![endif]-->
 </head>
 <body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px;">
     <h2 style="color: #5c068c; text-align: center;">የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h2>
@@ -1407,9 +1577,8 @@
         blobDownload(wordHtml, `CBE_Borkena_Detailed_Report_${new Date().toISOString().slice(0,10)}.doc`, 'application/msword');
     }
 
-    // Fixed Blob Downloader with UTF-8 BOM
     function blobDownload(content, filename, contentType) {
-        const bom = new Uint8Array([0xEF, 0xBB, 0xBF]); // UTF-8 BOM
+        const bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
         const blob = new Blob([bom, content], { type: contentType + ';charset=utf-8' });
         
         const url = URL.createObjectURL(blob);
