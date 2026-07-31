@@ -26,7 +26,7 @@
             justify-content: center;
         }
 
-        .container { width: 100%; max-width: 950px; }
+        .container { width: 100%; max-width: 1100px; }
 
         .header-box {
             background: linear-gradient(135deg, var(--cbe-purple), var(--cbe-dark));
@@ -55,7 +55,6 @@
             box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
 
-        /* Nav Menu Bar */
         .nav-menu {
             display: flex;
             gap: 6px;
@@ -96,6 +95,7 @@
         }
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
         .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
 
         .form-group { margin-bottom: 10px; }
@@ -107,12 +107,28 @@
         }
         button.btn-main:hover { background: var(--cbe-dark); }
 
+        .btn-word {
+            background: #2b579a;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 12px;
+            margin-bottom: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-word:hover { background: #1a3660; }
+
         .section-title {
             background: #f3e5f5; color: var(--cbe-purple); padding: 5px 8px; border-radius: 5px; font-weight: bold; font-size: 12px; margin: 10px 0 6px 0;
         }
 
-        .table-custom { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 8px; }
-        .table-custom th, .table-custom td { border: 1px solid #e0e0e0; padding: 6px; text-align: center; }
+        .table-custom { width: 100%; border-collapse: collapse; font-size: 10px; margin-top: 8px; }
+        .table-custom th, .table-custom td { border: 1px solid #ccc; padding: 5px 3px; text-align: center; }
         .table-custom th { background: #f3e5f5; color: var(--cbe-purple); }
 
         .hidden { display: none !important; }
@@ -125,7 +141,7 @@
 
     <div class="header-box">
         <h2>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h2>
-        <p>የሰራተኞች የፕላን ማስተካከያ እና የአፈፃፀም ዳሽቦርድ</p>
+        <p>የሰራተኞች የፕላን፣ FCY፣ ደንበኞች ምልመላ እና አፈፃፀም ዳሽቦርድ</p>
     </div>
 
     <!-- Login Section -->
@@ -154,9 +170,9 @@
 
         <!-- Main Navigation Menu -->
         <div class="nav-menu">
-            <button class="nav-btn active" onclick="switchTab('reportTab')">📝 Daily Report (አፈፃፀም)</button>
-            <button class="nav-btn" id="menuPlanBtn" onclick="switchTab('planTab')">⚙️ Plan Management (ፕላን መስጫ)</button>
-            <button class="nav-btn" onclick="switchTab('summaryTab')">📊 Summary & Dashboard</button>
+            <button class="nav-btn active" onclick="switchTab('reportTab', event)">📝 Daily Report (አፈፃፀም)</button>
+            <button class="nav-btn" id="menuPlanBtn" onclick="switchTab('planTab', event)">⚙️ Plan Management (ፕላን መስጫ)</button>
+            <button class="nav-btn" onclick="switchTab('summaryTab', event)">📊 Dashboard & Word Export</button>
         </div>
 
         <!-- TAB 1: DAILY REPORT SUBMISSION -->
@@ -177,7 +193,7 @@
                 <div class="section-title">1. የተቀማጭ ገንዘብ (Deposit) አፈፃፀም</div>
                 <div class="grid-2">
                     <div class="form-group">
-                        <label>የተቀመጠልዎ የቀን ዲፖዚት ፕላን (Birr)</label>
+                        <label>የቀን ዲፖዚት ፕላን (Birr)</label>
                         <input type="number" id="repDepositPlan" readonly style="background:#eee;">
                     </div>
                     <div class="form-group">
@@ -186,8 +202,20 @@
                     </div>
                 </div>
 
-                <div class="section-title">2. የዲጂታል ባንኪንግ አፈፃፀም (የቀን ፕላን vs የተሰራ)</div>
-                <div class="grid-3 grid-4">
+                <div class="section-title">2. የውጭ ሀገር ገንዘብ (FCY) እና አዲስ ደንበኞች ምልመላ</div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>FCY አፈፃፀም (USD) (ፕላን: <span id="planFCYLabel">0</span>)</label>
+                        <input type="number" id="repFCYActual" placeholder="0.00" min="0" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label>አዲስ ደንበኞች ምልመላ (ፕላን: <span id="planCustLabel">0</span>)</label>
+                        <input type="number" id="repCustActual" placeholder="የተመለመሉ ደንበኞች ብዛት">
+                    </div>
+                </div>
+
+                <div class="section-title">3. የዲጂታል ባንኪንግ አፈፃፀም</div>
+                <div class="grid-3">
                     <div class="form-group">
                         <label>Mobile Banking (ፕላን: <span id="planMBLabel">0</span>)</label>
                         <input type="number" id="repMB" placeholder="የተሰራው ብዛት">
@@ -209,7 +237,7 @@
         <!-- TAB 2: PLAN MANAGEMENT (Admin/Approver Only) -->
         <div id="planTab" class="tab-content card hidden">
             <h3 style="margin-top:0; color:var(--cbe-purple);">⚙️ የሰራተኞች ፕላን ማስተካከያ (Admin / Approver)</h3>
-            <p style="font-size:11px; color:#666;">የሰራተኛ ስም በመምረጥ የቀን፣ የሳምንት፣ የወር እና የሩብ ዓመት ፕላኖችን እዚህ ጋር ማስተካከል ወይም መቀየር ይችላሉ።</p>
+            <p style="font-size:11px; color:#666;">የሰራተኛ ስም በመምረጥ የቀን፣ የሳምንት፣ የወር እና የሩብ ዓመት ፕላኖችን እዚህ ጋር ማስተካከል ይችላሉ።</p>
 
             <div class="form-group" style="max-width: 300px; margin-bottom:15px;">
                 <label>ፕላን የሚሰጠው/ሚቀየረው ሰራተኛ ይምረጡ፦</label>
@@ -217,12 +245,30 @@
             </div>
 
             <!-- Deposit Plans -->
-            <div class="section-title">💰 የዲፖዚት (Deposit) ፕላን ማስተካከያ</div>
+            <div class="section-title">💰 የዲፖዚት (Deposit) ፕላን ማስተካከያ (ብር)</div>
             <div class="grid-4">
-                <div class="form-group"><label>የቀን ፕላን (Birr)</label><input type="number" id="p_dep_day" oninput="autoCalcPlans('dep')"></div>
-                <div class="form-group"><label>የሳምንት ፕላን (Birr)</label><input type="number" id="p_dep_week"></div>
-                <div class="form-group"><label>የወር ፕላን (Birr)</label><input type="number" id="p_dep_month"></div>
-                <div class="form-group"><label>የሩብ ዓመት ፕላን (Birr)</label><input type="number" id="p_dep_quarter"></div>
+                <div class="form-group"><label>የቀን ፕላን</label><input type="number" id="p_dep_day" oninput="autoCalcPlans('dep')"></div>
+                <div class="form-group"><label>የሳምንት ፕላን</label><input type="number" id="p_dep_week"></div>
+                <div class="form-group"><label>የወር ፕላን</label><input type="number" id="p_dep_month"></div>
+                <div class="form-group"><label>የሩብ ዓመት ፕላን</label><input type="number" id="p_dep_quarter"></div>
+            </div>
+
+            <!-- FCY Plans -->
+            <div class="section-title">💵 የውጭ ሀገር ገንዘብ (FCY) ፕላን (USD)</div>
+            <div class="grid-4">
+                <div class="form-group"><label>የቀን ፕላን</label><input type="number" id="p_fcy_day" oninput="autoCalcPlans('fcy')"></div>
+                <div class="form-group"><label>የሳምንት ፕላን</label><input type="number" id="p_fcy_week"></div>
+                <div class="form-group"><label>የወር ፕላን</label><input type="number" id="p_fcy_month"></div>
+                <div class="form-group"><label>የሩብ ዓመት ፕላን</label><input type="number" id="p_fcy_quarter"></div>
+            </div>
+
+            <!-- New Customer Recruitment Plans -->
+            <div class="section-title">👥 አዲስ የደንበኞች ምልመላ ፕላን (በብዛት)</div>
+            <div class="grid-4">
+                <div class="form-group"><label>የቀን ፕላን</label><input type="number" id="p_cust_day" oninput="autoCalcPlans('cust')"></div>
+                <div class="form-group"><label>የሳምንት ፕላን</label><input type="number" id="p_cust_week"></div>
+                <div class="form-group"><label>የወር ፕላን</label><input type="number" id="p_cust_month"></div>
+                <div class="form-group"><label>የሩብ ዓመት ፕላን</label><input type="number" id="p_cust_quarter"></div>
             </div>
 
             <!-- Mobile Banking Plans -->
@@ -257,22 +303,36 @@
 
         <!-- TAB 3: SUMMARY & DASHBOARD -->
         <div id="summaryTab" class="tab-content card hidden">
-            <h3 style="margin-top:0; color:var(--cbe-purple);">📊 የሰራተኞች የተቀመጡ ፕላኖች ዝርዝር</h3>
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+                <h3 style="margin-top:0; color:var(--cbe-purple);">📊 የሰራተኞች ፕላን እና አፈፃፀም ዳሽቦርድ</h3>
+                <button onclick="exportTableToWord()" class="btn-word">📄 ሪፖርት ወደ Word አውርድ (Export to Word)</button>
+            </div>
+
             <div style="overflow-x:auto;">
-                <table class="table-custom">
+                <table class="table-custom" id="dashboardReportTable">
                     <thead>
                         <tr>
                             <th rowspan="2">የሰራተኛ ስም</th>
                             <th colspan="4">Deposit Plan (ብር)</th>
-                            <th colspan="2">Mobile Banking Plan</th>
-                            <th colspan="2">ATM Card Plan</th>
-                            <th colspan="2">CBE Birr Plan</th>
+                            <th colspan="4">FCY Plan (USD)</th>
+                            <th colspan="4">አዲስ ደንበኛ ምልመላ</th>
+                            <th colspan="4">Mobile Banking</th>
+                            <th colspan="4">ATM Card</th>
+                            <th colspan="4">CBE Birr</th>
                         </tr>
                         <tr>
-                            <th>ቀን</th><th>ሳምንት</th><th>ወር</th><th>ሩብ ዓመት</th>
-                            <th>ቀን</th><th>ወር</th>
-                            <th>ቀን</th><th>ወር</th>
-                            <th>ቀን</th><th>ወር</th>
+                            <!-- Deposit -->
+                            <th>ቀን</th><th>ሳምንት</th><th>ወር</th><th>ሩብ</th>
+                            <!-- FCY -->
+                            <th>ቀን</th><th>ሳምንት</th><th>ወር</th><th>ሩብ</th>
+                            <!-- Customer -->
+                            <th>ቀን</th><th>ሳምንት</th><th>ወር</th><th>ሩብ</th>
+                            <!-- MB -->
+                            <th>ቀን</th><th>ሳምንት</th><th>ወር</th><th>ሩብ</th>
+                            <!-- ATM -->
+                            <th>ቀን</th><th>ሳምንት</th><th>ወር</th><th>ሩብ</th>
+                            <!-- CBE Birr -->
+                            <th>ቀን</th><th>ሳምንት</th><th>ወር</th><th>ሩብ</th>
                         </tr>
                     </thead>
                     <tbody id="planSummaryTableBody"></tbody>
@@ -284,7 +344,6 @@
 </div>
 
 <script>
-    // System Users Database
     const usersDB = {
         "fiseha": { name: "Fiseha Legesse", role: "SuperAdmin" },
         "dawit": { name: "Dawit Solomon", role: "Approver" },
@@ -301,26 +360,26 @@
 
     let currentUser = null;
 
-    // Load initial plans or set defaults
     function getStoredPlans() {
-        const saved = localStorage.getItem('cbe_staff_plans_v1');
+        const saved = localStorage.getItem('cbe_staff_plans_v2');
         if (saved) return JSON.parse(saved);
 
-        // Default Plans per staff if not set
         let defaultPlans = {};
         staffList.forEach(name => {
             defaultPlans[name] = {
-                dep: { day: 118184.95, week: 590924.75, month: 2363699, quarter: 7091097 },
-                mb:  { day: 5, week: 25, month: 100, quarter: 300 },
-                atm: { day: 3, week: 15, month: 60, quarter: 180 },
-                cbe: { day: 4, week: 20, month: 80, quarter: 240 }
+                dep:  { day: 118184.95, week: 590924.75, month: 2363699, quarter: 7091097 },
+                fcy:  { day: 100, week: 500, month: 2000, quarter: 6000 },
+                cust: { day: 2, week: 10, month: 40, quarter: 120 },
+                mb:   { day: 5, week: 25, month: 100, quarter: 300 },
+                atm:  { day: 3, week: 15, month: 60, quarter: 180 },
+                cbe:  { day: 4, week: 20, month: 80, quarter: 240 }
             };
         });
         return defaultPlans;
     }
 
     function saveStoredPlans(plans) {
-        localStorage.setItem('cbe_staff_plans_v1', JSON.stringify(plans));
+        localStorage.setItem('cbe_staff_plans_v2', JSON.stringify(plans));
     }
 
     document.getElementById('loginForm').addEventListener('submit', function(e) {
@@ -346,7 +405,6 @@
         document.getElementById('activeUserName').innerText = currentUser.name;
         document.getElementById('activeUserRole').innerText = currentUser.role;
 
-        // Hide Plan tab for ordinary staff
         if (currentUser.role === 'Staff') {
             document.getElementById('menuPlanBtn').classList.add('hidden');
         } else {
@@ -356,15 +414,14 @@
         document.getElementById('reportDate').valueAsDate = new Date();
         populateStaffDropdowns();
         renderPlanSummaryTable();
-        switchTab('reportTab');
     }
 
-    function switchTab(tabId) {
+    function switchTab(tabId, evt) {
         document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
         document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
 
         document.getElementById(tabId).classList.remove('hidden');
-        event.target.classList.add('active');
+        if(evt) evt.target.classList.add('active');
     }
 
     function populateStaffDropdowns() {
@@ -380,7 +437,6 @@
         });
     }
 
-    // Auto calculate week, month, quarter based on daily plan input
     function autoCalcPlans(type) {
         const dayVal = parseFloat(document.getElementById(`p_${type}_day`).value) || 0;
         document.getElementById(`p_${type}_week`).value = (dayVal * 5).toFixed(2);
@@ -395,7 +451,7 @@
 
         if(!p) return;
 
-        ['dep', 'mb', 'atm', 'cbe'].forEach(type => {
+        ['dep', 'fcy', 'cust', 'mb', 'atm', 'cbe'].forEach(type => {
             document.getElementById(`p_${type}_day`).value = p[type].day;
             document.getElementById(`p_${type}_week`).value = p[type].week;
             document.getElementById(`p_${type}_month`).value = p[type].month;
@@ -409,7 +465,7 @@
 
         let plans = getStoredPlans();
         
-        ['dep', 'mb', 'atm', 'cbe'].forEach(type => {
+        ['dep', 'fcy', 'cust', 'mb', 'atm', 'cbe'].forEach(type => {
             plans[name][type] = {
                 day: parseFloat(document.getElementById(`p_${type}_day`).value) || 0,
                 week: parseFloat(document.getElementById(`p_${type}_week`).value) || 0,
@@ -430,6 +486,8 @@
 
         if (p) {
             document.getElementById('repDepositPlan').value = p.dep.day;
+            document.getElementById('planFCYLabel').innerText = p.fcy.day;
+            document.getElementById('planCustLabel').innerText = p.cust.day;
             document.getElementById('planMBLabel').innerText = p.mb.day;
             document.getElementById('planATMLabel').innerText = p.atm.day;
             document.getElementById('planCBELabel').innerText = p.cbe.day;
@@ -446,19 +504,75 @@
             tbody.innerHTML += `
                 <tr>
                     <td><strong>${staff}</strong></td>
+                    <!-- Deposit -->
                     <td>${p.dep.day.toLocaleString()}</td>
                     <td>${p.dep.week.toLocaleString()}</td>
                     <td>${p.dep.month.toLocaleString()}</td>
                     <td>${p.dep.quarter.toLocaleString()}</td>
+                    <!-- FCY -->
+                    <td>${p.fcy.day.toLocaleString()}</td>
+                    <td>${p.fcy.week.toLocaleString()}</td>
+                    <td>${p.fcy.month.toLocaleString()}</td>
+                    <td>${p.fcy.quarter.toLocaleString()}</td>
+                    <!-- Cust -->
+                    <td>${p.cust.day}</td>
+                    <td>${p.cust.week}</td>
+                    <td>${p.cust.month}</td>
+                    <td>${p.cust.quarter}</td>
+                    <!-- MB -->
                     <td>${p.mb.day}</td>
+                    <td>${p.mb.week}</td>
                     <td>${p.mb.month}</td>
+                    <td>${p.mb.quarter}</td>
+                    <!-- ATM -->
                     <td>${p.atm.day}</td>
+                    <td>${p.atm.week}</td>
                     <td>${p.atm.month}</td>
+                    <td>${p.atm.quarter}</td>
+                    <!-- CBE Birr -->
                     <td>${p.cbe.day}</td>
+                    <td>${p.cbe.week}</td>
                     <td>${p.cbe.month}</td>
+                    <td>${p.cbe.quarter}</td>
                 </tr>
             `;
         });
+    }
+
+    // Export Table Data to MS Word (.doc)
+    function exportTableToWord() {
+        const table = document.getElementById('dashboardReportTable').outerHTML;
+        const header = `
+            <html xmlns:o='urn:schemas-microsoft-com:office:office' 
+                  xmlns:w='urn:schemas-microsoft-com:office:word' 
+                  xmlns='http://www.w3.org/TR/REC-html40'>
+            <head>
+                <meta charset='utf-8'>
+                <title>CBE Borkena Staff Plan Report</title>
+                <style>
+                    table { border-collapse: collapse; width: 100%; font-family: sans-serif; font-size: 9pt; }
+                    th, td { border: 1px solid #000; padding: 4px; text-align: center; }
+                    th { background-color: #5c068c; color: #ffffff; }
+                    h2 { text-align: center; color: #5c068c; font-family: sans-serif; }
+                </style>
+            </head>
+            <body>
+                <h2>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ የሰራተኞች ፕላን ሪፖርት</h2>
+                ${table}
+            </body>
+            </html>`;
+
+        const blob = new Blob(['\ufeff', header], {
+            type: 'application/msword'
+        });
+
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'CBE_Borkena_Staff_Plan_Report.doc';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
     }
 </script>
 </body>
