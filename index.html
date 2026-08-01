@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="google" content="notranslate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>የኢትዮጵያ ንግድ ባንክ - የሥራ አፈፃፀም ዳሽቦርድ</title>
+    <title>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ አፈፃፀም ዳሽቦርድ</title>
     <style>
         :root {
             --cbe-purple: #5c068c;
@@ -29,233 +29,97 @@
             justify-content: center;
         }
 
-        .container {
-            width: 100%;
-            max-width: 900px;
-        }
+        .container { width: 100%; max-width: 1000px; }
 
-        .top-lang-bar {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 8px;
-        }
+        .top-lang-bar { display: flex; justify-content: flex-end; margin-bottom: 8px; }
         .lang-select {
-            width: auto;
-            padding: 4px 10px;
-            font-weight: bold;
-            background: #fff;
-            border: 1px solid var(--cbe-purple);
-            border-radius: 6px;
-            color: var(--cbe-purple);
-            cursor: pointer;
+            padding: 4px 10px; font-weight: bold; background: #fff;
+            border: 1px solid var(--cbe-purple); border-radius: 6px;
+            color: var(--cbe-purple); cursor: pointer;
         }
 
         .header-box {
             background: linear-gradient(135deg, var(--cbe-purple), var(--cbe-dark));
-            color: white;
-            padding: 18px;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 15px rgba(92, 6, 140, 0.2);
+            color: white; padding: 18px; border-radius: 12px; text-align: center;
+            margin-bottom: 16px; box-shadow: 0 4px 15px rgba(92, 6, 140, 0.2);
         }
-
-        .header-box h2 {
-            margin: 4px 0 2px 0;
-            font-size: 19px;
-            color: var(--cbe-gold);
-        }
-
-        .header-box p {
-            margin: 0;
-            font-size: 12px;
-            opacity: 0.9;
-        }
+        .header-box h2 { margin: 4px 0 2px 0; font-size: 20px; color: var(--cbe-gold); }
+        .header-box p { margin: 0; font-size: 13px; opacity: 0.9; }
 
         .user-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #ffffff;
-            padding: 10px 16px;
-            border-radius: 10px;
-            margin-bottom: 16px;
-            font-size: 13px;
-            font-weight: bold;
-            color: var(--cbe-purple);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .btn-group-nav {
-            display: flex;
-            gap: 6px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: #ffffff; padding: 10px 16px; border-radius: 10px;
+            margin-bottom: 16px; font-size: 13px; font-weight: bold;
+            color: var(--cbe-purple); box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            flex-wrap: wrap; gap: 8px;
         }
 
         .card {
-            background: var(--card-bg);
-            padding: 18px;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-            margin-bottom: 16px;
+            background: var(--card-bg); padding: 18px; border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05); margin-bottom: 16px;
             border: 1px solid #eaedf1;
         }
 
         .best-performer-card {
             background: linear-gradient(135deg, #fff9e6, #fff3cc);
             border: 2px solid var(--cbe-gold);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .login-card {
-            background: var(--card-bg);
-            padding: 28px;
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-            max-width: 360px;
-            margin: 40px auto;
         }
 
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px; margin-top: 10px;
         }
 
         .stat-box {
-            background: #fcfaff;
-            padding: 12px;
-            border-radius: 8px;
-            text-align: center;
-            border: 1px solid #e1d5e7;
+            background: #fcfaff; padding: 12px; border-radius: 8px;
+            text-align: center; border: 1px solid #e1d5e7;
         }
+        .stat-box .number { font-size: 18px; font-weight: bold; color: var(--cbe-purple); margin-top: 5px; }
 
-        .stat-box .number {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--cbe-purple);
-            margin-top: 5px;
-        }
-
-        .form-group { margin-bottom: 12px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
 
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 4px;
-            font-size: 12px;
-            color: #444;
-        }
-
+        .form-group { margin-bottom: 10px; }
+        label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 12px; color: #444; }
         input, textarea, select {
-            width: 100%;
-            padding: 8px 10px;
-            border: 1px solid #cccccc;
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 13px;
+            width: 100%; padding: 8px; border: 1px solid #cccccc;
+            border-radius: 6px; box-sizing: border-box; font-size: 13px;
         }
 
         button {
-            width: 100%;
-            background-color: var(--cbe-purple);
-            color: white;
-            border: none;
-            padding: 9px 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s;
+            background-color: var(--cbe-purple); color: white; border: none;
+            padding: 9px 12px; border-radius: 6px; font-size: 13px;
+            font-weight: bold; cursor: pointer; transition: 0.2s;
         }
-
         button:hover { background-color: var(--cbe-dark); }
         .btn-excel { background-color: #1d6f42; }
         .btn-word { background-color: #2b579a; }
-        .btn-logout { background-color: var(--danger-color); padding: 5px 10px; font-size: 11px; width: auto; }
-        .btn-pwd { background-color: var(--cbe-purple); padding: 5px 10px; font-size: 11px; width: auto; }
-        .btn-edit { background-color: #f39c12; color: white; padding: 4px 8px; font-size: 11px; width: auto; margin-right: 3px; cursor: pointer; border-radius:4px; }
-        .btn-delete { background-color: var(--danger-color); color: white; padding: 4px 8px; font-size: 11px; width: auto; cursor: pointer; border-radius:4px; }
-        .btn-approve { background-color: var(--success-color); padding: 4px 8px; font-size: 11px; width: auto; }
-        .btn-reject { background-color: var(--danger-color); padding: 4px 8px; font-size: 11px; width: auto; }
-        .btn-cert { background-color: #e67e22; color: white; margin-top: 8px; }
-        .btn-warning { background-color: #c62828; color: white; margin-top: 8px; }
+        .btn-logout { background-color: var(--danger-color); }
 
         .section-title {
-            background: #f3e5f5;
-            color: var(--cbe-purple);
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 12px;
-            margin: 12px 0 8px 0;
-            display: flex;
-            align-items: center;
+            background: #f3e5f5; color: var(--cbe-purple); padding: 6px 10px;
+            border-radius: 6px; font-weight: bold; font-size: 12px;
+            margin: 12px 0 8px 0; display: flex; align-items: center;
             justify-content: space-between;
         }
 
-        .user-list-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12px;
-            margin-top: 8px;
-        }
-
-        .user-list-table th, .user-list-table td {
-            border: 1px solid #e0e0e0;
-            padding: 6px 8px;
-            text-align: left;
-        }
-
-        .user-list-table th {
-            background-color: #f3e5f5;
-            color: var(--cbe-purple);
-        }
+        .user-list-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
+        .user-list-table th, .user-list-table td { border: 1px solid #e0e0e0; padding: 6px 8px; text-align: left; }
+        .user-list-table th { background-color: #f3e5f5; color: var(--cbe-purple); }
 
         .badge { background: #e1bee7; color: var(--cbe-purple); padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; }
-        .status-badge { padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; display: inline-block; }
+        .status-badge { padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; }
         .status-pending { background-color: #fff3e0; color: #e65100; }
         .status-approved { background-color: #e8f5e9; color: #2e7d32; }
-        .status-rejected { background-color: #ffebee; color: #c62828; }
-
-        .data-grid {
-            background: #fafafa;
-            padding: 6px 8px;
-            border-radius: 6px;
-            margin: 4px 0;
-            border: 1px solid #eee;
-        }
 
         .modal {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); display: flex;
+            justify-content: center; align-items: center; z-index: 1000;
         }
-        .modal-content {
-            background: #fff;
-            padding: 20px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .period-filter {
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
+        .modal-content { background: #fff; padding: 20px; border-radius: 12px; width: 90%; max-width: 500px; }
         .hidden { display: none !important; }
     </style>
 </head>
@@ -272,1301 +136,251 @@
 
     <div class="header-box">
         <h2 id="txt_app_title">የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h2>
-        <p id="txt_app_sub">የሥራ አፈፃፀም ዳሽቦርድ እና የመረጃ ቋት ሲስተም</p>
+        <p id="txt_app_sub">የእለታዊ እና ሳምንታዊ ሰራተኞች አፈፃፀም መከታተያ ዳሽቦርድ</p>
     </div>
 
-    <div id="loginSection" class="login-card">
+    <div id="loginSection" class="card" style="max-width:360px; margin: 20px auto;">
         <h3 id="txt_login_header">🔐 የሲስተም መግቢያ</h3>
         <form id="loginForm">
             <div class="form-group">
-                <label id="lbl_username" for="username">የተጠቃሚ ስም (Username)</label>
+                <label id="lbl_username">የተጠቃሚ ስም</label>
                 <input type="text" id="username" required>
             </div>
             <div class="form-group">
-                <label id="lbl_password" for="password">ይለፍ ቃል (Password)</label>
+                <label id="lbl_password">ይለፍ ቃል</label>
                 <input type="password" id="password" required>
             </div>
-            <button type="submit" id="btn_login">ይግቡ (Login)</button>
+            <button type="submit" style="width:100%;" id="btn_login">ይግቡ (Login)</button>
         </form>
     </div>
 
     <div id="appSection" class="hidden">
-        
         <div class="user-bar">
-            <span>👤 <span id="txt_welcome">እንኳን ደህና መጡ:</span> <span id="activeUserName" style="color:var(--cbe-dark);"></span> (<span id="activeUserRole"></span>)</span>
-            <div class="btn-group-nav">
-                <button class="btn-pwd" onclick="togglePasswordModal()" id="btn_change_pwd">🔑 ፓስወርድ ቀይር</button>
-                <button class="btn-logout" onclick="logout()" id="btn_logout">ውጣ (Logout)</button>
-            </div>
-        </div>
-
-        <div id="passwordCard" class="card hidden" style="border: 2px solid var(--cbe-purple);">
-            <h3 id="txt_pwd_title">🔑 የይለፍ ቃል መቀየሪያ</h3>
-            <form id="changePasswordForm">
-                <div class="form-group">
-                    <label id="lbl_curr_pwd">የአሁኑ ይለፍ ቃል</label>
-                    <input type="password" id="currentPassword" required>
-                </div>
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label id="lbl_new_pwd">አዲስ ይለፍ ቃል</label>
-                        <input type="password" id="newPassword" required minlength="4">
-                    </div>
-                    <div class="form-group">
-                        <label id="lbl_conf_pwd">አዲስ ይለፍ ቃል ያረጋግጡ</label>
-                        <input type="password" id="confirmPassword" required minlength="4">
-                    </div>
-                </div>
-                <div class="grid-2">
-                    <button type="submit" id="btn_save_pwd">ይለፍ ቃል ቀይር</button>
-                    <button type="button" onclick="togglePasswordModal()" style="background:#777;" id="btn_cancel_pwd">ሰርዝ</button>
-                </div>
-            </form>
+            <span>👤 <span id="txt_welcome">እንኳን ደህና መጡ:</span> <span id="activeUserName"></span> (<span id="activeUserRole"></span>)</span>
+            <button class="btn-logout" onclick="logout()" id="btn_logout">ውጣ (Logout)</button>
         </div>
 
         <div id="bestPerformerCard" class="card best-performer-card">
             <h3 id="txt_star_title">🏆 የሳምንቱ ከፍተኛ እና ዝቅተኛ አፈፃፀም ያሳዩ ሰራተኞች</h3>
             <div id="bestPerformerContent">
-                <p style="text-align:center; color:#888;" id="txt_no_perf_data">በቂ የጸደቀ ሪፖርት መረጃ አልተገኘም።</p>
+                <p style="text-align:center; color:#888;">በቂ የጸደቀ ሪፖርት መረጃ አልተገኘም።</p>
             </div>
         </div>
 
         <div id="adminDashboardCard" class="card hidden">
-            <h3 style="margin-top:0; color:var(--cbe-purple);" id="txt_admin_title">📊 የቅርንጫፍ አጠቃላይ አፈፃፀም (አድሚን ዳሽቦርድ)</h3>
+            <h3 style="margin-top:0; color:var(--cbe-purple);" id="txt_admin_title">📊 የቅርንጫፍ አጠቃላይ አፈፃፀም (Admin Dashboard)</h3>
             
-            <div class="period-filter">
-                <label id="lbl_period_select" style="margin:0; font-weight:bold;">📅 የጊዜ ሰሌዳ ይምረጡ፦</label>
-                <select id="periodSelect" style="width:auto;" onchange="loadReports()">
-                    <option value="daily" id="opt_daily">ዕለታዊ (Daily)</option>
-                    <option value="weekly" id="opt_weekly" selected>ሳምንታዊ (Weekly)</option>
-                    <option value="monthly" id="opt_monthly">ወርሃዊ (Monthly)</option>
-                    <option value="quarterly" id="opt_quarterly">ሩብ ዓመታዊ (Quarterly)</option>
-                </select>
-            </div>
-
             <div class="dashboard-grid">
                 <div class="stat-box">
-                    <h4 id="txt_m_deposit">ጠቅላላ የጸደቀ የተቀማጭ ገንዘብ</h4>
+                    <h4>ጠቅላላ የተቀማጭ ገንዘብ</h4>
                     <div class="number" id="totalDepositVal">0.00 ብር</div>
                 </div>
                 <div class="stat-box">
-                    <h4 id="txt_m_achieve">አማካኝ አፈፃፀም (% Achievement)</h4>
+                    <h4>አማካኝ አፈፃፀም (% Target)</h4>
                     <div class="number" id="avgAchievementVal">0%</div>
                 </div>
                 <div class="stat-box">
-                    <h4 id="txt_m_acc">የጸደቁ አዳዲስ ሂሳቦች</h4>
-                    <div class="number" id="totalAccountsVal">0</div>
+                    <h4>የተሰበሰበ FCY (USD)</h4>
+                    <div class="number" id="totalFcyVal">$0.00</div>
                 </div>
                 <div class="stat-box">
-                    <h4 id="txt_m_digital">ጠቅላላ የዲጂታል ባንኪንግ</h4>
+                    <h4>ጠቅላላ የዲጂታል ተጠቃሚዎች</h4>
                     <div class="number" id="totalDigitalVal">0</div>
                 </div>
-            </div>
-
-            <div id="branchCreatorSection" style="margin-top:15px; background:#f9f4fc; padding:10px; border-radius:8px;" class="hidden">
-                <h4 style="margin:0 0 8px 0; color:var(--cbe-purple);" id="txt_branch_mgr_title">🏛️ አዲስ ቅርንጫፍ / ዞን መፍጠሪያ</h4>
-                <div style="display:flex; gap:8px;">
-                    <input type="text" id="newBranchNameInput" placeholder="የቅርንጫፍ/ዞን ስም ያስገቡ">
-                    <button type="button" onclick="addNewBranch()" style="width:auto; padding:6px 12px; white-space:nowrap;" id="btn_add_branch">➕ ቅርንጫፍ ጨምር</button>
-                </div>
-                <div style="margin-top:8px; font-size:12px;">
-                    <strong id="txt_reg_branches">የተመዘገቡ ቅርንጫፎች፦</strong> <span id="branchListDisplay"></span>
-                </div>
-            </div>
-
-            <div id="adminUserControlSection" style="margin-top:20px;" class="hidden">
-                <h4 style="color:var(--cbe-purple); margin:0 0 8px 0;" id="txt_user_control_title">👥 የሰራተኞች አካውንት፣ ዩዘርኔም እና ስም ማስተካከያ</h4>
-                <div style="overflow-x:auto;">
-                    <table class="user-list-table">
-                        <thead>
-                            <tr>
-                                <th id="th_name">የሰራተኛ ስም</th>
-                                <th>Username</th>
-                                <th>Password</th>
-                                <th id="th_role">ሚና (Role)</th>
-                                <th id="th_action">እርምጃ</th>
-                            </tr>
-                        </thead>
-                        <tbody id="userListTableBody"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div id="summaryReportCard" class="card">
-            <h3 style="margin-top:0; color:var(--cbe-purple);" id="txt_summary_title">📊 የሁሉም ሰራተኞች አጠቃላይ ሪፖርት ማጠቃለያ (Summary)</h3>
-            <div style="overflow-x:auto;">
-                <table class="user-list-table">
-                    <thead>
-                        <tr>
-                            <th id="th_s_staff">ሰራተኛ</th>
-                            <th id="th_s_deposit">የተሰበሰበ የተቀማጭ (ብር)</th>
-                            <th id="th_s_ach">አማካኝ አፈፃፀም %</th>
-                            <th id="th_s_dig">ጠቅላላ ዲጂታል</th>
-                            <th id="th_s_acc">አዳዲስ ሂሳቦች</th>
-                        </tr>
-                    </thead>
-                    <tbody id="summaryReportTableBody"></tbody>
-                </table>
             </div>
         </div>
 
         <div class="card">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <h3 style="margin:0; color:var(--cbe-purple);" id="txt_form_title">📝 አዲስ የሰራተኛ ሪፖርት መሙያ</h3>
-                <button type="button" class="btn-excel hidden" style="width:auto; padding:5px 12px; font-size:11px;" onclick="openManageDropdownModal()" id="btn_manage_dropdown">⚙️ የድሮፕ ዳውን ስሞችን አስተካክል</button>
-            </div>
+            <h3 style="margin:0 0 10px 0; color:var(--cbe-purple);" id="txt_form_title">📝 Daily Staff Target Follow Up (ሪፖርት መሙያ)</h3>
             
             <form id="reportForm">
                 <div class="form-group grid-2">
                     <div>
-                        <label id="lbl_select_staff" for="staffNameSelect">የሰራተኛው ስም</label>
+                        <label>የሰራተኛው ስም (Staff Name)</label>
                         <select id="staffNameSelect" required></select>
                     </div>
                     <div>
-                        <label id="lbl_date" for="weekDate">ቀን</label>
+                        <label>የተመደበለት CRM/Person</label>
+                        <input type="text" id="assignedCrm" placeholder="CRM Name">
+                    </div>
+                </div>
+                <div class="form-group grid-2">
+                    <div>
+                        <label>ቀን (Date)</label>
                         <input type="date" id="weekDate" required>
                     </div>
                 </div>
 
-                <div class="section-title">
-                    <span id="txt_sec_deposit">1. የተቀማጭ ገንዘብ (Deposit) አፈፃፀም</span>
-                    <label style="font-size:11px;"><input type="checkbox" id="sendDeposit" checked> <span id="txt_inc_1">ይካተት</span></label>
-                </div>
-                <div class="grid-2" style="margin-bottom: 6px;">
-                    <div class="form-group">
-                        <label id="lbl_plan">የቀን ፕላን (Plan in Birr)</label>
-                        <input type="number" id="dailyPlan" value="118184.95" readonly style="background-color: #eee;">
-                    </div>
-                    <div class="form-group">
-                        <label id="lbl_actual">የተሰበሰበ (Actual Deposit)</label>
-                        <input type="number" id="dailyDeposit" placeholder="0.00" min="0" step="any">
-                    </div>
-                </div>
-
-                <div class="section-title">
-                    <span id="txt_sec_digital">2. ዲጂታል ባንኪንግ እና አዳዲስ ሂሳቦች</span>
-                    <label style="font-size:11px;"><input type="checkbox" id="sendDigital" checked> <span id="txt_inc_2">ይካተት</span></label>
-                </div>
+                <!-- 1. Deposit & Loan & FCY -->
+                <div class="section-title"><span>1. Deposit, Loan & Foreign Currency (FCY)</span></div>
                 <div class="grid-3">
-                    <div class="form-group"><label>Mobile Banking</label><input type="number" id="mbCount" placeholder="0" min="0"></div>
-                    <div class="form-group"><label>ATM Card</label><input type="number" id="atmCount" placeholder="0" min="0"></div>
-                    <div class="form-group"><label>CBE Birr</label><input type="number" id="cbeBirrCount" placeholder="0" min="0"></div>
-                </div>
-                <div class="grid-2">
-                    <div class="form-group"><label id="lbl_new_acc">አዳዲስ ሂሳብ (Acc.)</label><input type="number" id="newAccounts" placeholder="0" min="0"></div>
-                    <div class="form-group"><label id="lbl_loans">ብድር/Loans</label><input type="text" id="loansProcessed" placeholder="ለምሳሌ፦ 2 (500,000)"></div>
+                    <div class="form-group">
+                        <label>Deposit (Daily Actual)</label>
+                        <input type="number" id="depositActual" placeholder="0.00" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label>Loan Monthly (Actual)</label>
+                        <input type="number" id="loanActual" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label>FCY Daily (Actual in $)</label>
+                        <input type="number" id="fcyActual" placeholder="0.00" step="any">
+                    </div>
                 </div>
 
-                <div class="section-title">
-                    <span id="txt_sec_notes">3. ተጨማሪ መረጃ እና ግምገማ</span>
-                    <label style="font-size:11px;"><input type="checkbox" id="sendNotes" checked> <span id="txt_inc_3">ይካተት</span></label>
+                <!-- 2. Digital Banking & Channels -->
+                <div class="section-title"><span>2. Digital Banking Metrics (Plan vs Actual)</span></div>
+                <div class="grid-4">
+                    <div class="form-group"><label>MB (Daily)</label><input type="number" id="mbActual" placeholder="Actual"></div>
+                    <div class="form-group"><label>CBE Birr (Daily)</label><input type="number" id="cbeBirrActual" placeholder="Actual"></div>
+                    <div class="form-group"><label>IB Internet Banking (Monthly)</label><input type="number" id="ibActual" placeholder="Actual"></div>
+                    <div class="form-group"><label>Merchant/POS (Monthly)</label><input type="number" id="merchantActual" placeholder="Actual"></div>
                 </div>
+                <div class="grid-4">
+                    <div class="form-group"><label>Agent Banking (Monthly)</label><input type="number" id="agentActual" placeholder="Actual"></div>
+                    <div class="form-group"><label>Star Pay (Monthly)</label><input type="number" id="starPayActual" placeholder="Actual"></div>
+                    <div class="form-group"><label>Customer Base (Daily)</label><input type="number" id="customerBaseActual" placeholder="Actual"></div>
+                </div>
+
+                <!-- 3. Challenges -->
+                <div class="section-title"><span>3. Justification / Challenges</span></div>
                 <div class="form-group">
-                    <label id="lbl_challenges">ያጋጠሙ ችግሮች / የቀጣይ ዕቅድ</label>
-                    <textarea id="challenges" placeholder="ያጋጠሙ ማነቆዎች እና የቀጣይ ሳምንት ግብ..."></textarea>
+                    <textarea id="challenges" placeholder="ያጋጠሙ ማነቆዎች እና የቀጣይ ማሻሻያ ሃሳቦች..."></textarea>
                 </div>
 
-                <button type="submit" id="btn_submit_report">ሪፖርት ወደ አድሚን ላክ</button>
+                <button type="submit" style="width:100%;">ሪፖርት አስገባ (Submit)</button>
             </form>
         </div>
 
         <div class="card">
-            <h3 style="margin-top:0; color:var(--cbe-purple);" id="txt_reports_list_title">📋 የተላኩ ሪፖርቶችና ማጽደቂያዎች</h3>
-            <div id="exportButtons" class="grid-2 hidden">
-                <button onclick="exportToExcel()" class="btn-excel" id="btn_exp_excel">📥 በ Excel አውርድ (.csv)</button>
-                <button onclick="exportToWord()" class="btn-word" id="btn_exp_word">📄 በ Word አውርድ (.doc)</button>
+            <h3 style="margin-top:0; color:var(--cbe-purple);">📋 የተላኩ ሪፖርቶች ዝርዝር</h3>
+            <div id="exportButtons" class="grid-2 hidden" style="margin-bottom:10px;">
+                <button onclick="exportToExcel()" class="btn-excel">📥 በ Excel አውርድ (.csv)</button>
             </div>
-            <div id="reportsList" style="margin-top:10px;"></div>
+            <div id="reportsList"></div>
         </div>
 
-    </div>
-</div>
-
-<div id="manageDropdownModal" class="modal hidden">
-    <div class="modal-content">
-        <h3 style="color: var(--cbe-purple); margin-top:0;" id="txt_modal_dropdown_title">⚙️ የድሮፕ ዳውን ሰራተኞች ስም ማስተካከያ</h3>
-        <div style="display:flex; gap:8px; margin-bottom:15px;">
-            <input type="text" id="newStaffInput" placeholder="አዲስ የሰራተኛ ስም ያስገቡ...">
-            <button type="button" onclick="addDropdownStaff()" style="width:auto; padding:6px 12px;" id="btn_add_dropdown_staff">➕ ጨምር</button>
-        </div>
-        <div style="max-height: 250px; overflow-y: auto; border: 1px solid #ddd; padding: 8px; border-radius:6px;">
-            <table class="user-list-table">
-                <thead>
-                    <tr>
-                        <th id="th_modal_staff_name">የሰራተኛ ስም</th>
-                        <th style="width:100px;" id="th_modal_action">እርምጃ</th>
-                    </tr>
-                </thead>
-                <tbody id="dropdownStaffTableBody"></tbody>
-            </table>
-        </div>
-        <div style="margin-top: 15px; text-align: right;">
-            <button type="button" onclick="closeManageDropdownModal()" style="background:#777; width:auto; padding:6px 15px;" id="btn_close_modal">ዝጋ</button>
-        </div>
-    </div>
-</div>
-
-<div id="editUserModal" class="modal hidden">
-    <div class="modal-content">
-        <h3 style="color: var(--cbe-purple); margin-top:0;" id="txt_modal_edit_user_title">✏️ የተጠቃሚ መረጃ ማስተካከያ (SuperAdmin)</h3>
-        <input type="hidden" id="editUserKeyTarget">
-        <div class="form-group">
-            <label id="lbl_modal_username">የተጠቃሚ ስም (Username)</label>
-            <input type="text" id="editUsernameInput">
-        </div>
-        <div class="form-group">
-            <label id="lbl_modal_fullname">የሰራተኛ ሙሉ ስም (Full Name)</label>
-            <input type="text" id="editFullnameInput">
-        </div>
-        <div class="form-group">
-            <label id="lbl_modal_pass">Password</label>
-            <input type="text" id="editPasswordInput">
-        </div>
-        <div class="form-group">
-            <label id="lbl_modal_role">ሚና (Role)</label>
-            <select id="editRoleSelect">
-                <option value="SuperAdmin">SuperAdmin</option>
-                <option value="Approver">Approver</option>
-                <option value="Staff">Staff</option>
-            </select>
-        </div>
-        <div style="display:flex; gap:10px; margin-top:15px;">
-            <button type="button" onclick="saveUserEditDetails()" id="btn_save_user_edit">💾 አስቀምጥ</button>
-            <button type="button" onclick="closeEditUserModal()" style="background:#777;" id="btn_cancel_user_edit">ሰርዝ</button>
-        </div>
     </div>
 </div>
 
 <script>
-    const translations = {
-        am: {
-            app_title: "የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ",
-            app_sub: "የሥራ አፈፃፀም ዳሽቦርድ እና የመረጃ ቋት ሲስተም",
-            login_header: "🔐 የሲስተም መግቢያ",
-            lbl_username: "የተጠቃሚ ስም (Username)",
-            lbl_password: "ይለፍ ቃል (Password)",
-            btn_login: "ይግቡ (Login)",
-            welcome: "እንኳን ደህና መጡ:",
-            btn_change_pwd: "🔑 ፓስወርድ ቀይር",
-            btn_logout: "ውጣ (Logout)",
-            pwd_title: "🔑 የይለፍ ቃል መቀየሪያ",
-            lbl_curr_pwd: "የአሁኑ ይለፍ ቃል",
-            lbl_new_pwd: "አዲስ ይለፍ ቃል",
-            lbl_conf_pwd: "አዲስ ይለፍ ቃል ያረጋግጡ",
-            btn_save_pwd: "ይለፍ ቃል ቀይር",
-            btn_cancel_pwd: "ሰርዝ",
-            star_title: "🏆 የሳምንቱ ከፍተኛ እና ዝቅተኛ አፈፃፀም ያሳዩ ሰራተኞች",
-            admin_title: "📊 የቅርንጫፍ አጠቃላይ አፈፃፀም (አድሚን ዳሽቦርድ)",
-            lbl_period_select: "📅 የጊዜ ሰሌዳ ይምረጡ፦",
-            opt_daily: "ዕለታዊ (Daily)",
-            opt_weekly: "ሳምንታዊ (Weekly)",
-            opt_monthly: "ወርሃዊ (Monthly)",
-            opt_quarterly: "ሩብ ዓመታዊ (Quarterly)",
-            m_deposit: "ጠቅላላ የጸደቀ የተቀማጭ ገንዘብ",
-            m_achieve: "አማካኝ አፈፃፀም (% Achievement)",
-            m_acc: "የጸደቁ አዳዲስ ሂሳቦች",
-            m_digital: "ጠቅላላ የዲጂታል ባንኪንግ",
-            branch_mgr_title: "🏛️ አዲስ ቅርንጫፍ / ዞን መፍጠሪያ",
-            btn_add_branch: "➕ ቅርንጫፍ ጨምር",
-            txt_reg_branches: "የተመዘገቡ ቅርንጫፎች፦",
-            user_control_title: "👥 የሰራተኞች አካውንት፣ ዩዘርኔም እና ስም ማስተካከያ",
-            th_name: "የሰራተኛ ስም",
-            th_role: "ሚና (Role)",
-            th_action: "እርምጃ",
-            summary_title: "📊 የሁሉም ሰራተኞች አጠቃላይ ሪፖርት ማጠቃለያ (Summary)",
-            th_s_staff: "ሰራተኛ",
-            th_s_deposit: "የተሰበሰበ የተቀማጭ (ብር)",
-            th_s_ach: "አማካኝ አፈፃፀም %",
-            th_s_dig: "ጠቅላላ ዲጂታል",
-            th_s_acc: "አዳዲስ ሂሳቦች",
-            form_title: "📝 አዲስ የሰራተኛ ሪፖርት መሙያ",
-            btn_manage_dropdown: "⚙️ የድሮፕ ዳውን ስሞችን አስተካክል",
-            lbl_select_staff: "የሰራተኛው ስም",
-            lbl_date: "ቀን",
-            sec_deposit: "1. የተቀማጭ ገንዘብ (Deposit) አፈፃፀም",
-            inc: "ይካተት",
-            lbl_plan: "የቀን ፕላን (Plan in Birr)",
-            lbl_actual: "የተሰበሰበ (Actual Deposit)",
-            sec_digital: "2. ዲጂታል ባንኪንግ እና አዳዲስ ሂሳቦች",
-            lbl_new_acc: "አዳዲስ ሂሳብ (Acc.)",
-            lbl_loans: "ብድር/Loans",
-            sec_notes: "3. ተጨማሪ መረጃ እና ግምገማ",
-            lbl_challenges: "ያጋጠሙ ችግሮች / የቀጣይ ዕቅድ",
-            btn_submit_report: "ሪፖርት ወደ አድሚን ላክ",
-            reports_list_title: "📋 የተላኩ ሪፖርቶችና ማጽደቂያዎች",
-            btn_exp_excel: "📥 በ Excel አውርድ (.csv)",
-            btn_exp_word: "📄 በ Word አውርድ (.doc)",
-            no_perf_data: "በቂ የጸደቀ ሪፖርት መረጃ አልተገኘም።",
-            top_performer: "🥇 የሳምንቱ ምርጥ ሰራተኛ",
-            low_performer: "⚠️ ዝቅተኛ አፈፃፀም ያሳየ ሰራተኛ",
-            btn_cert: "📜 የልዩ አፈፃፀም ምስክር ወረቀት አውርድ (Certificate)",
-            btn_warning: "✉️ የቅጣት / ማስጠንቀቂያ ደብዳቤ አውርድ (Notice Letter)",
-            modal_dropdown_title: "⚙️ የድሮፕ ዳውን ሰራተኞች ስም ማስተካከያ",
-            btn_add_dropdown_staff: "➕ ጨምር",
-            th_modal_staff_name: "የሰራተኛ ስም",
-            th_modal_action: "እርምጃ",
-            btn_close_modal: "ዝጋ",
-            modal_edit_user_title: "✏️ የተጠቃሚ መረጃ ማስተካከያ (SuperAdmin)",
-            lbl_modal_username: "የተጠቃሚ ስም (Username)",
-            lbl_modal_fullname: "የሰራተኛ ሙሉ ስም (Full Name)",
-            lbl_modal_pass: "Password",
-            lbl_modal_role: "ሚና (Role)",
-            btn_save_user_edit: "💾 አስቀምጥ",
-            btn_cancel_user_edit: "ሰርዝ"
-        },
-        en: {
-            app_title: "Commercial Bank of Ethiopia - Borkena Branch",
-            app_sub: "Performance Dashboard System",
-            login_header: "🔐 System Login",
-            lbl_username: "Username",
-            lbl_password: "Password",
-            btn_login: "Login",
-            welcome: "Welcome:",
-            btn_change_pwd: "🔑 Change Password",
-            btn_logout: "Logout",
-            pwd_title: "🔑 Password Manager",
-            lbl_curr_pwd: "Current Password",
-            lbl_new_pwd: "New Password",
-            lbl_conf_pwd: "Confirm New Password",
-            btn_save_pwd: "Change Password",
-            btn_cancel_pwd: "Cancel",
-            star_title: "🏆 Weekly Top and Lowest Performers",
-            admin_title: "📊 Branch Overall Dashboard (Admin)",
-            lbl_period_select: "📅 Select Period:",
-            opt_daily: "Daily",
-            opt_weekly: "Weekly",
-            opt_monthly: "Monthly",
-            opt_quarterly: "Quarterly",
-            m_deposit: "Total Approved Deposit",
-            m_achieve: "Average Achievement %",
-            m_acc: "Approved New Accounts",
-            m_digital: "Total Digital Banking",
-            branch_mgr_title: "🏛️ Branch / Zone Creator",
-            btn_add_branch: "➕ Add Branch",
-            txt_reg_branches: "Registered Branches:",
-            user_control_title: "👥 Staff Accounts & Role Management",
-            th_name: "Staff Name",
-            th_role: "Role",
-            th_action: "Action",
-            summary_title: "📊 Overall Staff Performance Summary",
-            th_s_staff: "Staff Member",
-            th_s_deposit: "Actual Deposit (ETB)",
-            th_s_ach: "Avg Achievement %",
-            th_s_dig: "Total Digital",
-            th_s_acc: "New Accounts",
-            form_title: "📝 Submit Performance Report",
-            btn_manage_dropdown: "⚙️ Manage Staff List",
-            lbl_select_staff: "Select Staff Name",
-            lbl_date: "Date",
-            sec_deposit: "1. Deposit Performance",
-            inc: "Include",
-            lbl_plan: "Daily Plan (Birr)",
-            lbl_actual: "Actual Collected (Birr)",
-            sec_digital: "2. Digital Banking & Accounts",
-            lbl_new_acc: "New Accounts",
-            lbl_loans: "Loans Processed",
-            sec_notes: "3. Challenges & Next Strategy",
-            lbl_challenges: "Challenges / Next Strategy",
-            btn_submit_report: "Submit Report",
-            reports_list_title: "📋 Submitted Reports & Approvals",
-            btn_exp_excel: "📥 Export Excel (.csv)",
-            btn_exp_word: "📄 Export Word Document (.doc)",
-            no_perf_data: "No approved report data found.",
-            top_performer: "🥇 Star Performer of the Week",
-            low_performer: "⚠️ Lowest Performer",
-            btn_cert: "📜 Download Performance Certificate",
-            btn_warning: "✉️ Download Warning/Notice Letter",
-            modal_dropdown_title: "⚙️ Manage Dropdown Staff Names",
-            btn_add_dropdown_staff: "➕ Add Staff",
-            th_modal_staff_name: "Staff Name",
-            th_modal_action: "Action",
-            btn_close_modal: "Close",
-            modal_edit_user_title: "✏️ Edit User Information (SuperAdmin)",
-            lbl_modal_username: "Username",
-            lbl_modal_fullname: "Full Name",
-            lbl_modal_pass: "Password",
-            lbl_modal_role: "Role",
-            btn_save_user_edit: "💾 Save",
-            btn_cancel_user_edit: "Cancel"
-        }
-    };
-
-    let currentLang = 'am';
-
-    function changeLanguage(lang) {
-        currentLang = lang;
-        const t = translations[lang];
-
-        document.getElementById('txt_app_title').innerText = t.app_title;
-        document.getElementById('txt_app_sub').innerText = t.app_sub;
-        document.getElementById('txt_login_header').innerText = t.login_header;
-        document.getElementById('lbl_username').innerText = t.lbl_username;
-        document.getElementById('lbl_password').innerText = t.lbl_password;
-        document.getElementById('btn_login').innerText = t.btn_login;
-        document.getElementById('txt_welcome').innerText = t.welcome;
-        document.getElementById('btn_change_pwd').innerText = t.btn_change_pwd;
-        document.getElementById('btn_logout').innerText = t.btn_logout;
-        document.getElementById('txt_pwd_title').innerText = t.pwd_title;
-        document.getElementById('lbl_curr_pwd').innerText = t.lbl_curr_pwd;
-        document.getElementById('lbl_new_pwd').innerText = t.lbl_new_pwd;
-        document.getElementById('lbl_conf_pwd').innerText = t.lbl_conf_pwd;
-        document.getElementById('btn_save_pwd').innerText = t.btn_save_pwd;
-        document.getElementById('btn_cancel_pwd').innerText = t.btn_cancel_pwd;
-        document.getElementById('txt_star_title').innerText = t.star_title;
-        document.getElementById('txt_admin_title').innerText = t.admin_title;
-        
-        document.getElementById('lbl_period_select').innerText = t.lbl_period_select;
-        document.getElementById('opt_daily').innerText = t.opt_daily;
-        document.getElementById('opt_weekly').innerText = t.opt_weekly;
-        document.getElementById('opt_monthly').innerText = t.opt_monthly;
-        document.getElementById('opt_quarterly').innerText = t.opt_quarterly;
-
-        document.getElementById('txt_m_deposit').innerText = t.m_deposit;
-        document.getElementById('txt_m_achieve').innerText = t.m_achieve;
-        document.getElementById('txt_m_acc').innerText = t.m_acc;
-        document.getElementById('txt_m_digital').innerText = t.m_digital;
-        document.getElementById('txt_branch_mgr_title').innerText = t.branch_mgr_title;
-        document.getElementById('btn_add_branch').innerText = t.btn_add_branch;
-        document.getElementById('txt_reg_branches').innerText = t.txt_reg_branches;
-        document.getElementById('txt_user_control_title').innerText = t.user_control_title;
-        document.getElementById('th_name').innerText = t.th_name;
-        document.getElementById('th_role').innerText = t.th_role;
-        document.getElementById('th_action').innerText = t.th_action;
-        document.getElementById('txt_summary_title').innerText = t.summary_title;
-        document.getElementById('th_s_staff').innerText = t.th_s_staff;
-        document.getElementById('th_s_deposit').innerText = t.th_s_deposit;
-        document.getElementById('th_s_ach').innerText = t.th_s_ach;
-        document.getElementById('th_s_dig').innerText = t.th_s_dig;
-        document.getElementById('th_s_acc').innerText = t.th_s_acc;
-        document.getElementById('txt_form_title').innerText = t.form_title;
-        document.getElementById('btn_manage_dropdown').innerText = t.btn_manage_dropdown;
-        document.getElementById('lbl_select_staff').innerText = t.lbl_select_staff;
-        document.getElementById('lbl_date').innerText = t.lbl_date;
-        document.getElementById('txt_sec_deposit').innerText = t.sec_deposit;
-        document.getElementById('txt_inc_1').innerText = t.inc;
-        document.getElementById('txt_inc_2').innerText = t.inc;
-        document.getElementById('txt_inc_3').innerText = t.inc;
-        document.getElementById('lbl_plan').innerText = t.lbl_plan;
-        document.getElementById('lbl_actual').innerText = t.lbl_actual;
-        document.getElementById('txt_sec_digital').innerText = t.sec_digital;
-        document.getElementById('lbl_new_acc').innerText = t.lbl_new_acc;
-        document.getElementById('lbl_loans').innerText = t.lbl_loans;
-        document.getElementById('txt_sec_notes').innerText = t.sec_notes;
-        document.getElementById('lbl_challenges').innerText = t.lbl_challenges;
-        document.getElementById('btn_submit_report').innerText = t.btn_submit_report;
-        document.getElementById('txt_reports_list_title').innerText = t.reports_list_title;
-        document.getElementById('btn_exp_excel').innerText = t.btn_exp_excel;
-        document.getElementById('btn_exp_word').innerText = t.btn_exp_word;
-
-        document.getElementById('txt_modal_dropdown_title').innerText = t.modal_dropdown_title;
-        document.getElementById('btn_add_dropdown_staff').innerText = t.btn_add_dropdown_staff;
-        document.getElementById('th_modal_staff_name').innerText = t.th_modal_staff_name;
-        document.getElementById('th_modal_action').innerText = t.th_modal_action;
-        document.getElementById('btn_close_modal').innerText = t.btn_close_modal;
-
-        document.getElementById('txt_modal_edit_user_title').innerText = t.modal_edit_user_title;
-        document.getElementById('lbl_modal_username').innerText = t.lbl_modal_username;
-        document.getElementById('lbl_modal_fullname').innerText = t.lbl_modal_fullname;
-        document.getElementById('lbl_modal_pass').innerText = t.lbl_modal_pass;
-        document.getElementById('lbl_modal_role').innerText = t.lbl_modal_role;
-        document.getElementById('btn_save_user_edit').innerText = t.btn_save_user_edit;
-        document.getElementById('btn_cancel_user_edit').innerText = t.btn_cancel_user_edit;
-
-        loadReports();
-    }
-
-    const defaultExcelStaff = [
-        "Fiseha legesse", "Asrat Zewudu", "Dawit solomon", "Sintayehu Gedefaw",
-        "Hermela getachew", "Adem seid", "Eshet melese", "Sosina tadesse",
-        "Gedion yohannes", "Jemal ahmed", "Seid adem", "Mengistu mule",
-        "Mulugeta shume", "Ayitenew Dereje", "Dagmawit Afework"
-    ];
-
-    const defaultUsersDatabase = {
-        "fiseha": { name: "Fiseha legesse", role: "SuperAdmin", pass: "1234" },
-        "dawit": { name: "Dawit solomon", role: "Approver", pass: "1234" },
-        "asrat": { name: "Asrat Zewudu", role: "Approver", pass: "1234" },
-        "sintayehu": { name: "Sintayehu Gedefaw", role: "Approver", pass: "1234" },
-        "staff": { name: "Staff Member", role: "Staff", pass: "1234" }
-    };
-
-    function getCustomStaffList() {
-        const saved = localStorage.getItem('cbe_custom_staff_v11');
-        return saved ? JSON.parse(saved) : defaultExcelStaff;
-    }
-
-    function saveCustomStaffList(list) {
-        localStorage.setItem('cbe_custom_staff_v11', JSON.stringify(list));
-    }
-
-    function getUsersDB() {
-        const savedDB = localStorage.getItem('cbe_users_db_v11');
-        return savedDB ? JSON.parse(savedDB) : defaultUsersDatabase;
-    }
-
-    function saveUsersDB(db) {
-        localStorage.setItem('cbe_users_db_v11', JSON.stringify(db));
-    }
-
+    const defaultStaff = ["Fiseha legesse", "Asrat Zewudu", "Dawit solomon", "Sintayehu Gedefaw", "Hermela getachew", "Adem seid"];
     let currentUserSession = null;
-    let currentUsernameKey = null;
 
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('weekDate').valueAsDate = new Date();
-        const savedSession = localStorage.getItem('cbe_user_session_v11');
-        if (savedSession) {
-            const parsedData = JSON.parse(savedSession);
-            currentUserSession = parsedData.session;
-            currentUsernameKey = parsedData.usernameKey;
-            initDashboard();
-        }
-        renderBranches();
+        populateStaffDropdown();
     });
 
     document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        const db = getUsersDB();
-        const userKey = document.getElementById('username').value.trim().toLowerCase();
-        const passKey = document.getElementById('password').value.trim();
-
-        if (db[userKey] && db[userKey].pass === passKey) {
-            currentUserSession = db[userKey];
-            currentUsernameKey = userKey;
-            localStorage.setItem('cbe_user_session_v11', JSON.stringify({ session: currentUserSession, usernameKey: userKey }));
-            initDashboard();
-        } else {
-            alert(currentLang === 'am' ? 'የተሳሳተ የተጠቃሚ ስም ወይም ይለፍ ቃል!' : 'Invalid username or password!');
-        }
-    });
-
-    function logout() {
-        localStorage.removeItem('cbe_user_session_v11');
-        currentUserSession = null;
-        currentUsernameKey = null;
-        document.getElementById('appSection').classList.add('hidden');
-        document.getElementById('loginSection').classList.remove('hidden');
-        document.getElementById('loginForm').reset();
-    }
-
-    function openManageDropdownModal() {
-        if (currentUserSession && currentUserSession.role === 'SuperAdmin') {
-            document.getElementById('manageDropdownModal').classList.remove('hidden');
-            renderDropdownStaffTable();
-        } else {
-            alert(currentLang === 'am' ? 'ይህንን ለማድረግ ፈቃድ የለዎትም!' : 'Access denied! Only SuperAdmin can perform this action.');
-        }
-    }
-
-    function closeManageDropdownModal() {
-        document.getElementById('manageDropdownModal').classList.add('hidden');
-    }
-
-    function renderDropdownStaffTable() {
-        const list = getCustomStaffList();
-        const tbody = document.getElementById('dropdownStaffTableBody');
-        tbody.innerHTML = '';
-
-        list.forEach((name, index) => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td><strong>${escapeHtml(name)}</strong></td>
-                <td>
-                    <button type="button" class="btn-edit" onclick="editDropdownStaff(${index})">✏️</button>
-                    <button type="button" class="btn-delete" onclick="deleteDropdownStaff(${index})">🗑️</button>
-                </td>
-            `;
-            tbody.appendChild(tr);
-        });
-    }
-
-    function addDropdownStaff() {
-        const input = document.getElementById('newStaffInput');
-        const val = input.value.trim();
-        if(!val) return alert(currentLang === 'am' ? 'እባክዎን ስም ያስገቡ!' : 'Please enter a name!');
-
-        let list = getCustomStaffList();
-        list.push(val);
-        saveCustomStaffList(list);
-        input.value = '';
-        renderDropdownStaffTable();
-        populateStaffDropdown();
-    }
-
-    function editDropdownStaff(index) {
-        let list = getCustomStaffList();
-        const promptMsg = currentLang === 'am' ? 'የሰራተኛውን ስም ያስተካክሉ፦' : 'Edit staff name:';
-        const newName = prompt(promptMsg, list[index]);
-        if (newName && newName.trim() !== '') {
-            list[index] = newName.trim();
-            saveCustomStaffList(list);
-            renderDropdownStaffTable();
-            populateStaffDropdown();
-        }
-    }
-
-    function deleteDropdownStaff(index) {
-        const confirmMsg = currentLang === 'am' ? 'እርግጠኛ ነዎት ይህንን ስም መሰረዝ ይፈልጋሉ?' : 'Are you sure you want to delete this name?';
-        if (confirm(confirmMsg)) {
-            let list = getCustomStaffList();
-            list.splice(index, 1);
-            saveCustomStaffList(list);
-            renderDropdownStaffTable();
-            populateStaffDropdown();
-        }
-    }
-
-    function initDashboard() {
+        const userKey = document.getElementById('username').value.trim();
+        currentUserSession = { name: userKey, role: userKey === 'admin' ? 'SuperAdmin' : 'Staff' };
+        
         document.getElementById('loginSection').classList.add('hidden');
         document.getElementById('appSection').classList.remove('hidden');
-
         document.getElementById('activeUserName').innerText = currentUserSession.name;
         document.getElementById('activeUserRole').innerText = currentUserSession.role;
 
-        const adminCard = document.getElementById('adminDashboardCard');
-        const exportBtns = document.getElementById('exportButtons');
-        const userControlSec = document.getElementById('adminUserControlSection');
-        const branchCreatorSec = document.getElementById('branchCreatorSection');
-        const manageDropdownBtn = document.getElementById('btn_manage_dropdown');
-
-        const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
-        const isApprover = currentUserSession.role === 'Approver';
-
-        if (isSuperAdmin || isApprover) {
-            adminCard.classList.remove('hidden');
-            exportBtns.classList.remove('hidden');
-            userControlSec.classList.remove('hidden');
-            renderUserTable();
-        } else {
-            adminCard.classList.add('hidden');
-            exportBtns.classList.add('hidden');
-            userControlSec.classList.add('hidden');
+        if(currentUserSession.role === 'SuperAdmin') {
+            document.getElementById('adminDashboardCard').classList.remove('hidden');
+            document.getElementById('exportButtons').classList.remove('hidden');
         }
-
-        if (isSuperAdmin) {
-            manageDropdownBtn.classList.remove('hidden');
-            branchCreatorSec.classList.remove('hidden');
-        } else {
-            manageDropdownBtn.classList.add('hidden');
-            branchCreatorSec.classList.add('hidden');
-        }
-
-        populateStaffDropdown();
         loadReports();
-    }
+    });
 
-    function getBranches() {
-        const saved = localStorage.getItem('cbe_branches_v1');
-        return saved ? JSON.parse(saved) : ["የቦርከና ቅርንጫፍ (Borkena Branch)"];
-    }
-
-    function addNewBranch() {
-        if (currentUserSession.role !== 'SuperAdmin') {
-            alert(currentLang === 'am' ? 'ቅርንጫፍ ለመጨመር የ SuperAdmin ፈቃድ ያስፈልጋል!' : 'Only SuperAdmin can add branches!');
-            return;
-        }
-
-        const input = document.getElementById('newBranchNameInput');
-        const val = input.value.trim();
-        if(!val) return;
-
-        let branches = getBranches();
-        branches.push(val);
-        localStorage.setItem('cbe_branches_v1', JSON.stringify(branches));
-        input.value = '';
-        renderBranches();
-        alert(currentLang === 'am' ? 'አዲስ ዞን/ቅርንጫፍ ተፈጥሯል!' : 'New Branch/Zone created!');
-    }
-
-    function renderBranches() {
-        const branches = getBranches();
-        document.getElementById('branchListDisplay').innerText = branches.join(', ');
+    function logout() {
+        location.reload();
     }
 
     function populateStaffDropdown() {
         const select = document.getElementById('staffNameSelect');
-        const defaultText = currentLang === 'am' ? '-- ሰራተኛ ይምረጡ --' : '-- Select Staff --';
-        select.innerHTML = `<option value="" disabled selected>${defaultText}</option>`;
-
-        let staffList = getCustomStaffList();
-
-        staffList.forEach(name => {
+        select.innerHTML = `<option value="" disabled selected>-- ሰራተኛ ይምረጡ --</option>`;
+        defaultStaff.forEach(name => {
             const opt = document.createElement('option');
-            opt.value = name;
-            opt.innerText = name;
+            opt.value = name; opt.innerText = name;
             select.appendChild(opt);
         });
-
-        select.disabled = false;
     }
 
-    const reportForm = document.getElementById('reportForm');
-    reportForm.addEventListener('submit', function(e) {
+    document.getElementById('reportForm').addEventListener('submit', function(e) {
         e.preventDefault();
-
-        const selectedStaffName = document.getElementById('staffNameSelect').value;
-        if(!selectedStaffName) return alert(currentLang === 'am' ? 'እባክዎን የሰራተኛ ስም ይምረጡ!' : 'Please select staff name!');
-
-        const includeDeposit = document.getElementById('sendDeposit').checked;
-        const includeDigital = document.getElementById('sendDigital').checked;
-        const includeNotes = document.getElementById('sendNotes').checked;
-
-        const plan = parseFloat(document.getElementById('dailyPlan').value) || 118184.95;
-        const actual = includeDeposit ? (parseFloat(document.getElementById('dailyDeposit').value) || 0) : 0;
-        const achievementPct = includeDeposit ? ((actual / plan) * 100).toFixed(2) : '0';
-
-        const newReport = {
+        
+        const report = {
             id: Date.now(),
-            staffName: selectedStaffName,
-            submittedBy: currentUserSession.name,
-            weekDate: document.getElementById('weekDate').value,
-            hasDeposit: includeDeposit,
-            dailyPlan: plan,
-            dailyDeposit: actual,
-            achievementPct: parseFloat(achievementPct),
-            hasDigital: includeDigital,
-            mbCount: includeDigital ? (parseInt(document.getElementById('mbCount').value) || 0) : 0,
-            atmCount: includeDigital ? (parseInt(document.getElementById('atmCount').value) || 0) : 0,
-            cbeBirrCount: includeDigital ? (parseInt(document.getElementById('cbeBirrCount').value) || 0) : 0,
-            newAccounts: includeDigital ? (parseInt(document.getElementById('newAccounts').value) || 0) : 0,
-            loansProcessed: includeDigital ? (document.getElementById('loansProcessed').value || '-') : '-',
-            hasNotes: includeNotes,
-            challenges: includeNotes ? document.getElementById('challenges').value : '',
-            status: 'Pending',
-            approvedBy: ''
+            staffName: document.getElementById('staffNameSelect').value,
+            crm: document.getElementById('assignedCrm').value || '-',
+            date: document.getElementById('weekDate').value,
+            deposit: parseFloat(document.getElementById('depositActual').value) || 0,
+            loan: parseInt(document.getElementById('loanActual').value) || 0,
+            fcy: parseFloat(document.getElementById('fcyActual').value) || 0,
+            mb: parseInt(document.getElementById('mbActual').value) || 0,
+            cbeBirr: parseInt(document.getElementById('cbeBirrActual').value) || 0,
+            ib: parseInt(document.getElementById('ibActual').value) || 0,
+            merchant: parseInt(document.getElementById('merchantActual').value) || 0,
+            agent: parseInt(document.getElementById('agentActual').value) || 0,
+            starPay: parseInt(document.getElementById('starPayActual').value) || 0,
+            customerBase: parseInt(document.getElementById('customerBaseActual').value) || 0,
+            challenges: document.getElementById('challenges').value || '-',
+            status: 'Approved'
         };
 
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v11') || '[]');
-        reports.unshift(newReport);
-        localStorage.setItem('cbe_borkena_reports_v11', JSON.stringify(reports));
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v12_reports') || '[]');
+        reports.unshift(report);
+        localStorage.setItem('cbe_borkena_v12_reports', JSON.stringify(reports));
 
-        reportForm.reset();
-        document.getElementById('dailyPlan').value = "118184.95";
+        alert('ሪፖርቱ በጥሩ ሁኔታ ተመዝግቧል!');
+        document.getElementById('reportForm').reset();
         document.getElementById('weekDate').valueAsDate = new Date();
-        populateStaffDropdown();
-        
-        alert(currentLang === 'am' ? 'ሪፖርቱ በጥሩ ሁኔታ ተልኳል!' : 'Report submitted successfully!');
         loadReports();
     });
 
-    function filterReportsByPeriod(reports, period) {
-        const now = new Date();
-        return reports.filter(r => {
-            const rDate = new Date(r.weekDate);
-            if (isNaN(rDate.getTime())) return true;
-
-            if (period === 'daily') {
-                return rDate.toDateString() === now.toDateString();
-            } else if (period === 'weekly') {
-                const diffTime = Math.abs(now - rDate);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                return diffDays <= 7;
-            } else if (period === 'monthly') {
-                return rDate.getMonth() === now.getMonth() && rDate.getFullYear() === now.getFullYear();
-            } else if (period === 'quarterly') {
-                const currentQuarter = Math.floor(now.getMonth() / 3);
-                const reportQuarter = Math.floor(rDate.getMonth() / 3);
-                return currentQuarter === reportQuarter && rDate.getFullYear() === now.getFullYear();
-            }
-            return true;
-        });
-    }
-
     function loadReports() {
-        let allReports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v11') || '[]');
-        const period = document.getElementById('periodSelect') ? document.getElementById('periodSelect').value : 'weekly';
-        let reports = filterReportsByPeriod(allReports, period);
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v12_reports') || '[]');
+        const list = document.getElementById('reportsList');
+        list.innerHTML = '';
 
-        const reportsList = document.getElementById('reportsList');
-        
-        const isSuperAdmin = currentUserSession.role === 'SuperAdmin';
-        const isApprover = currentUserSession.role === 'Approver';
-
-        renderOverallSummaryTable(reports);
-
-        if (reports.length === 0) {
-            const noDataMsg = currentLang === 'am' ? 'ምንም የተመዘገበ ሪፖርት የለም።' : 'No recorded reports found.';
-            reportsList.innerHTML = `<p style="text-align: center; color: #777;">${noDataMsg}</p>`;
-            return;
-        }
-
-        reportsList.innerHTML = '';
-        reports.forEach(report => {
-            const item = document.createElement('div');
-            item.className = 'report-item';
-            item.style.borderBottom = "1px solid #eee";
-            item.style.padding = "10px 0";
-
-            let statusClass = 'status-pending';
-            let statusText = report.status;
-            if (report.status === 'Approved') statusClass = 'status-approved';
-            else if (report.status === 'Rejected') statusClass = 'status-rejected';
-
-            let actionButtonsHtml = '';
-
-            const isOwnReport = (report.staffName === currentUserSession.name || report.submittedBy === currentUserSession.name);
-
-            if (report.status === 'Pending') {
-                if (isSuperAdmin || (isApprover && !isOwnReport)) {
-                    const approveText = currentLang === 'am' ? '✔ አፕሩቭ' : '✔ Approve';
-                    const rejectText = currentLang === 'am' ? '✖ ውድቅ' : '✖ Reject';
-                    actionButtonsHtml += `
-                        <button class="btn-approve" onclick="changeStatus(${report.id}, 'Approved')">${approveText}</button>
-                        <button class="btn-reject" onclick="changeStatus(${report.id}, 'Rejected')">${rejectText}</button>
-                    `;
-                } else if (isApprover && isOwnReport) {
-                    const ownMsg = currentLang === 'am' ? '(የራስዎን ሪፖርት ማፅደቅ አይችሉም - አድሚን ያፀድቀዋል)' : '(Cannot approve own report - Admin approval required)';
-                    actionButtonsHtml += `<small style="color:#c62828;">${ownMsg}</small>`;
-                }
-            }
-
-            const depText = currentLang === 'am' ? 'ዲፖዚት' : 'Deposit';
-            const planText = currentLang === 'am' ? 'ፕላን' : 'Plan';
-            const actText = currentLang === 'am' ? 'ተሰበሰበ' : 'Actual';
-            const digText = currentLang === 'am' ? 'ዲጂታል' : 'Digital';
-            const accText = currentLang === 'am' ? 'አዲስ ሂሳብ' : 'New Acc.';
-
-            item.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <strong style="color: var(--cbe-purple); font-size:13px;">${escapeHtml(report.staffName)}</strong>
-                    <div>
-                        <span class="status-badge ${statusClass}">${statusText}</span>
-                        <span class="badge">${escapeHtml(report.weekDate)}</span>
-                    </div>
-                </div>
-                
-                ${report.hasDeposit ? `
-                <div class="data-grid">
-                    💰 <strong>${depText}:</strong> ${planText}: ${report.dailyPlan} | ${actText}: ${report.dailyDeposit} (<strong>${report.achievementPct}%</strong>)
-                </div>` : ''}
-
-                ${report.hasDigital ? `
-                <div class="data-grid">
-                    📱 <strong>${digText}:</strong> MB: ${report.mbCount} | ATM: ${report.atmCount} | CBE Birr: ${report.cbeBirrCount} | ${accText}: ${report.newAccounts}
-                </div>` : ''}
-
-                <div style="margin-top: 4px;">${actionButtonsHtml}</div>
-            `;
-            reportsList.appendChild(item);
-        });
-    }
-
-    function renderOverallSummaryTable(reports) {
-        const tbody = document.getElementById('summaryReportTableBody');
-        tbody.innerHTML = '';
-
-        let staffSummary = {};
-        let approvedReports = reports.filter(r => r.status === 'Approved');
-
-        let totalApprovedDeposit = 0;
-        let totalApprovedAcc = 0;
-        let totalApprovedDigital = 0;
-        let totalAchSum = 0;
+        let totalDeposit = 0, totalFcy = 0, totalDigital = 0;
 
         reports.forEach(r => {
-            if (!staffSummary[r.staffName]) {
-                staffSummary[r.staffName] = { deposit: 0, achSum: 0, digital: 0, acc: 0, count: 0 };
-            }
-            let s = staffSummary[r.staffName];
-            s.deposit += parseFloat(r.dailyDeposit) || 0;
-            s.achSum += parseFloat(r.achievementPct) || 0;
-            s.digital += (r.mbCount || 0) + (r.atmCount || 0) + (r.cbeBirrCount || 0);
-            s.acc += parseInt(r.newAccounts) || 0;
-            s.count++;
+            totalDeposit += r.deposit;
+            totalFcy += r.fcy;
+            totalDigital += (r.mb + r.cbeBirr + r.ib + r.merchant + r.agent + r.starPay);
 
-            if (r.status === 'Approved') {
-                totalApprovedDeposit += parseFloat(r.dailyDeposit) || 0;
-                totalApprovedAcc += parseInt(r.newAccounts) || 0;
-                totalApprovedDigital += (r.mbCount || 0) + (r.atmCount || 0) + (r.cbeBirrCount || 0);
-                totalAchSum += parseFloat(r.achievementPct) || 0;
-            }
-        });
-
-        const birrUnit = currentLang === 'am' ? ' ብር' : ' ETB';
-        document.getElementById('totalDepositVal').innerText = totalApprovedDeposit.toLocaleString('en-US', {minimumFractionDigits: 2}) + birrUnit;
-        document.getElementById('totalAccountsVal').innerText = totalApprovedAcc;
-        document.getElementById('totalDigitalVal').innerText = totalApprovedDigital;
-        document.getElementById('avgAchievementVal').innerText = approvedReports.length > 0 ? (totalAchSum / approvedReports.length).toFixed(2) + '%' : '0%';
-
-        let bestStaff = null;
-        let lowestStaff = null;
-        let maxAch = -1;
-        let minAch = 999999;
-
-        Object.keys(staffSummary).forEach(staff => {
-            const s = staffSummary[staff];
-            const avgAch = (s.achSum / s.count).toFixed(2);
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td><strong>${escapeHtml(staff)}</strong></td>
-                <td>${s.deposit.toLocaleString()}${birrUnit}</td>
-                <td><strong>${avgAch}%</strong></td>
-                <td>${s.digital}</td>
-                <td>${s.acc}</td>
+            const item = document.createElement('div');
+            item.style.borderBottom = "1px solid #eee";
+            item.style.padding = "8px 0";
+            item.innerHTML = `
+                <strong style="color:var(--cbe-purple);">${escapeHtml(r.staffName)}</strong> (${r.date})<br>
+                <small>💰 Deposit: ${r.deposit.toLocaleString()} Birr | 💵 FCY: $${r.fcy} | 📱 Digital: ${r.mb + r.cbeBirr + r.ib}</small>
             `;
-            tbody.appendChild(tr);
-
-            if (parseFloat(avgAch) > maxAch) {
-                maxAch = parseFloat(avgAch);
-                bestStaff = { name: staff, ach: avgAch, deposit: s.deposit, digital: s.digital, acc: s.acc };
-            }
-            if (parseFloat(avgAch) < minAch) {
-                minAch = parseFloat(avgAch);
-                lowestStaff = { name: staff, ach: avgAch, deposit: s.deposit, digital: s.digital, acc: s.acc };
-            }
+            list.appendChild(item);
         });
 
-        const bestContent = document.getElementById('bestPerformerContent');
-        const t = translations[currentLang];
-
-        if (bestStaff) {
-            window.currentBestPerformer = bestStaff;
-            window.currentLowestPerformer = lowestStaff;
-
-            const nameLbl = currentLang === 'am' ? 'ስም:' : 'Name:';
-            const achLbl = currentLang === 'am' ? 'አፈፃፀም:' : 'Achievement:';
-            const depLbl = currentLang === 'am' ? 'ተቀማጭ:' : 'Deposit:';
-
-            bestContent.innerHTML = `
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                    <div style="background:#e8f5e9; padding:10px; border-radius:8px; border:1px solid #2e7d32;">
-                        <h4 style="margin:0 0 5px 0; color:#2e7d32;">${t.top_performer}</h4>
-                        <p style="margin:2px 0;"><strong>${nameLbl}</strong> ${escapeHtml(bestStaff.name)}</p>
-                        <p style="margin:2px 0;"><strong>${achLbl}</strong> ${bestStaff.ach}%</p>
-                        <p style="margin:2px 0;"><strong>${depLbl}</strong> ${bestStaff.deposit.toLocaleString()}${birrUnit}</p>
-                        <button class="btn-cert" onclick="downloadCertificate()">${t.btn_cert}</button>
-                    </div>
-                    <div style="background:#ffebee; padding:10px; border-radius:8px; border:1px solid #c62828;">
-                        <h4 style="margin:0 0 5px 0; color:#c62828;">${t.low_performer}</h4>
-                        <p style="margin:2px 0;"><strong>${nameLbl}</strong> ${escapeHtml(lowestStaff ? lowestStaff.name : '-')}</p>
-                        <p style="margin:2px 0;"><strong>${achLbl}</strong> ${lowestStaff ? lowestStaff.ach : 0}%</p>
-                        <p style="margin:2px 0;"><strong>${depLbl}</strong> ${lowestStaff ? lowestStaff.deposit.toLocaleString() : 0}${birrUnit}</p>
-                        <button class="btn-warning" onclick="downloadWarningLetter()">${t.btn_warning}</button>
-                    </div>
-                </div>
-            `;
-        } else {
-            bestContent.innerHTML = `<p style="text-align:center; color:#888;">${t.no_perf_data}</p>`;
-        }
-    }
-
-    function changeStatus(id, newStatus) {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v11') || '[]');
-        reports = reports.map(r => {
-            if (r.id === id) {
-                r.status = newStatus;
-                r.approvedBy = currentUserSession.name;
-            }
-            return r;
-        });
-        localStorage.setItem('cbe_borkena_reports_v11', JSON.stringify(reports));
-        loadReports();
+        document.getElementById('totalDepositVal').innerText = totalDeposit.toLocaleString('en-US', {minimumFractionDigits: 2}) + ' ብር';
+        document.getElementById('totalFcyVal').innerText = '$' + totalFcy.toLocaleString('en-US', {minimumFractionDigits: 2});
+        document.getElementById('totalDigitalVal').innerText = totalDigital;
     }
 
     function escapeHtml(text) {
-        if (!text) return '';
-        return text.toString()
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }
-
-    function togglePasswordModal() {
-        document.getElementById('passwordCard').classList.toggle('hidden');
-    }
-
-    function renderUserTable() {
-        const db = getUsersDB();
-        const tbody = document.getElementById('userListTableBody');
-        tbody.innerHTML = '';
-
-        const isSuperAdmin = currentUserSession && currentUserSession.role === 'SuperAdmin';
-
-        Object.keys(db).forEach(userKey => {
-            const user = db[userKey];
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td><strong>${escapeHtml(user.name)}</strong></td>
-                <td><code style="color:var(--cbe-purple); font-weight:bold;">${escapeHtml(userKey)}</code></td>
-                <td><span style="background:#eee; padding:2px 6px; border-radius:4px;">${escapeHtml(user.pass)}</span></td>
-                <td><span class="badge">${escapeHtml(user.role)}</span></td>
-                <td>
-                    ${isSuperAdmin ? `<button type="button" class="btn-edit" onclick="editUser('${userKey}')">✏️ Edit</button>` : '<span style="color:#aaa;">No access</span>'}
-                </td>
-            `;
-            tbody.appendChild(tr);
-        });
-    }
-
-    function editUser(userKey) {
-        if (!currentUserSession || currentUserSession.role !== 'SuperAdmin') {
-            alert(currentLang === 'am' ? "SuperAdmin ብቻ ነው ሰራተኛ ኤዲት ማድረግ የሚችለው!" : "Only SuperAdmin can edit users!");
-            return;
-        }
-
-        const db = getUsersDB();
-        const user = db[userKey];
-
-        document.getElementById('editUserKeyTarget').value = userKey;
-        document.getElementById('editUsernameInput').value = userKey;
-        document.getElementById('editFullnameInput').value = user.name;
-        document.getElementById('editPasswordInput').value = user.pass;
-        document.getElementById('editRoleSelect').value = user.role;
-
-        document.getElementById('editUserModal').classList.remove('hidden');
-    }
-
-    function closeEditUserModal() {
-        document.getElementById('editUserModal').classList.add('hidden');
-    }
-
-    function saveUserEditDetails() {
-        const oldUserKey = document.getElementById('editUserKeyTarget').value;
-        const newUsername = document.getElementById('editUsernameInput').value.trim().toLowerCase();
-        const newName = document.getElementById('editFullnameInput').value.trim();
-        const newPass = document.getElementById('editPasswordInput').value.trim();
-        const newRole = document.getElementById('editRoleSelect').value;
-
-        if (!newUsername || !newName || !newPass) {
-            alert(currentLang === 'am' ? "እባክዎን ሁሉንም መስኮች ያሟሉ!" : "Please fill in all fields!");
-            return;
-        }
-
-        const db = getUsersDB();
-
-        if (newUsername !== oldUserKey && db[newUsername]) {
-            alert(currentLang === 'am' ? "ይህ Username ቀደም ብሎ ተይዟል! እባክዎን ሌላ ይምረጡ።" : "Username already exists!");
-            return;
-        }
-
-        const userObject = {
-            name: newName,
-            pass: newPass,
-            role: newRole
-        };
-
-        if (newUsername !== oldUserKey) {
-            delete db[oldUserKey];
-        }
-        db[newUsername] = userObject;
-
-        if (currentUsernameKey === oldUserKey) {
-            currentUsernameKey = newUsername;
-            currentUserSession = userObject;
-            localStorage.setItem('cbe_user_session_v11', JSON.stringify({ session: currentUserSession, usernameKey: newUsername }));
-            document.getElementById('activeUserName').innerText = newName;
-            document.getElementById('activeUserRole').innerText = newRole;
-        }
-
-        saveUsersDB(db);
-        renderUserTable();
-        closeEditUserModal();
-        alert(currentLang === 'am' ? "የተጠቃሚው መረጃ በተሳካ ሁኔታ ተስተካክሏል!" : "User updated successfully!");
-    }
-
-    function downloadCertificate() {
-        if(!window.currentBestPerformer) return alert(currentLang === 'am' ? "ምንም የተመረጠ ሰራተኛ የለም!" : "No staff selected!");
-        const staffName = window.currentBestPerformer.name;
-        const achPct = window.currentBestPerformer.ach;
-
-        const isAm = currentLang === 'am';
-        const title = isAm ? 'የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ' : 'Commercial Bank of Ethiopia - Borkena Branch';
-        const certHeader = isAm ? '🏆 የላቀ የሥራ አፈፃፀም ምስክር ወረቀት' : '🏆 Certificate of Outstanding Performance';
-        const certMsg1 = isAm ? 'ይህ ምስክር ወረቀት ለሰራተኛ፦' : 'This certificate is awarded to:';
-        const certMsg2 = isAm ? 
-            `በሳምንቱ የሥራ አፈፃፀም ግምገማ <b>${achPct}%</b> በማስመዝገብ የሳምንቱ <b>ምርጥ ሰራተኛ (Star Performer)</b> በመሆን ስለተለዩ ይህ የዕውቅና ምስክር ወረቀት ተሰጥቷቸዋል።` :
-            `For achieving <b>${achPct}%</b> performance and being recognized as the <b>Star Performer</b> of the period.`;
-        const manager = isAm ? 'የቅርንጫፍ ሥራ አስኪያጅ' : 'Branch Manager';
-
-        const certHtml = `<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Certificate</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 40px; border: 10px solid #5c068c; }
-        h1 { color: #5c068c; font-size: 26px; }
-        h2 { color: #e67e22; font-size: 22px; }
-        .name { color: #33004b; font-size: 24px; text-decoration: underline; font-weight: bold; margin: 20px 0; }
-    </style>
-</head>
-<body>
-    <h1>${title}</h1>
-    <h2>${certHeader}</h2>
-    <hr style="border: 1px solid #5c068c; width: 80%;">
-    <br><br>
-    <p style="font-size: 16px;">${certMsg1}</p>
-    <div class="name">${escapeHtml(staffName)}</div>
-    <p style="font-size: 16px;">${certMsg2}</p>
-    <br><br><br>
-    <table style="width:100%; margin-top:50px;">
-        <tr>
-            <td style="text-align:center;">
-                <p>____________________</p>
-                <p><b>${manager}</b></p>
-            </td>
-        </tr>
-    </table>
-</body>
-</html>`;
-        blobDownload(certHtml, `Certificate_${staffName.replace(/\s+/g, '_')}.doc`, 'application/msword');
-    }
-
-    function downloadWarningLetter() {
-        if(!window.currentLowestPerformer) return alert(currentLang === 'am' ? "ምንም የተመረጠ ሰራተኛ የለም!" : "No staff selected!");
-        const staffName = window.currentLowestPerformer.name;
-        const achPct = window.currentLowestPerformer.ach;
-
-        const isAm = currentLang === 'am';
-        const title = isAm ? 'የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ' : 'Commercial Bank of Ethiopia - Borkena Branch';
-        const dateLbl = isAm ? 'ቀን፦' : 'Date:';
-        const toLbl = isAm ? 'ለ፦' : 'To:';
-        const subjLbl = isAm ? 'ጉዳዩ፦' : 'Subject:';
-        const subjText = isAm ? 'የአፈፃፀም ማሻሻያ ማስታወሻ (Notice of Low Performance)' : 'Notice of Low Performance';
-        const body1 = isAm ? 
-            `በተጠናቀቀው ሳምንታዊ የሥራ አፈፃፀም ግምገማ መሠረት ያስመዘገቡት የሥራ አፈፃፀም <b>${achPct}%</b> በመሆኑ እና ከቅርንጫፉ የሚጠበቀውን ዝቅተኛ ግብ ያላሟላ በመሆኑ ይህ ማስታወሻ ሊሰጥዎ ተችሏል።` :
-            `Based on the performance evaluation, your recorded performance is <b>${achPct}%</b>, which is below the expected branch target.`;
-        const body2 = isAm ? 
-            `ስለሆነም በሚቀጥሉት የሥራ ቀናት የሥራ አፈፃፀምዎን በማሻሻል የተቀመጡ ግቦችን እንድታስመዘግቡና አስፈላጊውን ጥረት እንድታደርጉ እናሳስባለን።` :
-            `Therefore, you are requested to improve your performance and meet the targets in the coming period.`;
-        const regards = isAm ? 'ከሰላምታ ጋር፣' : 'Sincerely,';
-        const manager = isAm ? 'የቅርንጫፍ ሥራ አስኪያጅ' : 'Branch Manager';
-
-        const warningHtml = `<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Warning Letter</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 30px; }
-        h2 { color: #5c068c; text-align: center; }
-    </style>
-</head>
-<body>
-    <h2>${title}</h2>
-    <p style="text-align: right;"><b>${dateLbl}</b> ${new Date().toLocaleDateString('en-US')}</p>
-    <p><b>${toLbl}</b> ${escapeHtml(staffName)}</p>
-    <p><b>${subjLbl}</b> <u>${subjText}</u></p>
-    <br>
-    <p>${body1}</p>
-    <p>${body2}</p>
-    <br><br><br>
-    <p>${regards}</p>
-    <br>
-    <p>____________________</p>
-    <p><b>${manager}</b></p>
-</body>
-</html>`;
-        blobDownload(warningHtml, `Warning_Letter_${staffName.replace(/\s+/g, '_')}.doc`, 'application/msword');
+        return text ? text.toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
     }
 
     function exportToExcel() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v11') || '[]');
-        if (reports.length === 0) return alert(currentLang === 'am' ? 'የሚወርድ ዳታ የለም!' : 'No data to export!');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v12_reports') || '[]');
+        if (reports.length === 0) return alert('የሚወርድ ዳታ የለም!');
 
-        const headers = currentLang === 'am' ? 
-            "ተ.ቁ,የሰራተኛ ስም,ቀን,የተሰበሰበ ተቀማጭ,አፈፃፀም %,MB,ATM,CBE Birr,አዲስ ሂሳብ,ሁኔታ\n" :
-            "S.N,Staff Name,Date,Deposit Collected,Achievement %,MB,ATM,CBE Birr,New Accounts,Status\n";
-
-        let csvContent = headers;
-
-        reports.forEach((r, idx) => {
-            csvContent += `${idx + 1},"${r.staffName}","${r.weekDate}",${r.dailyDeposit},${r.achievementPct}%,${r.mbCount},${r.atmCount},${r.cbeBirrCount},${r.newAccounts},"${r.status}"\n`;
+        let csv = "Staff Name,CRM,Date,Deposit,Loan,FCY,MB,CBE Birr,IB,Merchant,Agent,Star Pay,Customer Base,Challenges\n";
+        reports.forEach(r => {
+            csv += `"${r.staffName}","${r.crm}","${r.date}",${r.deposit},${r.loan},${r.fcy},${r.mb},${r.cbeBirr},${r.ib},${r.merchant},${r.agent},${r.starPay},${r.customerBase},"${r.challenges}"\n`;
         });
 
-        blobDownload(csvContent, `CBE_Borkena_Report_${new Date().toISOString().slice(0,10)}.csv`, 'text/csv');
-    }
-
-    function exportToWord() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_reports_v11') || '[]');
-        if (reports.length === 0) return alert(currentLang === 'am' ? 'የሚወርድ ዳታ የለም!' : 'No data to export!');
-
-        let approvedReports = reports.filter(r => r.status === 'Approved');
-        let totalDeposit = approvedReports.reduce((sum, r) => sum + (parseFloat(r.dailyDeposit) || 0), 0);
-
-        let tableRows = '';
-        reports.forEach((r, index) => {
-            tableRows += `
-                <tr>
-                    <td style="border:1px solid #ddd; padding:8px;">${index + 1}</td>
-                    <td style="border:1px solid #ddd; padding:8px;"><b>${escapeHtml(r.staffName)}</b></td>
-                    <td style="border:1px solid #ddd; padding:8px;">${r.weekDate}</td>
-                    <td style="border:1px solid #ddd; padding:8px;">${r.dailyDeposit.toLocaleString()}</td>
-                    <td style="border:1px solid #ddd; padding:8px;"><b>${r.achievementPct}%</b></td>
-                    <td style="border:1px solid #ddd; padding:8px;">${(r.mbCount||0) + (r.atmCount||0) + (r.cbeBirrCount||0)}</td>
-                    <td style="border:1px solid #ddd; padding:8px;">${r.newAccounts}</td>
-                    <td style="border:1px solid #ddd; padding:8px;">${escapeHtml(r.challenges) || '-'}</td>
-                </tr>
-            `;
-        });
-
-        const isAm = currentLang === 'am';
-        const title = isAm ? 'የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ' : 'Commercial Bank of Ethiopia - Borkena Branch';
-        const subTitle = isAm ? 'የሥራ አፈፃፀም ዝርዝር ማብራሪያ ሪፖርት' : 'Performance Detail Report';
-        const summaryMsg = isAm ? 
-            `ቅርንጫፉ በጠቅላላው <b>${totalDeposit.toLocaleString()} ብር</b> የተቀማጭ ገንዘብ መሰብሰብ የቻለ ሲሆን፣ የሁሉም ሰራተኞች ዝርዝር አፈፃፀም ከዚህ በታች በሰንጠረዡ ተብራርቷል።` :
-            `Total approved deposit collected is <b>${totalDeposit.toLocaleString()} ETB</b>. Detailed staff performance is listed below.`;
-
-        let wordHtml = `<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Branch Performance Report</title>
-</head>
-<body style="font-family: Arial, sans-serif; padding: 20px;">
-    <h2 style="color: #5c068c; text-align: center;">${title}</h2>
-    <h3 style="color: #33004b; text-align: center;">${subTitle}</h3>
-    <hr style="border: 1px solid #5c068c;">
-    
-    <p><b>${isAm ? 'ቀን፦' : 'Date:'}</b> ${new Date().toLocaleDateString('en-US')}</p>
-    <p>${summaryMsg}</p>
-    
-    <table style="width:100%; border-collapse:collapse; margin-top:15px; font-size:12px;">
-        <thead>
-            <tr style="background-color:#5c068c; color:white;">
-                <th style="padding:8px; border:1px solid #ddd;">${isAm ? 'ተ.ቁ' : 'S.N'}</th>
-                <th style="padding:8px; border:1px solid #ddd;">${isAm ? 'የሰራተኛ ስም' : 'Staff Name'}</th>
-                <th style="padding:8px; border:1px solid #ddd;">${isAm ? 'ቀን' : 'Date'}</th>
-                <th style="padding:8px; border:1px solid #ddd;">${isAm ? 'የተሰበሰበ ተቀማጭ' : 'Deposit'}</th>
-                <th style="padding:8px; border:1px solid #ddd;">${isAm ? 'አፈፃፀም %' : 'Achievement %'}</th>
-                <th style="padding:8px; border:1px solid #ddd;">${isAm ? 'ዲጂታል' : 'Digital'}</th>
-                <th style="padding:8px; border:1px solid #ddd;">${isAm ? 'አዲስ ሂሳብ' : 'New Acc.'}</th>
-                <th style="padding:8px; border:1px solid #ddd;">${isAm ? 'ማብራሪያ' : 'Notes'}</th>
-            </tr>
-        </thead>
-        <tbody>
-            ${tableRows}
-        </tbody>
-    </table>
-
-    <br><br>
-    <p><b>${isAm ? 'አዘጋጅ፦' : 'Prepared By:'}</b> ${currentUserSession ? escapeHtml(currentUserSession.name) : ''} (${currentUserSession ? escapeHtml(currentUserSession.role) : ''})</p>
-    <p><b>${isAm ? 'ፊርማ፦' : 'Signature:'}</b> ____________________</p>
-</body>
-</html>`;
-
-        blobDownload(wordHtml, `CBE_Borkena_Detailed_Report_${new Date().toISOString().slice(0,10)}.doc`, 'application/msword');
-    }
-
-    function blobDownload(content, filename, contentType) {
-        const bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
-        const blob = new Blob([bom, content], { type: contentType + ';charset=utf-8' });
-        
-        const url = URL.createObjectURL(blob);
+        const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), csv], { type: 'text/csv;charset=utf-8' });
         const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
+        a.href = URL.createObjectURL(blob);
+        a.download = `CBE_Borkena_Target_Followup_${new Date().toISOString().slice(0,10)}.csv`;
         a.click();
-        
-        setTimeout(() => {
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }, 300);
     }
 </script>
-
 </body>
 </html>
