@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="google" content="notranslate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ አፈፃፀም ዳሽቦርድ</title>
+    <title>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ ዳሽቦርድ</title>
     <style>
         :root {
             --cbe-purple: #5c068c;
@@ -112,6 +112,16 @@
         .badge-validated { background-color: #e3f2fd; color: #0288d1; }
         .badge-committed { background-color: #e8f5e9; color: #2e7d32; }
 
+        .modal-overlay {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.5); z-index: 1000; display: flex;
+            justify-content: center; align-items: center;
+        }
+        .modal-body {
+            background: white; padding: 20px; border-radius: 12px;
+            width: 90%; max-width: 500px; max-height: 85vh; overflow-y: auto;
+        }
+
         .hidden { display: none !important; }
     </style>
 </head>
@@ -130,7 +140,7 @@
     <!-- Header Box -->
     <div class="header-box">
         <h2>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h2>
-        <p>የእለታዊ እና ሳምንታዊ ሰራተኞች አፈፃፀም መከታተያ ዳሽቦርድ</p>
+        <p>የእለታዊ እና ሳምንታዊ የሰራተኞች አፈፃፀም መከታተያ እና ማኔጅመንት ሲስተም</p>
     </div>
 
     <!-- Login Box -->
@@ -139,7 +149,7 @@
         <form id="loginForm">
             <div class="form-group">
                 <label>የተጠቃሚ ስም (Username)</label>
-                <input type="text" id="username" placeholder="አድሚን ወይም የሰራተኛ ስም" required>
+                <input type="text" id="username" placeholder="አድሚን፣ ሱፐርቫይዘር ወይም የሰራተኛ ስም" required>
             </div>
             <div class="form-group">
                 <label>ይለፍ ቃል (Password)</label>
@@ -171,14 +181,14 @@
         <div id="adminPanel" class="hidden">
             
             <div class="card">
-                <h3 style="margin-top:0; color:var(--cbe-purple);">📊 የቅርንጫፍ አጠቃላይ አፈፃፀም ሱመሪ (Branch Summary)</h3>
+                <h3 style="margin-top:0; color:var(--cbe-purple);">📊 የቅርንጫፍ አጠቃላይ አፈፃፀም ሱመሪ (Branch Summary Dashboard)</h3>
                 <div class="dashboard-grid">
                     <div class="stat-box">
                         <h4>ጠቅላላ የተቀማጭ ገንዘብ (Actual)</h4>
                         <div class="number" id="totalDepositVal">0.00 ብር</div>
                     </div>
                     <div class="stat-box">
-                        <h4>አማካኝ አፈፃፀም (% Target)</h4>
+                        <h4>አማካኝ አፈፃፀም (% Achievement)</h4>
                         <div class="number" id="avgAchievementVal">0%</div>
                     </div>
                     <div class="stat-box">
@@ -195,23 +205,23 @@
             <!-- Admin Tools Grid -->
             <div class="card grid-2">
                 <div>
-                    <h4 style="margin-top:0; color:var(--cbe-purple);">📢 ማስታወቂያ መላኪያ</h4>
+                    <h4 style="margin-top:0; color:var(--cbe-purple);">📢 ማስታወቂያ መላኪያ (Post Announcement)</h4>
                     <div class="form-group">
-                        <textarea id="newNoticeText" placeholder="ቅርንጫፍ አቀፍ ማስታወቂያ ይጻፉ..."></textarea>
+                        <textarea id="newNoticeText" placeholder="ቅርንጫፍ አቀፍ ማስታወቂያ እዚህ ይጻፉ..."></textarea>
                     </div>
                     <button onclick="postNotice()">ማስታወቂያ አውጣ</button>
                 </div>
                 <div>
                     <h4 style="margin-top:0; color:var(--cbe-purple);">⚙️ የሰራተኞች እና የስልጣን ማኔጅመንት</h4>
-                    <button onclick="openModal('staffMgmtModal')" class="btn-gold" style="width:100%; margin-bottom:8px;">👥 የሰራተኞች ዝርዝር ማስተካከያ (Add/Remove)</button>
-                    <button onclick="openModal('roleMgmtModal')" class="btn-warning" style="width:100%;">🛡️ የስልጣን/የዘርፍ ደረጃ ምደባ (Roles)</button>
+                    <button onclick="openModal('staffMgmtModal')" class="btn-gold" style="width:100%; margin-bottom:8px;">👥 የሰራተኞች ዝርዝር ማስተካከያ (Add/Remove Staff)</button>
+                    <button onclick="openModal('roleMgmtModal')" class="btn-warning" style="width:100%;">🛡️ የስልጣን/የዘርፍ ደረጃ ምደባ (Role Allocation)</button>
                 </div>
             </div>
         </div>
 
         <!-- Daily Target Entry Form -->
         <div class="card">
-            <h3 style="margin:0 0 10px 0; color:var(--cbe-purple);">📝 Daily Staff Target Follow Up (የአፈፃፀም ሪፖርት መሙያ)</h3>
+            <h3 style="margin:0 0 10px 0; color:var(--cbe-purple);">📝 Daily Staff Target Follow Up (የእለታዊ አፈፃፀም መሙያ)</h3>
             
             <form id="reportForm">
                 <div class="form-group grid-2">
@@ -243,7 +253,7 @@
                         <input type="number" id="depositActual" placeholder="0.00" step="any" required>
                     </div>
                     <div class="form-group">
-                        <label>FCY Plan / Actual ($)</label>
+                        <label>FCY Plan / Actual ($ USD)</label>
                         <div class="grid-2">
                             <input type="number" id="fcyPlan" placeholder="Plan $">
                             <input type="number" id="fcyActual" placeholder="Actual $">
@@ -287,7 +297,7 @@
                             <th>FCY (P/A)</th>
                             <th>አፈፃፀም (%)</th>
                             <th>ሁኔታ (Status)</th>
-                            <th>እርምጃዎች (Workflow Actions)</th>
+                            <th>እርምጃዎች (Validate & Commit)</th>
                         </tr>
                     </thead>
                     <tbody id="reportsTableBody"></tbody>
@@ -299,56 +309,63 @@
 </div>
 
 <!-- Modal: Password Change -->
-<div id="pwModal" class="card hidden" style="position:fixed; top:20%; left:25%; right:25%; z-index:2000;">
-    <button onclick="closeModal('pwModal')" class="btn-danger" style="float:right;">X</button>
-    <h3>🔑 የይለፍ ቃል መቀየሪያ (Change Password)</h3>
-    <div class="form-group">
-        <label>አዲስ ይለፍ ቃል (New Password)</label>
-        <input type="password" id="newPasswordInput">
+<div id="pwModal" class="modal-overlay hidden">
+    <div class="modal-body">
+        <button onclick="closeModal('pwModal')" class="btn-danger" style="float:right;">X</button>
+        <h3 style="color:var(--cbe-purple);">🔑 የይለፍ ቃል መቀየሪያ (Change Password)</h3>
+        <div class="form-group">
+            <label>አዲስ ይለፍ ቃል (New Password)</label>
+            <input type="password" id="newPasswordInput">
+        </div>
+        <button onclick="changePassword()" style="width:100%;">ይለፍ ቃል ቀይር (Update Password)</button>
     </div>
-    <button onclick="changePassword()" style="width:100%;">ቀይር (Update Password)</button>
 </div>
 
 <!-- Modal: Staff Management (Add/Remove) -->
-<div id="staffMgmtModal" class="card hidden" style="position:fixed; top:15%; left:20%; right:20%; z-index:2000;">
-    <button onclick="closeModal('staffMgmtModal')" class="btn-danger" style="float:right;">X</button>
-    <h3>👥 የሰራተኞች ዝርዝር ማስተካከያ (Staff Management)</h3>
-    <div class="form-group grid-2">
-        <input type="text" id="newStaffNameInput" placeholder="አዲስ የሰራተኛ ስም...">
-        <button onclick="addStaffMember()">➕ አዲስ ሰራተኛ ጨምር</button>
+<div id="staffMgmtModal" class="modal-overlay hidden">
+    <div class="modal-body">
+        <button onclick="closeModal('staffMgmtModal')" class="btn-danger" style="float:right;">X</button>
+        <h3 style="color:var(--cbe-purple);">👥 የሰራተኞች ዝርዝር ማስተካከያ (Staff Management)</h3>
+        <div class="form-group grid-2">
+            <input type="text" id="newStaffNameInput" placeholder="አዲስ የሰራተኛ ስም...">
+            <button onclick="addStaffMember()">➕ አዲስ ሰራተኛ ጨምር</button>
+        </div>
+        <hr>
+        <h4>የቦርከና ቅርንጫፍ ሰራተኞች ዝርዝር፦</h4>
+        <ul id="staffListDisplay" style="padding-left:20px;"></ul>
     </div>
-    <hr>
-    <h4>የአሁን ሰራተኞች ዝርዝር፦</h4>
-    <ul id="staffListDisplay" style="max-height:200px; overflow-y:auto; padding-left:20px;"></ul>
 </div>
 
 <!-- Modal: Role Privilege Management -->
-<div id="roleMgmtModal" class="card hidden" style="position:fixed; top:15%; left:20%; right:20%; z-index:2000;">
-    <button onclick="closeModal('roleMgmtModal')" class="btn-danger" style="float:right;">X</button>
-    <h3>🛡️ የስልጣን እና የዘርፍ ደረጃ ምደባ (Role Allocation)</h3>
-    <div class="form-group">
-        <label>ሰራተኛ ይምረጡ</label>
-        <select id="roleStaffSelect"></select>
+<div id="roleMgmtModal" class="modal-overlay hidden">
+    <div class="modal-body">
+        <button onclick="closeModal('roleMgmtModal')" class="btn-danger" style="float:right;">X</button>
+        <h3 style="color:var(--cbe-purple);">🛡️ የስልጣን እና የዘርፍ ደረጃ ምደባ (Role Allocation)</h3>
+        <div class="form-group">
+            <label>ሰራተኛ ይምረጡ</label>
+            <select id="roleStaffSelect"></select>
+        </div>
+        <div class="form-group">
+            <label>የስልጣን ተዋረድ (Role Privilege)</label>
+            <select id="roleLevelSelect">
+                <option value="Staff">Maker / Staff</option>
+                <option value="Supervisor">Checker / Supervisor (Validate Power)</option>
+                <option value="SuperAdmin">Branch Manager / Admin (Commit Power)</option>
+            </select>
+        </div>
+        <button onclick="assignRole()" style="width:100%;">ስልጣን መዝግብ (Save Privilege)</button>
     </div>
-    <div class="form-group">
-        <label>የስልጣን ተዋረድ (Role Privilege)</label>
-        <select id="roleLevelSelect">
-            <option value="Staff">Maker / Staff</option>
-            <option value="Supervisor">Checker / Supervisor (Validate Power)</option>
-            <option value="SuperAdmin">Branch Manager / Admin (Commit Power)</option>
-        </select>
-    </div>
-    <button onclick="assignRole()" style="width:100%;">ስልጣን መዝግብ (Save Privilege)</button>
 </div>
 
 <script>
-    // Initial Staff Members
+    // Complete 11 Staff Members List
     let staffMembers = [
-        "Dagmawit", "Hermela getachew", "Adem seid", 
-        "Giwons", "Sintayehu Gedefaw", "Dawit solomon", 
-        "Fiseha legesse", "Asrat Zewudu", "Eshet", "Gedion"
+        "Dagmawit", "Hermela", "Adem", 
+        "Giwons", "Sintayehu", "Dawit", 
+        "Fiseha", "Asrat", "Eshet", "Gedion", "Gions"
     ];
 
+    let userRoles = {};
     let currentUserSession = null;
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -358,7 +375,7 @@
     });
 
     function loadStaffList() {
-        const stored = localStorage.getItem('cbe_borkena_staff_list');
+        const stored = localStorage.getItem('cbe_borkena_staff_v15');
         if(stored) staffMembers = JSON.parse(stored);
         
         populateDropdowns();
@@ -385,26 +402,28 @@
         listEl.innerHTML = '';
         staffMembers.forEach((name, idx) => {
             const li = document.createElement('li');
-            li.style.marginBottom = "5px";
-            li.innerHTML = `${name} <button onclick="removeStaffMember(${idx})" class="btn-danger" style="padding:2px 6px; font-size:10px; margin-left:10px;">🗑 ሰርዝ</button>`;
+            li.style.marginBottom = "6px";
+            li.style.display = "flex";
+            li.style.justifyContent = "space-between";
+            li.innerHTML = `<span><strong>${name}</strong></span> <button onclick="removeStaffMember(${idx})" class="btn-danger" style="padding:2px 6px; font-size:10px;">🗑 ሰርዝ</button>`;
             listEl.appendChild(li);
         });
     }
 
     function addStaffMember() {
         const val = document.getElementById('newStaffNameInput').value.trim();
-        if(!val) return;
+        if(!val) return alert('እባክዎን የሰራተኛ ስም ያስገቡ!');
         staffMembers.push(val);
-        localStorage.setItem('cbe_borkena_staff_list', JSON.stringify(staffMembers));
+        localStorage.setItem('cbe_borkena_staff_v15', JSON.stringify(staffMembers));
         document.getElementById('newStaffNameInput').value = '';
         loadStaffList();
-        alert('አዲስ ሰራተኛ ተጨምሯል!');
+        alert('አዲስ ሰራተኛ በጥሩ ሁኔታ ተጨምሯል!');
     }
 
     function removeStaffMember(index) {
         if(!confirm('እርግጠኛ ነዎት ይህ ሰራተኛ ይወገድ?')) return;
         staffMembers.splice(index, 1);
-        localStorage.setItem('cbe_borkena_staff_list', JSON.stringify(staffMembers));
+        localStorage.setItem('cbe_borkena_staff_v15', JSON.stringify(staffMembers));
         loadStaffList();
     }
 
@@ -413,7 +432,7 @@
         e.preventDefault();
         const userKey = document.getElementById('username').value.trim();
         
-        let role = 'Staff';
+        let role = userRoles[userKey] || 'Staff';
         if(userKey.toLowerCase() === 'admin' || userKey.toLowerCase() === 'manager') role = 'SuperAdmin';
         else if(userKey.toLowerCase().includes('supervisor')) role = 'Supervisor';
 
@@ -438,6 +457,8 @@
 
         const depPlan = parseFloat(document.getElementById('depositPlan').value) || 0;
         const depAct = parseFloat(document.getElementById('depositActual').value) || 0;
+        
+        // % Achievement Calculation = (Actual / Plan) * 100
         const achPercent = depPlan > 0 ? ((depAct / depPlan) * 100).toFixed(1) : 0;
 
         const report = {
@@ -453,12 +474,12 @@
             cbeBirrActual: parseInt(document.getElementById('cbeBirrActual').value) || 0,
             ibActual: parseInt(document.getElementById('ibActual').value) || 0,
             achievement: achPercent,
-            status: 'Pending' // Workflow: Pending -> Validated -> Committed
+            status: 'Pending' // Dual Control: Pending -> Validated -> Committed
         };
 
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v14_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v15_reports') || '[]');
         reports.unshift(report);
-        localStorage.setItem('cbe_borkena_v14_reports', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_v15_reports', JSON.stringify(reports));
 
         alert('ሪፖርቱ በጥሩ ሁኔታ ተልኳል! በሱፐርቫይዘር Validate መደረግ ይጠበቅበታል።');
         document.getElementById('reportForm').reset();
@@ -466,9 +487,9 @@
         loadReports();
     });
 
-    // Load and Render Reports with Dual Control Actions (Validate & Commit)
+    // Load Reports and Render Dual-Control Workflow
     function loadReports() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v14_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v15_reports') || '[]');
         const tbody = document.getElementById('reportsTableBody');
         tbody.innerHTML = '';
 
@@ -498,11 +519,11 @@
                 <td><span class="badge ${badgeClass}">${r.status}</span></td>
                 <td>
                     ${r.status === 'Pending' && (currentUserSession.role === 'Supervisor' || currentUserSession.role === 'SuperAdmin') ? 
-                        `<button onclick="updateWorkflow(${r.id}, 'Validated')" class="btn-warning" style="padding:2px 6px; font-size:10px;">Validate</button>` : ''}
+                        `<button onclick="updateWorkflow(${r.id}, 'Validated')" class="btn-warning" style="padding:3px 7px; font-size:10px;">Validate</button>` : ''}
                     ${r.status === 'Validated' && currentUserSession.role === 'SuperAdmin' ? 
-                        `<button onclick="updateWorkflow(${r.id}, 'Committed')" class="btn-success" style="padding:2px 6px; font-size:10px;">Commit</button>` : ''}
+                        `<button onclick="updateWorkflow(${r.id}, 'Committed')" class="btn-success" style="padding:3px 7px; font-size:10px;">Commit</button>` : ''}
                     ${currentUserSession.role === 'SuperAdmin' ? 
-                        `<button onclick="deleteReport(${r.id})" class="btn-danger" style="padding:2px 5px; font-size:10px;">🗑</button>` : '-'}
+                        `<button onclick="deleteReport(${r.id})" class="btn-danger" style="padding:3px 6px; font-size:10px;">🗑</button>` : '-'}
                 </td>
             `;
             tbody.appendChild(tr);
@@ -515,11 +536,11 @@
     }
 
     function updateWorkflow(id, newStatus) {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v14_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v15_reports') || '[]');
         const idx = reports.findIndex(r => r.id === id);
         if(idx !== -1) {
             reports[idx].status = newStatus;
-            localStorage.setItem('cbe_borkena_v14_reports', JSON.stringify(reports));
+            localStorage.setItem('cbe_borkena_v15_reports', JSON.stringify(reports));
             loadReports();
             alert(`የሪፖርቱ ደረጃ ወደ ${newStatus} ተቀይሯል!`);
         }
@@ -527,9 +548,9 @@
 
     function deleteReport(id) {
         if(!confirm('እርግጠኛ ነዎት ይህ ሪፖርት ይሰረዝ?')) return;
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v14_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v15_reports') || '[]');
         reports = reports.filter(r => r.id !== id);
-        localStorage.setItem('cbe_borkena_v14_reports', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_v15_reports', JSON.stringify(reports));
         loadReports();
     }
 
@@ -541,6 +562,7 @@
         const pw = document.getElementById('newPasswordInput').value;
         if(pw) {
             alert('የይለፍ ቃልዎ በጥሩ ሁኔታ ተቀይሯል!');
+            document.getElementById('newPasswordInput').value = '';
             closeModal('pwModal');
         }
     }
@@ -549,6 +571,7 @@
         const staff = document.getElementById('roleStaffSelect').value;
         const role = document.getElementById('roleLevelSelect').value;
         if(staff && role) {
+            userRoles[staff] = role;
             alert(`ለሰራተኛ ${staff} የ ${role} ስልጣን ተሰጥቶታል!`);
             closeModal('roleMgmtModal');
         }
@@ -572,7 +595,7 @@
 
     // Export Reports
     function exportToExcel() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v14_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v15_reports') || '[]');
         if (reports.length === 0) return alert('የሚወርድ ዳታ የለም!');
 
         let csv = "Date,Staff Name,Supervisor,Deposit Plan,Deposit Actual,FCY Actual,Achievement %,Status\n";
@@ -588,7 +611,7 @@
     }
 
     function exportToWord() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v14_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v15_reports') || '[]');
         if (reports.length === 0) return alert('የሚወርድ ዳታ የለም!');
 
         let htmlContent = `
