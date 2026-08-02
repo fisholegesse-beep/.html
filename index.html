@@ -10,7 +10,7 @@
             --cbe-purple: #5c068c;
             --cbe-gold: #ffb81c;
             --cbe-dark: #33004b;
-            --card-bg: rgba(255, 255, 255, 0.94);
+            --card-bg: rgba(255, 255, 255, 0.96);
             --text-color: #2c3e50;
             --success-color: #2e7d32;
             --warning-color: #ef6c00;
@@ -19,30 +19,34 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(rgba(51, 0, 75, 0.75), rgba(92, 6, 140, 0.75)), url('input_file_0.png') no-repeat center center fixed;
-            background-size: cover;
+            background: linear-gradient(rgba(51, 0, 75, 0.82), rgba(92, 6, 140, 0.82)), #1a002c;
             color: var(--text-color);
             margin: 0; padding: 12px;
             display: flex; justify-content: center;
         }
 
-        .container { width: 100%; max-width: 1180px; }
+        .container { width: 100%; max-width: 1280px; }
         
         .top-lang-bar { 
             display: flex; justify-content: space-between; align-items: center; 
-            margin-bottom: 8px; color: white; font-weight: bold; background: rgba(0,0,0,0.4);
-            padding: 6px 12px; border-radius: 6px;
+            margin-bottom: 10px; color: white; font-weight: bold; background: rgba(0,0,0,0.5);
+            padding: 8px 16px; border-radius: 8px; backdrop-filter: blur(5px);
+        }
+
+        .lang-btn {
+            background: var(--cbe-gold); color: #000; border: none; padding: 5px 12px;
+            border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 12px;
         }
         
         .header-box {
-            background: linear-gradient(135deg, rgba(92, 6, 140, 0.9), rgba(51, 0, 75, 0.9));
+            background: linear-gradient(135deg, rgba(92, 6, 140, 0.95), rgba(51, 0, 75, 0.95));
             color: white; padding: 20px; border-radius: 12px; text-align: center;
             margin-bottom: 16px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-            border-bottom: 4px solid var(--cbe-gold);
-            border-top: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 4px solid var(--cbe-gold); border-top: 1px solid rgba(255,255,255,0.2);
+            display: flex; align-items: center; justify-content: center; gap: 20px;
         }
-        .header-box h2 { margin: 2px 0; font-size: 24px; color: var(--cbe-gold); text-transform: uppercase; text-shadow: 1px 1px 3px #000; }
-        .header-box p { margin: 0; font-size: 13px; opacity: 0.95; }
+
+        .cbe-logo-svg { width: 65px; height: 65px; fill: var(--cbe-gold); }
 
         .user-bar {
             display: flex; justify-content: space-between; align-items: center;
@@ -52,14 +56,21 @@
             border-left: 5px solid var(--cbe-gold); flex-wrap: wrap; gap: 8px;
         }
 
+        .notice-board {
+            background: #fff8e1; border: 1px solid #ffe082; border-left: 6px solid var(--cbe-gold);
+            padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; color: #5d4037;
+        }
+        .notice-board h4 { margin: 0 0 6px 0; color: var(--cbe-purple); display: flex; align-items: center; gap: 8px; }
+
         .card {
-            background: var(--card-bg); padding: 18px; border-radius: 12px;
+            background: var(--card-bg); padding: 20px; border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 16px;
-            border: 1px solid rgba(255,255,255,0.8); backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.8);
         }
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; }
 
         .form-group { margin-bottom: 10px; }
         label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 12px; color: #333; }
@@ -73,7 +84,7 @@
             padding: 9px 12px; border-radius: 6px; font-size: 13px;
             font-weight: bold; cursor: pointer; transition: 0.2s;
         }
-        button:hover { background-color: var(--cbe-dark); }
+        button:hover { opacity: 0.9; }
         .btn-excel { background-color: #1d6f42; }
         .btn-word { background-color: #2b579a; }
         .btn-danger { background-color: var(--danger-color); }
@@ -84,36 +95,33 @@
         .section-title {
             background: #f3e5f5; color: var(--cbe-purple); padding: 6px 10px;
             border-radius: 6px; font-weight: bold; font-size: 12px;
-            margin: 12px 0 8px 0; border-left: 3px solid var(--cbe-purple);
+            margin: 14px 0 8px 0; border-left: 4px solid var(--cbe-purple);
         }
 
         .table-responsive { overflow-x: auto; }
         .data-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 8px; }
-        .data-table th, .data-table td { border: 1px solid #e0e0e0; padding: 6px; text-align: center; }
+        .data-table th, .data-table td { border: 1px solid #e0e0e0; padding: 7px; text-align: center; }
         .data-table th { background-color: #f3e5f5; color: var(--cbe-purple); }
 
         .badge { padding: 3px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; }
         .badge-pending { background-color: #fff3e0; color: #e65100; }
-        .badge-validated { background-color: #e3f2fd; color: #0288d1; }
-        .badge-committed { background-color: #e8f5e9; color: #2e7d32; }
-        
+        .badge-approved { background-color: #e8f5e9; color: #2e7d32; }
         .badge-rec { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
         .badge-penalty { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
 
         .modal-overlay {
             position: fixed; top:0; left:0; width:100%; height:100%;
-            background: rgba(0,0,0,0.6); z-index: 1000; display: flex;
+            background: rgba(0,0,0,0.65); z-index: 1000; display: flex;
             justify-content: center; align-items: center; backdrop-filter: blur(3px);
         }
         .modal-body {
             background: white; padding: 20px; border-radius: 12px;
-            width: 90%; max-width: 550px; max-height: 85vh; overflow-y: auto;
+            width: 90%; max-width: 650px; max-height: 85vh; overflow-y: auto;
             box-shadow: 0 5px 20px rgba(0,0,0,0.4);
         }
 
         .hidden { display: none !important; }
 
-        /* Certificate Print Styling */
         @media print {
             body * { visibility: hidden; }
             #printableArea, #printableArea * { visibility: visible; }
@@ -125,24 +133,38 @@
 
 <div class="container">
 
+    <!-- Top Language Bar -->
     <div class="top-lang-bar">
         <span>Commercial Bank of Ethiopia - Borkena Branch</span>
-        <span>የቅርንጫፍ አፈፃፀም እና የማፀደቂያ ዳሽቦርድ</span>
+        <div>
+            <button class="lang-btn" onclick="toggleLanguage()">🌐 Switch to English / አማርኛ</button>
+        </div>
     </div>
 
-    <!-- Header Box -->
+    <!-- Header Box with Logo -->
     <div class="header-box">
-        <h2>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h2>
-        <p>የእለታዊ አፈፃፀም፣ የማፀደቂያ (Approval) እና የእውቅና/ቅጣት ደብዳቤ ማዘጋጃ ሲስተም</p>
+        <svg class="cbe-logo-svg" viewBox="0 0 24 24">
+            <path d="M12 2L2 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-5.45 9-12V7l-10-5zm0 4.27l6 3v4.73c0 3.88-2.67 7.51-6 8.58-3.33-1.07-6-4.7-6-8.58V9.27l6-3z"/>
+        </svg>
+        <div>
+            <h2 id="txtHeaderTitle">የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h2>
+            <p id="txtHeaderSub">የእለታዊ አፈፃፀም፣ የአስተዳደር አፕሩቫል እና የዲጂታል ምርቶች መከታተያ ዳሽቦርድ</p>
+        </div>
+    </div>
+
+    <!-- Internal Notice Board -->
+    <div class="notice-board">
+        <h4>📌 <span id="txtNoticeTitle">የውስጥ ማስታወቂያ ሰሌዳ (Internal Notice Board)</span></h4>
+        <div id="noticeContent" style="font-size: 13px;">እንኳን ወደ ቦርከና ቅርንጫፍ ዳሽቦርድ በደህና መጡ! እባክዎን የእለታዊ ስራዎን በወቅቱ ይላኩ።</div>
     </div>
 
     <!-- Login Box -->
-    <div id="loginSection" class="card" style="max-width:380px; margin: 30px auto;">
+    <div id="loginSection" class="card" style="max-width:380px; margin: 20px auto;">
         <h3 style="color:var(--cbe-purple); margin-top:0;">🔐 የሲስተም መግቢያ</h3>
         <form id="loginForm">
             <div class="form-group">
                 <label>የተጠቃሚ ስም (Username)</label>
-                <input type="text" id="username" placeholder="ለምሳሌ: Fiseha, Sintayehu, Dawit..." required>
+                <input type="text" id="username" placeholder="ለምሳሌ: Fiseha, Sintayehu..." required>
             </div>
             <div class="form-group">
                 <label>ይለፍ ቃል (Password)</label>
@@ -164,17 +186,18 @@
             </div>
         </div>
 
-        <!-- Super Admin & Approval Panel -->
+        <!-- Admin & Control Panel -->
         <div id="adminPanel" class="hidden">
             <div class="card grid-2">
                 <div id="superAdminOnlyControls">
                     <h4 style="margin-top:0; color:var(--cbe-purple);">👑 የሱፐር አድሚን (Fiseha) መቆጣጠሪያ</h4>
-                    <button onclick="openModal('staffMgmtModal')" class="btn-gold" style="width:100%; margin-bottom:8px;">👥 ሰራተኛ ጨምር / ቀንስ / Reset Password</button>
-                    <button onclick="openModal('roleMgmtModal')" class="btn-warning" style="width:100%;">🛡️ የስልጣን ምደባ (Role Allocation)</button>
+                    <button onclick="openModal('staffMgmtModal')" class="btn-gold" style="width:100%; margin-bottom:6px;">👥 ሰራተኛ ጨምር / ቀንስ</button>
+                    <button onclick="openModal('noticeModal')" class="btn-warning" style="width:100%; margin-bottom:6px;">📢 ማስታወቂያ ስሌዳ መለጠፊያ</button>
+                    <button onclick="approveAllPending()" class="btn-success" style="width:100%;">⚡ ሁሉንም ያልጸደቁ ሪፖርቶች በአንድ ጊዜ አፅድቅ (Approve All)</button>
                 </div>
                 <div>
                     <h4 style="margin-top:0; color:var(--cbe-purple);">📊 የቅርንጫፍ አጠቃላይ መረጃ</h4>
-                    <p style="font-size:12px; margin:4px 0;">የተጠቃሚዎች ብዛት፦ <strong id="userCount">11</strong></p>
+                    <p style="font-size:12px; margin:4px 0;">የተመዘገቡ ሰራተኞች፦ <strong id="userCount">11</strong></p>
                     <p style="font-size:12px; margin:4px 0;">የአፕሩቫል ባለስልጣናት፦ <strong>Fiseha (SuperAdmin), Sintayehu, Dawit, Asrat</strong></p>
                 </div>
             </div>
@@ -182,7 +205,7 @@
 
         <!-- Daily Target Entry Form -->
         <div class="card">
-            <h3 style="margin:0 0 10px 0; color:var(--cbe-purple);">📝 Daily Staff Target Entry (የእለታዊ አፈፃፀም መሙያ)</h3>
+            <h3 style="margin:0 0 10px 0; color:var(--cbe-purple);">📝 የእለታዊ አፈፃፀም መሙያ (Daily Target Entry)</h3>
             
             <form id="reportForm">
                 <div class="form-group grid-2">
@@ -191,18 +214,12 @@
                         <select id="staffNameSelect" required></select>
                     </div>
                     <div>
-                        <label>የተመደበለት ሱፐርቫይዘር (Supervisor)</label>
-                        <input type="text" id="supervisorName" placeholder="Supervisor Name" required>
-                    </div>
-                </div>
-                <div class="form-group grid-2">
-                    <div>
                         <label>ቀን (Date)</label>
                         <input type="date" id="weekDate" required>
                     </div>
                 </div>
 
-                <!-- Metrics Section -->
+                <!-- Section 1: Financial Targets -->
                 <div class="section-title">1. Deposit & Foreign Currency (FCY) [% auto-calculated]</div>
                 <div class="grid-2">
                     <div class="form-group">
@@ -221,31 +238,55 @@
                     </div>
                 </div>
 
-                <div class="section-title">2. Digital Banking Metrics [% auto-calculated]</div>
+                <!-- Section 2: Digital Banking Targets -->
+                <div class="section-title">2. Digital Banking Products [% auto-calculated]</div>
                 <div class="grid-3">
                     <div class="form-group"><label>Mobile Banking (P/A)</label><div class="grid-2"><input type="number" id="mbPlan" placeholder="P"><input type="number" id="mbActual" placeholder="A"></div></div>
                     <div class="form-group"><label>CBE Birr (P/A)</label><div class="grid-2"><input type="number" id="cbeBirrPlan" placeholder="P"><input type="number" id="cbeBirrActual" placeholder="A"></div></div>
                     <div class="form-group"><label>Internet Banking (P/A)</label><div class="grid-2"><input type="number" id="ibPlan" placeholder="P"><input type="number" id="ibActual" placeholder="A"></div></div>
                 </div>
 
-                <div class="section-title">3. Justifications & Challenges</div>
-                <div class="form-group">
-                    <textarea id="challenges" placeholder="ያጋጠሙ ማነቆዎች ካሉ ይግለጹ..."></textarea>
+                <!-- Section 3: New Products (Accounts, StarPay, Merchant, Agent) -->
+                <div class="section-title">3. አዳዲስ ሂሳቦች፣ ስታር ፔይ፣ መርቻንት እና ኤጀንት (New Products)</div>
+                <div class="grid-4">
+                    <div class="form-group"><label>አዲስ ሂሳብ/Accounts (P/A)</label><div class="grid-2"><input type="number" id="accPlan" placeholder="P"><input type="number" id="accActual" placeholder="A"></div></div>
+                    <div class="form-group"><label>StarPay (P/A)</label><div class="grid-2"><input type="number" id="starPlan" placeholder="P"><input type="number" id="starActual" placeholder="A"></div></div>
+                    <div class="form-group"><label>Merchant (P/A)</label><div class="grid-2"><input type="number" id="merchPlan" placeholder="P"><input type="number" id="merchActual" placeholder="A"></div></div>
+                    <div class="form-group"><label>Agent (P/A)</label><div class="grid-2"><input type="number" id="agentPlan" placeholder="P"><input type="number" id="agentActual" placeholder="A"></div></div>
                 </div>
 
-                <button type="submit" style="width:100%;">ሪፖርት አስገባ (Submit Report)</button>
+                <button type="submit" style="width:100%; font-size:14px; margin-top:10px;">📤 ሪፖርት አስገባ (Submit Report)</button>
             </form>
         </div>
 
-        <!-- Performance Summary & Approval Table -->
+        <!-- Filter & Report Summary Section -->
         <div class="card">
-            <h3 style="margin-top:0; color:var(--cbe-purple);">📋 የተላኩ ሪፖርቶች፣ አፕሩቫል (Approval) እና የሰርተፊኬት/ቅጣት ማተሚያ</h3>
+            <h3 style="margin-top:0; color:var(--cbe-purple);">📋 የተጠቃለሉ ሪፖርቶች፣ አፕሩቫል እና ሰርተፊኬቶች</h3>
             
-            <div id="exportButtons" class="grid-2" style="margin-bottom:12px;">
-                <button onclick="exportToExcel()" class="btn-excel">📥 በ Excel ሱመሪ አውርድ (.csv)</button>
-                <button onclick="exportToWord()" class="btn-word">📄 በ Word ሱመሪ አውርድ (.doc)</button>
+            <!-- Period Filters -->
+            <div class="grid-3" style="margin-bottom:12px; background:#f5f5f5; padding:10px; border-radius:8px;">
+                <div>
+                    <label>የጊዜ ገደብ መምረጫ (Period Filter)</label>
+                    <select id="periodFilter" onchange="loadReports()">
+                        <option value="all">ሁሉም (All Time)</option>
+                        <option value="daily">የዛሬ ቀን (Daily)</option>
+                        <option value="weekly">የዚህ ሳምንት (Weekly)</option>
+                        <option value="monthly">የዚህ ወር (Monthly)</option>
+                        <option value="quarterly">የሩብ ዓመት (Quarterly)</option>
+                        <option value="yearly">የዓመት (Yearly)</option>
+                    </select>
+                </div>
+                <div>
+                    <label>የሰራተኛ መምረጫ (Staff Filter)</label>
+                    <select id="staffFilter" onchange="loadReports()"></select>
+                </div>
+                <div style="display:flex; align-items:flex-end; gap:6px;">
+                    <button onclick="exportToExcel()" class="btn-excel" style="width:100%;">📥 Excel</button>
+                    <button onclick="exportToWord()" class="btn-word" style="width:100%;">📄 Word</button>
+                </div>
             </div>
 
+            <!-- Summary Table -->
             <div class="table-responsive">
                 <table class="data-table">
                     <thead>
@@ -254,14 +295,14 @@
                             <th>ሰራተኛ</th>
                             <th>Deposit %</th>
                             <th>FCY %</th>
-                            <th>MB %</th>
-                            <th>CBE Birr %</th>
-                            <th>IB %</th>
+                            <th>MB/CBE %</th>
+                            <th>Accounts %</th>
+                            <th>StarPay %</th>
+                            <th>Merchant/Agent %</th>
                             <th>አጠቃላይ %</th>
-                            <th>ሁኔታ (Status)</th>
-                            <th>የምዘና ውጤት</th>
-                            <th>ማፀደቂያ (Approval Action)</th>
-                            <th>ደብዳቤ/ሰርተፊኬት</th>
+                            <th>ሁኔታ</th>
+                            <th>አፕሩቫል (Action)</th>
+                            <th>ህትመት</th>
                         </tr>
                     </thead>
                     <tbody id="reportsTableBody"></tbody>
@@ -272,15 +313,28 @@
     </div>
 </div>
 
-<!-- Modal: Printable Document (Certificate / Warning) -->
+<!-- Modal: Certificate / Warning Notice Printout -->
 <div id="printModal" class="modal-overlay hidden">
-    <div class="modal-body" style="max-width: 650px;">
+    <div class="modal-body">
         <button onclick="closeModal('printModal')" class="btn-danger" style="float:right;">X</button>
-        <div id="printableArea" style="padding: 20px; border: 5px double #5c068c; font-family: 'Times New Roman', serif;">
+        <div id="printableArea" style="padding: 25px; border: 6px double #5c068c; font-family: 'Times New Roman', serif;">
             <!-- Content Injected Dynamically -->
         </div>
         <br>
         <button onclick="window.print()" class="btn-success" style="width:100%;">🖨️ ህትመት አውጣ (Print Document)</button>
+    </div>
+</div>
+
+<!-- Modal: Notice Board Admin -->
+<div id="noticeModal" class="modal-overlay hidden">
+    <div class="modal-body">
+        <button onclick="closeModal('noticeModal')" class="btn-danger" style="float:right;">X</button>
+        <h3 style="color:var(--cbe-purple);">📢 የማስታወቂያ ሰሌዳ መለጠፊያ</h3>
+        <div class="form-group">
+            <label>የማስታወቂያው መልእክት</label>
+            <textarea id="newNoticeText" rows="4" placeholder="አዲስ ማስታወቂያ እዚህ ይጻፉ..."></textarea>
+        </div>
+        <button onclick="saveNotice()" style="width:100%;">ለጥፍ (Post Notice)</button>
     </div>
 </div>
 
@@ -297,11 +351,11 @@
     </div>
 </div>
 
-<!-- Modal: Super Admin Staff Management (Add/Delete) -->
+<!-- Modal: Staff Management -->
 <div id="staffMgmtModal" class="modal-overlay hidden">
     <div class="modal-body">
         <button onclick="closeModal('staffMgmtModal')" class="btn-danger" style="float:right;">X</button>
-        <h3 style="color:var(--cbe-purple);">👥 የሰራተኞች መጨመሪያ እና መቀነሻ (Fiseha Only)</h3>
+        <h3 style="color:var(--cbe-purple);">👥 የሰራተኞች መቆጣጠሪያ</h3>
         <div class="form-group grid-2">
             <input type="text" id="newStaffNameInput" placeholder="አዲስ የሰራተኛ ስም...">
             <button onclick="addStaffMember()">➕ ሰራተኛ ጨምር</button>
@@ -312,29 +366,7 @@
     </div>
 </div>
 
-<!-- Modal: Role Management -->
-<div id="roleMgmtModal" class="modal-overlay hidden">
-    <div class="modal-body">
-        <button onclick="closeModal('roleMgmtModal')" class="btn-danger" style="float:right;">X</button>
-        <h3 style="color:var(--cbe-purple);">🛡️ የስልጣን ደረጃ ምደባ</h3>
-        <div class="form-group">
-            <label>ሰራተኛ ይምረጡ</label>
-            <select id="roleStaffSelect"></select>
-        </div>
-        <div class="form-group">
-            <label>የስልጣን ተዋረድ</label>
-            <select id="roleLevelSelect">
-                <option value="Staff">Staff (ተራ ሰራተኛ)</option>
-                <option value="Supervisor">Supervisor / Approval User (የማፀደቅ መብት ያለው)</option>
-                <option value="SuperAdmin">SuperAdmin (ፍስሀ - ሙሉ መብት)</option>
-            </select>
-        </div>
-        <button onclick="assignRole()" style="width:100%;">ስልጣን መዝግብ</button>
-    </div>
-</div>
-
 <script>
-    // Initial Staff Database including designated Supervisors & SuperAdmin
     let staffData = [
         { name: "Fiseha", pass: "1234", role: "SuperAdmin" },
         { name: "Sintayehu", pass: "1234", role: "Supervisor" },
@@ -343,44 +375,46 @@
         { name: "Dagmawit", pass: "1234", role: "Staff" },
         { name: "Hermela", pass: "1234", role: "Staff" },
         { name: "Adem", pass: "1234", role: "Staff" },
-        { name: "Giwons", pass: "1234", role: "Staff" },
-        { name: "Eshet", pass: "1234", role: "Staff" },
-        { name: "Gedion", pass: "1234", role: "Staff" },
-        { name: "Gions", pass: "1234", role: "Staff" }
+        { name: "Giwons", pass: "1234", role: "Staff" }
     ];
 
     let currentUserSession = null;
+    let currentLang = 'am';
 
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('weekDate').valueAsDate = new Date();
         loadStaffData();
+        loadNotice();
     });
 
+    function toggleLanguage() {
+        currentLang = currentLang === 'am' ? 'en' : 'am';
+        alert(currentLang === 'en' ? "Language switched to English!" : "ቋንቋ ወደ አማርኛ ተቀይሯል!");
+    }
+
     function loadStaffData() {
-        const stored = localStorage.getItem('cbe_borkena_staff_db_v17');
+        const stored = localStorage.getItem('cbe_borkena_staff_db_v18');
         if(stored) staffData = JSON.parse(stored);
-        
         populateDropdowns();
         renderStaffListUI();
         document.getElementById('userCount').innerText = staffData.length;
     }
 
     function saveStaffData() {
-        localStorage.setItem('cbe_borkena_staff_db_v17', JSON.stringify(staffData));
+        localStorage.setItem('cbe_borkena_staff_db_v18', JSON.stringify(staffData));
         loadStaffData();
     }
 
     function populateDropdowns() {
-        const selects = ['staffNameSelect', 'roleStaffSelect'];
-        selects.forEach(id => {
-            const el = document.getElementById(id);
-            if(!el) return;
-            el.innerHTML = `<option value="" disabled selected>-- ሰራተኛ ይምረጡ --</option>`;
-            staffData.forEach(s => {
-                const opt = document.createElement('option');
-                opt.value = s.name; opt.innerText = `${s.name} (${s.role})`;
-                el.appendChild(opt);
-            });
+        const staffSel = document.getElementById('staffNameSelect');
+        const filterSel = document.getElementById('staffFilter');
+        
+        staffSel.innerHTML = `<option value="" disabled selected>-- ሰራተኛ ይምረጡ --</option>`;
+        filterSel.innerHTML = `<option value="all">ሁሉም ሰራተኞች (All Staff)</option>`;
+
+        staffData.forEach(s => {
+            staffSel.innerHTML += `<option value="${s.name}">${s.name} (${s.role})</option>`;
+            filterSel.innerHTML += `<option value="${s.name}">${s.name}</option>`;
         });
     }
 
@@ -389,76 +423,49 @@
         if(!listEl) return;
         listEl.innerHTML = '';
         staffData.forEach((s, idx) => {
-            const li = document.createElement('li');
-            li.style.marginBottom = "8px";
-            li.style.padding = "6px";
-            li.style.background = "#f9f9f9";
-            li.style.borderRadius = "6px";
-            li.style.display = "flex";
-            li.style.justifyContent = "space-between";
-            li.style.alignItems = "center";
-            li.innerHTML = `
-                <span><strong>${s.name}</strong> (${s.role}) - Pass: <i>${s.pass}</i></span>
-                <div>
-                    <button onclick="resetUserPassword(${idx})" class="btn-warning" style="padding:2px 6px; font-size:10px;">🔑 Reset Pass</button>
-                    ${s.name.toLowerCase() !== 'fiseha' ? `<button onclick="removeStaffMember(${idx})" class="btn-danger" style="padding:2px 6px; font-size:10px;">🗑 ሰርዝ</button>` : ''}
-                </div>
+            listEl.innerHTML += `
+                <li style="margin-bottom:6px; background:#f9f9f9; padding:6px; border-radius:6px; display:flex; justify-content:space-between;">
+                    <span><strong>${s.name}</strong> (${s.role})</span>
+                    ${s.name.toLowerCase() !== 'fiseha' ? `<button onclick="removeStaff(${idx})" class="btn-danger" style="padding:2px 6px; font-size:10px;">🗑</button>` : ''}
+                </li>
             `;
-            listEl.appendChild(li);
         });
     }
 
     function addStaffMember() {
-        if(currentUserSession.role !== 'SuperAdmin') return alert('ሰራተኛ የመጨመር መብት የለዎትም!');
         const val = document.getElementById('newStaffNameInput').value.trim();
-        if(!val) return alert('እባክዎን የሰራተኛ ስም ያስገቡ!');
+        if(!val) return;
         staffData.push({ name: val, pass: "1234", role: "Staff" });
         saveStaffData();
         document.getElementById('newStaffNameInput').value = '';
-        alert('አዲስ ሰራተኛ ተጨምሯል!');
     }
 
-    function removeStaffMember(index) {
-        if(currentUserSession.role !== 'SuperAdmin') return alert('ሰራተኛ የመቀነስ መብት የለዎትም!');
-        if(!confirm('እርግጠኛ ነዎት ይህ ሰራተኛ ይወገድ?')) return;
-        staffData.splice(index, 1);
+    function removeStaff(idx) {
+        if(!confirm('እርግጠኛ ነዎት ይወገድ?')) return;
+        staffData.splice(idx, 1);
         saveStaffData();
     }
 
-    function resetUserPassword(index) {
-        const newP = prompt(`ለ ${staffData[index].name} አዲስ Password ያስገቡ:`, "1234");
-        if(newP) {
-            staffData[index].pass = newP;
-            saveStaffData();
-            alert('Password በጥሩ ሁኔታ ተቀይሯል!');
-        }
-    }
-
-    // Login System
+    // Login logic
     document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        const userKey = document.getElementById('username').value.trim();
-        const passKey = document.getElementById('password').value.trim();
-        
-        let found = staffData.find(s => s.name.toLowerCase() === userKey.toLowerCase());
+        const u = document.getElementById('username').value.trim();
+        const p = document.getElementById('password').value.trim();
+        let found = staffData.find(s => s.name.toLowerCase() === u.toLowerCase());
 
-        if(found && found.pass === passKey) {
+        if(found && found.pass === p) {
             currentUserSession = found;
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('appSection').classList.remove('hidden');
             document.getElementById('activeUserName').innerText = currentUserSession.name;
             document.getElementById('activeUserRole').innerText = currentUserSession.role;
 
-            // Admin panel visibility control
-            if(currentUserSession.role === 'SuperAdmin' || currentUserSession.role === 'Supervisor') {
+            if(['SuperAdmin', 'Supervisor'].includes(currentUserSession.role)) {
                 document.getElementById('adminPanel').classList.remove('hidden');
             }
             if(currentUserSession.role !== 'SuperAdmin') {
                 document.getElementById('superAdminOnlyControls').classList.add('hidden');
-            } else {
-                document.getElementById('superAdminOnlyControls').classList.remove('hidden');
             }
-
             loadReports();
         } else {
             alert('የተሳሳተ Username ወይም Password!');
@@ -467,49 +474,36 @@
 
     function logout() { location.reload(); }
 
-    function calcPerc(actual, plan) {
+    function calcPerc(act, plan) {
         if(!plan || plan <= 0) return 0;
-        return ((actual / plan) * 100).toFixed(1);
+        return ((act / plan) * 100).toFixed(1);
     }
 
-    // Submit Report
+    // Submit Daily Report
     document.getElementById('reportForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
-        const depPlan = parseFloat(document.getElementById('depositPlan').value) || 0;
-        const depAct = parseFloat(document.getElementById('depositActual').value) || 0;
-        const depPct = calcPerc(depAct, depPlan);
+        const depPct = calcPerc(parseFloat(document.getElementById('depositActual').value)||0, parseFloat(document.getElementById('depositPlan').value)||0);
+        const fcyPct = calcPerc(parseFloat(document.getElementById('fcyActual').value)||0, parseFloat(document.getElementById('fcyPlan').value)||0);
+        const mbPct = calcPerc(parseInt(document.getElementById('mbActual').value)||0, parseInt(document.getElementById('mbPlan').value)||0);
+        const cbePct = calcPerc(parseInt(document.getElementById('cbeBirrActual').value)||0, parseInt(document.getElementById('cbeBirrPlan').value)||0);
+        const accPct = calcPerc(parseInt(document.getElementById('accActual').value)||0, parseInt(document.getElementById('accPlan').value)||0);
+        const starPct = calcPerc(parseInt(document.getElementById('starActual').value)||0, parseInt(document.getElementById('starPlan').value)||0);
+        const merchPct = calcPerc(parseInt(document.getElementById('merchActual').value)||0, parseInt(document.getElementById('merchPlan').value)||0);
 
-        const fcyP = parseFloat(document.getElementById('fcyPlan').value) || 0;
-        const fcyA = parseFloat(document.getElementById('fcyActual').value) || 0;
-        const fcyPct = calcPerc(fcyA, fcyP);
-
-        const mbP = parseInt(document.getElementById('mbPlan').value) || 0;
-        const mbA = parseInt(document.getElementById('mbActual').value) || 0;
-        const mbPct = calcPerc(mbA, mbP);
-
-        const cbeP = parseInt(document.getElementById('cbeBirrPlan').value) || 0;
-        const cbeA = parseInt(document.getElementById('cbeBirrActual').value) || 0;
-        const cbePct = calcPerc(cbeA, cbeP);
-
-        const ibP = parseInt(document.getElementById('ibPlan').value) || 0;
-        const ibA = parseInt(document.getElementById('ibActual').value) || 0;
-        const ibPct = calcPerc(ibA, ibP);
-
-        const overallAvg = ((parseFloat(depPct) + parseFloat(fcyPct) + parseFloat(mbPct) + parseFloat(cbePct) + parseFloat(ibPct)) / 5).toFixed(1);
+        const overallAvg = ((parseFloat(depPct) + parseFloat(fcyPct) + parseFloat(mbPct) + parseFloat(cbePct) + parseFloat(accPct) + parseFloat(starPct) + parseFloat(merchPct)) / 7).toFixed(1);
 
         const report = {
             id: Date.now(),
             staffName: document.getElementById('staffNameSelect').value,
-            supervisor: document.getElementById('supervisorName').value || '-',
             date: document.getElementById('weekDate').value,
-            depPct, fcyPct, mbPct, cbePct, ibPct, overallAvg,
+            depPct, fcyPct, mbPct, cbePct, accPct, starPct, merchPct, overallAvg,
             status: 'Pending'
         };
 
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v17_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v18_reports') || '[]');
         reports.unshift(report);
-        localStorage.setItem('cbe_borkena_v17_reports', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_v18_reports', JSON.stringify(reports));
 
         alert('ሪፖርቱ በጥሩ ሁኔታ ተልኳል!');
         document.getElementById('reportForm').reset();
@@ -517,117 +511,128 @@
         loadReports();
     });
 
-    // Load Reports and Approval Logic
+    // Load & Filter Reports
     function loadReports() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v17_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v18_reports') || '[]');
+        const period = document.getElementById('periodFilter').value;
+        const staffF = document.getElementById('staffFilter').value;
+
+        // Filtering logic
+        const now = new Date();
+        reports = reports.filter(r => {
+            const rDate = new Date(r.date);
+            if(staffF !== 'all' && r.staffName !== staffF) return false;
+
+            if(period === 'daily') return rDate.toDateString() === now.toDateString();
+            if(period === 'weekly') {
+                const diffDays = Math.ceil(Math.abs(now - rDate) / (1000 * 60 * 60 * 24));
+                return diffDays <= 7;
+            }
+            if(period === 'monthly') return rDate.getMonth() === now.getMonth() && rDate.getFullYear() === now.getFullYear();
+            if(period === 'yearly') return rDate.getFullYear() === now.getFullYear();
+            return true;
+        });
+
         const tbody = document.getElementById('reportsTableBody');
         tbody.innerHTML = '';
 
         const isApprovalUser = ['Fiseha', 'Sintayehu', 'Dawit', 'Asrat'].includes(currentUserSession.name) || currentUserSession.role === 'SuperAdmin';
 
         reports.forEach(r => {
-            let badgeClass = 'badge-pending';
-            if(r.status === 'Approved') badgeClass = 'badge-committed';
-
-            let evalBadge = '';
             let printBtn = '-';
-
             if(parseFloat(r.overallAvg) >= 100) {
-                evalBadge = `<span class="badge badge-rec">🏆 Recognized</span>`;
                 printBtn = `<button onclick="generateDocument(${r.id}, 'cert')" class="btn-success" style="padding:2px 5px; font-size:10px;">📜 Certificate</button>`;
             } else if(parseFloat(r.overallAvg) < 50) {
-                evalBadge = `<span class="badge badge-penalty">⚠️ Warning</span>`;
-                printBtn = `<button onclick="generateDocument(${r.id}, 'warning')" class="btn-danger" style="padding:2px 5px; font-size:10px;">⚠️ Warning Notice</button>`;
-            } else {
-                evalBadge = `<span class="badge" style="background:#eee;">Normal</span>`;
+                printBtn = `<button onclick="generateDocument(${r.id}, 'warning')" class="btn-danger" style="padding:2px 5px; font-size:10px;">⚠️ Warning</button>`;
             }
 
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${r.date}</td>
-                <td><strong>${escapeHtml(r.staffName)}</strong></td>
-                <td>${r.depPct}%</td>
-                <td>${r.fcyPct}%</td>
-                <td>${r.mbPct}%</td>
-                <td>${r.cbePct}%</td>
-                <td>${r.ibPct}%</td>
-                <td><strong style="color:var(--cbe-purple); font-size:12px;">${r.overallAvg}%</strong></td>
-                <td><span class="badge ${badgeClass}">${r.status}</span></td>
-                <td>${evalBadge}</td>
-                <td>
-                    ${r.status === 'Pending' && isApprovalUser ? 
-                        `<button onclick="updateWorkflow(${r.id}, 'Approved')" class="btn-success" style="padding:2px 6px; font-size:10px;">Approve (ፈቅድ)</button>` : ''}
-                    ${r.status === 'Approved' ? `<span style="color:green; font-weight:bold;">✓ Approved</span>` : ''}
-                    ${currentUserSession.role === 'SuperAdmin' ? 
-                        `<button onclick="deleteReport(${r.id})" class="btn-danger" style="padding:2px 5px; font-size:10px;">🗑</button>` : ''}
-                </td>
-                <td>${printBtn}</td>
+            tbody.innerHTML += `
+                <tr>
+                    <td>${r.date}</td>
+                    <td><strong>${r.staffName}</strong></td>
+                    <td>${r.depPct}%</td>
+                    <td>${r.fcyPct}%</td>
+                    <td>${r.mbPct}%</td>
+                    <td>${r.accPct}%</td>
+                    <td>${r.starPct}%</td>
+                    <td>${r.merchPct}%</td>
+                    <td><strong style="color:var(--cbe-purple);">${r.overallAvg}%</strong></td>
+                    <td><span class="badge ${r.status==='Approved'?'badge-approved':'badge-pending'}">${r.status}</span></td>
+                    <td>
+                        ${r.status === 'Pending' && isApprovalUser ? `<button onclick="updateStatus(${r.id}, 'Approved')" class="btn-success" style="padding:2px 5px; font-size:10px;">Approve</button>` : ''}
+                        ${r.status === 'Approved' ? '✓ Approved' : ''}
+                    </td>
+                    <td>${printBtn}</td>
+                </tr>
             `;
-            tbody.appendChild(tr);
         });
     }
 
-    function updateWorkflow(id, newStatus) {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v17_reports') || '[]');
+    function updateStatus(id, newStatus) {
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v18_reports') || '[]');
         const idx = reports.findIndex(r => r.id === id);
         if(idx !== -1) {
             reports[idx].status = newStatus;
-            localStorage.setItem('cbe_borkena_v17_reports', JSON.stringify(reports));
+            localStorage.setItem('cbe_borkena_v18_reports', JSON.stringify(reports));
             loadReports();
-            alert(`ሪፖርቱ በፅኑ ተፀድቋል (${newStatus})!`);
         }
     }
 
-    function deleteReport(id) {
-        if(!confirm('እርግጠኛ ነዎት ይህ ሪፖርት ይሰረዝ?')) return;
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v17_reports') || '[]');
-        reports = reports.filter(r => r.id !== id);
-        localStorage.setItem('cbe_borkena_v17_reports', JSON.stringify(reports));
+    function approveAllPending() {
+        if(!confirm('ሁሉንም ያልጸደቁ ሪፖርቶች ማፅደቅ ይፈልጋሉ?')) return;
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v18_reports') || '[]');
+        reports.forEach(r => r.status = 'Approved');
+        localStorage.setItem('cbe_borkena_v18_reports', JSON.stringify(reports));
         loadReports();
+        alert('ሁሉም ሪፖርቶች ተፅድቀዋል!');
     }
 
-    // Document Generation (Certificate / Warning)
+    // Document print preview with CBE Logo
     function generateDocument(id, type) {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v17_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v18_reports') || '[]');
         const r = reports.find(item => item.id === id);
         if(!r) return;
 
         const printBox = document.getElementById('printableArea');
+        const logoSvg = `<svg style="width:70px; fill:#5c068c;" viewBox="0 0 24 24"><path d="M12 2L2 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-5.45 9-12V7l-10-5zm0 4.27l6 3v4.73c0 3.88-2.67 7.51-6 8.58-3.33-1.07-6-4.7-6-8.58V9.27l6-3z"/></svg>`;
+
         if(type === 'cert') {
             printBox.innerHTML = `
                 <div style="text-align:center;">
-                    <h2 style="color:#5c068c; margin-bottom:0;">COMMERCIAL BANK OF ETHIOPIA</h2>
-                    <h4 style="margin-top:2px;">Borkena Branch - Certificate of Excellence</h4>
+                    ${logoSvg}
+                    <h2 style="color:#5c068c; margin:5px 0 0 0;">COMMERCIAL BANK OF ETHIOPIA</h2>
+                    <h4 style="margin:2px 0 15px 0; color:#ffb81c;">Borkena Branch - Certificate of Excellence</h4>
                     <hr style="border:1px solid #ffb81c;">
                     <br>
-                    <p style="font-size:16px;">This Certificate of Recognition is proudly awarded to:</p>
+                    <p style="font-size:16px;">This Certificate of Recognition is proudly presented to:</p>
                     <h1 style="color:#5c068c; font-size:28px; text-decoration:underline;">${r.staffName}</h1>
                     <p style="font-size:14px; line-height:1.6;">
-                        For outstanding work performance and achieving an overall operational performance target of 
+                        For outstanding target execution in Accounts, Digital Products, and Deposits, achieving an overall operational score of 
                         <strong style="font-size:18px; color:green;">${r.overallAvg}%</strong> on <strong>${r.date}</strong>.
                     </p>
                     <br><br>
                     <div style="display:flex; justify-content:space-between; margin-top:40px;">
-                        <div>______________________<br><strong>Branch Supervisor</strong></div>
-                        <div>______________________<br><strong>Branch Manager</strong></div>
+                        <div>______________________<br><strong>Supervisor Signature</strong></div>
+                        <div>______________________<br><strong>Branch Manager Signature</strong></div>
                     </div>
                 </div>
             `;
         } else {
             printBox.innerHTML = `
                 <div style="text-align:center;">
-                    <h2 style="color:red; margin-bottom:0;">COMMERCIAL BANK OF ETHIOPIA</h2>
-                    <h4 style="margin-top:2px; color:#333;">Borkena Branch - Official Performance Warning Notice</h4>
+                    ${logoSvg}
+                    <h2 style="color:red; margin:5px 0 0 0;">COMMERCIAL BANK OF ETHIOPIA</h2>
+                    <h4 style="margin:2px 0 15px 0; color:#333;">Borkena Branch - Performance Warning Notice</h4>
                     <hr style="border:1px solid red;">
                     <br>
                     <p style="font-size:14px; text-align:left;"><strong>Date:</strong> ${r.date}</p>
                     <p style="font-size:14px; text-align:left;"><strong>To Employee:</strong> ${r.staffName}</p>
                     <br>
                     <p style="font-size:14px; text-align:justify; line-height:1.6;">
-                        This is an official warning letter regarding your recent performance metrics recorded on <strong>${r.date}</strong>. 
-                        Your total cumulative performance score was calculated at <strong style="color:red;">${r.overallAvg}%</strong>, which is below the minimum required branch standard of 50%.
+                        Official performance notice regarding your recorded metrics on <strong>${r.date}</strong>. 
+                        Your calculated average performance stands at <strong style="color:red;">${r.overallAvg}%</strong>, which is below the branch benchmark (50%).
                     </p>
-                    <p style="font-size:14px; text-align:justify;">You are advised to take immediate corrective measures to improve your achievement metrics.</p>
+                    <p style="font-size:14px; text-align:justify;">Immediate corrective action and improvement are required in digital onboarding and deposit mobilization.</p>
                     <br><br>
                     <div style="display:flex; justify-content:space-between; margin-top:40px;">
                         <div>______________________<br><strong>Supervisor Signature</strong></div>
@@ -639,67 +644,40 @@
         openModal('printModal');
     }
 
-    // Modal Controls
-    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
-    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-
-    function changePassword() {
-        const pw = document.getElementById('newPasswordInput').value;
-        if(pw && currentUserSession) {
-            currentUserSession.pass = pw;
-            const idx = staffData.findIndex(s => s.name === currentUserSession.name);
-            if(idx !== -1) staffData[idx].pass = pw;
-            saveStaffData();
-            alert('የይለፍ ቃል ተቀይሯል!');
-            closeModal('pwModal');
+    // Notice Board Functions
+    function saveNotice() {
+        const text = document.getElementById('newNoticeText').value;
+        if(text) {
+            localStorage.setItem('cbe_borkena_notice', text);
+            loadNotice();
+            closeModal('noticeModal');
         }
     }
-
-    function assignRole() {
-        const staff = document.getElementById('roleStaffSelect').value;
-        const role = document.getElementById('roleLevelSelect').value;
-        if(staff && role) {
-            const idx = staffData.findIndex(s => s.name === staff);
-            if(idx !== -1) {
-                staffData[idx].role = role;
-                saveStaffData();
-                alert(`ለሰራተኛ ${staff} የ ${role} ስልጣን ተሰጥቷል!`);
-                closeModal('roleMgmtModal');
-            }
-        }
+    function loadNotice() {
+        const t = localStorage.getItem('cbe_borkena_notice');
+        if(t) document.getElementById('noticeContent').innerText = t;
     }
 
-    // Export Functions
+    // Export Excel / Word
     function exportToExcel() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v17_reports') || '[]');
-        if (reports.length === 0) return alert('የሚወርድ ዳታ የለም!');
-        let csv = "Date,Staff Name,Deposit %,FCY %,MB %,CBE Birr %,IB %,Overall %,Status\n";
-        reports.forEach(r => {
-            csv += `"${r.date}","${r.staffName}","${r.depPct}%","${r.fcyPct}%","${r.mbPct}%","${r.cbePct}%","${r.ibPct}%","${r.overallAvg}%","${r.status}"\n`;
-        });
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v18_reports') || '[]');
+        let csv = "Date,Staff Name,Overall %,Status\n";
+        reports.forEach(r => { csv += `"${r.date}","${r.staffName}","${r.overallAvg}%","${r.status}"\n`; });
         const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), csv], { type: 'text/csv;charset=utf-8' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `CBE_Borkena_Performance.csv`;
-        a.click();
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `CBE_Borkena_Report.csv`; a.click();
     }
 
     function exportToWord() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v17_reports') || '[]');
-        if (reports.length === 0) return alert('የሚወርድ ዳታ የለም!');
-        let htmlContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><body><h2>CBE Borkena Performance Summary</h2><table border="1"><tr><th>Date</th><th>Staff</th><th>Overall %</th><th>Status</th></tr>`;
-        reports.forEach(r => { htmlContent += `<tr><td>${r.date}</td><td>${r.staffName}</td><td>${r.overallAvg}%</td><td>${r.status}</td></tr>`; });
-        htmlContent += `</table></body></html>`;
-        const blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `CBE_Borkena_Performance.doc`;
-        a.click();
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v18_reports') || '[]');
+        let html = `<html><body><h2>CBE Borkena Branch Performance Summary</h2><table border="1"><tr><th>Date</th><th>Staff</th><th>Overall %</th><th>Status</th></tr>`;
+        reports.forEach(r => { html += `<tr><td>${r.date}</td><td>${r.staffName}</td><td>${r.overallAvg}%</td><td>${r.status}</td></tr>`; });
+        html += `</table></body></html>`;
+        const blob = new Blob(['\ufeff' + html], { type: 'application/msword' });
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `CBE_Borkena_Report.doc`; a.click();
     }
 
-    function escapeHtml(text) {
-        return text ? text.toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
-    }
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 </script>
 </body>
 </html>
