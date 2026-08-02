@@ -8,115 +8,157 @@
     <style>
         :root {
             --cbe-purple: #5c068c;
+            --cbe-purple-light: #7b1fa2;
             --cbe-gold: #ffb81c;
-            --cbe-dark: #33004b;
-            --card-bg: rgba(255, 255, 255, 0.98);
-            --text-purple: #5c068c;
-            --text-gold: #d4af37;
-            --danger-color: #c62828;
+            --cbe-gold-dark: #d4af37;
+            --bg-main: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --danger-color: #d32f2f;
             --success-color: #2e7d32;
+            --border-color: #e0e0e0;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(rgba(51, 0, 75, 0.88), rgba(92, 6, 140, 0.88)), #1a002c;
-            color: var(--cbe-purple);
-            margin: 0; padding: 12px;
-            display: flex; justify-content: center;
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+            margin: 0; 
+            padding: 16px;
+            display: flex; 
+            justify-content: center;
         }
 
         .container { width: 100%; max-width: 1280px; }
         
         .top-lang-bar { 
-            display: flex; justify-content: space-between; align-items: center; 
-            margin-bottom: 10px; color: var(--cbe-gold); font-weight: bold; background: rgba(51, 0, 75, 0.9);
-            padding: 10px 18px; border-radius: 8px; border: 1px solid var(--cbe-gold);
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 12px; 
+            color: #fff; 
+            background: var(--cbe-purple);
+            padding: 8px 18px; 
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
         }
 
         .lang-btn {
-            background: var(--cbe-gold); color: var(--cbe-dark); border: none; padding: 6px 14px;
-            border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 13px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3); transition: 0.3s;
+            background: var(--cbe-gold); 
+            color: #000; 
+            border: none; 
+            padding: 6px 14px;
+            border-radius: 20px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            font-size: 13px;
+            transition: 0.2s;
         }
-        .lang-btn:hover { background: #e5a318; transform: scale(1.03); }
+        .lang-btn:hover { background: #e5a318; transform: scale(1.02); }
         
         .header-box {
-            background: linear-gradient(135deg, rgba(92, 6, 140, 0.98), rgba(51, 0, 75, 0.98));
-            color: var(--cbe-gold); padding: 20px; border-radius: 12px; text-align: center;
-            margin-bottom: 16px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            border: 2px solid var(--cbe-gold);
-            display: flex; align-items: center; justify-content: center; gap: 20px;
+            background: linear-gradient(135deg, var(--cbe-purple), #380058);
+            color: #fff; 
+            padding: 20px; 
+            border-radius: 12px; 
+            text-align: center;
+            margin-bottom: 16px; 
+            box-shadow: 0 4px 12px rgba(92, 6, 140, 0.15);
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 20px;
+            border-bottom: 4px solid var(--cbe-gold);
         }
 
-        .cbe-logo-svg { width: 70px; height: 70px; fill: var(--cbe-gold); filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.4)); }
+        .cbe-logo-svg { width: 65px; height: 65px; fill: var(--cbe-gold); }
 
         .user-bar {
-            display: flex; justify-content: space-between; align-items: center;
-            background: var(--card-bg); padding: 12px 18px; border-radius: 10px;
-            margin-bottom: 16px; font-size: 14px; font-weight: bold;
-            color: var(--cbe-purple); box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            border-left: 6px solid var(--cbe-gold); flex-wrap: wrap; gap: 8px;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            background: var(--card-bg); 
+            padding: 12px 18px; 
+            border-radius: 10px;
+            margin-bottom: 16px; 
+            font-size: 14px; 
+            font-weight: bold;
+            color: var(--text-dark); 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            border-left: 6px solid var(--cbe-purple); 
+            flex-wrap: wrap; 
+            gap: 8px;
         }
 
         .notice-board {
-            background: #fffdf0; border: 2px solid var(--cbe-gold);
-            padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; color: var(--cbe-purple);
+            background: #fffbe6; 
+            border: 1px solid #ffe58f;
+            padding: 12px 16px; 
+            border-radius: 8px; 
+            margin-bottom: 16px; 
+            color: #d48806;
         }
-        .notice-board h4 { margin: 0 0 6px 0; color: var(--cbe-purple); display: flex; align-items: center; gap: 8px; }
+        .notice-board h4 { margin: 0 0 4px 0; color: var(--cbe-purple); display: flex; align-items: center; gap: 8px; }
 
         .card {
-            background: var(--card-bg); padding: 20px; border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.25); margin-bottom: 16px;
-            border: 1px solid var(--cbe-gold);
+            background: var(--card-bg); 
+            padding: 20px; 
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06); 
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
         }
-
-        h1, h2, h3, h4, h5, h6, label, p, span, th, td, button {
-            color: var(--cbe-purple);
-        }
-
-        .gold-text { color: var(--text-gold) !important; }
-        .purple-text { color: var(--cbe-purple) !important; }
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
         .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; }
 
         .form-group { margin-bottom: 10px; }
-        label { display: block; font-weight: 700; margin-bottom: 4px; font-size: 13px; color: var(--cbe-purple); }
+        label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 13px; color: var(--text-dark); }
         input, textarea, select {
-            width: 100%; padding: 9px; border: 1.5px solid var(--cbe-purple);
-            border-radius: 6px; box-sizing: border-box; font-size: 13px; color: var(--cbe-purple);
-            font-weight: 600; background: #fff;
+            width: 100%; padding: 9px; border: 1px solid #ccc;
+            border-radius: 6px; box-sizing: border-box; font-size: 13px; color: #333;
+            background: #fff;
         }
         input:focus, select:focus, textarea:focus {
-            outline: none; border-color: var(--cbe-gold); box-shadow: 0 0 5px rgba(255, 184, 28, 0.8);
+            outline: none; border-color: var(--cbe-purple); box-shadow: 0 0 4px rgba(92, 6, 140, 0.3);
         }
 
         button {
-            background-color: var(--cbe-purple); color: var(--cbe-gold); border: 1px solid var(--cbe-gold);
+            background-color: var(--cbe-purple); color: #fff; border: none;
             padding: 10px 14px; border-radius: 6px; font-size: 13px;
             font-weight: bold; cursor: pointer; transition: 0.2s;
         }
-        button:hover { background-color: var(--cbe-dark); color: #fff; }
-        .btn-excel { background-color: #1d6f42; color: #fff; border: none; }
-        .btn-word { background-color: #2b579a; color: #fff; border: none; }
-        .btn-danger { background-color: var(--danger-color); color: #fff; border: none; }
-        .btn-warning { background-color: #ef6c00; color: #fff; border: none; }
-        .btn-gold { background-color: var(--cbe-gold); color: var(--cbe-dark); border: none; }
-        .btn-gold:hover { background-color: #e5a318; color: #000; }
-        .btn-success { background-color: var(--success-color); color: #fff; border: none; }
+        button:hover { background-color: var(--cbe-purple-light); }
+        .btn-excel { background-color: #1d6f42; color: #fff; }
+        .btn-excel:hover { background-color: #155331; }
+        .btn-word { background-color: #2b579a; color: #fff; }
+        .btn-word:hover { background-color: #1e3d6b; }
+        .btn-danger { background-color: var(--danger-color); color: #fff; }
+        .btn-warning { background-color: #ef6c00; color: #fff; }
+        .btn-gold { background-color: var(--cbe-gold); color: #000; }
+        .btn-gold:hover { background-color: #e5a318; }
+        .btn-success { background-color: var(--success-color); color: #fff; }
 
         .section-title {
-            background: linear-gradient(90deg, #f3e5f5, #fff); color: var(--cbe-purple); padding: 8px 12px;
+            background: #f0e6f5; color: var(--cbe-purple); padding: 8px 12px;
             border-radius: 6px; font-weight: bold; font-size: 13px;
-            margin: 14px 0 8px 0; border-left: 5px solid var(--cbe-gold);
-            border-bottom: 1px solid var(--cbe-purple);
+            margin: 14px 0 8px 0; border-left: 4px solid var(--cbe-purple);
         }
+
+        /* Top & Low Performer Styling */
+        .performer-card {
+            padding: 14px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;
+        }
+        .best-card { background: #e8f5e9; border-color: #a5d6a7; color: #1b5e20; }
+        .weak-card { background: #ffebee; border-color: #ffcdd2; color: #b71c1c; }
 
         .table-responsive { overflow-x: auto; }
         .data-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
-        .data-table th, .data-table td { border: 1px solid var(--cbe-purple); padding: 8px; text-align: center; }
-        .data-table th { background-color: var(--cbe-purple); color: var(--cbe-gold); font-size: 12px; }
+        .data-table th, .data-table td { border: 1px solid var(--border-color); padding: 9px; text-align: center; }
+        .data-table th { background-color: var(--cbe-purple); color: #fff; font-size: 12px; }
+        .data-table tr:nth-child(even) { background-color: #f9f9f9; }
 
         .badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
         .badge-pending { background-color: #fff3e0; color: #e65100; border: 1px solid #ffe082; }
@@ -124,18 +166,17 @@
 
         .modal-overlay {
             position: fixed; top:0; left:0; width:100%; height:100%;
-            background: rgba(0,0,0,0.75); z-index: 1000; display: flex;
-            justify-content: center; align-items: center; backdrop-filter: blur(4px);
+            background: rgba(0,0,0,0.6); z-index: 1000; display: flex;
+            justify-content: center; align-items: center; backdrop-filter: blur(3px);
         }
         .modal-body {
             background: white; padding: 24px; border-radius: 12px;
-            width: 90%; max-width: 680px; max-height: 85vh; overflow-y: auto;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.5); border: 2px solid var(--cbe-gold);
+            width: 90%; max-width: 650px; max-height: 85vh; overflow-y: auto;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2); border: 1px solid var(--border-color);
         }
 
         .hidden { display: none !important; }
 
-        /* Print Style specifically tuned for Certificates */
         @media print {
             body * { visibility: hidden; }
             #printableArea, #printableArea * { visibility: visible; }
@@ -155,9 +196,8 @@
         </div>
     </div>
 
-    <!-- Header Box with Logo -->
+    <!-- Header Box -->
     <div class="header-box">
-        <!-- CBE Emblem SVG -->
         <svg class="cbe-logo-svg" viewBox="0 0 100 100">
             <circle cx="50" cy="50" r="45" fill="none" stroke="#ffb81c" stroke-width="4"/>
             <circle cx="50" cy="50" r="38" fill="#5c068c" stroke="#ffb81c" stroke-width="2"/>
@@ -170,13 +210,13 @@
         </div>
     </div>
 
-    <!-- Internal Notice Board -->
+    <!-- Notice Board -->
     <div class="notice-board">
         <h4>📌 <span id="txtNoticeTitle">የውስጥ ማስታወቂያ ሰሌዳ (Notice Board)</span></h4>
-        <div id="noticeContent" style="font-size: 13px; font-weight:600;">እንኳን ወደ ቦርከና ቅርንጫፍ ዳሽቦርድ በደህና መጡ! እባክዎን የእለታዊ ስራዎን በወቅቱ ይላኩ።</div>
+        <div id="noticeContent" style="font-size: 13px; font-weight:600; color:#333;">እንኳን ወደ ቦርከና ቅርንጫፍ ዳሽቦርድ በደህና መጡ! እባክዎን የእለታዊ ስራዎን በወቅቱ ይላኩ።</div>
     </div>
 
-    <!-- Login Box -->
+    <!-- Login & Password Reset Box -->
     <div id="loginSection" class="card" style="max-width:400px; margin: 20px auto;">
         <h3 id="txtLoginHead" style="color:var(--cbe-purple); margin-top:0; text-align:center;">🔐 የሲስተም መግቢያ</h3>
         <form id="loginForm">
@@ -190,21 +230,24 @@
             </div>
             <button type="submit" id="btnLogin" style="width:100%; margin-top: 10px;">ይግቡ (Login)</button>
         </form>
+        <div style="text-align:center; margin-top:12px;">
+            <a href="#" onclick="openModal('resetReqModal')" style="font-size:12px; color:var(--cbe-purple); font-weight:bold;">የይለፍ ቃል ረስተዋል? (Reset Password)</a>
+        </div>
     </div>
 
-    <!-- Main Dashboard Section -->
+    <!-- Main Dashboard -->
     <div id="appSection" class="hidden">
 
         <!-- User Top Bar -->
         <div class="user-bar">
-            <span>👤 <span id="lblUserTag">ተጠቃሚ:</span> <strong id="activeUserName" class="purple-text"></strong> (<span id="activeUserRole" class="gold-text"></span>)</span>
+            <span>👤 <span id="lblUserTag">ተጠቃሚ:</span> <strong id="activeUserName" style="color:var(--cbe-purple);"></strong> (<span id="activeUserRole" style="color:#d48806;"></span>)</span>
             <div>
                 <button class="btn-warning" onclick="openModal('pwModal')" id="btnPwChange">🔑 የይለፍ ቃል ቀይር</button>
                 <button class="btn-danger" onclick="logout()" id="btnLogout">ውጣ (Logout)</button>
             </div>
         </div>
 
-        <!-- Admin & Control Panel -->
+        <!-- Admin Controls -->
         <div id="adminPanel" class="hidden">
             <div class="card grid-2">
                 <div id="superAdminOnlyControls">
@@ -215,8 +258,23 @@
                 </div>
                 <div>
                     <h4 style="margin-top:0; color:var(--cbe-purple);" id="txtBranchInfoHead">📊 የቅርንጫፍ አጠቃላይ መረጃ</h4>
-                    <p style="font-size:13px; margin:6px 0;"><span id="txtRegisteredStaff">የተመዘገቡ ሰራተኞች፦</span> <strong id="userCount" class="purple-text">8</strong></p>
+                    <p style="font-size:13px; margin:6px 0;"><span id="txtRegisteredStaff">የተመዘገቡ ሰራተኞች፦</span> <strong id="userCount" style="color:var(--cbe-purple);">8</strong></p>
                     <p style="font-size:13px; margin:6px 0;"><span id="txtApprovalAuth">የአፕሩቫል ባለስልጣናት፦</span> <strong>Fiseha (SuperAdmin), Sintayehu, Dawit, Asrat</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Best & Weak Staff Comparison Card (የሳምንቱ አሸናፊ እና ደካማ) -->
+        <div class="card">
+            <h3 style="margin-top:0; color:var(--cbe-purple);" id="txtComparisonHeader">🏆 የሳምንቱ ምርጥ እና ትኩረት የሚሹ ሰራተኞች አፈፃፀም</h3>
+            <div class="grid-2">
+                <div class="performer-card best-card">
+                    <h4 style="margin:0 0 6px 0;">🥇 የሳምንቱ ምርጥ ሰራተኛ (Best Performer)</h4>
+                    <div id="bestStaffDisplay" style="font-size:16px; font-weight:bold;">መረጃ በመጫን ላይ...</div>
+                </div>
+                <div class="performer-card weak-card">
+                    <h4 style="margin:0 0 6px 0;">⚠️ ትኩረት የሚያስፈልገው ሰራተኛ (Attention Needed)</h4>
+                    <div id="weakStaffDisplay" style="font-size:16px; font-weight:bold;">መረጃ በመጫን ላይ...</div>
                 </div>
             </div>
         </div>
@@ -237,7 +295,6 @@
                     </div>
                 </div>
 
-                <!-- Section 1: Financial Targets -->
                 <div class="section-title" id="txtSec1">1. ዴፖዚት እና የውጭ ሀገር ገንዘብ / Deposit & Foreign Currency (FCY)</div>
                 <div class="grid-2">
                     <div class="form-group">
@@ -256,7 +313,6 @@
                     </div>
                 </div>
 
-                <!-- Section 2: Digital Banking Targets -->
                 <div class="section-title" id="txtSec2">2. ዲጂታል ባንክ ምርቶች / Digital Banking Products</div>
                 <div class="grid-3">
                     <div class="form-group"><label>Mobile Banking (P/A)</label><div class="grid-2"><input type="number" id="mbPlan" placeholder="P"><input type="number" id="mbActual" placeholder="A"></div></div>
@@ -264,7 +320,6 @@
                     <div class="form-group"><label>Internet Banking (P/A)</label><div class="grid-2"><input type="number" id="ibPlan" placeholder="P"><input type="number" id="ibActual" placeholder="A"></div></div>
                 </div>
 
-                <!-- Section 3: New Products -->
                 <div class="section-title" id="txtSec3">3. አዳዲስ ሂሳቦች፣ ስታር ፔይ፣ መርቻንት እና ኤጀንት / Accounts, StarPay, Merchant & Agent</div>
                 <div class="grid-4">
                     <div class="form-group"><label>አዲስ ሂሳብ/Accounts (P/A)</label><div class="grid-2"><input type="number" id="accPlan" placeholder="P"><input type="number" id="accActual" placeholder="A"></div></div>
@@ -281,14 +336,13 @@
         <div class="card">
             <h3 style="margin-top:0; color:var(--cbe-purple);" id="txtReportSummaryHeader">📋 የተጠቃለሉ ሪፖርቶች፣ አፕሩቫል እና ሰርተፊኬቶች</h3>
             
-            <!-- Period Filters -->
-            <div class="grid-3" style="margin-bottom:14px; background:#f5eefb; padding:12px; border-radius:8px; border:1px solid var(--cbe-gold);">
+            <div class="grid-3" style="margin-bottom:14px; background:#f9f9f9; padding:12px; border-radius:8px; border:1px solid var(--border-color);">
                 <div>
                     <label id="lblPeriodFilter">የጊዜ ገደብ መምረጫ (Period Filter)</label>
                     <select id="periodFilter" onchange="loadReports()">
                         <option value="all">ሁሉም ጊዜ (All Time)</option>
                         <option value="daily">የዛሬ ቀን (Daily)</option>
-                        <option value="weekly">የዚህ ሳምንት (Weekly)</option>
+                        <option value="weekly" selected>የዚህ ሳምንት (Weekly)</option>
                         <option value="monthly">የዚህ ወር (Monthly)</option>
                         <option value="quarterly">የሩብ ዓመት (Quarterly)</option>
                         <option value="yearly">የዓመት (Yearly)</option>
@@ -307,7 +361,6 @@
                 </div>
             </div>
 
-            <!-- Summary Table -->
             <div class="table-responsive">
                 <table class="data-table">
                     <thead>
@@ -338,11 +391,23 @@
 <div id="printModal" class="modal-overlay hidden">
     <div class="modal-body">
         <button onclick="closeModal('printModal')" class="btn-danger" style="float:right;">X</button>
-        <div id="printableArea" style="padding: 30px; border: 8px double #ffb81c; font-family: 'Times New Roman', serif; background:#fff;">
-            <!-- Content Injected Dynamically -->
-        </div>
+        <div id="printableArea" style="padding: 24px; border: 6px double #5c068c; font-family: 'Times New Roman', serif; background:#fff;"></div>
         <br>
         <button onclick="window.print()" class="btn-gold" style="width:100%; font-size:15px;" id="btnPrintDoc">🖨️ ህትመት አውጣ / በ PDF አስቀምጥ (Print / Save Certificate)</button>
+    </div>
+</div>
+
+<!-- Modal: Password Reset Request -->
+<div id="resetReqModal" class="modal-overlay hidden">
+    <div class="modal-body">
+        <button onclick="closeModal('resetReqModal')" class="btn-danger" style="float:right;">X</button>
+        <h3 style="color:var(--cbe-purple);">🔑 የይለፍ ቃል ማስተካከያ ጥያቄ (Reset Password)</h3>
+        <p style="font-size:13px; color:#555;">የተጠቃሚ ስምዎን ያስገቡ፤ ለአድሚን (Fiseha) ጥያቄ ይላካል።</p>
+        <div class="form-group">
+            <label>የተጠቃሚ ስም</label>
+            <input type="text" id="resetUsernameInput" placeholder="የእርስዎን Username ያስገቡ">
+        </div>
+        <button onclick="submitPasswordResetRequest()" class="btn-gold" style="width:100%;">ጥያቄ ላክ (Send Request)</button>
     </div>
 </div>
 
@@ -359,7 +424,7 @@
     </div>
 </div>
 
-<!-- Modal: Password Change -->
+<!-- Modal: Change Password -->
 <div id="pwModal" class="modal-overlay hidden">
     <div class="modal-body">
         <button onclick="closeModal('pwModal')" class="btn-danger" style="float:right;">X</button>
@@ -372,13 +437,13 @@
     </div>
 </div>
 
-<!-- Modal: Staff Management (Super Admin) -->
+<!-- Modal: Staff Management -->
 <div id="staffMgmtModal" class="modal-overlay hidden">
     <div class="modal-body">
         <button onclick="closeModal('staffMgmtModal')" class="btn-danger" style="float:right;">X</button>
         <h3 style="color:var(--cbe-purple);" id="txtStaffMgmtHead">👥 የሰራተኞች እና የተጠቃሚዎች መቆጣጠሪያ (Super Admin)</h3>
         
-        <div class="card" style="background:#fcf8ff; border: 1px solid var(--cbe-gold);">
+        <div class="card" style="background:#fafafa; border: 1px solid var(--border-color);">
             <h4 style="margin-top:0;" id="txtAddNewStaffHead">➕ አዲስ ሰራተኛ/ተጠቃሚ መፍጠሪያ</h4>
             <div class="form-group grid-3">
                 <input type="text" id="newStaffNameInput" placeholder="የሰራተኛ ስም..." required>
@@ -392,14 +457,13 @@
             <button onclick="addStaffMember()" class="btn-gold" style="width:100%;" id="btnAddStaffBtn">ተጠቃሚ ጨምር (Add User)</button>
         </div>
 
-        <hr style="border:1px solid var(--cbe-gold);">
-        <h4 id="txtStaffListHead">የቦርከና ቅርንጫፍ ሰራተኞች እና ሚናቸው ዝርዝር፦</h4>
+        <hr style="border:1px solid #eee;">
+        <h4 id="txtStaffListHead">የቦርከና ቅርንጫፍ ሰራተኞች ዝርዝር እና Reset ሪኳስቶች፦</h4>
         <ul id="staffListDisplay" style="padding-left:0; list-style:none;"></ul>
     </div>
 </div>
 
 <script>
-    // Initial System Data
     let staffData = [
         { name: "Fiseha", pass: "1234", role: "SuperAdmin" },
         { name: "Sintayehu", pass: "1234", role: "Supervisor" },
@@ -411,10 +475,10 @@
         { name: "Giwons", pass: "1234", role: "Staff" }
     ];
 
+    let resetRequests = [];
     let currentUserSession = null;
     let currentLang = 'am';
 
-    // UI Translation Dictionary
     const dictionary = {
         am: {
             topBanner: "የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ",
@@ -531,15 +595,20 @@
     }
 
     function loadStaffData() {
-        const stored = localStorage.getItem('cbe_borkena_staff_db_v19');
+        const stored = localStorage.getItem('cbe_borkena_staff_db_v20');
         if(stored) staffData = JSON.parse(stored);
+        
+        const reqs = localStorage.getItem('cbe_borkena_pw_reqs');
+        if(reqs) resetRequests = JSON.parse(reqs);
+
         populateDropdowns();
         renderStaffListUI();
         document.getElementById('userCount').innerText = staffData.length;
     }
 
     function saveStaffData() {
-        localStorage.setItem('cbe_borkena_staff_db_v19', JSON.stringify(staffData));
+        localStorage.setItem('cbe_borkena_staff_db_v20', JSON.stringify(staffData));
+        localStorage.setItem('cbe_borkena_pw_reqs', JSON.stringify(resetRequests));
         loadStaffData();
     }
 
@@ -561,15 +630,42 @@
         if(!listEl) return;
         listEl.innerHTML = '';
         staffData.forEach((s, idx) => {
+            const hasResetReq = resetRequests.includes(s.name);
             listEl.innerHTML += `
-                <li style="margin-bottom:8px; background:#fffdf5; padding:8px 12px; border-radius:6px; display:flex; justify-content:space-between; align-items:center; border: 1px solid var(--cbe-gold);">
-                    <span><strong class="purple-text">${s.name}</strong> - <span class="gold-text">(${s.role})</span></span>
+                <li style="margin-bottom:8px; background:#fff; padding:8px 12px; border-radius:6px; display:flex; justify-content:space-between; align-items:center; border:1px solid #eee;">
+                    <span><strong>${s.name}</strong> - <span style="color:#666;">(${s.role})</span> ${hasResetReq ? '<strong style="color:red;">[🔑 Reset ፈልጓል!]</strong>' : ''}</span>
                     <div>
-                        ${s.name.toLowerCase() !== 'fiseha' ? `<button onclick="removeStaff(${idx})" class="btn-danger" style="padding:4px 8px; font-size:11px;">🗑 ዩዘር ቀንስ/ሰርዝ</button>` : '<em style="font-size:11px;">(Main SuperAdmin)</em>'}
+                        ${hasResetReq ? `<button onclick="resetUserPassword('${s.name}')" class="btn-warning" style="padding:3px 6px; font-size:11px; margin-right:4px;">🔑 Pass Reset (1234)</button>` : ''}
+                        ${s.name.toLowerCase() !== 'fiseha' ? `<button onclick="removeStaff(${idx})" class="btn-danger" style="padding:3px 6px; font-size:11px;">🗑 ሰርዝ</button>` : '<em style="font-size:11px;">(Main Admin)</em>'}
                     </div>
                 </li>
             `;
         });
+    }
+
+    function submitPasswordResetRequest() {
+        const uname = document.getElementById('resetUsernameInput').value.trim();
+        if(!uname) return;
+        if(!staffData.some(s => s.name.toLowerCase() === uname.toLowerCase())) {
+            alert('ይህ ተጠቃሚ በሲስተሙ ውስጥ አልተገኘም!');
+            return;
+        }
+        if(!resetRequests.includes(uname)) {
+            resetRequests.push(uname);
+            localStorage.setItem('cbe_borkena_pw_reqs', JSON.stringify(resetRequests));
+        }
+        alert('የይለፍ ቃል ማስተካከያ ጥያቄዎ ለሱፐር አድሚን ተልኳል!');
+        closeModal('resetReqModal');
+    }
+
+    function resetUserPassword(username) {
+        const user = staffData.find(s => s.name === username);
+        if(user) {
+            user.pass = "1234";
+            resetRequests = resetRequests.filter(r => r !== username);
+            saveStaffData();
+            alert(`የ ${username} ይለፍ ቃል ወደ "1234" በስኬት ተቀይሯል!`);
+        }
     }
 
     function addStaffMember() {
@@ -577,26 +673,18 @@
         const passVal = document.getElementById('newStaffPassInput').value.trim();
         const roleVal = document.getElementById('newStaffRoleSelect').value;
 
-        if(!nameVal || !passVal) {
-            alert('እባክዎን የሰራተኛ ስም እና ይለፍ ቃል ያስገቡ!');
-            return;
-        }
-
-        if(staffData.some(s => s.name.toLowerCase() === nameVal.toLowerCase())) {
-            alert('ይህ ሰራተኛ አስቀድሞ ተመዝግቧል!');
-            return;
-        }
+        if(!nameVal || !passVal) { alert('እባክዎን ስም እና ይለፍ ቃል ያስገቡ!'); return; }
+        if(staffData.some(s => s.name.toLowerCase() === nameVal.toLowerCase())) { alert('ይህ ሰራተኛ አስቀድሞ ተመዝግቧል!'); return; }
 
         staffData.push({ name: nameVal, pass: passVal, role: roleVal });
         saveStaffData();
-        
         document.getElementById('newStaffNameInput').value = '';
         document.getElementById('newStaffPassInput').value = '';
-        alert(`አዲስ ሰራተኛ ${nameVal} በቀላሉ ተጨምሯል!`);
+        alert(`አዲስ ሰራተኛ ${nameVal} በጥሩ ሁኔታ ተጨምሯል!`);
     }
 
     function removeStaff(idx) {
-        if(!confirm(`እርግጠኛ ነዎት ሰራተኛ ${staffData[idx].name} ከሲስተሙ መቀነስ/መሰረዝ ይፈልጋሉ?`)) return;
+        if(!confirm(`እርግጠኛ ነዎት ሰራተኛ ${staffData[idx].name} መሰረዝ ይፈልጋሉ?`)) return;
         staffData.splice(idx, 1);
         saveStaffData();
     }
@@ -623,7 +711,7 @@
             }
             loadReports();
         } else {
-            alert('የተሳሳተ Username ወይም Password! እባክዎ እንደገና ይሞክሩ።');
+            alert('የተሳሳተ Username ወይም Password!');
         }
     });
 
@@ -634,7 +722,7 @@
         return ((act / plan) * 100).toFixed(1);
     }
 
-    // Submit Daily Report Form
+    // Submit Daily Report
     document.getElementById('reportForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
@@ -656,9 +744,9 @@
             status: 'Pending'
         };
 
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v19_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v20_reports') || '[]');
         reports.unshift(report);
-        localStorage.setItem('cbe_borkena_v19_reports', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_v20_reports', JSON.stringify(reports));
 
         alert('የእለቱ ሪፖርት በጥሩ ሁኔታ ተልኳል!');
         document.getElementById('reportForm').reset();
@@ -666,9 +754,9 @@
         loadReports();
     });
 
-    // Load Reports with Comprehensive Time Filtering
+    // Load Reports & Find Best/Weak Performers
     function loadReports() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v19_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v20_reports') || '[]');
         const period = document.getElementById('periodFilter').value;
         const staffF = document.getElementById('staffFilter').value;
 
@@ -696,6 +784,9 @@
             return true;
         });
 
+        // Compute Best & Weak Performer for the current filter view
+        computeStaffComparison(reports);
+
         const tbody = document.getElementById('reportsTableBody');
         tbody.innerHTML = '';
 
@@ -704,25 +795,25 @@
         reports.forEach(r => {
             let printBtn = '-';
             if(parseFloat(r.overallAvg) >= 100) {
-                printBtn = `<button onclick="generateDocument(${r.id}, 'cert')" class="btn-gold" style="padding:4px 8px; font-size:11px;">📜 ሰርተፊኬት አውጣ</button>`;
+                printBtn = `<button onclick="generateDocument(${r.id}, 'cert')" class="btn-gold" style="padding:3px 8px; font-size:11px;">📜 ሰርተፊኬት</button>`;
             } else if(parseFloat(r.overallAvg) < 50) {
-                printBtn = `<button onclick="generateDocument(${r.id}, 'warning')" class="btn-danger" style="padding:4px 8px; font-size:11px;">⚠️ ማስጠንቀቂያ</button>`;
+                printBtn = `<button onclick="generateDocument(${r.id}, 'warning')" class="btn-danger" style="padding:3px 8px; font-size:11px;">⚠️ ማስጠንቀቂያ</button>`;
             }
 
             tbody.innerHTML += `
                 <tr>
                     <td>${r.date}</td>
-                    <td><strong class="purple-text">${r.staffName}</strong></td>
+                    <td><strong>${r.staffName}</strong></td>
                     <td>${r.depPct}%</td>
                     <td>${r.fcyPct}%</td>
                     <td>${r.mbPct}%</td>
                     <td>${r.accPct}%</td>
                     <td>${r.starPct}%</td>
                     <td>${r.merchPct}%</td>
-                    <td><strong class="purple-text" style="font-size:13px;">${r.overallAvg}%</strong></td>
+                    <td><strong style="color:var(--cbe-purple); font-size:13px;">${r.overallAvg}%</strong></td>
                     <td><span class="badge ${r.status==='Approved'?'badge-approved':'badge-pending'}">${r.status}</span></td>
                     <td>
-                        ${r.status === 'Pending' && isApprovalUser ? `<button onclick="updateStatus(${r.id}, 'Approved')" class="btn-success" style="padding:3px 8px; font-size:11px;">Approve</button>` : ''}
+                        ${r.status === 'Pending' && isApprovalUser ? `<button onclick="updateStatus(${r.id}, 'Approved')" class="btn-success" style="padding:2px 6px; font-size:11px;">Approve</button>` : ''}
                         ${r.status === 'Approved' ? '<span style="color:green; font-weight:bold;">✓ ፅድቋል</span>' : ''}
                     </td>
                     <td>${printBtn}</td>
@@ -731,61 +822,79 @@
         });
     }
 
+    function computeStaffComparison(filteredReports) {
+        if(!filteredReports || filteredReports.length === 0) {
+            document.getElementById('bestStaffDisplay').innerHTML = "<em>መረጃ የለም</em>";
+            document.getElementById('weakStaffDisplay').innerHTML = "<em>መረጃ የለም</em>";
+            return;
+        }
+
+        // Aggregate performance by staff name
+        let staffTotals = {};
+        filteredReports.forEach(r => {
+            if(!staffTotals[r.staffName]) {
+                staffTotals[r.staffName] = { name: r.staffName, total: 0, count: 0 };
+            }
+            staffTotals[r.staffName].total += parseFloat(r.overallAvg);
+            staffTotals[r.staffName].count += 1;
+        });
+
+        let staffAverages = Object.values(staffTotals).map(s => ({
+            name: s.name,
+            avg: (s.total / s.count).toFixed(1)
+        }));
+
+        staffAverages.sort((a, b) => b.avg - a.avg);
+
+        const best = staffAverages[0];
+        const weak = staffAverages[staffAverages.length - 1];
+
+        document.getElementById('bestStaffDisplay').innerHTML = `🥇 ${best.name} (${best.avg}%)`;
+        document.getElementById('weakStaffDisplay').innerHTML = `⚠️ ${weak.name} (${weak.avg}%)`;
+    }
+
     function updateStatus(id, newStatus) {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v19_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v20_reports') || '[]');
         const idx = reports.findIndex(r => r.id === id);
         if(idx !== -1) {
             reports[idx].status = newStatus;
-            localStorage.setItem('cbe_borkena_v19_reports', JSON.stringify(reports));
+            localStorage.setItem('cbe_borkena_v20_reports', JSON.stringify(reports));
             loadReports();
         }
     }
 
     function approveAllPending() {
-        if(!confirm('ሁሉንም ያልጸደቁ ሪፖርቶች በአንድ ጊዜ ማፅደቅ ይፈልጋሉ?')) return;
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v19_reports') || '[]');
+        if(!confirm('ሁሉንም ያልጸደቁ ሪፖርቶች ማፅደቅ ይፈልጋሉ?')) return;
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v20_reports') || '[]');
         reports.forEach(r => r.status = 'Approved');
-        localStorage.setItem('cbe_borkena_v19_reports', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_v20_reports', JSON.stringify(reports));
         loadReports();
         alert('ሁሉም ሪፖርቶች ተፅድቀዋል!');
     }
 
-    // Document & Certificate Generation with Official CBE Emblem
+    // Generate Certificate or Warning Document
     function generateDocument(id, type) {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v19_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v20_reports') || '[]');
         const r = reports.find(item => item.id === id);
         if(!r) return;
 
         const printBox = document.getElementById('printableArea');
 
-        const cbeLogoGold = `
-            <div style="text-align:center; margin-bottom:15px;">
-                <svg viewBox="0 0 100 100" style="width:90px; height:90px;">
-                    <circle cx="50" cy="50" r="45" fill="none" stroke="#ffb81c" stroke-width="5"/>
-                    <circle cx="50" cy="50" r="38" fill="#5c068c" stroke="#ffb81c" stroke-width="2"/>
-                    <text x="50%" y="45%" dominant-baseline="middle" text-anchor="middle" fill="#ffb81c" font-size="22" font-weight="bold" font-family="sans-serif">CBE</text>
-                    <text x="50%" y="68%" dominant-baseline="middle" text-anchor="middle" fill="#ffb81c" font-size="12" font-weight="bold" font-family="sans-serif">ንግድ ባንክ</text>
-                </svg>
-            </div>
-        `;
-
         if(type === 'cert') {
             printBox.innerHTML = `
                 <div style="text-align:center; padding: 20px; background:#fffdf5; border: 4px solid #5c068c;">
-                    ${cbeLogoGold}
-                    <h1 style="color:#5c068c; margin:5px 0 0 0; font-size:28px; font-weight:bold;">COMMERCIAL BANK OF ETHIOPIA</h1>
-                    <h3 style="margin:4px 0 20px 0; color:#ffb81c; font-size:18px; text-transform:uppercase;">Borkena Branch - Certificate of Performance Excellence</h3>
-                    <hr style="border:2px solid #ffb81c; width:80%;">
-                    <br>
-                    <p style="font-size:16px; color:#5c068c;">This Certificate of Honor is proudly presented to:</p>
-                    <h2 style="color:#5c068c; font-size:32px; text-decoration:underline; margin:15px 0;">${r.staffName}</h2>
-                    <p style="font-size:15px; color:#333; line-height:1.8; max-width:550px; margin: 0 auto;">
-                        In recognition of outstanding individual performance, target achievement, and dedication in Mobile Banking, CBE Birr, Deposit Mobilization, and Account Opening, obtaining an exceptional operational score of:
+                    <h1 style="color:#5c068c; margin:5px 0 0 0; font-size:26px;">COMMERCIAL BANK OF ETHIOPIA</h1>
+                    <h3 style="margin:4px 0 20px 0; color:#d48806; text-transform:uppercase;">Borkena Branch - Certificate of Performance Excellence</h3>
+                    <hr style="border:1px solid #d48806; width:80%;">
+                    <p style="font-size:15px; color:#5c068c; margin-top:20px;">This Certificate of Honor is proudly presented to:</p>
+                    <h2 style="color:#5c068c; font-size:30px; text-decoration:underline; margin:15px 0;">${r.staffName}</h2>
+                    <p style="font-size:14px; color:#333; line-height:1.8; max-width:550px; margin: 0 auto;">
+                        In recognition of outstanding individual performance, target achievement, and dedication in Digital Banking, Deposit Mobilization, and Customer Acquisition, obtaining an exceptional operational score of:
                     </p>
-                    <h2 style="font-size:36px; color:#5c068c; margin: 15px 0;">🏆 ${r.overallAvg}% 🏆</h2>
-                    <p style="font-size:13px; color:#666;">Date Awarded: <strong>${r.date}</strong></p>
+                    <h2 style="font-size:34px; color:#5c068c; margin: 15px 0;">🏆 ${r.overallAvg}% 🏆</h2>
+                    <p style="font-size:12px; color:#666;">Date Awarded: <strong>${r.date}</strong></p>
                     <br><br>
-                    <div style="display:flex; justify-content:space-between; margin-top:50px; padding:0 30px;">
+                    <div style="display:flex; justify-content:space-between; margin-top:40px; padding:0 30px;">
                         <div style="text-align:center; color:#5c068c;">______________________<br><strong>Branch Supervisor</strong></div>
                         <div style="text-align:center; color:#5c068c;">______________________<br><strong>Branch Manager</strong></div>
                     </div>
@@ -793,23 +902,21 @@
             `;
         } else {
             printBox.innerHTML = `
-                <div style="text-align:center; padding:20px; border: 4px solid #c62828;">
-                    ${cbeLogoGold}
-                    <h2 style="color:#c62828; margin:5px 0 0 0;">COMMERCIAL BANK OF ETHIOPIA</h2>
+                <div style="text-align:center; padding:20px; border: 4px solid #d32f2f;">
+                    <h2 style="color:#d32f2f; margin:5px 0 0 0;">COMMERCIAL BANK OF ETHIOPIA</h2>
                     <h4 style="margin:2px 0 15px 0; color:#5c068c;">Borkena Branch - Official Performance Warning Notice</h4>
-                    <hr style="border:1px solid #c62828;">
-                    <br>
-                    <div style="text-align:left; font-size:14px; color:#5c068c; margin-bottom:15px;">
+                    <hr style="border:1px solid #d32f2f;">
+                    <div style="text-align:left; font-size:13px; color:#333; margin:15px 0;">
                         <p><strong>Date:</strong> ${r.date}</p>
                         <p><strong>To Employee:</strong> ${r.staffName}</p>
                     </div>
                     <p style="font-size:14px; text-align:justify; color:#333; line-height:1.6;">
                         This is an official performance notice regarding your recorded metrics on <strong>${r.date}</strong>. 
-                        Your calculated overall performance average stands at <strong style="color:#c62828; font-size:16px;">${r.overallAvg}%</strong>, which is below the branch minimum standard benchmark (50%).
+                        Your overall performance average stands at <strong style="color:#d32f2f; font-size:16px;">${r.overallAvg}%</strong>, which is below the branch minimum standard benchmark (50%).
                     </p>
-                    <p style="font-size:14px; text-align:justify; color:#333;">Immediate corrective action and acceleration are required across all digital customer onboarding and deposit mobilization channels.</p>
+                    <p style="font-size:14px; text-align:justify; color:#333;">Immediate corrective action and operational acceleration are required across all key targets.</p>
                     <br><br>
-                    <div style="display:flex; justify-content:space-between; margin-top:50px; padding:0 20px;">
+                    <div style="display:flex; justify-content:space-between; margin-top:40px; padding:0 20px;">
                         <div style="text-align:center; color:#5c068c;">______________________<br><strong>Supervisor Signature</strong></div>
                         <div style="text-align:center; color:#5c068c;">______________________<br><strong>Branch Manager Signature</strong></div>
                     </div>
@@ -819,7 +926,6 @@
         openModal('printModal');
     }
 
-    // Notice Board Persistence
     function saveNotice() {
         const text = document.getElementById('newNoticeText').value;
         if(text) {
@@ -844,9 +950,8 @@
         closeModal('pwModal');
     }
 
-    // Export Excel / Word
     function exportToExcel() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v19_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v20_reports') || '[]');
         let csv = "\uFEFFDate,Staff Name,Deposit %,FCY %,MB %,CBEBirr %,Accounts %,StarPay %,Merchant %,Overall %,Status\n";
         reports.forEach(r => { 
             csv += `"${r.date}","${r.staffName}","${r.depPct}%","${r.fcyPct}%","${r.mbPct}%","${r.cbePct}%","${r.accPct}%","${r.starPct}%","${r.merchPct}%","${r.overallAvg}%","${r.status}"\n`; 
@@ -856,9 +961,9 @@
     }
 
     function exportToWord() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v19_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v20_reports') || '[]');
         let html = `<html><head><meta charset="UTF-8"></head><body style="color:#5c068c;"><h2>CBE Borkena Branch Performance Summary</h2><table border="1" style="border-collapse:collapse; text-align:center;">
-        <tr style="background:#5c068c; color:#ffb81c;"><th>Date</th><th>Staff</th><th>Overall %</th><th>Status</th></tr>`;
+        <tr style="background:#5c068c; color:#fff;"><th>Date</th><th>Staff</th><th>Overall %</th><th>Status</th></tr>`;
         reports.forEach(r => { html += `<tr><td>${r.date}</td><td>${r.staffName}</td><td>${r.overallAvg}%</td><td>${r.status}</td></tr>`; });
         html += `</table></body></html>`;
         const blob = new Blob(['\ufeff' + html], { type: 'application/msword' });
