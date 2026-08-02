@@ -10,68 +10,59 @@
             --cbe-purple: #5c068c;
             --cbe-gold: #ffb81c;
             --cbe-dark: #33004b;
-            --bg-color: #f4f6f9;
-            --card-bg: rgba(255, 255, 255, 0.96);
+            --card-bg: rgba(255, 255, 255, 0.94);
             --text-color: #2c3e50;
             --success-color: #2e7d32;
             --warning-color: #ef6c00;
             --danger-color: #c62828;
-            --info-color: #0288d1;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            background-image: radial-gradient(var(--cbe-gold) 0.75px, transparent 0.75px), radial-gradient(var(--cbe-purple) 0.75px, #f4f6f9 0.75px);
-            background-size: 30px 30px;
-            background-position: 0 0, 15px 15px;
+            background: linear-gradient(rgba(51, 0, 75, 0.75), rgba(92, 6, 140, 0.75)), url('input_file_0.png') no-repeat center center fixed;
+            background-size: cover;
             color: var(--text-color);
             margin: 0; padding: 12px;
             display: flex; justify-content: center;
         }
 
-        .container { width: 100%; max-width: 1150px; }
-        .top-lang-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .container { width: 100%; max-width: 1180px; }
+        
+        .top-lang-bar { 
+            display: flex; justify-content: space-between; align-items: center; 
+            margin-bottom: 8px; color: white; font-weight: bold; background: rgba(0,0,0,0.4);
+            padding: 6px 12px; border-radius: 6px;
+        }
         
         .header-box {
-            background: linear-gradient(135deg, var(--cbe-purple), var(--cbe-dark));
+            background: linear-gradient(135deg, rgba(92, 6, 140, 0.9), rgba(51, 0, 75, 0.9));
             color: white; padding: 20px; border-radius: 12px; text-align: center;
-            margin-bottom: 16px; box-shadow: 0 4px 15px rgba(92, 6, 140, 0.25);
+            margin-bottom: 16px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
             border-bottom: 4px solid var(--cbe-gold);
+            border-top: 1px solid rgba(255,255,255,0.2);
         }
-        .header-box h2 { margin: 2px 0; font-size: 22px; color: var(--cbe-gold); text-transform: uppercase; }
-        .header-box p { margin: 0; font-size: 13px; opacity: 0.9; }
+        .header-box h2 { margin: 2px 0; font-size: 24px; color: var(--cbe-gold); text-transform: uppercase; text-shadow: 1px 1px 3px #000; }
+        .header-box p { margin: 0; font-size: 13px; opacity: 0.95; }
 
         .user-bar {
             display: flex; justify-content: space-between; align-items: center;
             background: var(--card-bg); padding: 10px 16px; border-radius: 10px;
             margin-bottom: 16px; font-size: 13px; font-weight: bold;
-            color: var(--cbe-purple); box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            color: var(--cbe-purple); box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             border-left: 5px solid var(--cbe-gold); flex-wrap: wrap; gap: 8px;
         }
 
         .card {
             background: var(--card-bg); padding: 18px; border-radius: 12px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.06); margin-bottom: 16px;
-            border: 1px solid #eaedf1;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 16px;
+            border: 1px solid rgba(255,255,255,0.8); backdrop-filter: blur(5px);
         }
-
-        .dashboard-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 12px; margin-top: 10px;
-        }
-
-        .stat-box {
-            background: #fcfaff; padding: 12px; border-radius: 8px;
-            text-align: center; border: 1px solid #e1d5e7;
-        }
-        .stat-box .number { font-size: 18px; font-weight: bold; color: var(--cbe-purple); margin-top: 5px; }
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 
         .form-group { margin-bottom: 10px; }
-        label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 12px; color: #444; }
+        label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 12px; color: #333; }
         input, textarea, select {
             width: 100%; padding: 8px; border: 1px solid #cccccc;
             border-radius: 6px; box-sizing: border-box; font-size: 13px;
@@ -111,15 +102,23 @@
 
         .modal-overlay {
             position: fixed; top:0; left:0; width:100%; height:100%;
-            background: rgba(0,0,0,0.5); z-index: 1000; display: flex;
-            justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.6); z-index: 1000; display: flex;
+            justify-content: center; align-items: center; backdrop-filter: blur(3px);
         }
         .modal-body {
             background: white; padding: 20px; border-radius: 12px;
             width: 90%; max-width: 550px; max-height: 85vh; overflow-y: auto;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
         }
 
         .hidden { display: none !important; }
+
+        /* Certificate Print Styling */
+        @media print {
+            body * { visibility: hidden; }
+            #printableArea, #printableArea * { visibility: visible; }
+            #printableArea { position: absolute; left: 0; top: 0; width: 100%; }
+        }
     </style>
 </head>
 <body class="notranslate">
@@ -127,14 +126,14 @@
 <div class="container">
 
     <div class="top-lang-bar">
-        <span style="font-weight:bold; color:var(--cbe-purple);">Commercial Bank of Ethiopia - Borkena Branch</span>
-        <span>የቅርንጫፍ አፈፃፀም ዳሽቦርድ</span>
+        <span>Commercial Bank of Ethiopia - Borkena Branch</span>
+        <span>የቅርንጫፍ አፈፃፀም እና የማፀደቂያ ዳሽቦርድ</span>
     </div>
 
     <!-- Header Box -->
     <div class="header-box">
         <h2>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ</h2>
-        <p>የእለታዊ እና ሳምንታዊ የሰራተኞች አፈፃፀም መከታተያ፣ ማፀደቂያ እና የእውቅና/ቅጣት ሲስተም</p>
+        <p>የእለታዊ አፈፃፀም፣ የማፀደቂያ (Approval) እና የእውቅና/ቅጣት ደብዳቤ ማዘጋጃ ሲስተም</p>
     </div>
 
     <!-- Login Box -->
@@ -143,7 +142,7 @@
         <form id="loginForm">
             <div class="form-group">
                 <label>የተጠቃሚ ስም (Username)</label>
-                <input type="text" id="username" placeholder="አድሚን፣ ሱፐርቫይዘር ወይም የሰራተኛ ስም" required>
+                <input type="text" id="username" placeholder="ለምሳሌ: Fiseha, Sintayehu, Dawit..." required>
             </div>
             <div class="form-group">
                 <label>ይለፍ ቃል (Password)</label>
@@ -165,18 +164,18 @@
             </div>
         </div>
 
-        <!-- Admin / Management Panel -->
+        <!-- Super Admin & Approval Panel -->
         <div id="adminPanel" class="hidden">
             <div class="card grid-2">
-                <div>
-                    <h4 style="margin-top:0; color:var(--cbe-purple);">⚙️ የሰራተኞች፣ የስልጣን እና የይለፍ ቃል ማኔጅመንት</h4>
-                    <button onclick="openModal('staffMgmtModal')" class="btn-gold" style="width:100%; margin-bottom:8px;">👥 የሰራተኞች ዝርዝር (Staff List & Password Reset)</button>
-                    <button onclick="openModal('roleMgmtModal')" class="btn-warning" style="width:100%;">🛡️ የስልጣን እና የዘርፍ ምደባ (Role Allocation)</button>
+                <div id="superAdminOnlyControls">
+                    <h4 style="margin-top:0; color:var(--cbe-purple);">👑 የሱፐር አድሚን (Fiseha) መቆጣጠሪያ</h4>
+                    <button onclick="openModal('staffMgmtModal')" class="btn-gold" style="width:100%; margin-bottom:8px;">👥 ሰራተኛ ጨምር / ቀንስ / Reset Password</button>
+                    <button onclick="openModal('roleMgmtModal')" class="btn-warning" style="width:100%;">🛡️ የስልጣን ምደባ (Role Allocation)</button>
                 </div>
                 <div>
-                    <h4 style="margin-top:0; color:var(--cbe-purple);">📊 የቅርንጫፍ አጠቃላይ ሁኔታ</h4>
+                    <h4 style="margin-top:0; color:var(--cbe-purple);">📊 የቅርንጫፍ አጠቃላይ መረጃ</h4>
                     <p style="font-size:12px; margin:4px 0;">የተጠቃሚዎች ብዛት፦ <strong id="userCount">11</strong></p>
-                    <p style="font-size:12px; margin:4px 0;">የማፀደቅ ስልጣን፦ <strong>Checker (Supervisor) & Commit (Manager)</strong></p>
+                    <p style="font-size:12px; margin:4px 0;">የአፕሩቫል ባለስልጣናት፦ <strong>Fiseha (SuperAdmin), Sintayehu, Dawit, Asrat</strong></p>
                 </div>
             </div>
         </div>
@@ -238,9 +237,9 @@
             </form>
         </div>
 
-        <!-- Performance Summary Table -->
+        <!-- Performance Summary & Approval Table -->
         <div class="card">
-            <h3 style="margin-top:0; color:var(--cbe-purple);">📋 የተላኩ ሪፖርቶች፣ የ % አፈፃፀም፣ የማፀደቅ ስራ እና የእውቅና/ቅጣት ሁኔታ</h3>
+            <h3 style="margin-top:0; color:var(--cbe-purple);">📋 የተላኩ ሪፖርቶች፣ አፕሩቫል (Approval) እና የሰርተፊኬት/ቅጣት ማተሚያ</h3>
             
             <div id="exportButtons" class="grid-2" style="margin-bottom:12px;">
                 <button onclick="exportToExcel()" class="btn-excel">📥 በ Excel ሱመሪ አውርድ (.csv)</button>
@@ -260,8 +259,9 @@
                             <th>IB %</th>
                             <th>አጠቃላይ %</th>
                             <th>ሁኔታ (Status)</th>
-                            <th>ምዘና (Recognition/Penalty)</th>
-                            <th>የማፀደቅ ስልጣን (Action)</th>
+                            <th>የምዘና ውጤት</th>
+                            <th>ማፀደቂያ (Approval Action)</th>
+                            <th>ደብዳቤ/ሰርተፊኬት</th>
                         </tr>
                     </thead>
                     <tbody id="reportsTableBody"></tbody>
@@ -272,24 +272,36 @@
     </div>
 </div>
 
+<!-- Modal: Printable Document (Certificate / Warning) -->
+<div id="printModal" class="modal-overlay hidden">
+    <div class="modal-body" style="max-width: 650px;">
+        <button onclick="closeModal('printModal')" class="btn-danger" style="float:right;">X</button>
+        <div id="printableArea" style="padding: 20px; border: 5px double #5c068c; font-family: 'Times New Roman', serif;">
+            <!-- Content Injected Dynamically -->
+        </div>
+        <br>
+        <button onclick="window.print()" class="btn-success" style="width:100%;">🖨️ ህትመት አውጣ (Print Document)</button>
+    </div>
+</div>
+
 <!-- Modal: Password Change -->
 <div id="pwModal" class="modal-overlay hidden">
     <div class="modal-body">
         <button onclick="closeModal('pwModal')" class="btn-danger" style="float:right;">X</button>
-        <h3 style="color:var(--cbe-purple);">🔑 የይለፍ ቃል መቀየሪያ (Change Password)</h3>
+        <h3 style="color:var(--cbe-purple);">🔑 የይለፍ ቃል መቀየሪያ</h3>
         <div class="form-group">
-            <label>አዲስ ይለፍ ቃል (New Password)</label>
+            <label>አዲስ ይለፍ ቃል</label>
             <input type="password" id="newPasswordInput">
         </div>
         <button onclick="changePassword()" style="width:100%;">ይለፍ ቃል ቀይር</button>
     </div>
 </div>
 
-<!-- Modal: Staff Management & Password Reset -->
+<!-- Modal: Super Admin Staff Management (Add/Delete) -->
 <div id="staffMgmtModal" class="modal-overlay hidden">
     <div class="modal-body">
         <button onclick="closeModal('staffMgmtModal')" class="btn-danger" style="float:right;">X</button>
-        <h3 style="color:var(--cbe-purple);">👥 የሰራተኞች ዝርዝር እና የይለፍ ቃል ማስተካከያ</h3>
+        <h3 style="color:var(--cbe-purple);">👥 የሰራተኞች መጨመሪያ እና መቀነሻ (Fiseha Only)</h3>
         <div class="form-group grid-2">
             <input type="text" id="newStaffNameInput" placeholder="አዲስ የሰራተኛ ስም...">
             <button onclick="addStaffMember()">➕ ሰራተኛ ጨምር</button>
@@ -300,21 +312,21 @@
     </div>
 </div>
 
-<!-- Modal: Role Privilege Management -->
+<!-- Modal: Role Management -->
 <div id="roleMgmtModal" class="modal-overlay hidden">
     <div class="modal-body">
         <button onclick="closeModal('roleMgmtModal')" class="btn-danger" style="float:right;">X</button>
-        <h3 style="color:var(--cbe-purple);">🛡️ የስልጣን እና የዘርፍ ደረጃ ምደባ</h3>
+        <h3 style="color:var(--cbe-purple);">🛡️ የስልጣን ደረጃ ምደባ</h3>
         <div class="form-group">
             <label>ሰራተኛ ይምረጡ</label>
             <select id="roleStaffSelect"></select>
         </div>
         <div class="form-group">
-            <label>የስልጣን ተዋረድ (Role Privilege)</label>
+            <label>የስልጣን ተዋረድ</label>
             <select id="roleLevelSelect">
-                <option value="Staff">Maker / Staff (ተራ ሰራተኛ)</option>
-                <option value="Supervisor">Checker / Supervisor (Validate ማድረጊያ ስልጣን)</option>
-                <option value="SuperAdmin">Branch Manager / Admin (Commit & Reset ስልጣን)</option>
+                <option value="Staff">Staff (ተራ ሰራተኛ)</option>
+                <option value="Supervisor">Supervisor / Approval User (የማፀደቅ መብት ያለው)</option>
+                <option value="SuperAdmin">SuperAdmin (ፍስሀ - ሙሉ መብት)</option>
             </select>
         </div>
         <button onclick="assignRole()" style="width:100%;">ስልጣን መዝግብ</button>
@@ -322,16 +334,16 @@
 </div>
 
 <script>
-    // Initial 11 Staff Members and Passwords
+    // Initial Staff Database including designated Supervisors & SuperAdmin
     let staffData = [
+        { name: "Fiseha", pass: "1234", role: "SuperAdmin" },
+        { name: "Sintayehu", pass: "1234", role: "Supervisor" },
+        { name: "Dawit", pass: "1234", role: "Supervisor" },
+        { name: "Asrat", pass: "1234", role: "Supervisor" },
         { name: "Dagmawit", pass: "1234", role: "Staff" },
         { name: "Hermela", pass: "1234", role: "Staff" },
         { name: "Adem", pass: "1234", role: "Staff" },
         { name: "Giwons", pass: "1234", role: "Staff" },
-        { name: "Sintayehu", pass: "1234", role: "Supervisor" },
-        { name: "Dawit", pass: "1234", role: "Staff" },
-        { name: "Fiseha", pass: "1234", role: "Staff" },
-        { name: "Asrat", pass: "1234", role: "Staff" },
         { name: "Eshet", pass: "1234", role: "Staff" },
         { name: "Gedion", pass: "1234", role: "Staff" },
         { name: "Gions", pass: "1234", role: "Staff" }
@@ -345,7 +357,7 @@
     });
 
     function loadStaffData() {
-        const stored = localStorage.getItem('cbe_borkena_staff_db_v1');
+        const stored = localStorage.getItem('cbe_borkena_staff_db_v17');
         if(stored) staffData = JSON.parse(stored);
         
         populateDropdowns();
@@ -354,7 +366,7 @@
     }
 
     function saveStaffData() {
-        localStorage.setItem('cbe_borkena_staff_db_v1', JSON.stringify(staffData));
+        localStorage.setItem('cbe_borkena_staff_db_v17', JSON.stringify(staffData));
         loadStaffData();
     }
 
@@ -389,7 +401,7 @@
                 <span><strong>${s.name}</strong> (${s.role}) - Pass: <i>${s.pass}</i></span>
                 <div>
                     <button onclick="resetUserPassword(${idx})" class="btn-warning" style="padding:2px 6px; font-size:10px;">🔑 Reset Pass</button>
-                    <button onclick="removeStaffMember(${idx})" class="btn-danger" style="padding:2px 6px; font-size:10px;">🗑 ሰርዝ</button>
+                    ${s.name.toLowerCase() !== 'fiseha' ? `<button onclick="removeStaffMember(${idx})" class="btn-danger" style="padding:2px 6px; font-size:10px;">🗑 ሰርዝ</button>` : ''}
                 </div>
             `;
             listEl.appendChild(li);
@@ -397,15 +409,17 @@
     }
 
     function addStaffMember() {
+        if(currentUserSession.role !== 'SuperAdmin') return alert('ሰራተኛ የመጨመር መብት የለዎትም!');
         const val = document.getElementById('newStaffNameInput').value.trim();
         if(!val) return alert('እባክዎን የሰራተኛ ስም ያስገቡ!');
         staffData.push({ name: val, pass: "1234", role: "Staff" });
         saveStaffData();
         document.getElementById('newStaffNameInput').value = '';
-        alert('አዲስ ሰራተኛ ተጨምሯል! (መግቢያ Password: 1234)');
+        alert('አዲስ ሰራተኛ ተጨምሯል!');
     }
 
     function removeStaffMember(index) {
+        if(currentUserSession.role !== 'SuperAdmin') return alert('ሰራተኛ የመቀነስ መብት የለዎትም!');
         if(!confirm('እርግጠኛ ነዎት ይህ ሰራተኛ ይወገድ?')) return;
         staffData.splice(index, 1);
         saveStaffData();
@@ -428,30 +442,31 @@
         
         let found = staffData.find(s => s.name.toLowerCase() === userKey.toLowerCase());
 
-        // Default Admin Override
-        if(userKey.toLowerCase() === 'admin' || userKey.toLowerCase() === 'manager') {
-            found = { name: "Branch Manager / Admin", role: "SuperAdmin", pass: "admin" };
-        }
-
-        if(found && (found.pass === passKey || userKey.toLowerCase() === 'admin')) {
+        if(found && found.pass === passKey) {
             currentUserSession = found;
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('appSection').classList.remove('hidden');
             document.getElementById('activeUserName').innerText = currentUserSession.name;
             document.getElementById('activeUserRole').innerText = currentUserSession.role;
 
+            // Admin panel visibility control
             if(currentUserSession.role === 'SuperAdmin' || currentUserSession.role === 'Supervisor') {
                 document.getElementById('adminPanel').classList.remove('hidden');
             }
+            if(currentUserSession.role !== 'SuperAdmin') {
+                document.getElementById('superAdminOnlyControls').classList.add('hidden');
+            } else {
+                document.getElementById('superAdminOnlyControls').classList.remove('hidden');
+            }
+
             loadReports();
         } else {
-            alert('የተሳሳተ Username ወይም Password! እባክዎን ደግመው ይሞክሩ።');
+            alert('የተሳሳተ Username ወይም Password!');
         }
     });
 
     function logout() { location.reload(); }
 
-    // Formula for Calculation
     function calcPerc(actual, plan) {
         if(!plan || plan <= 0) return 0;
         return ((actual / plan) * 100).toFixed(1);
@@ -481,7 +496,6 @@
         const ibA = parseInt(document.getElementById('ibActual').value) || 0;
         const ibPct = calcPerc(ibA, ibP);
 
-        // Overall Average Percentage
         const overallAvg = ((parseFloat(depPct) + parseFloat(fcyPct) + parseFloat(mbPct) + parseFloat(cbePct) + parseFloat(ibPct)) / 5).toFixed(1);
 
         const report = {
@@ -490,36 +504,40 @@
             supervisor: document.getElementById('supervisorName').value || '-',
             date: document.getElementById('weekDate').value,
             depPct, fcyPct, mbPct, cbePct, ibPct, overallAvg,
-            status: 'Pending' // Dual Control: Pending -> Validated -> Committed
+            status: 'Pending'
         };
 
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v16_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v17_reports') || '[]');
         reports.unshift(report);
-        localStorage.setItem('cbe_borkena_v16_reports', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_v17_reports', JSON.stringify(reports));
 
-        alert('ሪፖርቱ በጥሩ ሁኔታ ተልኳል! በሱፐርቫይዘር (Checker) Validate መደረግ ይጠበቅበታል።');
+        alert('ሪፖርቱ በጥሩ ሁኔታ ተልኳል!');
         document.getElementById('reportForm').reset();
         document.getElementById('weekDate').valueAsDate = new Date();
         loadReports();
     });
 
-    // Load Reports and Render Dual-Control Workflow + Recognition/Penalty
+    // Load Reports and Approval Logic
     function loadReports() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v16_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v17_reports') || '[]');
         const tbody = document.getElementById('reportsTableBody');
         tbody.innerHTML = '';
 
+        const isApprovalUser = ['Fiseha', 'Sintayehu', 'Dawit', 'Asrat'].includes(currentUserSession.name) || currentUserSession.role === 'SuperAdmin';
+
         reports.forEach(r => {
             let badgeClass = 'badge-pending';
-            if(r.status === 'Validated') badgeClass = 'badge-validated';
-            if(r.status === 'Committed') badgeClass = 'badge-committed';
+            if(r.status === 'Approved') badgeClass = 'badge-committed';
 
-            // Recognition vs Penalty Evaluation
             let evalBadge = '';
+            let printBtn = '-';
+
             if(parseFloat(r.overallAvg) >= 100) {
                 evalBadge = `<span class="badge badge-rec">🏆 Recognized</span>`;
+                printBtn = `<button onclick="generateDocument(${r.id}, 'cert')" class="btn-success" style="padding:2px 5px; font-size:10px;">📜 Certificate</button>`;
             } else if(parseFloat(r.overallAvg) < 50) {
-                evalBadge = `<span class="badge badge-penalty">⚠️ Penalty / Warning</span>`;
+                evalBadge = `<span class="badge badge-penalty">⚠️ Warning</span>`;
+                printBtn = `<button onclick="generateDocument(${r.id}, 'warning')" class="btn-danger" style="padding:2px 5px; font-size:10px;">⚠️ Warning Notice</button>`;
             } else {
                 evalBadge = `<span class="badge" style="background:#eee;">Normal</span>`;
             }
@@ -537,38 +555,91 @@
                 <td><span class="badge ${badgeClass}">${r.status}</span></td>
                 <td>${evalBadge}</td>
                 <td>
-                    ${r.status === 'Pending' && (currentUserSession.role === 'Supervisor' || currentUserSession.role === 'SuperAdmin') ? 
-                        `<button onclick="updateWorkflow(${r.id}, 'Validated')" class="btn-warning" style="padding:2px 6px; font-size:10px;">Validate</button>` : ''}
-                    ${r.status === 'Validated' && currentUserSession.role === 'SuperAdmin' ? 
-                        `<button onclick="updateWorkflow(${r.id}, 'Committed')" class="btn-success" style="padding:2px 6px; font-size:10px;">Commit</button>` : ''}
+                    ${r.status === 'Pending' && isApprovalUser ? 
+                        `<button onclick="updateWorkflow(${r.id}, 'Approved')" class="btn-success" style="padding:2px 6px; font-size:10px;">Approve (ፈቅድ)</button>` : ''}
+                    ${r.status === 'Approved' ? `<span style="color:green; font-weight:bold;">✓ Approved</span>` : ''}
                     ${currentUserSession.role === 'SuperAdmin' ? 
-                        `<button onclick="deleteReport(${r.id})" class="btn-danger" style="padding:2px 5px; font-size:10px;">🗑</button>` : '-'}
+                        `<button onclick="deleteReport(${r.id})" class="btn-danger" style="padding:2px 5px; font-size:10px;">🗑</button>` : ''}
                 </td>
+                <td>${printBtn}</td>
             `;
             tbody.appendChild(tr);
         });
     }
 
     function updateWorkflow(id, newStatus) {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v16_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v17_reports') || '[]');
         const idx = reports.findIndex(r => r.id === id);
         if(idx !== -1) {
             reports[idx].status = newStatus;
-            localStorage.setItem('cbe_borkena_v16_reports', JSON.stringify(reports));
+            localStorage.setItem('cbe_borkena_v17_reports', JSON.stringify(reports));
             loadReports();
-            alert(`የሪፖርቱ ደረጃ ወደ ${newStatus} ተቀይሯል!`);
+            alert(`ሪፖርቱ በፅኑ ተፀድቋል (${newStatus})!`);
         }
     }
 
     function deleteReport(id) {
         if(!confirm('እርግጠኛ ነዎት ይህ ሪፖርት ይሰረዝ?')) return;
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v16_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v17_reports') || '[]');
         reports = reports.filter(r => r.id !== id);
-        localStorage.setItem('cbe_borkena_v16_reports', JSON.stringify(reports));
+        localStorage.setItem('cbe_borkena_v17_reports', JSON.stringify(reports));
         loadReports();
     }
 
-    // Modal Control Functions
+    // Document Generation (Certificate / Warning)
+    function generateDocument(id, type) {
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v17_reports') || '[]');
+        const r = reports.find(item => item.id === id);
+        if(!r) return;
+
+        const printBox = document.getElementById('printableArea');
+        if(type === 'cert') {
+            printBox.innerHTML = `
+                <div style="text-align:center;">
+                    <h2 style="color:#5c068c; margin-bottom:0;">COMMERCIAL BANK OF ETHIOPIA</h2>
+                    <h4 style="margin-top:2px;">Borkena Branch - Certificate of Excellence</h4>
+                    <hr style="border:1px solid #ffb81c;">
+                    <br>
+                    <p style="font-size:16px;">This Certificate of Recognition is proudly awarded to:</p>
+                    <h1 style="color:#5c068c; font-size:28px; text-decoration:underline;">${r.staffName}</h1>
+                    <p style="font-size:14px; line-height:1.6;">
+                        For outstanding work performance and achieving an overall operational performance target of 
+                        <strong style="font-size:18px; color:green;">${r.overallAvg}%</strong> on <strong>${r.date}</strong>.
+                    </p>
+                    <br><br>
+                    <div style="display:flex; justify-content:space-between; margin-top:40px;">
+                        <div>______________________<br><strong>Branch Supervisor</strong></div>
+                        <div>______________________<br><strong>Branch Manager</strong></div>
+                    </div>
+                </div>
+            `;
+        } else {
+            printBox.innerHTML = `
+                <div style="text-align:center;">
+                    <h2 style="color:red; margin-bottom:0;">COMMERCIAL BANK OF ETHIOPIA</h2>
+                    <h4 style="margin-top:2px; color:#333;">Borkena Branch - Official Performance Warning Notice</h4>
+                    <hr style="border:1px solid red;">
+                    <br>
+                    <p style="font-size:14px; text-align:left;"><strong>Date:</strong> ${r.date}</p>
+                    <p style="font-size:14px; text-align:left;"><strong>To Employee:</strong> ${r.staffName}</p>
+                    <br>
+                    <p style="font-size:14px; text-align:justify; line-height:1.6;">
+                        This is an official warning letter regarding your recent performance metrics recorded on <strong>${r.date}</strong>. 
+                        Your total cumulative performance score was calculated at <strong style="color:red;">${r.overallAvg}%</strong>, which is below the minimum required branch standard of 50%.
+                    </p>
+                    <p style="font-size:14px; text-align:justify;">You are advised to take immediate corrective measures to improve your achievement metrics.</p>
+                    <br><br>
+                    <div style="display:flex; justify-content:space-between; margin-top:40px;">
+                        <div>______________________<br><strong>Supervisor Signature</strong></div>
+                        <div>______________________<br><strong>Branch Manager Signature</strong></div>
+                    </div>
+                </div>
+            `;
+        }
+        openModal('printModal');
+    }
+
+    // Modal Controls
     function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
@@ -579,8 +650,7 @@
             const idx = staffData.findIndex(s => s.name === currentUserSession.name);
             if(idx !== -1) staffData[idx].pass = pw;
             saveStaffData();
-            alert('የይለፍ ቃልዎ በጥሩ ሁኔታ ተቀይሯል!');
-            document.getElementById('newPasswordInput').value = '';
+            alert('የይለፍ ቃል ተቀይሯል!');
             closeModal('pwModal');
         }
     }
@@ -593,7 +663,7 @@
             if(idx !== -1) {
                 staffData[idx].role = role;
                 saveStaffData();
-                alert(`ለሰራተኛ ${staff} የ ${role} ስልጣን ተሰጥቶታል!`);
+                alert(`ለሰራተኛ ${staff} የ ${role} ስልጣን ተሰጥቷል!`);
                 closeModal('roleMgmtModal');
             }
         }
@@ -601,45 +671,29 @@
 
     // Export Functions
     function exportToExcel() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v16_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v17_reports') || '[]');
         if (reports.length === 0) return alert('የሚወርድ ዳታ የለም!');
-
         let csv = "Date,Staff Name,Deposit %,FCY %,MB %,CBE Birr %,IB %,Overall %,Status\n";
         reports.forEach(r => {
             csv += `"${r.date}","${r.staffName}","${r.depPct}%","${r.fcyPct}%","${r.mbPct}%","${r.cbePct}%","${r.ibPct}%","${r.overallAvg}%","${r.status}"\n`;
         });
-
         const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), csv], { type: 'text/csv;charset=utf-8' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = `CBE_Borkena_Performance_${new Date().toISOString().slice(0,10)}.csv`;
+        a.download = `CBE_Borkena_Performance.csv`;
         a.click();
     }
 
     function exportToWord() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v16_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v17_reports') || '[]');
         if (reports.length === 0) return alert('የሚወርድ ዳታ የለም!');
-
-        let htmlContent = `
-            <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-            <head><title>Performance Summary</title></head>
-            <body>
-            <h2>የኢትዮጵያ ንግድ ባንክ - የቦርከና ቅርንጫፍ አፈፃፀም ሱመሪ</h2>
-            <table border="1" style="border-collapse:collapse; width:100%;">
-                <tr style="background:#f3e5f5;">
-                    <th>ቀን</th><th>ሰራተኛ</th><th>Deposit %</th><th>FCY %</th><th>Overall %</th><th>Status</th>
-                </tr>`;
-        
-        reports.forEach(r => {
-            htmlContent += `<tr><td>${r.date}</td><td>${r.staffName}</td><td>${r.depPct}%</td><td>${r.fcyPct}%</td><td>${r.overallAvg}%</td><td>${r.status}</td></tr>`;
-        });
-
+        let htmlContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><body><h2>CBE Borkena Performance Summary</h2><table border="1"><tr><th>Date</th><th>Staff</th><th>Overall %</th><th>Status</th></tr>`;
+        reports.forEach(r => { htmlContent += `<tr><td>${r.date}</td><td>${r.staffName}</td><td>${r.overallAvg}%</td><td>${r.status}</td></tr>`; });
         htmlContent += `</table></body></html>`;
-
         const blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = `CBE_Borkena_Performance_${new Date().toISOString().slice(0,10)}.doc`;
+        a.download = `CBE_Borkena_Performance.doc`;
         a.click();
     }
 
