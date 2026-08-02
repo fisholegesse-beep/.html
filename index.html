@@ -125,6 +125,14 @@
             outline: none; border-color: var(--cbe-purple); box-shadow: 0 0 4px rgba(92, 6, 140, 0.3);
         }
 
+        /* Customized Highlight for Supervisor Dropdown */
+        .supervisor-select {
+            border-left: 4px solid var(--cbe-gold) !important;
+            background-color: #fcfbfe !important;
+            font-weight: bold;
+            color: var(--cbe-purple);
+        }
+
         button {
             background-color: var(--cbe-purple); color: #fff; border: none;
             padding: 10px 14px; border-radius: 6px; font-size: 13px;
@@ -284,10 +292,15 @@
             <h3 style="margin:0 0 10px 0; color:var(--cbe-purple);" id="txtFormHeader">📝 Daily Target Entry Form</h3>
             
             <form id="reportForm">
-                <div class="form-group grid-2">
+                <!-- Customized 3-Column Top Grid: Staff, Supervisor & Date -->
+                <div class="form-group grid-3">
                     <div>
                         <label id="lblStaffSelect">Staff Name</label>
                         <select id="staffNameSelect" required></select>
+                    </div>
+                    <div>
+                        <label id="lblSupervisorSelect" style="color:var(--cbe-purple);">👔 Supervisor Name</label>
+                        <select id="supervisorSelect" class="supervisor-select" required></select>
                     </div>
                     <div>
                         <label id="lblReportDate">Date</label>
@@ -367,6 +380,7 @@
                         <tr>
                             <th id="thDate">Date</th>
                             <th id="thStaff">Staff Name</th>
+                            <th>Supervisor</th>
                             <th>Deposit %</th>
                             <th>FCY %</th>
                             <th>MB/CBE %</th>
@@ -477,42 +491,6 @@
 
     let resetRequests = [];
     let currentUserSession = null;
-    let currentLang = 'en';
-
-    const dictionary = {
-        en: {
-            topBanner: "Commercial Bank of Ethiopia - Borkena Branch",
-            headerTitle: "Commercial Bank of Ethiopia - Borkena Branch",
-            headerSub: "Daily Target Tracking, Approval Governance & Digital Products Dashboard",
-            noticeTitle: "Internal Notice Board",
-            loginHead: "🔐 System Portal Login",
-            lblUsername: "Username",
-            lblPassword: "Password",
-            btnLogin: "Login",
-            userTag: "Active User:",
-            btnPwChange: "🔑 Change Password",
-            btnLogout: "Logout",
-            superAdminHeader: "👑 Super Admin Controls (Fiseha)",
-            btnManageStaff: "👥 Manage Staff & Permissions",
-            btnPostNotice: "📢 Edit Notice Board",
-            btnApproveAll: "⚡ Approve All Pending Reports",
-            branchInfoHead: "📊 Branch Operational Info",
-            registeredStaff: "Registered Staff Count:",
-            approvalAuth: "Approval Authorities:",
-            formHeader: "📝 Daily Target Entry Form",
-            lblStaffSelect: "Staff Name",
-            lblReportDate: "Date",
-            sec1: "1. Deposit & Foreign Currency (FCY)",
-            sec2: "2. Digital Banking Products",
-            sec3: "3. Accounts, StarPay, Merchant & Agent",
-            btnSubmitReport: "📤 Submit Report",
-            reportSummaryHeader: "📋 Aggregated Performance Reports, Governance & Certificates",
-            lblPeriodFilter: "Period Filter",
-            lblStaffFilter: "Staff Filter",
-            lblDownloadMenu: "Download Options",
-            thDate: "Date", thStaff: "Staff Name", thOverall: "Overall %", thStatus: "Status", thApproval: "Approval / Governance", thAction: "Print / Certificate"
-        }
-    };
 
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('weekDate').valueAsDate = new Date();
@@ -544,14 +522,21 @@
 
     function populateDropdowns() {
         const staffSel = document.getElementById('staffNameSelect');
+        const superSel = document.getElementById('supervisorSelect');
         const filterSel = document.getElementById('staffFilter');
         
         staffSel.innerHTML = `<option value="" disabled selected>-- Select Staff Member --</option>`;
+        superSel.innerHTML = `<option value="" disabled selected>-- Select Supervisor --</option>`;
         filterSel.innerHTML = `<option value="all">All Staff Members</option>`;
 
         staffData.forEach(s => {
             staffSel.innerHTML += `<option value="${s.name}">${s.name} (${s.role})</option>`;
             filterSel.innerHTML += `<option value="${s.name}">${s.name}</option>`;
+            
+            // Populate Supervisors List Dynamically
+            if(s.role === 'Supervisor' || s.role === 'SuperAdmin') {
+                superSel.innerHTML += `<option value="${s.name}">${s.name} (${s.role})</option>`;
+            }
         });
     }
 
@@ -669,6 +654,7 @@
         const report = {
             id: Date.now(),
             staffName: document.getElementById('staffNameSelect').value,
+            supervisorName: document.getElementById('supervisorSelect').value,
             date: document.getElementById('weekDate').value,
             depPct, fcyPct, mbPct, cbePct, accPct, starPct, merchPct, overallAvg,
             status: 'Pending',
@@ -753,6 +739,7 @@
                 <tr>
                     <td>${r.date}</td>
                     <td><strong>${r.staffName}</strong></td>
+                    <td style="color:var(--cbe-purple); font-weight:bold;">${r.supervisorName || '-'}</td>
                     <td>${r.depPct}%</td>
                     <td>${r.fcyPct}%</td>
                     <td>${r.mbPct}%</td>
@@ -844,7 +831,7 @@
                         In recognition of outstanding individual performance, target achievement, and dedication in Digital Banking, Deposit Mobilization, and Customer Acquisition, obtaining an exceptional operational score of:
                     </p>
                     <h2 style="font-size:34px; color:#5c068c; margin: 15px 0;">🏆 ${r.overallAvg}% 🏆</h2>
-                    <p style="font-size:12px; color:#666;">Approved By: <strong>${r.approvedBy || 'Branch Management'}</strong> | Date: <strong>${r.date}</strong></p>
+                    <p style="font-size:12px; color:#666;">Assigned Supervisor: <strong>${r.supervisorName || 'N/A'}</strong> | Approved By: <strong>${r.approvedBy || 'Branch Management'}</strong> | Date: <strong>${r.date}</strong></p>
                     <br><br>
                     <div style="display:flex; justify-content:space-between; margin-top:40px; padding:0 30px;">
                         <div style="text-align:center; color:#5c068c;">______________________<br><strong>Branch Supervisor</strong></div>
@@ -861,6 +848,7 @@
                     <div style="text-align:left; font-size:13px; color:#333; margin:15px 0;">
                         <p><strong>Date:</strong> ${r.date}</p>
                         <p><strong>To Employee:</strong> ${r.staffName}</p>
+                        <p><strong>Supervisor:</strong> ${r.supervisorName || 'N/A'}</p>
                         <p><strong>Issued By:</strong> ${r.approvedBy || 'Supervisor'}</p>
                     </div>
                     <p style="font-size:14px; text-align:justify; color:#333; line-height:1.6;">
@@ -905,9 +893,9 @@
 
     function exportToExcel() {
         let reports = JSON.parse(localStorage.getItem('cbe_borkena_v21_reports') || '[]');
-        let csv = "\uFEFFDate,Staff Name,Deposit %,FCY %,MB %,CBEBirr %,Accounts %,StarPay %,Merchant %,Overall %,Status,Approved By\n";
+        let csv = "\uFEFFDate,Staff Name,Supervisor Name,Deposit %,FCY %,MB %,CBEBirr %,Accounts %,StarPay %,Merchant %,Overall %,Status,Approved By\n";
         reports.forEach(r => { 
-            csv += `"${r.date}","${r.staffName}","${r.depPct}%","${r.fcyPct}%","${r.mbPct}%","${r.cbePct}%","${r.accPct}%","${r.starPct}%","${r.merchPct}%","${r.overallAvg}%","${r.status}","${r.approvedBy || 'N/A'}"\n`; 
+            csv += `"${r.date}","${r.staffName}","${r.supervisorName || 'N/A'}","${r.depPct}%","${r.fcyPct}%","${r.mbPct}%","${r.cbePct}%","${r.accPct}%","${r.starPct}%","${r.merchPct}%","${r.overallAvg}%","${r.status}","${r.approvedBy || 'N/A'}"\n`; 
         });
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `CBE_Borkena_Report.csv`; a.click();
@@ -916,8 +904,8 @@
     function exportToWord() {
         let reports = JSON.parse(localStorage.getItem('cbe_borkena_v21_reports') || '[]');
         let html = `<html><head><meta charset="UTF-8"></head><body style="color:#5c068c;"><h2>CBE Borkena Branch Performance Summary</h2><table border="1" style="border-collapse:collapse; text-align:center;">
-        <tr style="background:#5c068c; color:#fff;"><th>Date</th><th>Staff</th><th>Overall %</th><th>Status</th><th>Approved By</th></tr>`;
-        reports.forEach(r => { html += `<tr><td>${r.date}</td><td>${r.staffName}</td><td>${r.overallAvg}%</td><td>${r.status}</td><td>${r.approvedBy || 'N/A'}</td></tr>`; });
+        <tr style="background:#5c068c; color:#fff;"><th>Date</th><th>Staff</th><th>Supervisor</th><th>Overall %</th><th>Status</th><th>Approved By</th></tr>`;
+        reports.forEach(r => { html += `<tr><td>${r.date}</td><td>${r.staffName}</td><td>${r.supervisorName || 'N/A'}</td><td>${r.overallAvg}%</td><td>${r.status}</td><td>${r.approvedBy || 'N/A'}</td></tr>`; });
         html += `</table></body></html>`;
         const blob = new Blob(['\ufeff' + html], { type: 'application/msword' });
         const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `CBE_Borkena_Report.doc`; a.click();
