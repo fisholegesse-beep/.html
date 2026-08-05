@@ -8,29 +8,24 @@
     <style>
         :root {
             --cbe-purple: #5c068c;
-            --cbe-purple-light: #7b1fa2;
+            --cbe-purple-light: #8e24aa;
             --cbe-gold: #ffb81c;
             --cbe-gold-dark: #d4af37;
-            --bg-main: #f4f6f9;
-            --card-bg: rgba(255, 255, 255, 0.94);
-            --text-dark: #2c3e50;
-            --danger-color: #d32f2f;
-            --success-color: #2e7d32;
-            --border-color: #e0e0e0;
+            --bg-glass: rgba(20, 10, 35, 0.75);
+            --card-bg: rgba(30, 15, 45, 0.65);
+            --text-light: #ffffff;
+            --danger-color: #ff5252;
+            --success-color: #66bb6a;
+            --border-color: rgba(255, 255, 255, 0.2);
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* የተስተካከለ ዘመናዊና ማራኪ የጀርባ አቀራረብ (Modern Mesh Gradient Background) */
-            background-color: #1a0229;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(92, 6, 140, 0.85) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(255, 184, 28, 0.35) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(56, 0, 88, 0.9) 0px, transparent 50%),
-                radial-gradient(at 0% 100%, rgba(123, 31, 162, 0.7) 0px, transparent 50%);
-            background-attachment: fixed;
+            /* የCBE ህንፃ ምስል እና Gradient Overlay ጥምረት */
+            background: linear-gradient(135deg, rgba(20, 2, 35, 0.85), rgba(92, 6, 140, 0.65)),
+                        url('3555_3.jpg') no-repeat center center fixed;
             background-size: cover;
-            color: var(--text-dark);
+            color: var(--text-light);
             margin: 0; 
             padding: 16px;
             display: flex; 
@@ -46,44 +41,47 @@
             align-items: center; 
             margin-bottom: 12px; 
             color: #fff; 
-            background: rgba(92, 6, 140, 0.85);
-            padding: 8px 18px; 
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(92, 6, 140, 0.5);
+            padding: 10px 18px; 
+            border-radius: 12px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
         }
 
         .lang-btn {
             background: var(--cbe-gold); 
             color: #000; 
             border: none; 
-            padding: 6px 14px;
+            padding: 8px 16px;
             border-radius: 20px; 
             font-weight: bold; 
             cursor: pointer; 
             font-size: 13px;
-            transition: 0.2s;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 184, 28, 0.4);
         }
-        .lang-btn:hover { background: #e5a318; transform: scale(1.02); }
+        .lang-btn:hover { background: #e5a318; transform: translateY(-2px); }
         
         .header-box {
-            background: linear-gradient(135deg, rgba(92, 6, 140, 0.92), rgba(40, 0, 65, 0.95));
+            background: linear-gradient(135deg, rgba(92, 6, 140, 0.7), rgba(20, 2, 35, 0.8));
             color: #fff; 
             padding: 22px; 
-            border-radius: 14px; 
+            border-radius: 16px; 
             text-align: center;
             margin-bottom: 16px; 
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
             display: flex; 
             align-items: center; 
             justify-content: center; 
             gap: 20px;
-            border-bottom: 4px solid var(--cbe-gold);
+            border-bottom: 3px solid var(--cbe-gold);
             backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
         }
 
-        .cbe-logo-svg { width: 65px; height: 65px; fill: var(--cbe-gold); }
+        .cbe-logo-svg { width: 65px; height: 65px; fill: var(--cbe-gold); filter: drop-shadow(0 0 8px var(--cbe-gold)); }
 
         .user-bar {
             display: flex; 
@@ -91,116 +89,123 @@
             align-items: center;
             background: var(--card-bg); 
             padding: 12px 18px; 
-            border-radius: 10px;
+            border-radius: 12px;
             margin-bottom: 16px; 
             font-size: 14px; 
             font-weight: bold;
-            color: var(--text-dark); 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
-            border-left: 6px solid var(--cbe-purple); 
+            color: #fff; 
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            border-left: 6px solid var(--cbe-gold); 
             flex-wrap: wrap; 
             gap: 8px;
             backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
         }
 
         .notice-board {
-            background: rgba(255, 251, 230, 0.95); 
-            border: 1px solid #ffe58f;
+            background: rgba(255, 255, 255, 0.1); 
+            border: 1px solid rgba(255, 184, 28, 0.4);
             padding: 12px 16px; 
-            border-radius: 8px; 
+            border-radius: 10px; 
             margin-bottom: 16px; 
-            color: #d48806;
+            color: #fff;
             backdrop-filter: blur(8px);
         }
-        .notice-board h4 { margin: 0 0 4px 0; color: var(--cbe-purple); display: flex; align-items: center; gap: 8px; }
+        .notice-board h4 { margin: 0 0 4px 0; color: var(--cbe-gold); display: flex; align-items: center; gap: 8px; }
 
         .card {
             background: var(--card-bg); 
             padding: 20px; 
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3); 
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); 
             margin-bottom: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
 
         .form-group { margin-bottom: 10px; }
-        label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 13px; color: var(--text-dark); }
+        label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 13px; color: #e0e0e0; }
         input, select {
-            width: 100%; padding: 9px; border: 1px solid #ccc;
-            border-radius: 6px; box-sizing: border-box; font-size: 13px; color: #333;
-            background: rgba(255, 255, 255, 0.95);
+            width: 100%; padding: 10px; border: 1px solid var(--border-color);
+            border-radius: 8px; box-sizing: border-box; font-size: 13px; color: #fff;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
         }
+        input::placeholder { color: #ccc; }
+        option { background: #2a0845; color: #fff; }
+        
         input:focus, select:focus {
-            outline: none; border-color: var(--cbe-purple); box-shadow: 0 0 4px rgba(92, 6, 140, 0.3);
+            outline: none; border-color: var(--cbe-gold); box-shadow: 0 0 8px rgba(255, 184, 28, 0.5);
         }
 
         .supervisor-select {
             border-left: 4px solid var(--cbe-gold) !important;
-            background-color: #fcfbfe !important;
             font-weight: bold;
-            color: var(--cbe-purple);
+            color: var(--cbe-gold);
         }
 
         button {
             background-color: var(--cbe-purple); color: #fff; border: none;
-            padding: 10px 14px; border-radius: 6px; font-size: 13px;
-            font-weight: bold; cursor: pointer; transition: 0.2s;
+            padding: 10px 14px; border-radius: 8px; font-size: 13px;
+            font-weight: bold; cursor: pointer; transition: 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
-        button:hover { background-color: var(--cbe-purple-light); }
-        .btn-excel { background-color: #1d6f42; color: #fff; }
-        .btn-excel:hover { background-color: #155331; }
-        .btn-word { background-color: #2b579a; color: #fff; }
-        .btn-word:hover { background-color: #1e3d6b; }
+        button:hover { background-color: var(--cbe-purple-light); transform: translateY(-1px); }
+        .btn-excel { background-color: #2e7d32; color: #fff; }
+        .btn-excel:hover { background-color: #1b5e20; }
+        .btn-word { background-color: #1565c0; color: #fff; }
+        .btn-word:hover { background-color: #0d47a1; }
         .btn-danger { background-color: var(--danger-color); color: #fff; }
-        .btn-warning { background-color: #ef6c00; color: #fff; }
         .btn-gold { background-color: var(--cbe-gold); color: #000; }
         .btn-gold:hover { background-color: #e5a318; }
         .btn-success { background-color: var(--success-color); color: #fff; }
 
         .section-title {
-            background: rgba(240, 230, 245, 0.9); color: var(--cbe-purple); padding: 8px 12px;
-            border-radius: 6px; font-weight: bold; font-size: 13px;
-            margin: 14px 0 8px 0; border-left: 4px solid var(--cbe-purple);
+            background: rgba(92, 6, 140, 0.4); color: var(--cbe-gold); padding: 8px 12px;
+            border-radius: 8px; font-weight: bold; font-size: 13px;
+            margin: 14px 0 8px 0; border-left: 4px solid var(--cbe-gold);
+            border: 1px solid var(--border-color);
         }
 
         .performer-card {
-            padding: 14px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;
+            padding: 14px; border-radius: 10px; border: 1px solid var(--border-color); text-align: center;
+            backdrop-filter: blur(5px);
         }
-        .best-card { background: rgba(232, 245, 233, 0.95); border-color: #a5d6a7; color: #1b5e20; }
-        .weak-card { background: rgba(255, 235, 238, 0.95); border-color: #ffcdd2; color: #b71c1c; }
+        .best-card { background: rgba(46, 125, 50, 0.25); border-color: rgba(102, 187, 106, 0.5); color: #a5d6a7; }
+        .weak-card { background: rgba(211, 47, 47, 0.25); border-color: rgba(239, 83, 80, 0.5); color: #ef9a9a; }
 
         .table-responsive { overflow-x: auto; }
-        .data-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
-        .data-table th, .data-table td { border: 1px solid var(--border-color); padding: 9px; text-align: center; }
-        .data-table th { background-color: var(--cbe-purple); color: #fff; font-size: 12px; }
-        .data-table tr:nth-child(even) { background-color: rgba(249, 249, 249, 0.85); }
-        .data-table tr:nth-child(odd) { background-color: rgba(255, 255, 255, 0.85); }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; color: #fff; }
+        .data-table th, .data-table td { border: 1px solid var(--border-color); padding: 10px; text-align: center; }
+        .data-table th { background-color: rgba(92, 6, 140, 0.8); color: var(--cbe-gold); font-size: 12px; }
+        .data-table tr:nth-child(even) { background-color: rgba(255, 255, 255, 0.05); }
+        .data-table tr:nth-child(odd) { background-color: rgba(0, 0, 0, 0.15); }
 
         .badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
-        .badge-pending { background-color: #fff3e0; color: #e65100; border: 1px solid #ffe082; }
-        .badge-approved { background-color: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+        .badge-pending { background-color: rgba(255, 152, 0, 0.2); color: #ffb74d; border: 1px solid #ffb74d; }
+        .badge-approved { background-color: rgba(76, 175, 80, 0.2); color: #81c784; border: 1px solid #81c784; }
 
         .modal-overlay {
             position: fixed; top:0; left:0; width:100%; height:100%;
-            background: rgba(0,0,0,0.7); z-index: 1000; display: flex;
-            justify-content: center; align-items: center; backdrop-filter: blur(4px);
+            background: rgba(0,0,0,0.8); z-index: 1000; display: flex;
+            justify-content: center; align-items: center; backdrop-filter: blur(8px);
         }
         .modal-body {
-            background: white; padding: 24px; border-radius: 12px;
+            background: #1a0229; padding: 24px; border-radius: 16px;
             width: 90%; max-width: 650px; max-height: 85vh; overflow-y: auto;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3); border: 1px solid var(--border-color);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8); border: 1px solid var(--border-color); color: #fff;
         }
 
         .upload-box {
-            border: 2px dashed var(--cbe-purple);
+            border: 2px dashed var(--cbe-gold);
             padding: 20px;
             text-align: center;
             border-radius: 8px;
-            background: #faf5fc;
+            background: rgba(255, 255, 255, 0.05);
             margin-bottom: 12px;
         }
 
@@ -209,7 +214,7 @@
         @media print {
             body * { visibility: hidden; }
             #certPrintArea, #certPrintArea * { visibility: visible; }
-            #certPrintArea { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+            #certPrintArea { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #fff; color: #000; }
         }
 
         .cert-container {
@@ -217,6 +222,7 @@
             padding: 30px;
             text-align: center;
             background: #fff;
+            color: #000;
             box-shadow: inset 0 0 0 5px var(--cbe-gold);
             border-radius: 10px;
         }
@@ -242,17 +248,17 @@
         </svg>
         <div>
             <h2 style="color:var(--cbe-gold); margin: 0 0 5px 0;">Commercial Bank of Ethiopia - Borkena Branch</h2>
-            <p style="color: #fff; margin:0; font-size:13px;">Daily, Weekly, Monthly, Quarterly & Yearly Target Performance Governance Portal</p>
+            <p style="color: #e0e0e0; margin:0; font-size:13px;">Daily, Weekly, Monthly, Quarterly & Yearly Target Performance Governance Portal</p>
         </div>
     </div>
 
     <div class="notice-board">
         <h4>📌 <span>Internal Notice Board</span></h4>
-        <div id="noticeContent" style="font-size: 13px; font-weight:600; color:#333;">Welcome to the Borkena Branch Performance Dashboard! Please submit your reports on time.</div>
+        <div id="noticeContent" style="font-size: 13px; font-weight:600; color:#fff;">Welcome to the Borkena Branch Performance Dashboard! Please submit your reports on time.</div>
     </div>
 
     <div id="loginSection" class="card" style="max-width:400px; margin: 20px auto;">
-        <h3 style="color:var(--cbe-purple); margin-top:0; text-align:center;">🔐 System Portal Login</h3>
+        <h3 style="color:var(--cbe-gold); margin-top:0; text-align:center;">🔐 System Portal Login</h3>
         <form id="loginForm">
             <div class="form-group">
                 <label>Username</label>
@@ -262,14 +268,14 @@
                 <label>Password</label>
                 <input type="password" id="password" required>
             </div>
-            <button type="submit" style="width:100%; margin-top: 10px;">Login</button>
+            <button type="submit" class="btn-gold" style="width:100%; margin-top: 10px;">Login</button>
         </form>
     </div>
 
     <div id="appSection" class="hidden">
 
         <div class="user-bar">
-            <span>👤 Active User: <strong id="activeUserName" style="color:var(--cbe-purple);"></strong> (<span id="activeUserRole" style="color:#d48806;"></span>)</span>
+            <span>👤 Active User: <strong id="activeUserName" style="color:var(--cbe-gold);"></strong> (<span id="activeUserRole" style="color:#ffb81c;"></span>)</span>
             <div>
                 <button class="btn-gold" onclick="openModal('uploadModal')">📥 Import Data</button>
                 <button class="btn-danger" onclick="logout()">Logout</button>
@@ -279,23 +285,22 @@
         <div id="adminPanel" class="hidden">
             <div class="card grid-2">
                 <div>
-                    <h4 style="margin-top:0; color:var(--cbe-purple);">👑 Admin & Supervisory Controls</h4>
-                    <!-- Manage Staff 按钮 ለ SuperAdmin (Fiseha) ብቻ እንዲታይ የሚደረግበት ቦታ -->
+                    <h4 style="margin-top:0; color:var(--cbe-gold);">👑 Admin & Supervisory Controls</h4>
                     <div id="manageStaffContainer" class="hidden">
                         <button onclick="openModal('staffMgmtModal')" class="btn-gold" style="width:100%; margin-bottom:8px;">👥 Manage Staff & Permissions</button>
                     </div>
                     <button onclick="approveAllPending()" class="btn-success" style="width:100%;">⚡ Approve All Pending Reports</button>
                 </div>
                 <div>
-                    <h4 style="margin-top:0; color:var(--cbe-purple);">📊 Branch Operational Metrics</h4>
-                    <p style="font-size:13px; margin:6px 0;">Registered Staff: <strong id="userCount" style="color:var(--cbe-purple);">8</strong></p>
+                    <h4 style="margin-top:0; color:var(--cbe-gold);">📊 Branch Operational Metrics</h4>
+                    <p style="font-size:13px; margin:6px 0;">Registered Staff: <strong id="userCount" style="color:var(--cbe-gold);">8</strong></p>
                     <p style="font-size:13px; margin:6px 0;">Approvers: <strong>Fiseha, Sintayehu, Dawit, Asrat</strong></p>
                 </div>
             </div>
         </div>
 
         <div class="card">
-            <h3 style="margin-top:0; color:var(--cbe-purple);">🏆 Staff Performance Period Highlights</h3>
+            <h3 style="margin-top:0; color:var(--cbe-gold);">🏆 Staff Performance Period Highlights</h3>
             <div class="grid-2">
                 <div class="performer-card best-card">
                     <h4 style="margin:0 0 6px 0;">🥇 Top Performer</h4>
@@ -309,7 +314,7 @@
         </div>
 
         <div class="card">
-            <h3 style="margin:0 0 10px 0; color:var(--cbe-purple);">📝 Target Entry Form</h3>
+            <h3 style="margin:0 0 10px 0; color:var(--cbe-gold);">📝 Target Entry Form</h3>
             <form id="reportForm">
                 <div class="form-group grid-3">
                     <div>
@@ -317,12 +322,12 @@
                         <select id="staffNameSelect" required></select>
                     </div>
                     <div>
-                        <label style="color:var(--cbe-purple);">👔 Supervisor Name</label>
+                        <label style="color:var(--cbe-gold);">👔 Supervisor Name</label>
                         <select id="supervisorSelect" class="supervisor-select" required></select>
                     </div>
                     <div>
                         <label>Target Frequency (የጊዜ ስሌዳ)</label>
-                        <select id="entryPeriodScale" onchange="adjustFormTargetsByPeriod()" style="border:2px solid var(--cbe-purple); font-weight:bold;">
+                        <select id="entryPeriodScale" onchange="adjustFormTargetsByPeriod()" style="border:1px solid var(--cbe-gold); font-weight:bold;">
                             <option value="daily">Daily Target (x1)</option>
                             <option value="weekly" selected>Weekly Target (x6)</option>
                             <option value="monthly">Monthly Target (x26)</option>
@@ -362,12 +367,12 @@
         </div>
 
         <div class="card">
-            <h3 style="margin-top:0; color:var(--cbe-purple);">📋 Reports Governance & Breakdown</h3>
+            <h3 style="margin-top:0; color:var(--cbe-gold);">📋 Reports Governance & Breakdown</h3>
             
-            <div class="grid-3" style="margin-bottom:14px; background:rgba(249,249,249,0.9); padding:12px; border-radius:8px; border:1px solid var(--border-color);">
+            <div class="grid-3" style="margin-bottom:14px; background:rgba(255,255,255,0.05); padding:12px; border-radius:8px; border:1px solid var(--border-color);">
                 <div>
-                    <label style="color:var(--cbe-purple);">📅 Period Filter (ለይቶ መመልከቻ)</label>
-                    <select id="periodFilter" onchange="loadReports()" style="border: 2px solid var(--cbe-purple); font-weight:bold;">
+                    <label style="color:var(--cbe-gold);">📅 Period Filter (ለይቶ መመልከቻ)</label>
+                    <select id="periodFilter" onchange="loadReports()" style="border: 1px solid var(--cbe-gold); font-weight:bold;">
                         <option value="daily">Daily Report (የዕለት)</option>
                         <option value="weekly" selected>Weekly Report (የሳምንት)</option>
                         <option value="monthly">Monthly Report (የወር)</option>
@@ -416,8 +421,8 @@
 <div id="uploadModal" class="modal-overlay hidden">
     <div class="modal-body">
         <button onclick="closeModal('uploadModal')" class="btn-danger" style="float:right;">X</button>
-        <h3 style="color:var(--cbe-purple);">📥 Bulk Upload Data (CSV Import)</h3>
-        <p style="font-size:12px; color:#666;">ለየቀኑ ወይም ለየሳምንቱ ያሉትን ሪፖርቶች በቡድን በ CSV ፋይል አፕሎድ ያድርጉ።</p>
+        <h3 style="color:var(--cbe-gold);">📥 Bulk Upload Data (CSV Import)</h3>
+        <p style="font-size:12px; color:#ccc;">ለየቀኑ ወይም ለየሳምንቱ ያሉትን ሪፖርቶች በቡድን በ CSV ፋይል አፕሎድ ያድርጉ።</p>
         <div class="upload-box">
             <input type="file" id="csvFileInput" accept=".csv">
         </div>
@@ -428,10 +433,10 @@
 <div id="staffMgmtModal" class="modal-overlay hidden">
     <div class="modal-body">
         <button onclick="closeModal('staffMgmtModal')" class="btn-danger" style="float:right;">X</button>
-        <h3 style="color:var(--cbe-purple);">👥 Manage Branch Users & Permissions</h3>
+        <h3 style="color:var(--cbe-gold);">👥 Manage Branch Users & Permissions</h3>
         
-        <div style="background:#f0e6f5; padding:12px; border-radius:8px; margin-bottom:12px;">
-            <h4 style="margin:0 0 8px 0; color:var(--cbe-purple);">➕ Add New User</h4>
+        <div style="background:rgba(255,255,255,0.05); padding:12px; border-radius:8px; margin-bottom:12px; border:1px solid var(--border-color);">
+            <h4 style="margin:0 0 8px 0; color:var(--cbe-gold);">➕ Add New User</h4>
             <div class="grid-3">
                 <input type="text" id="newStaffName" placeholder="Name">
                 <input type="text" id="newStaffPass" placeholder="Password">
@@ -444,7 +449,7 @@
             <button onclick="addNewStaff()" class="btn-success" style="width:100%; margin-top:8px;">Save New User</button>
         </div>
 
-        <h4 style="margin-top:10px; color:var(--cbe-purple);">Existing Staff Members</h4>
+        <h4 style="margin-top:10px; color:var(--cbe-gold);">Existing Staff Members</h4>
         <div id="staffListDisplay"></div>
     </div>
 </div>
@@ -628,7 +633,7 @@
                     <td>${r.fcyPct}%</td>
                     <td>${r.mbPct}%</td>
                     <td>${r.accPct}%</td>
-                    <td><strong style="color:var(--cbe-purple);">${r.overallAvg}%</strong></td>
+                    <td><strong style="color:var(--cbe-gold);">${r.overallAvg}%</strong></td>
                     <td><span class="badge ${r.status === 'Approved' ? 'badge-approved' : 'badge-pending'}">${r.status}</span></td>
                     <td>
                         <button onclick="printCert('${r.staffName}', '${r.overallAvg}', '${r.supervisorName}')" class="btn-gold" style="padding:3px 8px; font-size:11px;">📜 Print Cert</button>
@@ -679,7 +684,7 @@
         container.innerHTML = '';
         staffData.forEach((s, idx) => {
             container.innerHTML += `
-                <div style="display:flex; justify-content:space-between; align-items:center; padding:6px; border-bottom:1px solid #eee;">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:6px; border-bottom:1px solid rgba(255,255,255,0.1);">
                     <span><strong>${s.name}</strong> (${s.role})</span>
                     <div>
                         <button onclick="deleteStaff(${idx})" class="btn-danger" style="padding:2px 6px; font-size:11px;">Delete</button>
@@ -717,7 +722,6 @@
         loadReports();
     }
 
-    /* ተጠቃሚ ሲገባ Role (የስልጣን ደረጃ) የሚለይበት ክፍል */
     document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const u = document.getElementById('username').value.trim();
@@ -731,14 +735,12 @@
             document.getElementById('activeUserName').innerText = currentUserSession.name;
             document.getElementById('activeUserRole').innerText = currentUserSession.role;
 
-            // Admin/Supervisor ፓነል ማሳያ
             if(['SuperAdmin', 'Supervisor'].includes(currentUserSession.role)) {
                 document.getElementById('adminPanel').classList.remove('hidden');
             } else {
                 document.getElementById('adminPanel').classList.add('hidden');
             }
 
-            // Manage Staff Permission Control: ለ SuperAdmin (Fiseha) ብቻ እንዲታይ ማድረግ
             const manageContainer = document.getElementById('manageStaffContainer');
             if (currentUserSession.role === 'SuperAdmin') {
                 manageContainer.classList.remove('hidden');
