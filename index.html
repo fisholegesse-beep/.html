@@ -22,7 +22,6 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* የተላከውን የCBE ህንፃ ምስል (3555_4.jpg) በጀርባ አድርገነዋል */
             background: linear-gradient(135deg, rgba(15, 3, 25, 0.85), rgba(74, 0, 114, 0.7)),
                         url('3555_4.jpg') no-repeat center center fixed;
             background-size: cover;
@@ -113,6 +112,37 @@
             backdrop-filter: blur(10px);
         }
         .notice-board h4 { margin: 0 0 6px 0; color: var(--cbe-gold); display: flex; align-items: center; gap: 8px; }
+
+        /* Navigation Bar Styles */
+        .main-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            background: rgba(35, 10, 55, 0.7);
+            color: #fff;
+            border: 1px solid var(--border-color);
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-tab.active {
+            background: var(--cbe-gold);
+            color: #000;
+            box-shadow: 0 0 15px rgba(255, 184, 28, 0.5);
+        }
+
+        .nav-tab:hover:not(.active) {
+            background: rgba(74, 0, 114, 0.8);
+            transform: translateY(-2px);
+        }
 
         .card {
             background: var(--card-bg); 
@@ -256,7 +286,7 @@
 
     <div class="notice-board">
         <h4>📌 <span>Internal Notice Board</span></h4>
-        <div id="noticeContent" style="font-size: 13px; font-weight:600; color:#fff;">Welcome to the Borkena Branch Performance Dashboard! SuperAdmin Reversal & Cancel system active.</div>
+        <div id="noticeContent" style="font-size: 13px; font-weight:600; color:#fff;">Welcome to the Borkena Branch Performance Dashboard! SuperAdmin Reversal, Cancel & Archive system active.</div>
     </div>
 
     <div id="loginSection" class="card" style="max-width:400px; margin: 20px auto;">
@@ -284,14 +314,22 @@
             </div>
         </div>
 
+        <!-- የተደራጀ የሜኑ አሞሌ (Navigation Menu Bar) -->
+        <div class="main-nav">
+            <button class="nav-tab active" onclick="switchTab('dashboardTab', this)">📊 Main Entry & Operations</button>
+            <button class="nav-tab" onclick="switchTab('governanceTab', this)">📋 Reports Governance</button>
+            <button class="nav-tab" onclick="switchTab('performanceTab', this)">🏆 Staff Performance Highlights</button>
+            <button class="nav-tab" onclick="switchTab('archiveTab', this)">📦 Cancelled Data Archive</button>
+        </div>
+
         <div id="adminPanel" class="hidden">
             <div class="card grid-2">
                 <div>
                     <h4 style="margin-top:0; color:var(--cbe-gold);">👑 Admin & Supervisory Controls</h4>
                     <div id="manageStaffContainer" class="hidden" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
                         <button onclick="openModal('staffMgmtModal')" class="btn-gold" style="flex:1;">👥 Manage Staff & Permissions</button>
-                        <!-- ለ SuperAdmin የተጨመረ የReversal / Cancel Menu -->
-                        <button onclick="openModal('reversalModal')" class="btn-danger" style="flex:1;">🔄 Reversal / Cancel Menu</button>
+                        <!-- ለየብቻ የተደረገ የReversal Menu -->
+                        <button onclick="openModal('reversalModal')" class="btn-danger" style="flex:1;">🔄 Reversal Menu</button>
                     </div>
                     <button onclick="approveAllPending()" class="btn-success" style="width:100%;">⚡ Approve All Pending Reports</button>
                 </div>
@@ -303,119 +341,150 @@
             </div>
         </div>
 
-        <div class="card">
-            <h3 style="margin-top:0; color:var(--cbe-gold);">🏆 Staff Performance Period Highlights</h3>
-            <div class="grid-2">
-                <div class="performer-card best-card">
-                    <h4 style="margin:0 0 6px 0;">🥇 Top Performer</h4>
-                    <div id="bestStaffDisplay" style="font-size:16px; font-weight:bold;">Calculating...</div>
-                </div>
-                <div class="performer-card weak-card">
-                    <h4 style="margin:0 0 6px 0;">⚠️ Needs Attention</h4>
-                    <div id="weakStaffDisplay" style="font-size:16px; font-weight:bold;">Calculating...</div>
-                </div>
+        <!-- Tab 1: Main Dashboard (Entry Form) -->
+        <div id="dashboardTab" class="tab-content">
+            <div class="card">
+                <h3 style="margin:0 0 10px 0; color:var(--cbe-gold);">📝 Target Entry Form</h3>
+                <form id="reportForm">
+                    <div class="form-group grid-3">
+                        <div>
+                            <label>Staff Name</label>
+                            <select id="staffNameSelect" required></select>
+                        </div>
+                        <div>
+                            <label style="color:var(--cbe-gold);">👔 Supervisor Name</label>
+                            <select id="supervisorSelect" class="supervisor-select" required></select>
+                        </div>
+                        <div>
+                            <label>Target Frequency (የጊዜ ስሌዳ)</label>
+                            <select id="entryPeriodScale" onchange="adjustFormTargetsByPeriod()" style="border:1px solid var(--cbe-gold); font-weight:bold;">
+                                <option value="daily">Daily Target (x1)</option>
+                                <option value="weekly" selected>Weekly Target (x6)</option>
+                                <option value="monthly">Monthly Target (x26)</option>
+                                <option value="quarterly">Quarterly Target (x78)</option>
+                                <option value="yearly">Yearly Target (x312)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="section-title">1. Deposit & Foreign Currency (FCY)</div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Deposit Plan / Actual (ETB)</label>
+                            <div class="grid-2">
+                                <input type="number" id="depositPlan" placeholder="Plan" required>
+                                <input type="number" id="depositActual" placeholder="Actual" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>FCY Plan / Actual ($ USD)</label>
+                            <div class="grid-2">
+                                <input type="number" id="fcyPlan" placeholder="Plan $">
+                                <input type="number" id="fcyActual" placeholder="Actual $">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-title">2. Digital Banking & Channels</div>
+                    <div class="grid-3">
+                        <div class="form-group"><label>Mobile Banking (P/A)</label><div class="grid-2"><input type="number" id="mbPlan" placeholder="P"><input type="number" id="mbActual" placeholder="A"></div></div>
+                        <div class="form-group"><label>CBE Birr (P/A)</label><div class="grid-2"><input type="number" id="cbeBirrPlan" placeholder="P"><input type="number" id="cbeBirrActual" placeholder="A"></div></div>
+                        <div class="form-group"><label>Accounts (P/A)</label><div class="grid-2"><input type="number" id="accPlan" placeholder="P"><input type="number" id="accActual" placeholder="A"></div></div>
+                    </div>
+
+                    <button type="submit" class="btn-gold" style="width:100%; font-size:14px; margin-top:10px;">📤 Submit Report Entry</button>
+                </form>
             </div>
         </div>
 
-        <div class="card">
-            <h3 style="margin:0 0 10px 0; color:var(--cbe-gold);">📝 Target Entry Form</h3>
-            <form id="reportForm">
-                <div class="form-group grid-3">
+        <!-- Tab 2: Reports Governance (ከፊለፊት ተነስቶ ሜኑ የተደረገ) -->
+        <div id="governanceTab" class="tab-content hidden">
+            <div class="card">
+                <h3 style="margin-top:0; color:var(--cbe-gold);">📋 Reports Governance & Breakdown</h3>
+                
+                <div class="grid-3" style="margin-bottom:14px; background:rgba(255,255,255,0.05); padding:12px; border-radius:10px; border:1px solid var(--border-color);">
                     <div>
-                        <label>Staff Name</label>
-                        <select id="staffNameSelect" required></select>
-                    </div>
-                    <div>
-                        <label style="color:var(--cbe-gold);">👔 Supervisor Name</label>
-                        <select id="supervisorSelect" class="supervisor-select" required></select>
-                    </div>
-                    <div>
-                        <label>Target Frequency (የጊዜ ስሌዳ)</label>
-                        <select id="entryPeriodScale" onchange="adjustFormTargetsByPeriod()" style="border:1px solid var(--cbe-gold); font-weight:bold;">
-                            <option value="daily">Daily Target (x1)</option>
-                            <option value="weekly" selected>Weekly Target (x6)</option>
-                            <option value="monthly">Monthly Target (x26)</option>
-                            <option value="quarterly">Quarterly Target (x78)</option>
-                            <option value="yearly">Yearly Target (x312)</option>
+                        <label style="color:var(--cbe-gold);">📅 Period Filter (ለይቶ መመልከቻ)</label>
+                        <select id="periodFilter" onchange="loadReports()" style="border: 1px solid var(--cbe-gold); font-weight:bold;">
+                            <option value="daily">Daily Report (የዕለት)</option>
+                            <option value="weekly" selected>Weekly Report (የሳምንት)</option>
+                            <option value="monthly">Monthly Report (የወር)</option>
+                            <option value="quarterly">Quarterly Report (የሩብ ዓመት)</option>
+                            <option value="yearly">Yearly Report (የዓመት)</option>
+                            <option value="all">All Time History</option>
                         </select>
                     </div>
-                </div>
-
-                <div class="section-title">1. Deposit & Foreign Currency (FCY)</div>
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label>Deposit Plan / Actual (ETB)</label>
-                        <div class="grid-2">
-                            <input type="number" id="depositPlan" placeholder="Plan" required>
-                            <input type="number" id="depositActual" placeholder="Actual" required>
-                        </div>
+                    <div>
+                        <label>Staff Filter</label>
+                        <select id="staffFilter" onchange="loadReports()"></select>
                     </div>
-                    <div class="form-group">
-                        <label>FCY Plan / Actual ($ USD)</label>
-                        <div class="grid-2">
-                            <input type="number" id="fcyPlan" placeholder="Plan $">
-                            <input type="number" id="fcyActual" placeholder="Actual $">
+                    <div>
+                        <label>Export Options</label>
+                        <div style="display:flex; gap:6px;">
+                            <button onclick="exportToExcel()" class="btn-excel" style="width:100%;">📥 Excel (.CSV)</button>
+                            <button onclick="exportToWord()" class="btn-word" style="width:100%;">📄 Word (.DOC)</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="section-title">2. Digital Banking & Channels</div>
-                <div class="grid-3">
-                    <div class="form-group"><label>Mobile Banking (P/A)</label><div class="grid-2"><input type="number" id="mbPlan" placeholder="P"><input type="number" id="mbActual" placeholder="A"></div></div>
-                    <div class="form-group"><label>CBE Birr (P/A)</label><div class="grid-2"><input type="number" id="cbeBirrPlan" placeholder="P"><input type="number" id="cbeBirrActual" placeholder="A"></div></div>
-                    <div class="form-group"><label>Accounts (P/A)</label><div class="grid-2"><input type="number" id="accPlan" placeholder="P"><input type="number" id="accActual" placeholder="A"></div></div>
+                <div class="table-responsive">
+                    <table class="data-table" id="exportTable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Staff Name</th>
+                                <th>Supervisor</th>
+                                <th>Deposit %</th>
+                                <th>FCY %</th>
+                                <th>MB %</th>
+                                <th>Accounts %</th>
+                                <th>Overall %</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportsTableBody"></tbody>
+                    </table>
                 </div>
-
-                <button type="submit" class="btn-gold" style="width:100%; font-size:14px; margin-top:10px;">📤 Submit Report Entry</button>
-            </form>
+            </div>
         </div>
 
-        <div class="card">
-            <h3 style="margin-top:0; color:var(--cbe-gold);">📋 Reports Governance & Breakdown</h3>
-            
-            <div class="grid-3" style="margin-bottom:14px; background:rgba(255,255,255,0.05); padding:12px; border-radius:10px; border:1px solid var(--border-color);">
-                <div>
-                    <label style="color:var(--cbe-gold);">📅 Period Filter (ለይቶ መመልከቻ)</label>
-                    <select id="periodFilter" onchange="loadReports()" style="border: 1px solid var(--cbe-gold); font-weight:bold;">
-                        <option value="daily">Daily Report (የዕለት)</option>
-                        <option value="weekly" selected>Weekly Report (የሳምንት)</option>
-                        <option value="monthly">Monthly Report (የወር)</option>
-                        <option value="quarterly">Quarterly Report (የሩብ ዓመት)</option>
-                        <option value="yearly">Yearly Report (የዓመት)</option>
-                        <option value="all">All Time History</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Staff Filter</label>
-                    <select id="staffFilter" onchange="loadReports()"></select>
-                </div>
-                <div>
-                    <label>Export Options</label>
-                    <div style="display:flex; gap:6px;">
-                        <button onclick="exportToExcel()" class="btn-excel" style="width:100%;">📥 Excel (.CSV)</button>
-                        <button onclick="exportToWord()" class="btn-word" style="width:100%;">📄 Word (.DOC)</button>
+        <!-- Tab 3: Staff Performance Period (ከፊለፊት ተነስቶ ሜኑ የተደረገ) -->
+        <div id="performanceTab" class="tab-content hidden">
+            <div class="card">
+                <h3 style="margin-top:0; color:var(--cbe-gold);">🏆 Staff Performance Period Highlights</h3>
+                <div class="grid-2">
+                    <div class="performer-card best-card">
+                        <h4 style="margin:0 0 6px 0;">🥇 Top Performer</h4>
+                        <div id="bestStaffDisplay" style="font-size:18px; font-weight:bold;">Calculating...</div>
+                    </div>
+                    <div class="performer-card weak-card">
+                        <h4 style="margin:0 0 6px 0;">⚠️ Needs Attention</h4>
+                        <div id="weakStaffDisplay" style="font-size:18px; font-weight:bold;">Calculating...</div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="table-responsive">
-                <table class="data-table" id="exportTable">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Staff Name</th>
-                            <th>Supervisor</th>
-                            <th>Deposit %</th>
-                            <th>FCY %</th>
-                            <th>MB %</th>
-                            <th>Accounts %</th>
-                            <th>Overall %</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="reportsTableBody"></tbody>
-                </table>
+        <!-- Tab 4: Cancelled Data Archive Menu (አዲስ የተፈጠረ አርካይቭ ሜኑ) -->
+        <div id="archiveTab" class="tab-content hidden">
+            <div class="card">
+                <h3 style="margin-top:0; color:var(--danger-color);">📦 Cancelled & Reverted Data Archive</h3>
+                <p style="font-size:12px; color:#ccc;">እዚህ ክፍለ-ጊዜ የተሰረዙ (Cancelled) ወይም ሪቨርስ የተደረጉ ዳታዎች ብቻ ይቀመጣሉ (ዳሽቦርዱ ላይ አይታዩም)።</p>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Staff Name</th>
+                                <th>Supervisor</th>
+                                <th>Overall %</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="archiveTableBody"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -458,12 +527,12 @@
     </div>
 </div>
 
-<!-- ለ SuperAdmin ብቻ የሚሆን Reversal & Cancel Modal -->
+<!-- ለ SuperAdmin ብቻ የሚሆን Reversal Modal -->
 <div id="reversalModal" class="modal-overlay hidden">
     <div class="modal-body">
         <button onclick="closeModal('reversalModal')" class="btn-danger" style="float:right;">X</button>
-        <h3 style="color:var(--cbe-gold);">🔄 SuperAdmin Reversal & Cancel Governance</h3>
-        <p style="font-size:12px; color:#ccc;">እባክዎን ከስር ከተዘረዘሩት ሪፖርቶች ውስጥ መሰረዝ ወይም መመለስ (Revert) የሚፈልጉትን ይምረጡ።</p>
+        <h3 style="color:var(--cbe-gold);">🔄 SuperAdmin Reversal Governance</h3>
+        <p style="font-size:12px; color:#ccc;">እባክዎን ከስር ከተዘረዘሩት አክቲቭ ሪፖርቶች ውስጥ መሰረዝ ወይም መመለስ (Revert) የሚፈልጉትን ይምረጡ።</p>
         
         <div class="table-responsive">
             <table class="data-table">
@@ -532,6 +601,14 @@
         loadStaffData();
         adjustFormTargetsByPeriod();
     });
+
+    function switchTab(tabId, btnElement) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+        document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
+        
+        document.getElementById(tabId).classList.remove('hidden');
+        btnElement.classList.add('active');
+    }
 
     function loadStaffData() {
         const stored = localStorage.getItem('cbe_borkena_staff_db_v21');
@@ -614,13 +691,16 @@
     });
 
     function loadReports() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v21_reports') || '[]');
+        let allReports = JSON.parse(localStorage.getItem('cbe_borkena_v21_reports') || '[]');
         const period = document.getElementById('periodFilter').value;
         const staffF = document.getElementById('staffFilter').value;
 
         const now = new Date();
 
-        reports = reports.filter(r => {
+        // 1. የዳሽቦርዱ ገጽ Cancelled ያልሆኑ (አክቲቭ) ዳታዎችን ብቻ እንዲያሳይ ማድረግ
+        let activeReports = allReports.filter(r => r.status !== 'Cancelled');
+
+        activeReports = activeReports.filter(r => {
             const rDate = new Date(r.date);
             if(staffF !== 'all' && r.staffName !== staffF) return false;
 
@@ -644,28 +724,25 @@
         const tbody = document.getElementById('reportsTableBody');
         tbody.innerHTML = '';
 
-        const activeReports = reports.filter(r => r.status !== 'Cancelled');
-
         if(activeReports.length > 0) {
             let top = activeReports.reduce((prev, current) => (+prev.overallAvg > +current.overallAvg) ? prev : current);
             let weak = activeReports.reduce((prev, current) => (+prev.overallAvg < +current.overallAvg) ? prev : current);
             document.getElementById('bestStaffDisplay').innerText = `${top.staffName} (${top.overallAvg}%)`;
             document.getElementById('weakStaffDisplay').innerText = `${weak.staffName} (${weak.overallAvg}%)`;
         } else {
-            document.getElementById('bestStaffDisplay').innerText = 'No Data';
-            document.getElementById('weakStaffDisplay').innerText = 'No Data';
+            document.getElementById('bestStaffDisplay').innerText = 'No Active Data';
+            document.getElementById('weakStaffDisplay').innerText = 'No Active Data';
         }
 
-        reports.forEach(r => {
+        activeReports.forEach(r => {
             let badgeClass = 'badge-pending';
             if(r.status === 'Approved') badgeClass = 'badge-approved';
-            if(r.status === 'Cancelled') badgeClass = 'badge-cancelled';
 
             let isSuper = currentUserSession && currentUserSession.role === 'SuperAdmin';
             let actionBtn = `<button onclick="printCert('${r.staffName}', '${r.overallAvg}', '${r.supervisorName}')" class="btn-gold" style="padding:3px 8px; font-size:11px;">📜 Print Cert</button>`;
 
             if(isSuper) {
-                actionBtn += ` <button onclick="revertReport(${r.id})" class="btn-danger" style="padding:3px 8px; font-size:11px;">🔄 Revert/Cancel</button>`;
+                actionBtn += ` <button onclick="revertReport(${r.id})" class="btn-danger" style="padding:3px 8px; font-size:11px;">🔄 Revert</button>`;
             }
 
             tbody.innerHTML += `
@@ -684,17 +761,51 @@
             `;
         });
 
-        loadReversalTable();
+        // Archive እና Reversal ሰንጠረዦችን መሙላት
+        loadArchiveTable(allReports);
+        loadReversalTable(allReports);
     }
 
-    /* ለ SuperAdmin ሪቨርሳል ሰንጠረዥን መሙያ */
-    function loadReversalTable() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v21_reports') || '[]');
+    /* ካንስል የተደረጉ ዳታዎች ብቻ የሚታዩበት Archive Table */
+    function loadArchiveTable(allReports) {
+        const tbody = document.getElementById('archiveTableBody');
+        if(!tbody) return;
+        tbody.innerHTML = '';
+
+        const cancelledReports = allReports.filter(r => r.status === 'Cancelled');
+
+        if(cancelledReports.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="color:#aaa;">ምንም የተሰረዘ/ካንስል የተደረገ ዳታ የለም።</td></tr>`;
+            return;
+        }
+
+        cancelledReports.forEach(r => {
+            tbody.innerHTML += `
+                <tr>
+                    <td>${r.date}</td>
+                    <td><strong>${r.staffName}</strong></td>
+                    <td>${r.supervisorName || '-'}</td>
+                    <td>${r.overallAvg}%</td>
+                    <td><span class="badge badge-cancelled">Cancelled</span></td>
+                </tr>
+            `;
+        });
+    }
+
+    /* ለ SuperAdmin ሪቨርሳል ሰንጠረዥን መሙያ (አክቲቭ ዳታዎችን ብቻ ያሳያል) */
+    function loadReversalTable(allReports) {
         const tbody = document.getElementById('reversalTableBody');
         if(!tbody) return;
         tbody.innerHTML = '';
 
-        reports.forEach(r => {
+        const activeReports = allReports.filter(r => r.status !== 'Cancelled');
+
+        if(activeReports.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="color:#aaa;">ምንም የሚመለስ አክቲቭ ሪፖርት የለም።</td></tr>`;
+            return;
+        }
+
+        activeReports.forEach(r => {
             tbody.innerHTML += `
                 <tr>
                     <td>${r.date}</td>
@@ -702,7 +813,7 @@
                     <td>${r.overallAvg}%</td>
                     <td>${r.status}</td>
                     <td>
-                        ${r.status !== 'Cancelled' ? `<button onclick="revertReport(${r.id})" class="btn-danger" style="padding:4px 10px; font-size:11px;">Cancel/Revert Entry</button>` : '<span style="color:#aaa;">Cancelled</span>'}
+                        <button onclick="revertReport(${r.id})" class="btn-danger" style="padding:4px 10px; font-size:11px;">Cancel/Revert Entry</button>
                     </td>
                 </tr>
             `;
@@ -716,7 +827,7 @@
             return;
         }
 
-        if(confirm('እርግጠኛ ነዎት ይህንን ሪፖርት መሰረዝ (Revert/Cancel) ይፈልጋሉ?')) {
+        if(confirm('እርግጠኛ ነዎት ይህንን ሪፖርት መሰረዝ (Revert/Cancel) ይፈልጋሉ? ዳታው ከዳሽቦርድ ተነስቶ ወደ አርካይቭ ሜኑ ይዛወራል።')) {
             let reports = JSON.parse(localStorage.getItem('cbe_borkena_v21_reports') || '[]');
             reports = reports.map(r => {
                 if(r.id === reportId) {
@@ -725,13 +836,14 @@
                 return r;
             });
             localStorage.setItem('cbe_borkena_v21_reports', JSON.stringify(reports));
-            alert('ሪፖርቱ በስኬት ተሰርዟል (Reverted/Cancelled)!');
+            alert('ሪፖርቱ በስኬት ተሰርዟል (Reverted)! ወደ Cancelled Archive ተዛውሯል።');
             loadReports();
+            closeModal('reversalModal');
         }
     }
 
     function exportToExcel() {
-        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v21_reports') || '[]');
+        let reports = JSON.parse(localStorage.getItem('cbe_borkena_v21_reports') || '[]').filter(r => r.status !== 'Cancelled');
         let csvContent = "data:text/csv;charset=utf-8,Date,Staff,Supervisor,Deposit %,FCY %,MB %,Accounts %,Overall %,Status\n";
         reports.forEach(r => {
             csvContent += `${r.date},${r.staffName},${r.supervisorName},${r.depPct},${r.fcyPct},${r.mbPct},${r.accPct},${r.overallAvg},${r.status}\n`;
