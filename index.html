@@ -12,7 +12,7 @@
             --cbe-gold: #ffb81c;
             --cbe-gold-dark: #d4af37;
             --bg-main: #f4f6f9;
-            --card-bg: rgba(255, 255, 255, 0.92); /* ትንሽ ዳራው እንዲታይ ታስቦ ግልጽ የተደረገ */
+            --card-bg: rgba(255, 255, 255, 0.92);
             --text-dark: #2c3e50;
             --danger-color: #d32f2f;
             --success-color: #2e7d32;
@@ -21,9 +21,9 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* የባንኩን ህንፃ ምስል በጀርባ (Background) ማድረግ */
-            background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), 
-                        url('3555.jpg') no-repeat center center fixed;
+            /* አስተካክለነዋል: የበስተጀርባ ምስሉ አሁን በቀጥታ ከኦንላይን ሊንክ ይጫናል */
+            background: linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0.60)), 
+                        url('3555_2.jpg') no-repeat center center fixed;
             background-size: cover;
             color: var(--text-dark);
             margin: 0; 
@@ -200,7 +200,6 @@
 
         .hidden { display: none !important; }
 
-        /* Certificate Print Styling */
         @media print {
             body * { visibility: hidden; }
             #certPrintArea, #certPrintArea * { visibility: visible; }
@@ -300,7 +299,6 @@
             </div>
         </div>
 
-        <!-- Target Entry Form with Automatic Period Scaling -->
         <div class="card">
             <h3 style="margin:0 0 10px 0; color:var(--cbe-purple);">📝 Target Entry Form</h3>
             <form id="reportForm">
@@ -406,7 +404,6 @@
     </div>
 </div>
 
-<!-- Modal: CSV Data Upload -->
 <div id="uploadModal" class="modal-overlay hidden">
     <div class="modal-body">
         <button onclick="closeModal('uploadModal')" class="btn-danger" style="float:right;">X</button>
@@ -419,7 +416,6 @@
     </div>
 </div>
 
-<!-- Modal: Staff Management & Permissions -->
 <div id="staffMgmtModal" class="modal-overlay hidden">
     <div class="modal-body">
         <button onclick="closeModal('staffMgmtModal')" class="btn-danger" style="float:right;">X</button>
@@ -444,7 +440,6 @@
     </div>
 </div>
 
-<!-- Certificate Print Modal Area -->
 <div id="certModal" class="modal-overlay hidden">
     <div class="modal-body">
         <button onclick="closeModal('certModal')" class="btn-danger" style="float:right;">X</button>
@@ -470,7 +465,6 @@
 </div>
 
 <script>
-    // Base Baseline Daily Targets
     const baseDailyTargets = {
         depPlan: 100000,
         fcyPlan: 500,
@@ -528,7 +522,6 @@
         });
     }
 
-    // Dynamic Target Calculations when Time Schedule (Period Scale) Changes
     function adjustFormTargetsByPeriod() {
         const scale = document.getElementById('entryPeriodScale').value;
         let mult = 1;
@@ -544,7 +537,6 @@
         document.getElementById('accPlan').value = baseDailyTargets.accPlan * mult;
     }
 
-    // Submit Report Entry
     document.getElementById('reportForm').addEventListener('submit', function(e) {
         e.preventDefault();
         let reports = JSON.parse(localStorage.getItem('cbe_borkena_v21_reports') || '[]');
@@ -579,7 +571,6 @@
         loadReports();
     });
 
-    // Load & Filter Reports dynamically based on Period
     function loadReports() {
         let reports = JSON.parse(localStorage.getItem('cbe_borkena_v21_reports') || '[]');
         const period = document.getElementById('periodFilter').value;
@@ -638,7 +629,6 @@
         });
     }
 
-    // Export to Excel CSV
     function exportToExcel() {
         let reports = JSON.parse(localStorage.getItem('cbe_borkena_v21_reports') || '[]');
         let csvContent = "data:text/csv;charset=utf-8,Date,Staff,Supervisor,Deposit %,FCY %,MB %,Accounts %,Overall %\n";
@@ -654,7 +644,6 @@
         document.body.removeChild(link);
     }
 
-    // Export to Word Document
     function exportToWord() {
         const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><title>Export</title></head><body>";
         const footer = "</body></html>";
@@ -669,7 +658,6 @@
         document.body.removeChild(a);
     }
 
-    // Certificate Printer Launcher
     function printCert(name, score, supervisor) {
         document.getElementById('certStaffName').innerText = name;
         document.getElementById('certScore').innerText = score + '%';
@@ -677,7 +665,6 @@
         openModal('certModal');
     }
 
-    // Managing Staff & Permissions Functionality
     function renderStaffList() {
         const container = document.getElementById('staffListDisplay');
         container.innerHTML = '';
@@ -721,7 +708,6 @@
         loadReports();
     }
 
-    // Login System
     document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const u = document.getElementById('username').value.trim();
