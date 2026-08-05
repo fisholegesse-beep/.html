@@ -12,7 +12,7 @@
             --cbe-gold: #ffb81c;
             --cbe-gold-dark: #d4af37;
             --bg-main: #f4f6f9;
-            --card-bg: rgba(255, 255, 255, 0.92);
+            --card-bg: rgba(255, 255, 255, 0.94);
             --text-dark: #2c3e50;
             --danger-color: #d32f2f;
             --success-color: #2e7d32;
@@ -21,9 +21,14 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* አስተካክለነዋል: የበስተጀርባ ምስሉ አሁን በቀጥታ ከኦንላይን ሊንክ ይጫናል */
-            background: linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0.60)), 
-                        url('3555_2.jpg') no-repeat center center fixed;
+            /* የተስተካከለ ዘመናዊና ማራኪ የጀርባ አቀራረብ (Modern Mesh Gradient Background) */
+            background-color: #1a0229;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(92, 6, 140, 0.85) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(255, 184, 28, 0.35) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(56, 0, 88, 0.9) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(123, 31, 162, 0.7) 0px, transparent 50%);
+            background-attachment: fixed;
             background-size: cover;
             color: var(--text-dark);
             margin: 0; 
@@ -41,11 +46,12 @@
             align-items: center; 
             margin-bottom: 12px; 
             color: #fff; 
-            background: rgba(92, 6, 140, 0.95);
+            background: rgba(92, 6, 140, 0.85);
             padding: 8px 18px; 
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            backdrop-filter: blur(5px);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .lang-btn {
@@ -62,19 +68,19 @@
         .lang-btn:hover { background: #e5a318; transform: scale(1.02); }
         
         .header-box {
-            background: linear-gradient(135deg, rgba(92, 6, 140, 0.9), rgba(56, 0, 88, 0.95));
+            background: linear-gradient(135deg, rgba(92, 6, 140, 0.92), rgba(40, 0, 65, 0.95));
             color: #fff; 
-            padding: 20px; 
-            border-radius: 12px; 
+            padding: 22px; 
+            border-radius: 14px; 
             text-align: center;
             margin-bottom: 16px; 
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
             display: flex; 
             align-items: center; 
             justify-content: center; 
             gap: 20px;
             border-bottom: 4px solid var(--cbe-gold);
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
         }
 
         .cbe-logo-svg { width: 65px; height: 65px; fill: var(--cbe-gold); }
@@ -90,11 +96,11 @@
             font-size: 14px; 
             font-weight: bold;
             color: var(--text-dark); 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
             border-left: 6px solid var(--cbe-purple); 
             flex-wrap: wrap; 
             gap: 8px;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
         }
 
         .notice-board {
@@ -104,7 +110,7 @@
             border-radius: 8px; 
             margin-bottom: 16px; 
             color: #d48806;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
         }
         .notice-board h4 { margin: 0 0 4px 0; color: var(--cbe-purple); display: flex; align-items: center; gap: 8px; }
 
@@ -112,10 +118,10 @@
             background: var(--card-bg); 
             padding: 20px; 
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3); 
             margin-bottom: 16px;
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
         }
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -272,9 +278,12 @@
 
         <div id="adminPanel" class="hidden">
             <div class="card grid-2">
-                <div id="superAdminOnlyControls">
-                    <h4 style="margin-top:0; color:var(--cbe-purple);">👑 Super Admin Controls (Fiseha)</h4>
-                    <button onclick="openModal('staffMgmtModal')" class="btn-gold" style="width:100%; margin-bottom:6px;">👥 Manage Staff & Permissions</button>
+                <div>
+                    <h4 style="margin-top:0; color:var(--cbe-purple);">👑 Admin & Supervisory Controls</h4>
+                    <!-- Manage Staff 按钮 ለ SuperAdmin (Fiseha) ብቻ እንዲታይ የሚደረግበት ቦታ -->
+                    <div id="manageStaffContainer" class="hidden">
+                        <button onclick="openModal('staffMgmtModal')" class="btn-gold" style="width:100%; margin-bottom:8px;">👥 Manage Staff & Permissions</button>
+                    </div>
                     <button onclick="approveAllPending()" class="btn-success" style="width:100%;">⚡ Approve All Pending Reports</button>
                 </div>
                 <div>
@@ -708,6 +717,7 @@
         loadReports();
     }
 
+    /* ተጠቃሚ ሲገባ Role (የስልጣን ደረጃ) የሚለይበት ክፍል */
     document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const u = document.getElementById('username').value.trim();
@@ -721,9 +731,21 @@
             document.getElementById('activeUserName').innerText = currentUserSession.name;
             document.getElementById('activeUserRole').innerText = currentUserSession.role;
 
+            // Admin/Supervisor ፓነል ማሳያ
             if(['SuperAdmin', 'Supervisor'].includes(currentUserSession.role)) {
                 document.getElementById('adminPanel').classList.remove('hidden');
+            } else {
+                document.getElementById('adminPanel').classList.add('hidden');
             }
+
+            // Manage Staff Permission Control: ለ SuperAdmin (Fiseha) ብቻ እንዲታይ ማድረግ
+            const manageContainer = document.getElementById('manageStaffContainer');
+            if (currentUserSession.role === 'SuperAdmin') {
+                manageContainer.classList.remove('hidden');
+            } else {
+                manageContainer.classList.add('hidden');
+            }
+
             loadReports();
         } else {
             alert('Invalid Username or Password!');
