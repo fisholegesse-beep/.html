@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Commercial Bank of Ethiopia - Borkena Branch Dashboard</title>
     
-    <!-- Firebase Cloud Live Sync SDKs (ዳታ በሁሉም ስልክ ላይ እኩል እንዲቀያየር የሚያደርግ) -->
+    <!-- Firebase Cloud Live Sync SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -173,6 +173,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
         button:hover { background-color: var(--cbe-purple-light); transform: translateY(-2px); }
+        button:disabled { opacity: 0.6; cursor: not-allowed; }
         .btn-excel { background-color: #2e7d32; color: #fff; }
         .btn-excel:hover { background-color: #1b5e20; }
         .btn-word { background-color: #1565c0; color: #fff; }
@@ -236,7 +237,7 @@
     <div class="top-lang-bar">
         <span style="font-weight: bold;">CBE - Borkena Branch Governance Portal</span>
         <div style="display: flex; gap: 8px; align-items:center;">
-            <span class="sync-status" id="syncIndicator">🟢 Live Cloud Sync Active</span>
+            <span class="sync-status" id="syncIndicator">🟡 Connecting to Cloud...</span>
             <button class="lang-btn" onclick="openModal('uploadModal')">📥 Bulk CSV</button>
             <button class="lang-btn" onclick="openModal('certModal')">📜 Certificates</button>
         </div>
@@ -276,7 +277,7 @@
                 <label>Password</label>
                 <input type="password" id="password" required>
             </div>
-            <button type="submit" class="btn-gold" style="width:100%; margin-top: 10px;">Login</button>
+            <button type="submit" id="loginBtn" class="btn-gold" style="width:100%; margin-top: 10px;" disabled>Connecting DB...</button>
         </form>
     </div>
 
@@ -310,7 +311,7 @@
                 </div>
                 <div>
                     <h4 style="margin-top:0; color:var(--cbe-gold);">📊 Operational Metrics</h4>
-                    <p style="font-size:13px; margin:6px 0;">Registered Staff: <strong id="userCount" style="color:var(--cbe-gold);">8</strong></p>
+                    <p style="font-size:13px; margin:6px 0;">Registered Staff: <strong id="userCount" style="color:var(--cbe-gold);">...</strong></p>
                 </div>
             </div>
         </div>
@@ -420,7 +421,7 @@
             </div>
         </div>
 
-        <!-- Tab 2: Shared Reports Governance (ለሁሉም ሰራተኞች የሚታይ) -->
+        <!-- Tab 2: Shared Reports Governance -->
         <div id="governanceTab" class="tab-content hidden">
             <div class="card">
                 <h3 style="margin-top:0; color:var(--cbe-gold);">📋 All Staff Live Shared Reports Governance</h3>
@@ -600,7 +601,7 @@
 
 <script>
     // -------------------------------------------------------------
-    // 1. Firebase Configuration (Cloud Database Setup)
+    // 1. Firebase Configuration
     // -------------------------------------------------------------
     const firebaseConfig = {
         databaseURL: "https://cbe-borkena-default-rtdb.firebaseio.com/" 
@@ -617,13 +618,24 @@
     let globalReports = [];
     let currentUserSession = null;
 
+    const defaultStaff = [
+        { name: "Fiseha", pass: "1234", role: "SuperAdmin" },
+        { name: "Sintayehu", pass: "1234", role: "Supervisor" },
+        { name: "Dawit", pass: "1234", role: "Supervisor" },
+        { name: "Asrat", pass: "1234", role: "Supervisor" },
+        { name: "Dagmawit", pass: "1234", role: "Staff" },
+        { name: "Hermela", pass: "1234", role: "Staff" },
+        { name: "Adem", pass: "1234", role: "Staff" },
+        { name: "Giwons", pass: "1234", role: "Staff" }
+    ];
+
     document.addEventListener('DOMContentLoaded', () => {
         setupLiveFirebaseListeners();
         adjustFormTargetsByPeriod();
     });
 
     // -------------------------------------------------------------
-    // 2. Real-Time Sync Listeners (በሁሉም ስልኮች ላይ በራሱ ጊዜ ዳታ ይቀይራል)
+    // 2. Real-Time Sync Listeners
     // -------------------------------------------------------------
     function setupLiveFirebaseListeners() {
         // A. Listen to Reports
@@ -642,22 +654,19 @@
         // C. Listen to Staff Users
         db.ref('staff').on('value', (snapshot) => {
             const staffVal = snapshot.val();
-            if(staffVal) {
-                staffData = Object.values(staffVal);
+            if(staffVal && Object.keys(staffVal).length > 0) {
+                staffData = Array.isArray(staffVal) ? staffVal : Object.values(staffVal);
             } else {
-                // Default Initial Staff
-                staffData = [
-                    { name: "Fiseha", pass: "1234", role: "SuperAdmin" },
-                    { name: "Sintayehu", pass: "1234", role: "Supervisor" },
-                    { name: "Dawit", pass: "1234", role: "Supervisor" },
-                    { name: "Asrat", pass: "1234", role: "Supervisor" },
-                    { name: "Dagmawit", pass: "1234", role: "Staff" },
-                    { name: "Hermela", pass: "1234", role: "Staff" },
-                    { name: "Adem", pass: "1234", role: "Staff" },
-                    { name: "Giwons", pass: "1234", role: "Staff" }
-                ];
-                db.ref('staff').set(staffData);
+                staffData = defaultStaff;
+                db.ref('staff').set(defaultStaff);
             }
+
+            // Enable Login Button when Data is Ready
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.innerText = "Login";
+            loginBtn.disabled = false;
+            document.getElementById('syncIndicator').innerText = "🟢 Live Cloud Sync Active";
+
             populateDropdowns();
             renderStaffList();
             document.getElementById('userCount').innerText = staffData.length;
@@ -759,10 +768,9 @@
             status: 'Pending'
         };
 
-        // Push directly to Live Cloud Database
         db.ref('reports/' + reportId).set(newReport, (err) => {
             if(!err) {
-                alert('ሪፖርቱ በተሳካ ሁኔታ ተልኳል! በሁሉም ሰራተኞች ስልክ ላይ በቀጥታ ይታያል።');
+                alert('ሪፖርቱ በተሳካ ሁኔታ ተልኳል!');
             } else {
                 alert('Error submitting report to cloud!');
             }
@@ -877,7 +885,7 @@
     }
 
     function revertReport(reportId) {
-        if(confirm('እርግጠኛ ነዎት ይህንን ሪፖርት መሰረዝ ይፈልጋሉ? ዳታው በሁሉም ስልኮች ላይ ይሰረዛል።')) {
+        if(confirm('እርግጠኛ ነዎት ይህንን ሪፖርት መሰረዝ ይፈልጋሉ?')) {
             db.ref('reports/' + reportId + '/status').set('Cancelled');
             alert('ሪፖርቱ ተሰርዟል!');
             closeModal('reversalModal');
@@ -889,7 +897,7 @@
         if(val) {
             db.ref('notice').set(val);
             closeModal('noticeModal');
-            alert('ማስታወቂያው በሁሉም ስልኮች ላይ ተቀይሯል!');
+            alert('ማስታወቂያው ተቀይሯል!');
         }
     }
 
@@ -899,7 +907,7 @@
                 db.ref('reports/' + r.id + '/status').set('Approved');
             }
         });
-        alert('All active reports approved across all devices!');
+        alert('All active reports approved!');
     }
 
     function addNewStaff() {
@@ -943,9 +951,11 @@
         e.preventDefault();
         const u = document.getElementById('username').value.trim();
         const p = document.getElementById('password').value.trim();
-        let found = staffData.find(s => s.name.toLowerCase() === u.toLowerCase());
+        
+        // Case-insensitive check for username
+        let found = staffData.find(s => s.name.trim().toLowerCase() === u.toLowerCase());
 
-        if(found && found.pass === p) {
+        if(found && found.pass.trim() === p) {
             currentUserSession = found;
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('appSection').classList.remove('hidden');
@@ -959,7 +969,7 @@
                 document.getElementById('manageStaffContainer').classList.remove('hidden');
             }
         } else {
-            alert('Invalid Credentials!');
+            alert('Invalid Credentials! (የገቡት Username ወይም Password ትክክል አይደለም)');
         }
     });
 
@@ -1028,7 +1038,7 @@
                     });
                 }
             }
-            alert('የ-CSV ዳታው በሁሉም ስልክ ላይ እንዲንፀባረቅ አፕሎድ ተደርጓል!');
+            alert('የ-CSV ዳታው ተጭኗል!');
             closeModal('uploadModal');
         };
         reader.readAsText(fileInput.files[0]);
