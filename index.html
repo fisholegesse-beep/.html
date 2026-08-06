@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Commercial Bank of Ethiopia - Borkena Branch Dashboard</title>
     
-    <!-- Firebase Cloud Live Sync SDKs -->
+    <!-- Firebase Cloud Live Sync SDKs (v8.10.1 Stable) -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -256,7 +256,7 @@
         </div>
     </div>
 
-    <!-- የኢንተርናል ኖቲስ ቦርድ -->
+    <!-- Internal Notice Board -->
     <div class="notice-board">
         <h4>
             <span>📌 Internal Notice Board</span>
@@ -443,7 +443,7 @@
                         <select id="staffFilter" onchange="renderReportsTable()"></select>
                     </div>
                     <div>
-                        <label>Export & Action (ዳታ ማውረጃ)</label>
+                        <label>Export & Action</label>
                         <div style="display:flex; gap:6px;">
                             <button onclick="exportToExcel()" class="btn-excel" style="width:100%;">📥 Excel (.CSV)</button>
                             <button onclick="exportToWord()" class="btn-word" style="width:100%;">📄 Word (.DOC)</button>
@@ -496,7 +496,7 @@
         <div id="archiveTab" class="tab-content hidden">
             <div class="card">
                 <h3 style="margin-top:0; color:var(--danger-color);">📦 Cancelled & Reverted Data Archive</h3>
-                <p style="font-size:12px; color:#fff;">እዚህ ክፍለ-ጊዜ የተሰረዙ (Cancelled) ወይም ሪቨርስ የተደረጉ ዳታዎች ብቻ ይቀመጣሉ::</p>
+                <p style="font-size:12px; color:#fff;">እዚህ ክፍለ-ጊዜ የተሰረዙ (Cancelled) ወይም ሪቨርስ የተደረጉ ዳታዎች ብቻ ይቀመጣሉ።</p>
                 <div class="table-responsive">
                     <table class="data-table">
                         <thead>
@@ -601,10 +601,10 @@
 
 <script>
     // -------------------------------------------------------------
-    // 1. Firebase Configuration
+    // 1. Firebase Correct Configuration & Fallbacks
     // -------------------------------------------------------------
     const firebaseConfig = {
-        databaseURL: "https://cbe-borkena-default-rtdb.firebaseio.com/" 
+        databaseURL: "https://cbe-borkena-default-rtdb.firebaseio.com"
     };
     
     if (!firebase.apps.length) {
@@ -632,26 +632,53 @@
     document.addEventListener('DOMContentLoaded', () => {
         setupLiveFirebaseListeners();
         adjustFormTargetsByPeriod();
+        
+        // Safety Fallback: 4 ሰከንድ ውስጥ ኮኔክሽን ካልተሳካ የሎጊን ቁልፉን በሎካል ዳታ ያስጀምራል
+        setTimeout(() => {
+            const loginBtn = document.getElementById('loginBtn');
+            if (loginBtn.disabled) {
+                loginBtn.disabled = false;
+                loginBtn.innerText = "Login (Local Mode)";
+                document.getElementById('syncIndicator').innerText = "🟠 Offline / Local Mode";
+                if(staffData.length === 0) {
+                    staffData = defaultStaff;
+                    populateDropdowns();
+                    renderStaffList();
+                }
+            }
+        }, 4000);
     });
 
     // -------------------------------------------------------------
     // 2. Real-Time Sync Listeners
     // -------------------------------------------------------------
     function setupLiveFirebaseListeners() {
-        // A. Listen to Reports
+        // A. Listen to Connection State
+        db.ref('.info/connected').on('value', (snap) => {
+            const syncInd = document.getElementById('syncIndicator');
+            if (snap.val() === true) {
+                syncInd.innerText = "🟢 Live Cloud Sync Active";
+                syncInd.style.borderColor = "#00e676";
+                syncInd.style.color = "#00e676";
+            } else {
+                syncInd.innerText = "🟡 Reconnecting...";
+            }
+        });
+
+        // B. Listen to Reports
         db.ref('reports').on('value', (snapshot) => {
             const data = snapshot.val();
             globalReports = data ? Object.values(data) : [];
             renderReportsTable();
         });
 
-        // B. Listen to Notice Board
+        // C. Listen to Notice Board
         db.ref('notice').on('value', (snapshot) => {
             const notice = snapshot.val();
             document.getElementById('noticeContent').innerText = notice || 'Welcome to Borkena Branch Governance Dashboard!';
         });
 
-        // C. Listen to Staff Users
+        // D. Listen to Staff Users
         db.ref('staff').on('value', (snapshot) => {
             const staffVal = snapshot.val();
             if(staffVal && Object.keys(staffVal).length > 0) {
@@ -661,11 +688,9 @@
                 db.ref('staff').set(defaultStaff);
             }
 
-            // Enable Login Button when Data is Ready
             const loginBtn = document.getElementById('loginBtn');
             loginBtn.innerText = "Login";
             loginBtn.disabled = false;
-            document.getElementById('syncIndicator').innerText = "🟢 Live Cloud Sync Active";
 
             populateDropdowns();
             renderStaffList();
@@ -724,7 +749,7 @@
     }
 
     // -------------------------------------------------------------
-    // 4. Submit & Sync Data Actions
+    // 4. Data Actions & Form Submissions
     // -------------------------------------------------------------
     document.getElementById('reportForm').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -772,7 +797,7 @@
             if(!err) {
                 alert('ሪፖርቱ በተሳካ ሁኔታ ተልኳል!');
             } else {
-                alert('Error submitting report to cloud!');
+                alert('ለጊዜው ዳታቤዝ ላይ ማስገባት አልተቻለም፤ ኔትወርክዎን ያረጋግጡ።');
             }
         });
     });
@@ -952,7 +977,6 @@
         const u = document.getElementById('username').value.trim();
         const p = document.getElementById('password').value.trim();
         
-        // Case-insensitive check for username
         let found = staffData.find(s => s.name.trim().toLowerCase() === u.toLowerCase());
 
         if(found && found.pass.trim() === p) {
