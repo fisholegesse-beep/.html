@@ -238,6 +238,7 @@
         <span style="font-weight: bold;">CBE - Borkena Branch Governance Portal</span>
         <div style="display: flex; gap: 8px; align-items:center;">
             <span class="sync-status" id="syncIndicator">🟡 Connecting to Cloud...</span>
+            <button class="lang-btn" onclick="manualRefreshData()">🔄 Refresh</button>
             <button class="lang-btn" onclick="openModal('uploadModal')">📥 Bulk CSV</button>
             <button class="lang-btn" onclick="openModal('certModal')">📜 Certificates</button>
         </div>
@@ -286,7 +287,8 @@
 
         <div class="user-bar">
             <span>👤 Active User: <strong id="activeUserName" style="color:var(--cbe-gold);"></strong> (<span id="activeUserRole" style="color:#ffb81c;"></span>)</span>
-            <div>
+            <div style="display:flex; gap:8px;">
+                <button class="btn-gold" onclick="manualRefreshData()">🔄 Refresh Data</button>
                 <button class="btn-gold" onclick="openModal('uploadModal')">📥 Import Data</button>
                 <button class="btn-danger" onclick="logout()">Logout</button>
             </div>
@@ -601,7 +603,7 @@
 
 <script>
     // -------------------------------------------------------------
-    // 1. Firebase Correct Configuration & Fallbacks
+    // 1. Firebase Configuration
     // -------------------------------------------------------------
     const firebaseConfig = {
         databaseURL: "https://cbe-borkena-default-rtdb.firebaseio.com"
@@ -633,7 +635,6 @@
         setupLiveFirebaseListeners();
         adjustFormTargetsByPeriod();
         
-        // Safety Fallback: 4 ሰከንድ ውስጥ ኮኔክሽን ካልተሳካ የሎጊን ቁልፉን በሎካል ዳታ ያስጀምራል
         setTimeout(() => {
             const loginBtn = document.getElementById('loginBtn');
             if (loginBtn.disabled) {
@@ -650,10 +651,9 @@
     });
 
     // -------------------------------------------------------------
-    // 2. Real-Time Sync Listeners
+    // 2. Real-Time Sync Listeners & Manual Refresh
     // -------------------------------------------------------------
     function setupLiveFirebaseListeners() {
-        // A. Listen to Connection State
         db.ref('.info/connected').on('value', (snap) => {
             const syncInd = document.getElementById('syncIndicator');
             if (snap.val() === true) {
@@ -665,20 +665,17 @@
             }
         });
 
-        // B. Listen to Reports
         db.ref('reports').on('value', (snapshot) => {
             const data = snapshot.val();
             globalReports = data ? Object.values(data) : [];
             renderReportsTable();
         });
 
-        // C. Listen to Notice Board
         db.ref('notice').on('value', (snapshot) => {
             const notice = snapshot.val();
             document.getElementById('noticeContent').innerText = notice || 'Welcome to Borkena Branch Governance Dashboard!';
         });
 
-        // D. Listen to Staff Users
         db.ref('staff').on('value', (snapshot) => {
             const staffVal = snapshot.val();
             if(staffVal && Object.keys(staffVal).length > 0) {
@@ -695,6 +692,15 @@
             populateDropdowns();
             renderStaffList();
             document.getElementById('userCount').innerText = staffData.length;
+        });
+    }
+
+    function manualRefreshData() {
+        db.ref('reports').once('value', (snapshot) => {
+            const data = snapshot.val();
+            globalReports = data ? Object.values(data) : [];
+            renderReportsTable();
+            alert('መረጃው በስኬት ታድሷል (Refreshed)!');
         });
     }
 
@@ -749,28 +755,38 @@
     }
 
     // -------------------------------------------------------------
-    // 4. Data Actions & Form Submissions
+    // 4. Submit Report & Data Actions
     // -------------------------------------------------------------
     document.getElementById('reportForm').addEventListener('submit', function(e) {
         e.preventDefault();
         
-        const depP = parseFloat(document.getElementById('depositPlan').value) || 1;
-        const depA = parseFloat(document.getElementById('depositActual').value) || 0;
-        const fcyP = parseFloat(document.getElementById('fcyPlan').value) || 1;
-        const fcyA = parseFloat(document.getElementById('fcyActual').value) || 0;
-        const mbP = parseFloat(document.getElementById('mbPlan').value) || 1;
-        const mbA = parseFloat(document.getElementById('mbActual').value) || 0;
-        const accP = parseFloat(document.getElementById('accPlan').value) || 1;
-        const accA = parseFloat(document.getElementById('accActual').value) || 0;
+        const staffName = document.getElementById('staffNameSelect').value;
+        const supervisorName = document.getElementById('supervisorSelect').value;
 
-        const atmP = parseFloat(document.getElementById('atmPlan').value) || 1;
-        const atmA = parseFloat(document.getElementById('atmActual').value) || 0;
-        const merP = parseFloat(document.getElementById('merchantPlan').value) || 1;
-        const merA = parseFloat(document.getElementById('merchantActual').value) || 0;
-        const agP = parseFloat(document.getElementById('agentPlan').value) || 1;
-        const agA = parseFloat(document.getElementById('agentActual').value) || 0;
-        const astP = parseFloat(document.getElementById('asterPayPlan').value) || 1;
-        const astA = parseFloat(document.getElementById('asterPayActual').value) || 0;
+        if (!staffName || !supervisorName) {
+            alert('እባክዎን የሰራተኛ እና የሱፐርቫይዘር ስም ይምረጡ!');
+            return;
+        }
+
+        const getValue = (id) => parseFloat(document.getElementById(id).value) || 0;
+
+        const depP = getValue('depositPlan') || 1;
+        const depA = getValue('depositActual');
+        const fcyP = getValue('fcyPlan') || 1;
+        const fcyA = getValue('fcyActual');
+        const mbP = getValue('mbPlan') || 1;
+        const mbA = getValue('mbActual');
+        const accP = getValue('accPlan') || 1;
+        const accA = getValue('accActual');
+
+        const atmP = getValue('atmPlan') || 1;
+        const atmA = getValue('atmActual');
+        const merP = getValue('merchantPlan') || 1;
+        const merA = getValue('merchantActual');
+        const agP = getValue('agentPlan') || 1;
+        const agA = getValue('agentActual');
+        const astP = getValue('asterPayPlan') || 1;
+        const astA = getValue('asterPayActual');
 
         const depPct = calcPerc(depA, depP);
         const fcyPct = calcPerc(fcyA, fcyP);
@@ -787,8 +803,8 @@
         const newReport = {
             id: reportId,
             date: new Date().toISOString().split('T')[0],
-            staffName: document.getElementById('staffNameSelect').value,
-            supervisorName: document.getElementById('supervisorSelect').value,
+            staffName: staffName,
+            supervisorName: supervisorName,
             depPct, fcyPct, mbPct, accPct, atmPct, merPct, agPct, astPct, overallAvg,
             status: 'Pending'
         };
@@ -796,6 +812,15 @@
         db.ref('reports/' + reportId).set(newReport, (err) => {
             if(!err) {
                 alert('ሪፖርቱ በተሳካ ሁኔታ ተልኳል!');
+                document.getElementById('depositActual').value = '';
+                document.getElementById('fcyActual').value = '';
+                document.getElementById('mbActual').value = '';
+                document.getElementById('cbeBirrActual').value = '';
+                document.getElementById('accActual').value = '';
+                document.getElementById('atmActual').value = '';
+                document.getElementById('merchantActual').value = '';
+                document.getElementById('agentActual').value = '';
+                document.getElementById('asterPayActual').value = '';
             } else {
                 alert('ለጊዜው ዳታቤዝ ላይ ማስገባት አልተቻለም፤ ኔትወርክዎን ያረጋግጡ።');
             }
