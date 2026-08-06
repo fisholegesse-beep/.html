@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="notranslate" translate="no">
+<html lang="am" class="notranslate" translate="no">
 <head>
     <meta charset="UTF-8">
     <meta name="google" content="notranslate">
@@ -7,24 +7,25 @@
     <title>Commercial Bank of Ethiopia - Borkena Branch Dashboard</title>
     <style>
         :root {
-            --cbe-purple: #4a0072;
-            --cbe-purple-light: #7b1fa2;
-            --cbe-purple-dark: #2a0045;
+            --cbe-purple: #5c068c;
+            --cbe-purple-light: #8e24aa;
+            --cbe-purple-dark: #3a005c;
             --cbe-gold: #ffb81c;
             --cbe-gold-hover: #e5a318;
-            --bg-glass: rgba(20, 8, 35, 0.75);
-            --card-bg: rgba(25, 10, 40, 0.85);
+            /* ነጣ ያለና ዘመናዊ የጀርባ ቀለም ቅልቅል (Light-mixed Background Glass) */
+            --bg-glass: rgba(255, 255, 255, 0.15);
+            --card-bg: rgba(255, 255, 255, 0.12);
             --text-light: #ffffff;
             --danger-color: #ff3366;
             --success-color: #00e676;
-            --border-color: rgba(255, 184, 28, 0.3);
+            --border-color: rgba(255, 184, 28, 0.45);
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: radial-gradient(circle at top, #3a005c 0%, #120022 70%, #080010 100%),
-                        url('3555_4.jpg') no-repeat center center fixed;
-            background-size: cover;
+            /* ነጣ ያለ የሐምራዊ እና የብርሃን ንክኪ ያለው Gradient */
+            background: radial-gradient(circle at top, #7b1fa2 0%, #4a0072 60%, #2a0045 100%);
+            background-attachment: fixed;
             color: var(--text-light);
             margin: 0; 
             padding: 16px;
@@ -44,34 +45,35 @@
             background: var(--bg-glass);
             padding: 12px 20px; 
             border-radius: 14px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
             backdrop-filter: blur(15px);
             border: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .lang-btn {
             background: var(--cbe-gold); 
             color: #000; 
             border: none; 
-            padding: 8px 18px;
+            padding: 8px 16px;
             border-radius: 20px; 
             font-weight: bold; 
             cursor: pointer; 
             font-size: 13px;
             transition: all 0.3s ease;
             box-shadow: 0 0 12px rgba(255, 184, 28, 0.4);
-            margin-left: 5px;
         }
         .lang-btn:hover { background: var(--cbe-gold-hover); transform: translateY(-2px); }
         
         .header-box {
-            background: rgba(35, 10, 55, 0.85);
+            background: rgba(255, 255, 255, 0.15);
             color: #fff; 
-            padding: 24px; 
+            padding: 22px; 
             border-radius: 18px; 
             text-align: center;
             margin-bottom: 18px; 
-            box-shadow: 0 10px 35px 0 rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 35px 0 rgba(0, 0, 0, 0.3);
             display: flex; 
             align-items: center; 
             justify-content: center; 
@@ -81,7 +83,7 @@
             border-bottom: 4px solid var(--cbe-gold);
         }
 
-        .cbe-logo-svg { width: 70px; height: 70px; fill: var(--cbe-gold); filter: drop-shadow(0 0 10px var(--cbe-gold)); }
+        .cbe-logo-svg { width: 65px; height: 65px; fill: var(--cbe-gold); filter: drop-shadow(0 0 8px var(--cbe-gold)); }
 
         .user-bar {
             display: flex; 
@@ -94,7 +96,7 @@
             font-size: 14px; 
             font-weight: bold;
             color: #fff; 
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
             border-left: 6px solid var(--cbe-gold); 
             flex-wrap: wrap; 
             gap: 10px;
@@ -103,8 +105,8 @@
         }
 
         .notice-board {
-            background: rgba(255, 255, 255, 0.08); 
-            border: 1px solid rgba(255, 184, 28, 0.4);
+            background: rgba(255, 255, 255, 0.18); 
+            border: 1px solid var(--cbe-gold);
             padding: 14px 18px; 
             border-radius: 12px; 
             margin-bottom: 18px; 
@@ -121,10 +123,10 @@
         }
 
         .nav-tab {
-            background: rgba(35, 10, 55, 0.8);
+            background: rgba(255, 255, 255, 0.15);
             color: #fff;
             border: 1px solid var(--border-color);
-            padding: 12px 20px;
+            padding: 12px 18px;
             border-radius: 12px;
             font-weight: bold;
             cursor: pointer;
@@ -135,11 +137,11 @@
         .nav-tab.active {
             background: var(--cbe-gold);
             color: #000;
-            box-shadow: 0 0 15px rgba(255, 184, 28, 0.5);
+            box-shadow: 0 0 15px rgba(255, 184, 28, 0.6);
         }
 
         .nav-tab:hover:not(.active) {
-            background: rgba(74, 0, 114, 0.8);
+            background: rgba(255, 255, 255, 0.25);
             transform: translateY(-2px);
         }
 
@@ -147,7 +149,7 @@
             background: var(--card-bg); 
             padding: 22px; 
             border-radius: 18px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); 
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25); 
             margin-bottom: 18px;
             border: 1px solid var(--border-color);
             backdrop-filter: blur(14px);
@@ -157,26 +159,32 @@
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
         .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
 
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+        }
+
         .form-group { margin-bottom: 12px; }
-        label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 13px; color: #f0f0f0; }
+        label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 13px; color: #ffffff; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+        
+        /* Input ማስተካከያ - ቁጥር በትክክል እንዲጽፍ ተደርጓል */
         input, select, textarea {
-            width: 100%; padding: 10px 12px; border: 1px solid var(--border-color);
-            border-radius: 10px; box-sizing: border-box; font-size: 13px; color: #fff;
-            background: rgba(255, 255, 255, 0.12);
+            width: 100%; padding: 11px 12px; border: 1px solid var(--border-color);
+            border-radius: 10px; box-sizing: border-box; font-size: 14px; color: #fff;
+            background: rgba(0, 0, 0, 0.25);
             backdrop-filter: blur(6px);
         }
-        input::placeholder, textarea::placeholder { color: #aaa; }
-        option { background: var(--cbe-purple-dark); color: #fff; }
+        input::placeholder, textarea::placeholder { color: #ddd; }
+        option { background: #3a005c; color: #fff; }
         
         input:focus, select:focus, textarea:focus {
-            outline: none; border-color: var(--cbe-gold); box-shadow: 0 0 10px rgba(255, 184, 28, 0.5);
+            outline: none; border-color: var(--cbe-gold); box-shadow: 0 0 10px rgba(255, 184, 28, 0.8); background: rgba(0, 0, 0, 0.4);
         }
 
         button {
             background-color: var(--cbe-purple); color: #fff; border: none;
             padding: 10px 16px; border-radius: 10px; font-size: 13px;
             font-weight: bold; cursor: pointer; transition: 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
         button:hover { background-color: var(--cbe-purple-light); transform: translateY(-2px); }
         .btn-excel { background-color: #2e7d32; color: #fff; }
@@ -189,37 +197,37 @@
         .btn-success { background-color: var(--success-color); color: #000; }
 
         .section-title {
-            background: rgba(92, 6, 140, 0.5); color: var(--cbe-gold); padding: 8px 14px;
+            background: rgba(255, 255, 255, 0.2); color: var(--cbe-gold); padding: 8px 14px;
             border-radius: 8px; font-weight: bold; font-size: 13px;
-            margin: 16px 0 10px 0; border: 1px solid var(--border-color);
+            margin: 16px 0 10px 0; border: 1px solid var(--border-color); text-shadow: 0 1px 2px #000;
         }
 
         .performer-card {
             padding: 16px; border-radius: 12px; border: 1px solid var(--border-color); text-align: center;
         }
-        .best-card { background: rgba(0, 230, 118, 0.15); border-color: rgba(0, 230, 118, 0.4); color: #b9f6ca; }
-        .weak-card { background: rgba(255, 51, 102, 0.15); border-color: rgba(255, 51, 102, 0.4); color: #ff80ab; }
+        .best-card { background: rgba(0, 230, 118, 0.25); border-color: #00e676; color: #ffffff; }
+        .weak-card { background: rgba(255, 51, 102, 0.25); border-color: #ff3366; color: #ffffff; }
 
         .table-responsive { overflow-x: auto; }
-        .data-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; color: #fff; }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; color: #fff; }
         .data-table th, .data-table td { border: 1px solid var(--border-color); padding: 10px; text-align: center; }
-        .data-table th { background-color: rgba(74, 0, 114, 0.85); color: var(--cbe-gold); }
-        .data-table tr:nth-child(even) { background-color: rgba(255, 255, 255, 0.04); }
+        .data-table th { background-color: rgba(58, 0, 92, 0.9); color: var(--cbe-gold); }
+        .data-table tr:nth-child(even) { background-color: rgba(255, 255, 255, 0.08); }
 
         .badge { padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; }
-        .badge-pending { background-color: rgba(255, 152, 0, 0.2); color: #ffb74d; border: 1px solid #ffb74d; }
-        .badge-approved { background-color: rgba(0, 230, 118, 0.2); color: #69f0ae; border: 1px solid #69f0ae; }
-        .badge-cancelled { background-color: rgba(255, 51, 102, 0.2); color: #ff5252; border: 1px solid #ff5252; }
+        .badge-pending { background-color: rgba(255, 152, 0, 0.3); color: #ffcc80; border: 1px solid #ffb74d; }
+        .badge-approved { background-color: rgba(0, 230, 118, 0.3); color: #b9f6ca; border: 1px solid #69f0ae; }
+        .badge-cancelled { background-color: rgba(255, 51, 102, 0.3); color: #ff80ab; border: 1px solid #ff5252; }
 
         .modal-overlay {
             position: fixed; top:0; left:0; width:100%; height:100%;
-            background: rgba(0,0,0,0.85); z-index: 1000; display: flex;
-            justify-content: center; align-items: center; backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.75); z-index: 1000; display: flex;
+            justify-content: center; align-items: center; backdrop-filter: blur(8px);
         }
         .modal-body {
-            background: #1a0229; padding: 26px; border-radius: 18px;
+            background: #3a005c; padding: 26px; border-radius: 18px;
             width: 90%; max-width: 650px; max-height: 85vh; overflow-y: auto;
-            box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.9); border: 1px solid var(--border-color); color: #fff;
+            box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.8); border: 1px solid var(--border-color); color: #fff;
         }
 
         .hidden { display: none !important; }
@@ -230,8 +238,10 @@
 <div class="container">
 
     <div class="top-lang-bar">
-        <span>Commercial Bank of Ethiopia - Borkena Branch Dashboard</span>
-        <div>
+        <span style="font-weight: bold;">Commercial Bank of Ethiopia - Borkena Branch Dashboard</span>
+        <div style="display: flex; gap: 8px;">
+            <!-- አዲስ የተጨመረ Refresh Button -->
+            <button class="lang-btn" onclick="loadReports(true)">🔄 Refresh Data</button>
             <button class="lang-btn" onclick="openModal('uploadModal')">📥 Bulk Upload CSV</button>
             <button class="lang-btn" onclick="openModal('certModal')">📜 Certificates Menu</button>
         </div>
@@ -246,19 +256,20 @@
         </svg>
         <div>
             <h2 style="color:var(--cbe-gold); margin: 0 0 5px 0;">Commercial Bank of Ethiopia - Borkena Branch</h2>
-            <p style="color: #e0e0e0; margin:0; font-size:13px;">Target Performance Governance Portal</p>
+            <p style="color: #ffffff; margin:0; font-size:13px; font-weight: 500;">Target Performance Governance Portal</p>
         </div>
     </div>
 
-    <!-- ተስተካክሎ እንዲሰራ የተደረገ የኢንተርናል ኖቲስ ቦርድ -->
+    <!-- የኢንተርናል ኖቲስ ቦርድ -->
     <div class="notice-board">
         <h4>
             <span>📌 Internal Notice Board</span>
             <button class="btn-gold" style="padding: 2px 8px; font-size: 11px;" onclick="openModal('noticeModal')">✏️ Post / Update Notice</button>
         </h4>
-        <div id="noticeContent" style="font-size: 13px; font-weight:600;">Welcome to Borkena Branch Dashboard! Reversal, Excel Export & Digital Banking Channels fully updated.</div>
+        <div id="noticeContent" style="font-size: 13px; font-weight:600;">Welcome to Borkena Branch Dashboard! Refresh, Live Shared Data & Channel Menu inputs fully functional.</div>
     </div>
 
+    <!-- Login Section -->
     <div id="loginSection" class="card" style="max-width:400px; margin: 20px auto;">
         <h3 style="color:var(--cbe-gold); margin-top:0; text-align:center;">🔐 System Portal Login</h3>
         <form id="loginForm">
@@ -274,6 +285,7 @@
         </form>
     </div>
 
+    <!-- Main Dashboard Section -->
     <div id="appSection" class="hidden">
 
         <div class="user-bar">
@@ -286,7 +298,7 @@
 
         <div class="main-nav">
             <button class="nav-tab active" onclick="switchTab('dashboardTab', this)">📊 Main Entry & Operations</button>
-            <button class="nav-tab" onclick="switchTab('governanceTab', this)">📋 Reports Governance</button>
+            <button class="nav-tab" onclick="switchTab('governanceTab', this)">📋 Shared Reports Governance</button>
             <button class="nav-tab" onclick="switchTab('performanceTab', this)">🏆 Staff Performance Highlights</button>
             <button class="nav-tab" onclick="switchTab('archiveTab', this)">📦 Cancelled Data Archive</button>
         </div>
@@ -339,31 +351,74 @@
                         <div class="form-group">
                             <label>Deposit Plan / Actual (ETB)</label>
                             <div class="grid-2">
-                                <input type="number" id="depositPlan" placeholder="Plan" required>
-                                <input type="number" id="depositActual" placeholder="Actual" required>
+                                <input type="number" min="0" step="any" id="depositPlan" placeholder="Plan" required>
+                                <input type="number" min="0" step="any" id="depositActual" placeholder="Actual" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>FCY Plan / Actual ($ USD)</label>
                             <div class="grid-2">
-                                <input type="number" id="fcyPlan" placeholder="Plan $">
-                                <input type="number" id="fcyActual" placeholder="Actual $">
+                                <input type="number" min="0" step="any" id="fcyPlan" placeholder="Plan $">
+                                <input type="number" min="0" step="any" id="fcyActual" placeholder="Actual $">
                             </div>
                         </div>
                     </div>
 
-                    <!-- የተጨመሩ አዳዲስ Digital Banking Channels (ATM, Merchant, Agent, Aster Pay) -->
+                    <!-- Digital Banking Channels (ATM, Merchant, Agent, Aster Pay) - ቁጥር በትክክል እንዲጽፉ የተስተካከሉ -->
                     <div class="section-title">2. Digital Banking & Channels (Plan / Actual)</div>
                     <div class="grid-3">
-                        <div class="form-group"><label>Mobile Banking (P/A)</label><div class="grid-2"><input type="number" id="mbPlan" placeholder="P"><input type="number" id="mbActual" placeholder="A"></div></div>
-                        <div class="form-group"><label>CBE Birr (P/A)</label><div class="grid-2"><input type="number" id="cbeBirrPlan" placeholder="P"><input type="number" id="cbeBirrActual" placeholder="A"></div></div>
-                        <div class="form-group"><label>Accounts (P/A)</label><div class="grid-2"><input type="number" id="accPlan" placeholder="P"><input type="number" id="accActual" placeholder="A"></div></div>
+                        <div class="form-group">
+                            <label>Mobile Banking (P/A)</label>
+                            <div class="grid-2">
+                                <input type="number" min="0" step="any" id="mbPlan" placeholder="Plan">
+                                <input type="number" min="0" step="any" id="mbActual" placeholder="Actual">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>CBE Birr (P/A)</label>
+                            <div class="grid-2">
+                                <input type="number" min="0" step="any" id="cbeBirrPlan" placeholder="Plan">
+                                <input type="number" min="0" step="any" id="cbeBirrActual" placeholder="Actual">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Accounts (P/A)</label>
+                            <div class="grid-2">
+                                <input type="number" min="0" step="any" id="accPlan" placeholder="Plan">
+                                <input type="number" min="0" step="any" id="accActual" placeholder="Actual">
+                            </div>
+                        </div>
                     </div>
+                    
                     <div class="grid-4">
-                        <div class="form-group"><label>ATM (P/A)</label><div class="grid-2"><input type="number" id="atmPlan" placeholder="P"><input type="number" id="atmActual" placeholder="A"></div></div>
-                        <div class="form-group"><label>Merchant (P/A)</label><div class="grid-2"><input type="number" id="merchantPlan" placeholder="P"><input type="number" id="merchantActual" placeholder="A"></div></div>
-                        <div class="form-group"><label>Agent (P/A)</label><div class="grid-2"><input type="number" id="agentPlan" placeholder="P"><input type="number" id="agentActual" placeholder="A"></div></div>
-                        <div class="form-group"><label>Aster Pay (P/A)</label><div class="grid-2"><input type="number" id="asterPayPlan" placeholder="P"><input type="number" id="asterPayActual" placeholder="A"></div></div>
+                        <div class="form-group">
+                            <label>ATM (P/A)</label>
+                            <div class="grid-2">
+                                <input type="number" min="0" step="any" id="atmPlan" placeholder="Plan">
+                                <input type="number" min="0" step="any" id="atmActual" placeholder="Actual">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Merchant (P/A)</label>
+                            <div class="grid-2">
+                                <input type="number" min="0" step="any" id="merchantPlan" placeholder="Plan">
+                                <input type="number" min="0" step="any" id="merchantActual" placeholder="Actual">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Agent (P/A)</label>
+                            <div class="grid-2">
+                                <input type="number" min="0" step="any" id="agentPlan" placeholder="Plan">
+                                <input type="number" min="0" step="any" id="agentActual" placeholder="Actual">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Aster Pay (P/A)</label>
+                            <div class="grid-2">
+                                <input type="number" min="0" step="any" id="asterPayPlan" placeholder="Plan">
+                                <input type="number" min="0" step="any" id="asterPayActual" placeholder="Actual">
+                            </div>
+                        </div>
                     </div>
 
                     <button type="submit" class="btn-gold" style="width:100%; font-size:14px; margin-top:10px;">📤 Submit Report Entry</button>
@@ -371,12 +426,12 @@
             </div>
         </div>
 
-        <!-- Tab 2: Reports Governance -->
+        <!-- Tab 2: Shared Reports Governance (ለሁሉም ሰራተኞች የሚታይ) -->
         <div id="governanceTab" class="tab-content hidden">
             <div class="card">
-                <h3 style="margin-top:0; color:var(--cbe-gold);">📋 Reports Governance & Breakdown</h3>
+                <h3 style="margin-top:0; color:var(--cbe-gold);">📋 All Staff Shared Reports Governance</h3>
                 
-                <div class="grid-3" style="margin-bottom:14px; background:rgba(255,255,255,0.05); padding:12px; border-radius:10px;">
+                <div class="grid-3" style="margin-bottom:14px; background:rgba(255,255,255,0.1); padding:12px; border-radius:10px;">
                     <div>
                         <label style="color:var(--cbe-gold);">📅 Period Filter</label>
                         <select id="periodFilter" onchange="loadReports()">
@@ -393,7 +448,7 @@
                         <select id="staffFilter" onchange="loadReports()"></select>
                     </div>
                     <div>
-                        <label>Export Options (ዳታ ማውረጃ)</label>
+                        <label>Export & Action (ዳታ ማውረጃ)</label>
                         <div style="display:flex; gap:6px;">
                             <button onclick="exportToExcel()" class="btn-excel" style="width:100%;">📥 Excel (.CSV)</button>
                             <button onclick="exportToWord()" class="btn-word" style="width:100%;">📄 Word (.DOC)</button>
@@ -446,7 +501,7 @@
         <div id="archiveTab" class="tab-content hidden">
             <div class="card">
                 <h3 style="margin-top:0; color:var(--danger-color);">📦 Cancelled & Reverted Data Archive</h3>
-                <p style="font-size:12px; color:#ccc;">እዚህ ክፍለ-ጊዜ የተሰረዙ (Cancelled) ወይም ሪቨርስ የተደረጉ ዳታዎች ብቻ ይቀመጣሉ (ከዋናው ዳሽቦርድ ተለይተው የተቀመጡ)።</p>
+                <p style="font-size:12px; color:#fff;">እዚህ ክፍለ-ጊዜ የተሰረዙ (Cancelled) ወይም ሪቨርስ የተደረጉ ዳታዎች ብቻ ይቀመጣሉ::</p>
                 <div class="table-responsive">
                     <table class="data-table">
                         <thead>
@@ -467,12 +522,12 @@
     </div>
 </div>
 
-<!-- 1. CSV Bulk Import / Upload Modal -->
+<!-- Modal 1: CSV Bulk Import -->
 <div id="uploadModal" class="modal-overlay hidden">
     <div class="modal-body">
         <button onclick="closeModal('uploadModal')" class="btn-danger" style="float:right;">X</button>
         <h3 style="color:var(--cbe-gold);">📥 Bulk Import Data (CSV Upload)</h3>
-        <p style="font-size:12px; color:#ccc;">የፕላን እና አክችዋል ዳታዎችን የያዘ የ-CSV ፋይል ይምረጡና አፕሎድ ያድርጉ።</p>
+        <p style="font-size:12px; color:#ddd;">የፕላን እና አክችዋል ዳታዎችን የያዘ የ-CSV ፋይል ይምረጡና አፕሎድ ያድርጉ።</p>
         <div style="margin: 15px 0;">
             <input type="file" id="csvFileInput" accept=".csv" style="padding: 6px;">
         </div>
@@ -480,12 +535,12 @@
     </div>
 </div>
 
-<!-- 2. Certificate Menu Modal -->
+<!-- Modal 2: Certificate Menu -->
 <div id="certModal" class="modal-overlay hidden">
     <div class="modal-body">
         <button onclick="closeModal('certModal')" class="btn-danger" style="float:right;">X</button>
         <h3 style="color:var(--cbe-gold);">📜 Generate Staff Performance Certificate</h3>
-        <p style="font-size:12px; color:#ccc;">ለተሻለ ሠራተኛ የምስክር ወረቀት (Certificate) እዚህ ማዘጋጀት ይችላሉ።</p>
+        <p style="font-size:12px; color:#ddd;">ለተሻለ ሠራተኛ የምስክር ወረቀት (Certificate) እዚህ ማዘጋጀት ይችላሉ።</p>
         <div class="form-group">
             <label>Select Staff</label>
             <select id="certStaffSelect"></select>
@@ -498,7 +553,7 @@
     </div>
 </div>
 
-<!-- 3. Internal Notice Board Modal -->
+<!-- Modal 3: Notice Board Update -->
 <div id="noticeModal" class="modal-overlay hidden">
     <div class="modal-body">
         <button onclick="closeModal('noticeModal')" class="btn-danger" style="float:right;">X</button>
@@ -511,12 +566,12 @@
     </div>
 </div>
 
-<!-- SuperAdmin Reversal & Cancel Modal -->
+<!-- Modal 4: Reversal & Cancel Governance -->
 <div id="reversalModal" class="modal-overlay hidden">
     <div class="modal-body">
         <button onclick="closeModal('reversalModal')" class="btn-danger" style="float:right;">X</button>
         <h3 style="color:var(--cbe-gold);">🔄 SuperAdmin Reversal & Delete Governance</h3>
-        <p style="font-size:12px; color:#ccc;">መሰረዝ የሚፈልጉትን ሪፖርት መርጠው "Cancel Entry" የሚለውን ይጫኑ። ዳታው ወደ Archive ይዛወራል።</p>
+        <p style="font-size:12px; color:#ddd;">መሰረዝ የሚፈልጉትን ሪፖርት መርጠው "Cancel Entry" የሚለውን ይጫኑ።</p>
         
         <div class="table-responsive">
             <table class="data-table">
@@ -535,11 +590,12 @@
     </div>
 </div>
 
+<!-- Modal 5: Staff Management -->
 <div id="staffMgmtModal" class="modal-overlay hidden">
     <div class="modal-body">
         <button onclick="closeModal('staffMgmtModal')" class="btn-danger" style="float:right;">X</button>
         <h3 style="color:var(--cbe-gold);">👥 Manage Branch Users</h3>
-        <div style="background:rgba(255,255,255,0.05); padding:12px; border-radius:10px; margin-bottom:12px;">
+        <div style="background:rgba(255,255,255,0.1); padding:12px; border-radius:10px; margin-bottom:12px;">
             <div class="grid-3">
                 <input type="text" id="newStaffName" placeholder="Name">
                 <input type="text" id="newStaffPass" placeholder="Password">
@@ -682,11 +738,12 @@
 
         reports.unshift(newReport);
         localStorage.setItem('cbe_borkena_v22_reports', JSON.stringify(reports));
-        alert('Report entry submitted successfully!');
+        alert('Report entry submitted successfully! ሁሉም ሰራተኛ ማየት ይችላል።');
         loadReports();
     });
 
-    function loadReports() {
+    /* ሁሉንም ሰራተኞች ዳታ እንዲያሳይና Refresh እንዲያደርግ የተስተካከለ */
+    function loadReports(isManualRefresh = false) {
         let allReports = JSON.parse(localStorage.getItem('cbe_borkena_v22_reports') || '[]');
         const period = document.getElementById('periodFilter').value;
         const staffF = document.getElementById('staffFilter').value;
@@ -740,6 +797,10 @@
 
         loadArchiveTable(allReports);
         loadReversalTable(allReports);
+
+        if(isManualRefresh) {
+            alert('ዳታው በትክክል ታድሷል (Refreshed)!');
+        }
     }
 
     function loadArchiveTable(allReports) {
@@ -750,7 +811,7 @@
         const cancelledReports = allReports.filter(r => r.status === 'Cancelled');
 
         if(cancelledReports.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="5" style="color:#aaa;">ምንም የተሰረዘ ዳታ የለም።</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="5" style="color:#fff;">ምንም የተሰረዘ ዳታ የለም።</td></tr>`;
             return;
         }
 
@@ -775,7 +836,7 @@
         const activeReports = allReports.filter(r => r.status !== 'Cancelled');
 
         if(activeReports.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="5" style="color:#aaa;">ምንም የሚመለስ አክቲቭ ሪፖርት የለም።</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="5" style="color:#fff;">ምንም የሚመለስ አክቲቭ ሪፖርት የለም።</td></tr>`;
             return;
         }
 
@@ -808,7 +869,6 @@
         }
     }
 
-    /* CSV Import Processor */
     function processCSVUpload() {
         const fileInput = document.getElementById('csvFileInput');
         if(!fileInput.files.length) {
@@ -847,7 +907,6 @@
         reader.readAsText(fileInput.files[0]);
     }
 
-    /* Certificate Generator */
     function generateCertificate() {
         const name = document.getElementById('certStaffSelect').value;
         const reason = document.getElementById('certReason').value || 'Excellent Performance Achievement';
@@ -878,7 +937,6 @@
         `);
     }
 
-    /* Notice Board Controls */
     function saveNotice() {
         const val = document.getElementById('noticeInput').value.trim();
         if(val) {
