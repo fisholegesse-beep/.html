@@ -25,7 +25,7 @@
             color: var(--text-light); margin: 0; padding: 15px; min-height: 100vh;
         }
 
-        .container { width: 100%; max-width: 1300px; margin: 0 auto; }
+        .container { width: 100%; max-width: 1350px; margin: 0 auto; }
         
         .header {
             background: var(--bg-glass); border: 1px solid var(--border); padding: 15px;
@@ -85,14 +85,16 @@
 <div class="container">
     <div class="header">
         <h2 style="margin:0; color:var(--cbe-gold);">Commercial Bank of Ethiopia - Borkena Branch</h2>
-        <p style="margin:5px 0 0 0; font-size:13px;">Integrated Performance, Loan, Digital & E-Library Portal</p>
+        <p style="margin:5px 0 0 0; font-size:13px;">Advanced Performance, Loan, Digital Governance & Admin System</p>
     </div>
 
     <!-- Navigation Bar -->
     <div class="nav-bar">
         <button class="nav-btn active" onclick="showTab('reportsTab', this)">📊 Performance Entry</button>
+        <button class="nav-btn" onclick="showTab('adminTab', this)">⚙️ Super Admin & Staff Rights</button>
+        <button class="nav-btn" onclick="showTab('reportExportTab', this)">📈 Report Downloader</button>
         <button class="nav-btn" onclick="showTab('libraryTab', this)">📚 Borkena E-Book Library</button>
-        <button class="nav-btn" onclick="showTab('awardsTab', this)">🏆 Awards & Warning Generator</button>
+        <button class="nav-btn" onclick="showTab('awardsTab', this)">🏆 Awards & Certificate Generator</button>
     </div>
 
     <!-- TAB 1: Comprehensive Performance Entry -->
@@ -112,8 +114,8 @@
                         <input type="date" id="perfDate" required>
                     </div>
                     <div>
-                        <label>ያካሄደው የትኩረት መስክ % (Overall %)</label>
-                        <input type="number" id="overallScore" placeholder="e.g. 85" min="0" max="100" required>
+                        <label>የስራ አፈጻጸም % (Auto-Calculated Overall %)</label>
+                        <input type="number" id="overallScore" placeholder="Auto-calculated" readonly style="background:rgba(255,184,28,0.2); font-weight:bold; color:var(--cbe-gold);">
                     </div>
                 </div>
 
@@ -122,11 +124,11 @@
                 <div class="grid-3">
                     <div>
                         <label>Deposit Target (ETB Plan)</label>
-                        <input type="number" id="depPlan" value="500000" required>
+                        <input type="number" id="depPlan" value="500000" oninput="calcOverall()" required>
                     </div>
                     <div>
                         <label>Deposit Actual (ETB)</label>
-                        <input type="number" id="depActual" required>
+                        <input type="number" id="depActual" oninput="calcOverall()" required>
                     </div>
                     <div>
                         <label>FCY Actual ($ USD)</label>
@@ -139,19 +141,19 @@
                 <div class="grid-4">
                     <div>
                         <label>Loan Recruitment Plan</label>
-                        <input type="number" id="loanPlan" value="0">
+                        <input type="number" id="loanPlan" value="0" oninput="calcOverall()">
                     </div>
                     <div>
                         <label>Loan Recruitment Actual</label>
-                        <input type="number" id="loanActual" value="0">
+                        <input type="number" id="loanActual" value="0" oninput="calcOverall()">
                     </div>
                     <div>
                         <label>Harmonization Plan</label>
-                        <input type="number" id="harmPlan" value="0">
+                        <input type="number" id="harmPlan" value="0" oninput="calcOverall()">
                     </div>
                     <div>
                         <label>Harmonization Actual</label>
-                        <input type="number" id="harmActual" value="0">
+                        <input type="number" id="harmActual" value="0" oninput="calcOverall()">
                     </div>
                 </div>
 
@@ -160,11 +162,11 @@
                 <div class="grid-2">
                     <div>
                         <label>Customer Base Plan</label>
-                        <input type="number" id="custPlan" value="0">
+                        <input type="number" id="custPlan" value="0" oninput="calcOverall()">
                     </div>
                     <div>
                         <label>Customer Base Actual</label>
-                        <input type="number" id="custActual" value="0">
+                        <input type="number" id="custActual" value="0" oninput="calcOverall()">
                     </div>
                 </div>
 
@@ -174,38 +176,38 @@
                 <div class="grid-4">
                     <div>
                         <label>Mobile Banking Plan</label>
-                        <input type="number" id="mbPlan" value="0">
+                        <input type="number" id="mbPlan" value="0" oninput="calcOverall()">
                     </div>
                     <div>
                         <label>Mobile Banking Actual</label>
-                        <input type="number" id="mbActual" value="0">
+                        <input type="number" id="mbActual" value="0" oninput="calcOverall()">
                     </div>
                     <div>
                         <label>Internet Banking Plan</label>
-                        <input type="number" id="ibPlan" value="0">
+                        <input type="number" id="ibPlan" value="0" oninput="calcOverall()">
                     </div>
                     <div>
                         <label>Internet Banking Actual</label>
-                        <input type="number" id="ibActual" value="0">
+                        <input type="number" id="ibActual" value="0" oninput="calcOverall()">
                     </div>
                 </div>
 
                 <div class="grid-4" style="margin-top:8px;">
                     <div>
                         <label>CBE Birr Plan</label>
-                        <input type="number" id="cbeBirrPlan" value="0">
+                        <input type="number" id="cbeBirrPlan" value="0" oninput="calcOverall()">
                     </div>
                     <div>
                         <label>CBE Birr Actual</label>
-                        <input type="number" id="cbeBirrActual" value="0">
+                        <input type="number" id="cbeBirrActual" value="0" oninput="calcOverall()">
                     </div>
                     <div>
                         <label>ATM Card Plan</label>
-                        <input type="number" id="atmPlan" value="0">
+                        <input type="number" id="atmPlan" value="0" oninput="calcOverall()">
                     </div>
                     <div>
                         <label>ATM Card Actual</label>
-                        <input type="number" id="atmActual" value="0">
+                        <input type="number" id="atmActual" value="0" oninput="calcOverall()">
                     </div>
                 </div>
 
@@ -213,22 +215,22 @@
                     <div>
                         <label>Agent Banking Plan / Act</label>
                         <div style="display:flex; gap:5px;">
-                            <input type="number" id="agentPlan" placeholder="Plan" value="0">
-                            <input type="number" id="agentActual" placeholder="Actual" value="0">
+                            <input type="number" id="agentPlan" placeholder="Plan" value="0" oninput="calcOverall()">
+                            <input type="number" id="agentActual" placeholder="Actual" value="0" oninput="calcOverall()">
                         </div>
                     </div>
                     <div>
                         <label>Merchant Plan / Act</label>
                         <div style="display:flex; gap:5px;">
-                            <input type="number" id="merchantPlan" placeholder="Plan" value="0">
-                            <input type="number" id="merchantActual" placeholder="Actual" value="0">
+                            <input type="number" id="merchantPlan" placeholder="Plan" value="0" oninput="calcOverall()">
+                            <input type="number" id="merchantActual" placeholder="Actual" value="0" oninput="calcOverall()">
                         </div>
                     </div>
                     <div>
                         <label>StarPay Plan / Act</label>
                         <div style="display:flex; gap:5px;">
-                            <input type="number" id="starPayPlan" placeholder="Plan" value="0">
-                            <input type="number" id="starPayActual" placeholder="Actual" value="0">
+                            <input type="number" id="starPayPlan" placeholder="Plan" value="0" oninput="calcOverall()">
+                            <input type="number" id="starPayActual" placeholder="Actual" value="0" oninput="calcOverall()">
                         </div>
                     </div>
                 </div>
@@ -246,6 +248,7 @@
                         <tr>
                             <th>ቀን</th>
                             <th>ሰራተኛ</th>
+                            <th>ዘርፍ/Role</th>
                             <th>Overall %</th>
                             <th>Deposit (Act/Plan)</th>
                             <th>FCY ($)</th>
@@ -268,7 +271,91 @@
         </div>
     </div>
 
-    <!-- TAB 2: E-Book Library -->
+    <!-- TAB 2: Super Admin Management -->
+    <div id="adminTab" class="tab-page hidden">
+        <div class="card">
+            <h3 style="color:var(--cbe-gold); margin-top:0;">⚙️ ሱፐር አድሚን - የሰራተኞች እና የፈቃድ (Rights) ማስተዳደሪያ</h3>
+            <form id="staffForm" style="margin-bottom:20px;">
+                <div class="grid-3">
+                    <div>
+                        <label>የሰራተኛ ሙሉ ስም</label>
+                        <input type="text" id="newStaffName" placeholder="e.g. Abebe Kebede" required>
+                    </div>
+                    <div>
+                        <label>የስራ ዘርፍ / Role</label>
+                        <input type="text" id="newStaffRole" placeholder="e.g. CSO / Team Leader / Loan Officer" required>
+                    </div>
+                    <div>
+                        <label>የሲስተም መብት (Access Right)</label>
+                        <select id="newStaffRight">
+                            <option value="Staff">Standard Staff (ማስገባት ብቻ)</option>
+                            <option value="Admin">Admin (ሙሉ መብት)</option>
+                            <option value="Viewer">Viewer (ማየት ብቻ)</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">➕ አዲስ ሰራተኛ ጨምር</button>
+            </form>
+
+            <div class="section-title">👥 የቅርንጫፉ ሰራተኞች ዝርዝር እና መብቶች</div>
+            <div style="overflow-x:auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>የሰራተኛ ስም</th>
+                            <th>የስራ ዘርፍ (Role)</th>
+                            <th>የሲስተም መብት (Right)</th>
+                            <th>እርምጃ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="staffTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 3: Advanced Report Downloader -->
+    <div id="reportExportTab" class="tab-page hidden">
+        <div class="card">
+            <h3 style="color:var(--cbe-gold); margin-top:0;">📈 የሪፖርት ማውረጃ (Report Downloader & Exporter)</h3>
+            <div class="grid-3">
+                <div>
+                    <label>የሪፖርት አይነት (Period)</label>
+                    <select id="exportPeriod" onchange="toggleFilterInputs()">
+                        <option value="daily">📅 ዕለታዊ (Daily Report)</option>
+                        <option value="monthly">📆 ወርሃዊ (Monthly Report)</option>
+                        <option value="quarterly">📊 ሩብ ዓመት (Quarterly Report)</option>
+                        <option value="yearly">🗓️ ዓመታዊ (Yearly Report)</option>
+                    </select>
+                </div>
+                <div id="filterDateBox">
+                    <label>ቀን ምረጥ</label>
+                    <input type="date" id="exportDate">
+                </div>
+                <div id="filterMonthBox" class="hidden">
+                    <label>ወር ምረጥ</label>
+                    <input type="month" id="exportMonth">
+                </div>
+                <div id="filterQuarterBox" class="hidden">
+                    <label>ሩብ ዓመት ምረጥ</label>
+                    <select id="exportQuarter">
+                        <option value="Q1">1ኛ ሩብ ዓመት (Q1)</option>
+                        <option value="Q2">2ኛ ሩብ ዓመት (Q2)</option>
+                        <option value="Q3">3ኛ ሩብ ዓመት (Q3)</option>
+                        <option value="Q4">4ኛ ሩብ ዓመት (Q4)</option>
+                    </select>
+                </div>
+                <div id="filterYearBox" class="hidden">
+                    <label>ዓመት ምረጥ</label>
+                    <input type="number" id="exportYear" value="2026">
+                </div>
+            </div>
+            <button onclick="downloadFilteredPDF()" class="btn btn-success" style="margin-top:15px;">📥 የተመረጠውን ሪፖርት አውርድ (Export PDF)</button>
+        </div>
+    </div>
+
+    <!-- TAB 4: E-Book Library -->
     <div id="libraryTab" class="tab-page hidden">
         <div class="card">
             <h3 style="color:var(--cbe-gold); margin-top:0;">📚 ቦርከና ኢ-ቡክ ላይብረሪ (Borkena E-Library)</h3>
@@ -291,7 +378,7 @@
         </div>
     </div>
 
-    <!-- TAB 3: Awards & Certificate Generator -->
+    <!-- TAB 5: Awards & Certificate Generator -->
     <div id="awardsTab" class="tab-page hidden">
         <div class="card">
             <h3 style="color:var(--cbe-gold); margin-top:0;">🏆 የሳምንቱ ምርጥ ሰራተኛ እና Warning Generator</h3>
@@ -325,16 +412,28 @@
 </div>
 
 <script>
-    const staffList = ["Dagmawit Afework", "Adem Seyid", "Hermela Getachew", "Sintayehu", "Dawit", "Givens", "Fiseha"];
+    // Default Staff Members with Roles and Rights
+    let defaultStaff = [
+        { name: "Dagmawit Afework", role: "CSO", right: "Staff" },
+        { name: "Adem Seyid", role: "CSO", right: "Staff" },
+        { name: "Hermela Getachew", role: "CSO", right: "Staff" },
+        { name: "Sintayehu", role: "Team Leader", right: "Admin" },
+        { name: "Dawit", role: "Team Leader", right: "Admin" },
+        { name: "Givens", role: "Loan Officer", right: "Staff" },
+        { name: "Fiseha", role: "Digital Officer", right: "Staff" }
+    ];
 
+    let staffList = JSON.parse(localStorage.getItem('borkena_staff_list')) || defaultStaff;
     let perfData = JSON.parse(localStorage.getItem('borkena_perf_full')) || [];
     let booksData = JSON.parse(localStorage.getItem('borkena_books')) || [];
 
     document.addEventListener('DOMContentLoaded', () => {
         loadDropdowns();
+        renderStaffTable();
         renderPerf();
         renderBooks();
         document.getElementById('perfDate').valueAsDate = new Date();
+        document.getElementById('exportDate').valueAsDate = new Date();
     });
 
     function loadDropdowns() {
@@ -343,7 +442,7 @@
 
         [perfSel, certSel].forEach(s => {
             s.innerHTML = '';
-            staffList.forEach(st => s.innerHTML += `<option value="${st}">${st}</option>`);
+            staffList.forEach(st => s.innerHTML += `<option value="${st.name}">${st.name} (${st.role})</option>`);
         });
     }
 
@@ -354,12 +453,85 @@
         btn.classList.add('active');
     }
 
+    // --- Automatic Performance Percentage Calculation ---
+    function calcOverall() {
+        let items = [
+            { plan: parseFloat(document.getElementById('depPlan').value)||0, act: parseFloat(document.getElementById('depActual').value)||0 },
+            { plan: parseFloat(document.getElementById('loanPlan').value)||0, act: parseFloat(document.getElementById('loanActual').value)||0 },
+            { plan: parseFloat(document.getElementById('harmPlan').value)||0, act: parseFloat(document.getElementById('harmActual').value)||0 },
+            { plan: parseFloat(document.getElementById('custPlan').value)||0, act: parseFloat(document.getElementById('custActual').value)||0 },
+            { plan: parseFloat(document.getElementById('mbPlan').value)||0, act: parseFloat(document.getElementById('mbActual').value)||0 },
+            { plan: parseFloat(document.getElementById('ibPlan').value)||0, act: parseFloat(document.getElementById('ibActual').value)||0 },
+            { plan: parseFloat(document.getElementById('cbeBirrPlan').value)||0, act: parseFloat(document.getElementById('cbeBirrActual').value)||0 },
+            { plan: parseFloat(document.getElementById('atmPlan').value)||0, act: parseFloat(document.getElementById('atmActual').value)||0 },
+            { plan: parseFloat(document.getElementById('agentPlan').value)||0, act: parseFloat(document.getElementById('agentActual').value)||0 },
+            { plan: parseFloat(document.getElementById('merchantPlan').value)||0, act: parseFloat(document.getElementById('merchantActual').value)||0 },
+            { plan: parseFloat(document.getElementById('starPayPlan').value)||0, act: parseFloat(document.getElementById('starPayActual').value)||0 }
+        ];
+
+        let validItems = items.filter(i => i.plan > 0);
+        if (validItems.length === 0) {
+            document.getElementById('overallScore').value = 0;
+            return;
+        }
+
+        let totalScore = validItems.reduce((acc, curr) => acc + Math.min((curr.act / curr.plan) * 100, 100), 0);
+        let finalScore = (totalScore / validItems.length).toFixed(1);
+
+        document.getElementById('overallScore').value = finalScore;
+    }
+
+    // --- Super Admin Staff Governance ---
+    document.getElementById('staffForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('newStaffName').value.trim();
+        const role = document.getElementById('newStaffRole').value.trim();
+        const right = document.getElementById('newStaffRight').value;
+
+        if (!name || !role) return;
+
+        staffList.push({ name, role, right });
+        localStorage.setItem('borkena_staff_list', JSON.stringify(staffList));
+        loadDropdowns();
+        renderStaffTable();
+        e.target.reset();
+    });
+
+    function deleteStaff(index) {
+        if (confirm('እርግጠኛ ነዎት ይህንን ሰራተኛ መሰረዝ ይፈልጋሉ?')) {
+            staffList.splice(index, 1);
+            localStorage.setItem('borkena_staff_list', JSON.stringify(staffList));
+            loadDropdowns();
+            renderStaffTable();
+        }
+    }
+
+    function renderStaffTable() {
+        const tbody = document.getElementById('staffTableBody');
+        tbody.innerHTML = '';
+        staffList.forEach((st, idx) => {
+            tbody.innerHTML += `
+                <tr>
+                    <td>${idx + 1}</td>
+                    <td><strong>${st.name}</strong></td>
+                    <td>${st.role}</td>
+                    <td><span style="color:var(--cbe-gold);">${st.right}</span></td>
+                    <td><button onclick="deleteStaff(${idx})" class="btn btn-danger" style="padding:4px 8px; font-size:11px;">🗑️ ሰርዝ</button></td>
+                </tr>
+            `;
+        });
+    }
+
     // --- Performance Logic ---
     document.getElementById('perfForm').addEventListener('submit', (e) => {
         e.preventDefault();
+        const selectedStaffName = document.getElementById('perfStaff').value;
+        const staffObj = staffList.find(s => s.name === selectedStaffName) || { role: 'N/A' };
+
         const item = {
             date: document.getElementById('perfDate').value,
-            staff: document.getElementById('perfStaff').value,
+            staff: selectedStaffName,
+            role: staffObj.role,
             score: parseFloat(document.getElementById('overallScore').value) || 0,
             
             depPlan: parseFloat(document.getElementById('depPlan').value) || 0,
@@ -419,6 +591,7 @@
                 <tr class="${rowClass}">
                     <td>${p.date}</td>
                     <td><strong>${p.staff}</strong></td>
+                    <td><small>${p.role || 'Staff'}</small></td>
                     <td><strong>${p.score}%</strong></td>
                     <td>${p.depActual.toLocaleString()} / ${p.depPlan.toLocaleString()}</td>
                     <td>$${p.fcy}</td>
@@ -436,6 +609,49 @@
                 </tr>
             `;
         });
+    }
+
+    // --- Filtered Report Downloader ---
+    function toggleFilterInputs() {
+        const p = document.getElementById('exportPeriod').value;
+        document.getElementById('filterDateBox').classList.toggle('hidden', p !== 'daily');
+        document.getElementById('filterMonthBox').classList.toggle('hidden', p !== 'monthly');
+        document.getElementById('filterQuarterBox').classList.toggle('hidden', p !== 'quarterly');
+        document.getElementById('filterYearBox').classList.toggle('hidden', p !== 'yearly');
+    }
+
+    function downloadFilteredPDF() {
+        const period = document.getElementById('exportPeriod').value;
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        doc.setFontSize(16);
+        doc.text("COMMERCIAL BANK OF ETHIOPIA - BORKENA BRANCH", 15, 20);
+        doc.setFontSize(13);
+        doc.text(`Performance Report - (${period.toUpperCase()})`, 15, 30);
+        doc.text("------------------------------------------------------------------", 15, 35);
+
+        let filtered = [...perfData];
+
+        if (period === 'daily') {
+            const d = document.getElementById('exportDate').value;
+            filtered = perfData.filter(p => p.date === d);
+        } else if (period === 'monthly') {
+            const m = document.getElementById('exportMonth').value; // YYYY-MM
+            filtered = perfData.filter(p => p.date.startsWith(m));
+        }
+
+        let y = 45;
+        if (filtered.length === 0) {
+            doc.text("No records found for the selected period.", 15, y);
+        } else {
+            filtered.forEach((item, index) => {
+                doc.text(`${index + 1}. ${item.staff} (${item.role}) | Score: ${item.score}% | Date: ${item.date}`, 15, y);
+                y += 8;
+            });
+        }
+
+        doc.save(`Borkena_Branch_Report_${period}.pdf`);
     }
 
     // --- E-Book Library Logic ---
