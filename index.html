@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="google" content="notranslate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CBE Borkena Branch - Management System</title>
+    <title>CBE Borkena Branch - Comprehensive Performance System</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         :root {
@@ -25,7 +25,7 @@
             color: var(--text-light); margin: 0; padding: 15px; min-height: 100vh;
         }
 
-        .container { width: 100%; max-width: 1200px; margin: 0 auto; }
+        .container { width: 100%; max-width: 1300px; margin: 0 auto; }
         
         .header {
             background: var(--bg-glass); border: 1px solid var(--border); padding: 15px;
@@ -44,15 +44,21 @@
             border: 1px solid var(--border); margin-bottom: 15px;
         }
 
+        .section-title {
+            color: var(--cbe-gold); border-bottom: 1px solid var(--border);
+            padding-bottom: 5px; margin: 15px 0 10px 0; font-size: 15px; font-weight: bold;
+        }
+
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+        .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
 
-        @media (max-width: 768px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+        @media (max-width: 900px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
 
-        label { display: block; font-size: 13px; margin-bottom: 5px; color: var(--cbe-gold); font-weight: bold; }
+        label { display: block; font-size: 12px; margin-bottom: 4px; color: var(--cbe-gold); font-weight: bold; }
         input, select {
-            width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px;
-            background: rgba(0,0,0,0.5); color: #fff; box-sizing: border-box; font-size: 14px;
+            width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px;
+            background: rgba(0,0,0,0.5); color: #fff; box-sizing: border-box; font-size: 13px;
         }
         option { background: #3a005c; color: #fff; }
 
@@ -64,9 +70,9 @@
         .btn-danger { background: var(--danger); color: #fff; }
         .btn-success { background: var(--success); color: #000; }
 
-        .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
-        .data-table th, .data-table td { border: 1px solid var(--border); padding: 8px; text-align: center; }
-        .data-table th { background: var(--cbe-purple-dark); color: var(--cbe-gold); }
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+        .data-table th, .data-table td { border: 1px solid var(--border); padding: 6px; text-align: center; }
+        .data-table th { background: var(--cbe-purple-dark); color: var(--cbe-gold); white-space: nowrap; }
 
         .top-performer { background: rgba(0, 230, 118, 0.2); font-weight: bold; }
         .low-performer { background: rgba(255, 51, 102, 0.2); }
@@ -79,65 +85,180 @@
 <div class="container">
     <div class="header">
         <h2 style="margin:0; color:var(--cbe-gold);">Commercial Bank of Ethiopia - Borkena Branch</h2>
-        <p style="margin:5px 0 0 0; font-size:13px;">Performance, Loan Governance & E-Library Portal</p>
+        <p style="margin:5px 0 0 0; font-size:13px;">Integrated Performance, Loan, Digital & E-Library Portal</p>
     </div>
 
     <!-- Navigation Bar -->
     <div class="nav-bar">
         <button class="nav-btn active" onclick="showTab('reportsTab', this)">📊 Performance Entry</button>
-        <button class="nav-btn" onclick="showTab('loanTab', this)">💰 Loan & NID/Harmonization</button>
         <button class="nav-btn" onclick="showTab('libraryTab', this)">📚 Borkena E-Book Library</button>
         <button class="nav-btn" onclick="showTab('awardsTab', this)">🏆 Awards & Warning Generator</button>
     </div>
 
-    <!-- TAB 1: Performance Entry -->
+    <!-- TAB 1: Comprehensive Performance Entry -->
     <div id="reportsTab" class="tab-page">
         <div class="card">
-            <h3 style="color:var(--cbe-gold); margin-top:0;">📝 የዕለታዊ/የሳምንት አፈጻጸም ማስገቢያ</h3>
+            <h3 style="color:var(--cbe-gold); margin-top:0;">📝 የዕለታዊ/የሳምንት አፈጻጸም ማስገቢያ (Detailed Performance Entry)</h3>
             <form id="perfForm">
+                
+                <!-- General Info -->
                 <div class="grid-3">
                     <div>
                         <label>የሰራተኛ ስም</label>
                         <select id="perfStaff" required></select>
                     </div>
                     <div>
-                        <label>Deposit Target (ETB)</label>
-                        <input type="number" id="depPlan" value="500000" required>
-                    </div>
-                    <div>
-                        <label>Deposit Actual (ETB)</label>
-                        <input type="number" id="depActual" required>
-                    </div>
-                </div>
-                <div class="grid-3" style="margin-top:10px;">
-                    <div>
-                        <label>FCY Actual ($ USD)</label>
-                        <input type="number" id="fcyActual" value="0">
-                    </div>
-                    <div>
-                        <label>Digital Banking Actual</label>
-                        <input type="number" id="digiActual" value="0">
+                        <label>ቀን</label>
+                        <input type="date" id="perfDate" required>
                     </div>
                     <div>
                         <label>ያካሄደው የትኩረት መስክ % (Overall %)</label>
                         <input type="number" id="overallScore" placeholder="e.g. 85" min="0" max="100" required>
                     </div>
                 </div>
-                <button type="submit" class="btn">💾 ሪፖርት መዝግብ (Save Local)</button>
+
+                <!-- Core Banking Metrics -->
+                <div class="section-title">📌 Core Performance Metrics (Deposit & FCY)</div>
+                <div class="grid-3">
+                    <div>
+                        <label>Deposit Target (ETB Plan)</label>
+                        <input type="number" id="depPlan" value="500000" required>
+                    </div>
+                    <div>
+                        <label>Deposit Actual (ETB)</label>
+                        <input type="number" id="depActual" required>
+                    </div>
+                    <div>
+                        <label>FCY Actual ($ USD)</label>
+                        <input type="number" id="fcyActual" value="0">
+                    </div>
+                </div>
+
+                <!-- Loan & Harmonization -->
+                <div class="section-title">💰 Loan Recruitment & Harmonization (Plan vs Actual)</div>
+                <div class="grid-4">
+                    <div>
+                        <label>Loan Recruitment Plan</label>
+                        <input type="number" id="loanPlan" value="0">
+                    </div>
+                    <div>
+                        <label>Loan Recruitment Actual</label>
+                        <input type="number" id="loanActual" value="0">
+                    </div>
+                    <div>
+                        <label>Harmonization Plan</label>
+                        <input type="number" id="harmPlan" value="0">
+                    </div>
+                    <div>
+                        <label>Harmonization Actual</label>
+                        <input type="number" id="harmActual" value="0">
+                    </div>
+                </div>
+
+                <!-- Customer Base -->
+                <div class="section-title">👥 Customer Base (Plan vs Actual)</div>
+                <div class="grid-2">
+                    <div>
+                        <label>Customer Base Plan</label>
+                        <input type="number" id="custPlan" value="0">
+                    </div>
+                    <div>
+                        <label>Customer Base Actual</label>
+                        <input type="number" id="custActual" value="0">
+                    </div>
+                </div>
+
+                <!-- Digital Banking Metrics Breakdown -->
+                <div class="section-title">📱 Digital Banking Products (Plan vs Actual Breakdown)</div>
+                
+                <div class="grid-4">
+                    <div>
+                        <label>Mobile Banking Plan</label>
+                        <input type="number" id="mbPlan" value="0">
+                    </div>
+                    <div>
+                        <label>Mobile Banking Actual</label>
+                        <input type="number" id="mbActual" value="0">
+                    </div>
+                    <div>
+                        <label>Internet Banking Plan</label>
+                        <input type="number" id="ibPlan" value="0">
+                    </div>
+                    <div>
+                        <label>Internet Banking Actual</label>
+                        <input type="number" id="ibActual" value="0">
+                    </div>
+                </div>
+
+                <div class="grid-4" style="margin-top:8px;">
+                    <div>
+                        <label>CBE Birr Plan</label>
+                        <input type="number" id="cbeBirrPlan" value="0">
+                    </div>
+                    <div>
+                        <label>CBE Birr Actual</label>
+                        <input type="number" id="cbeBirrActual" value="0">
+                    </div>
+                    <div>
+                        <label>ATM Card Plan</label>
+                        <input type="number" id="atmPlan" value="0">
+                    </div>
+                    <div>
+                        <label>ATM Card Actual</label>
+                        <input type="number" id="atmActual" value="0">
+                    </div>
+                </div>
+
+                <div class="grid-3" style="margin-top:8px;">
+                    <div>
+                        <label>Agent Banking Plan / Act</label>
+                        <div style="display:flex; gap:5px;">
+                            <input type="number" id="agentPlan" placeholder="Plan" value="0">
+                            <input type="number" id="agentActual" placeholder="Actual" value="0">
+                        </div>
+                    </div>
+                    <div>
+                        <label>Merchant Plan / Act</label>
+                        <div style="display:flex; gap:5px;">
+                            <input type="number" id="merchantPlan" placeholder="Plan" value="0">
+                            <input type="number" id="merchantActual" placeholder="Actual" value="0">
+                        </div>
+                    </div>
+                    <div>
+                        <label>StarPay Plan / Act</label>
+                        <div style="display:flex; gap:5px;">
+                            <input type="number" id="starPayPlan" placeholder="Plan" value="0">
+                            <input type="number" id="starPayActual" placeholder="Actual" value="0">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" style="width:100%; margin-top:20px;">💾 ሙሉ ሪፖርቱን መዝግብ (Save All Data)</button>
             </form>
         </div>
 
+        <!-- Table View -->
         <div class="card">
-            <h3>📋 የተመዘገቡ ሪፖርቶች እና የሳምንቱ አፈጻጸም</h3>
+            <h3>📋 የተመዘገቡ ሙሉ ሪፖርቶች</h3>
             <div style="overflow-x:auto;">
                 <table class="data-table">
                     <thead>
                         <tr>
                             <th>ቀን</th>
                             <th>ሰራተኛ</th>
-                            <th>Deposit Actual</th>
-                            <th>FCY ($)</th>
                             <th>Overall %</th>
+                            <th>Deposit (Act/Plan)</th>
+                            <th>FCY ($)</th>
+                            <th>Loan (P/A)</th>
+                            <th>Harm. (P/A)</th>
+                            <th>Cust Base (P/A)</th>
+                            <th>Mobile (P/A)</th>
+                            <th>Internet (P/A)</th>
+                            <th>CBE Birr (P/A)</th>
+                            <th>ATM (P/A)</th>
+                            <th>Agent (P/A)</th>
+                            <th>Merchant (P/A)</th>
+                            <th>StarPay (P/A)</th>
                             <th>ሁኔታ</th>
                         </tr>
                     </thead>
@@ -147,66 +268,7 @@
         </div>
     </div>
 
-    <!-- TAB 2: Loan & Harmonization -->
-    <div id="loanTab" class="tab-page hidden">
-        <div class="card">
-            <h3 style="color:var(--cbe-gold); margin-top:0;">💰 Loan & NID/Harmonization Plan vs Actual</h3>
-            <form id="loanForm">
-                <div class="grid-2">
-                    <div>
-                        <label>የሰራተኛ ስም</label>
-                        <select id="loanStaff" required></select>
-                    </div>
-                    <div>
-                        <label>ቀን</label>
-                        <input type="date" id="loanDate" required>
-                    </div>
-                </div>
-                <div class="grid-2" style="margin-top:10px;">
-                    <div>
-                        <label>Loan Collection Plan (ETB)</label>
-                        <input type="number" id="loanPlan" required>
-                    </div>
-                    <div>
-                        <label>Loan Collection Actual (ETB)</label>
-                        <input type="number" id="loanActual" required>
-                    </div>
-                </div>
-                <div class="grid-2" style="margin-top:10px;">
-                    <div>
-                        <label>NID / Harmonization Plan (Count)</label>
-                        <input type="number" id="harmPlan" required>
-                    </div>
-                    <div>
-                        <label>NID / Harmonization Actual (Count)</label>
-                        <input type="number" id="harmActual" required>
-                    </div>
-                </div>
-                <button type="submit" class="btn">💾 የብድር/ሀርምናይዜሽን ሪፖርት አስገባ</button>
-            </form>
-        </div>
-
-        <div class="card">
-            <h3>📊 የብድርና ሀርምናይዜሽን መዝገብ (Plan vs Actual)</h3>
-            <div style="overflow-x:auto;">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>ቀን</th>
-                            <th>ሰራተኛ</th>
-                            <th>Loan Plan/Act</th>
-                            <th>Loan %</th>
-                            <th>NID/Harm Plan/Act</th>
-                            <th>Harm %</th>
-                        </tr>
-                    </thead>
-                    <tbody id="loanTableBody"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- TAB 3: E-Book Library -->
+    <!-- TAB 2: E-Book Library -->
     <div id="libraryTab" class="tab-page hidden">
         <div class="card">
             <h3 style="color:var(--cbe-gold); margin-top:0;">📚 ቦርከና ኢ-ቡክ ላይብረሪ (Borkena E-Library)</h3>
@@ -229,7 +291,7 @@
         </div>
     </div>
 
-    <!-- TAB 4: Awards & Certificate Generator -->
+    <!-- TAB 3: Awards & Certificate Generator -->
     <div id="awardsTab" class="tab-page hidden">
         <div class="card">
             <h3 style="color:var(--cbe-gold); margin-top:0;">🏆 የሳምንቱ ምርጥ ሰራተኛ እና Warning Generator</h3>
@@ -265,26 +327,21 @@
 <script>
     const staffList = ["Dagmawit Afework", "Adem Seyid", "Hermela Getachew", "Sintayehu", "Dawit", "Givens", "Fiseha"];
 
-    let perfData = JSON.parse(localStorage.getItem('borkena_perf')) || [];
-    let loanData = JSON.parse(localStorage.getItem('borkena_loan')) || [];
+    let perfData = JSON.parse(localStorage.getItem('borkena_perf_full')) || [];
     let booksData = JSON.parse(localStorage.getItem('borkena_books')) || [];
 
     document.addEventListener('DOMContentLoaded', () => {
         loadDropdowns();
         renderPerf();
-        renderLoan();
         renderBooks();
-        
-        // Set Default Date
-        document.getElementById('loanDate').valueAsDate = new Date();
+        document.getElementById('perfDate').valueAsDate = new Date();
     });
 
     function loadDropdowns() {
         const perfSel = document.getElementById('perfStaff');
-        const loanSel = document.getElementById('loanStaff');
         const certSel = document.getElementById('certStaff');
 
-        [perfSel, loanSel, certSel].forEach(s => {
+        [perfSel, certSel].forEach(s => {
             s.innerHTML = '';
             staffList.forEach(st => s.innerHTML += `<option value="${st}">${st}</option>`);
         });
@@ -297,20 +354,47 @@
         btn.classList.add('active');
     }
 
-    // --- TAB 1: Performance Entry ---
+    // --- Performance Logic ---
     document.getElementById('perfForm').addEventListener('submit', (e) => {
         e.preventDefault();
         const item = {
-            date: new Date().toISOString().split('T')[0],
+            date: document.getElementById('perfDate').value,
             staff: document.getElementById('perfStaff').value,
-            depActual: document.getElementById('depActual').value,
-            fcy: document.getElementById('fcyActual').value,
-            score: parseFloat(document.getElementById('overallScore').value)
+            score: parseFloat(document.getElementById('overallScore').value) || 0,
+            
+            depPlan: parseFloat(document.getElementById('depPlan').value) || 0,
+            depActual: parseFloat(document.getElementById('depActual').value) || 0,
+            fcy: parseFloat(document.getElementById('fcyActual').value) || 0,
+
+            loanPlan: parseFloat(document.getElementById('loanPlan').value) || 0,
+            loanAct: parseFloat(document.getElementById('loanActual').value) || 0,
+            harmPlan: parseFloat(document.getElementById('harmPlan').value) || 0,
+            harmAct: parseFloat(document.getElementById('harmActual').value) || 0,
+
+            custPlan: parseFloat(document.getElementById('custPlan').value) || 0,
+            custAct: parseFloat(document.getElementById('custActual').value) || 0,
+
+            mbPlan: parseFloat(document.getElementById('mbPlan').value) || 0,
+            mbAct: parseFloat(document.getElementById('mbActual').value) || 0,
+            ibPlan: parseFloat(document.getElementById('ibPlan').value) || 0,
+            ibAct: parseFloat(document.getElementById('ibActual').value) || 0,
+            cbeBirrPlan: parseFloat(document.getElementById('cbeBirrPlan').value) || 0,
+            cbeBirrAct: parseFloat(document.getElementById('cbeBirrActual').value) || 0,
+            atmPlan: parseFloat(document.getElementById('atmPlan').value) || 0,
+            atmAct: parseFloat(document.getElementById('atmActual').value) || 0,
+            agentPlan: parseFloat(document.getElementById('agentPlan').value) || 0,
+            agentAct: parseFloat(document.getElementById('agentActual').value) || 0,
+            merchantPlan: parseFloat(document.getElementById('merchantPlan').value) || 0,
+            merchantAct: parseFloat(document.getElementById('merchantActual').value) || 0,
+            starPayPlan: parseFloat(document.getElementById('starPayPlan').value) || 0,
+            starPayAct: parseFloat(document.getElementById('starPayActual').value) || 0
         };
+
         perfData.push(item);
-        localStorage.setItem('borkena_perf', JSON.stringify(perfData));
+        localStorage.setItem('borkena_perf_full', JSON.stringify(perfData));
         renderPerf();
         e.target.reset();
+        document.getElementById('perfDate').valueAsDate = new Date();
     });
 
     function renderPerf() {
@@ -335,56 +419,26 @@
                 <tr class="${rowClass}">
                     <td>${p.date}</td>
                     <td><strong>${p.staff}</strong></td>
-                    <td>${Number(p.depActual).toLocaleString()} ETB</td>
+                    <td><strong>${p.score}%</strong></td>
+                    <td>${p.depActual.toLocaleString()} / ${p.depPlan.toLocaleString()}</td>
                     <td>$${p.fcy}</td>
-                    <td>${p.score}%</td>
+                    <td>${p.loanPlan}/${p.loanAct}</td>
+                    <td>${p.harmPlan}/${p.harmAct}</td>
+                    <td>${p.custPlan}/${p.custAct}</td>
+                    <td>${p.mbPlan}/${p.mbAct}</td>
+                    <td>${p.ibPlan}/${p.ibAct}</td>
+                    <td>${p.cbeBirrPlan}/${p.cbeBirrAct}</td>
+                    <td>${p.atmPlan}/${p.atmAct}</td>
+                    <td>${p.agentPlan}/${p.agentAct}</td>
+                    <td>${p.merchantPlan}/${p.merchantAct}</td>
+                    <td>${p.starPayPlan}/${p.starPayAct}</td>
                     <td>${status}</td>
                 </tr>
             `;
         });
     }
 
-    // --- TAB 2: Loan & Harmonization Logic ---
-    document.getElementById('loanForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const item = {
-            date: document.getElementById('loanDate').value,
-            staff: document.getElementById('loanStaff').value,
-            loanPlan: parseFloat(document.getElementById('loanPlan').value) || 1,
-            loanAct: parseFloat(document.getElementById('loanActual').value) || 0,
-            harmPlan: parseFloat(document.getElementById('harmPlan').value) || 1,
-            harmAct: parseFloat(document.getElementById('harmActual').value) || 0
-        };
-
-        loanData.push(item);
-        localStorage.setItem('borkena_loan', JSON.stringify(loanData));
-        renderLoan();
-        e.target.reset();
-        document.getElementById('loanDate').valueAsDate = new Date();
-    });
-
-    function renderLoan() {
-        const tbody = document.getElementById('loanTableBody');
-        tbody.innerHTML = '';
-
-        loanData.forEach(l => {
-            const loanPct = ((l.loanAct / l.loanPlan) * 100).toFixed(1);
-            const harmPct = ((l.harmAct / l.harmPlan) * 100).toFixed(1);
-
-            tbody.innerHTML += `
-                <tr>
-                    <td>${l.date}</td>
-                    <td><strong>${l.staff}</strong></td>
-                    <td>${l.loanPlan.toLocaleString()} / ${l.loanAct.toLocaleString()}</td>
-                    <td>${loanPct}%</td>
-                    <td>${l.harmPlan} / ${l.harmAct}</td>
-                    <td>${harmPct}%</td>
-                </tr>
-            `;
-        });
-    }
-
-    // --- TAB 3: E-Book Library ---
+    // --- E-Book Library Logic ---
     function addBook() {
         const title = document.getElementById('bookTitle').value;
         const fileInput = document.getElementById('bookFile');
@@ -436,7 +490,7 @@
         });
     }
 
-    // --- TAB 4: PDF Export & Certificate Generator ---
+    // --- PDF Export & Certificate Generator ---
     function downloadWeeklyPDF() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
