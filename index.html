@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="google" content="notranslate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CBE Borkena Branch - Complete Offline Management System</title>
+    <title>CBE Borkena Branch - Management System</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         :root {
@@ -68,14 +68,8 @@
         .data-table th, .data-table td { border: 1px solid var(--border); padding: 8px; text-align: center; }
         .data-table th { background: var(--cbe-purple-dark); color: var(--cbe-gold); }
 
-        .modal {
-            position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8);
-            display: flex; justify-content: center; align-items: center; z-index: 100;
-        }
-        .modal-content {
-            background: var(--cbe-purple-dark); padding: 25px; border-radius: 12px;
-            width: 90%; max-width: 600px; border: 1px solid var(--border);
-        }
+        .top-performer { background: rgba(0, 230, 118, 0.2); font-weight: bold; }
+        .low-performer { background: rgba(255, 51, 102, 0.2); }
 
         .hidden { display: none !important; }
     </style>
@@ -85,15 +79,15 @@
 <div class="container">
     <div class="header">
         <h2 style="margin:0; color:var(--cbe-gold);">Commercial Bank of Ethiopia - Borkena Branch</h2>
-        <p style="margin:5px 0 0 0; font-size:13px;">Offline Performance, Loan Governance & E-Library Portal</p>
+        <p style="margin:5px 0 0 0; font-size:13px;">Performance, Loan Governance & E-Library Portal</p>
     </div>
 
     <!-- Navigation Bar -->
     <div class="nav-bar">
         <button class="nav-btn active" onclick="showTab('reportsTab', this)">📊 Performance Entry</button>
-        <button class="nav-btn" onclick="showTab('loanTab', this)">💰 Loan & Harmonization</button>
-        <button class="nav-btn" onclick="showTab('libraryTab', this)">📚 E-Book Library</button>
-        <button class="nav-btn" onclick="showTab('awardsTab', this)">🏆 Awards & Certificates</button>
+        <button class="nav-btn" onclick="showTab('loanTab', this)">💰 Loan & NID/Harmonization</button>
+        <button class="nav-btn" onclick="showTab('libraryTab', this)">📚 Borkena E-Book Library</button>
+        <button class="nav-btn" onclick="showTab('awardsTab', this)">🏆 Awards & Warning Generator</button>
     </div>
 
     <!-- TAB 1: Performance Entry -->
@@ -126,7 +120,7 @@
                     </div>
                     <div>
                         <label>ያካሄደው የትኩረት መስክ % (Overall %)</label>
-                        <input type="number" id="overallScore" placeholder="e.g. 85" required>
+                        <input type="number" id="overallScore" placeholder="e.g. 85" min="0" max="100" required>
                     </div>
                 </div>
                 <button type="submit" class="btn">💾 ሪፖርት መዝግብ (Save Local)</button>
@@ -134,7 +128,7 @@
         </div>
 
         <div class="card">
-            <h3>📋 የተመዘገቡ ሪፖርቶች</h3>
+            <h3>📋 የተመዘገቡ ሪፖርቶች እና የሳምንቱ አፈጻጸም</h3>
             <div style="overflow-x:auto;">
                 <table class="data-table">
                     <thead>
@@ -156,7 +150,7 @@
     <!-- TAB 2: Loan & Harmonization -->
     <div id="loanTab" class="tab-page hidden">
         <div class="card">
-            <h3 style="color:var(--cbe-gold); margin-top:0;">💰 Loan & Harmonization Plan vs Actual</h3>
+            <h3 style="color:var(--cbe-gold); margin-top:0;">💰 Loan & NID/Harmonization Plan vs Actual</h3>
             <form id="loanForm">
                 <div class="grid-2">
                     <div>
@@ -180,20 +174,20 @@
                 </div>
                 <div class="grid-2" style="margin-top:10px;">
                     <div>
-                        <label>Harmonization (KYC/NID) Plan</label>
+                        <label>NID / Harmonization Plan (Count)</label>
                         <input type="number" id="harmPlan" required>
                     </div>
                     <div>
-                        <label>Harmonization Actual</label>
+                        <label>NID / Harmonization Actual (Count)</label>
                         <input type="number" id="harmActual" required>
                     </div>
                 </div>
-                <button type="submit" class="btn">💾 የብድር/ሀርምናይዜሽን ዳታ መዝግብ</button>
+                <button type="submit" class="btn">💾 የብድር/ሀርምናይዜሽን ሪፖርት አስገባ</button>
             </form>
         </div>
 
         <div class="card">
-            <h3>📊 የብድርና ሀርምናይዜሽን መዝገብ (Plan vs Actual Variance)</h3>
+            <h3>📊 የብድርና ሀርምናይዜሽን መዝገብ (Plan vs Actual)</h3>
             <div style="overflow-x:auto;">
                 <table class="data-table">
                     <thead>
@@ -202,7 +196,7 @@
                             <th>ሰራተኛ</th>
                             <th>Loan Plan/Act</th>
                             <th>Loan %</th>
-                            <th>Harmonization Plan/Act</th>
+                            <th>NID/Harm Plan/Act</th>
                             <th>Harm %</th>
                         </tr>
                     </thead>
@@ -218,19 +212,19 @@
             <h3 style="color:var(--cbe-gold); margin-top:0;">📚 ቦርከና ኢ-ቡክ ላይብረሪ (Borkena E-Library)</h3>
             <div class="grid-2">
                 <div>
-                    <label>የመጽሐፍ ርዕስ</label>
+                    <label>የመጽሐፍ/የሰነድ ርዕስ</label>
                     <input type="text" id="bookTitle" placeholder="e.g. CBE Credit Policy 2026">
                 </div>
                 <div>
-                    <label>የፋይል አፕሎድ (PDF)</label>
+                    <label>የፋይል አፕሎድ (PDF ብቻ)</label>
                     <input type="file" id="bookFile" accept=".pdf">
                 </div>
             </div>
-            <button onclick="addBook()" class="btn">📤 መጽሐፍ ወደ ላይብረሪ ጨምር</button>
+            <button onclick="addBook()" class="btn">📤 ሰነድ/መጽሐፍ ስቅል (Upload PDF)</button>
         </div>
 
         <div class="card">
-            <h3>📖 ያሉ መጻሕፍት</h3>
+            <h3>📖 የቅርንጫፉ የጋራ መጻሕፍትና ሰነዶች</h3>
             <div id="bookList"></div>
         </div>
     </div>
@@ -240,12 +234,12 @@
         <div class="card">
             <h3 style="color:var(--cbe-gold); margin-top:0;">🏆 የሳምንቱ ምርጥ ሰራተኛ እና Warning Generator</h3>
             <div style="margin-bottom:15px;">
-                <button onclick="downloadWeeklyPDF()" class="btn btn-success">📄 የሳምንቱ ምርጥ ሰራተኞች PDF አውርድ</button>
+                <button onclick="downloadWeeklyPDF()" class="btn btn-success">📄 የሳምንቱ ምርጥ ሰራተኛ ሪፖርት (PDF)</button>
             </div>
 
             <hr style="border-color:var(--border); margin:15px 0;">
 
-            <h3>📜 ሰርተፊኬት / ማስጠንቀቂያ ማዘጋጃ (<50%)</h3>
+            <h3>📜 ሰርተፊኬት / ማስጠንቀቂያ ማዘጋጃ (&lt; 75%)</h3>
             <div class="grid-3">
                 <div>
                     <label>ሰራተኛ ምረጥ</label>
@@ -254,36 +248,35 @@
                 <div>
                     <label>የሰነድ ዓይነት</label>
                     <select id="certType">
-                        <option value="excellence">🏆 Certificate of Excellence</option>
-                        <option value="warning">⚠️ Official Warning Letter (< 50%)</option>
+                        <option value="excellence">🏆 Certificate of Excellence (ምርጥ ሰራተኛ)</option>
+                        <option value="warning">⚠️ Official Warning Letter (&lt; 75%)</option>
                     </select>
                 </div>
                 <div>
                     <label>ምክንያት / ማብራሪያ</label>
-                    <input type="text" id="certReason" placeholder="ለአፈጻጸሙ የተሰጠ ምክንያት">
+                    <input type="text" id="certReason" placeholder="ምክንያት ያስገቡ">
                 </div>
             </div>
-            <button onclick="generateDocument()" class="btn btn-danger">🖨️ ሰነድ አዘጋጅተህ ህተም (Print Document)</button>
+            <button onclick="generateDocument()" class="btn btn-danger">🖨️ ሰነድ አዘጋጅተህ ህተም (Print)</button>
         </div>
     </div>
 </div>
 
 <script>
-    // Staff Members
     const staffList = ["Dagmawit Afework", "Adem Seyid", "Hermela Getachew", "Sintayehu", "Dawit", "Givens", "Fiseha"];
 
-    // Initialize LocalStorage Data
     let perfData = JSON.parse(localStorage.getItem('borkena_perf')) || [];
     let loanData = JSON.parse(localStorage.getItem('borkena_loan')) || [];
-    let booksData = JSON.parse(localStorage.getItem('borkena_books')) || [
-        { title: "CBE Risk & Governance Manual", file: "Governance_Manual.pdf" }
-    ];
+    let booksData = JSON.parse(localStorage.getItem('borkena_books')) || [];
 
     document.addEventListener('DOMContentLoaded', () => {
         loadDropdowns();
         renderPerf();
         renderLoan();
         renderBooks();
+        
+        // Set Default Date
+        document.getElementById('loanDate').valueAsDate = new Date();
     });
 
     function loadDropdowns() {
@@ -297,7 +290,6 @@
         });
     }
 
-    // TAB Navigation
     function showTab(tabId, btn) {
         document.querySelectorAll('.tab-page').forEach(p => p.classList.add('hidden'));
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -305,7 +297,7 @@
         btn.classList.add('active');
     }
 
-    // --- TAB 1: Performance Logic ---
+    // --- TAB 1: Performance Entry ---
     document.getElementById('perfForm').addEventListener('submit', (e) => {
         e.preventDefault();
         const item = {
@@ -324,13 +316,23 @@
     function renderPerf() {
         const tbody = document.getElementById('perfTableBody');
         tbody.innerHTML = '';
+
+        if (perfData.length === 0) return;
+
+        const maxScore = Math.max(...perfData.map(p => p.score));
+
         perfData.forEach(p => {
-            const status = p.score < 50 
-                ? `<span style="color:var(--danger); font-weight:bold;">⚠️ ዝቅተኛ (${p.score}%)</span>`
-                : `<span style="color:var(--success);">ከፍተኛ (${p.score}%)</span>`;
-            
+            const isTop = p.score === maxScore && maxScore > 0;
+            const isLow = p.score < 75;
+
+            let status = `<span style="color:var(--success);">ደህና (${p.score}%)</span>`;
+            if (isTop) status = `<span style="color:var(--cbe-gold); font-weight:bold;">👑 የሳምንቱ ምርጥ (${p.score}%)</span>`;
+            else if (isLow) status = `<span style="color:var(--danger); font-weight:bold;">⚠️ ዝቅተኛ (&lt;75%)</span>`;
+
+            const rowClass = isTop ? 'top-performer' : (isLow ? 'low-performer' : '');
+
             tbody.innerHTML += `
-                <tr>
+                <tr class="${rowClass}">
                     <td>${p.date}</td>
                     <td><strong>${p.staff}</strong></td>
                     <td>${Number(p.depActual).toLocaleString()} ETB</td>
@@ -348,28 +350,32 @@
         const item = {
             date: document.getElementById('loanDate').value,
             staff: document.getElementById('loanStaff').value,
-            loanPlan: parseFloat(document.getElementById('loanPlan').value),
-            loanAct: parseFloat(document.getElementById('loanActual').value),
-            harmPlan: parseFloat(document.getElementById('harmPlan').value),
-            harmAct: parseFloat(document.getElementById('harmActual').value)
+            loanPlan: parseFloat(document.getElementById('loanPlan').value) || 1,
+            loanAct: parseFloat(document.getElementById('loanActual').value) || 0,
+            harmPlan: parseFloat(document.getElementById('harmPlan').value) || 1,
+            harmAct: parseFloat(document.getElementById('harmActual').value) || 0
         };
+
         loanData.push(item);
         localStorage.setItem('borkena_loan', JSON.stringify(loanData));
         renderLoan();
         e.target.reset();
+        document.getElementById('loanDate').valueAsDate = new Date();
     });
 
     function renderLoan() {
         const tbody = document.getElementById('loanTableBody');
         tbody.innerHTML = '';
+
         loanData.forEach(l => {
             const loanPct = ((l.loanAct / l.loanPlan) * 100).toFixed(1);
             const harmPct = ((l.harmAct / l.harmPlan) * 100).toFixed(1);
+
             tbody.innerHTML += `
                 <tr>
                     <td>${l.date}</td>
                     <td><strong>${l.staff}</strong></td>
-                    <td>${l.loanPlan} / ${l.loanAct}</td>
+                    <td>${l.loanPlan.toLocaleString()} / ${l.loanAct.toLocaleString()}</td>
                     <td>${loanPct}%</td>
                     <td>${l.harmPlan} / ${l.harmAct}</td>
                     <td>${harmPct}%</td>
@@ -378,26 +384,53 @@
         });
     }
 
-    // --- TAB 3: E-Book Library Logic ---
+    // --- TAB 3: E-Book Library ---
     function addBook() {
         const title = document.getElementById('bookTitle').value;
-        const file = document.getElementById('bookFile').files[0];
-        if (title && file) {
-            booksData.push({ title, file: file.name });
-            localStorage.setItem('borkena_books', JSON.stringify(booksData));
+        const fileInput = document.getElementById('bookFile');
+        const file = fileInput.files[0];
+
+        if (!title || !file) {
+            alert('እባክዎን የመጽሐፉን ርዕስ እና የ PDF ፋይል ይምረጡ!');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const bookItem = {
+                id: Date.now(),
+                title: title,
+                fileName: file.name,
+                fileData: e.target.result
+            };
+            booksData.push(bookItem);
+            try {
+                localStorage.setItem('borkena_books', JSON.stringify(booksData));
+            } catch(err) {
+                alert('ፋይሉ በጣም ትልቅ ስለሆነ በሎካል ስቶሬጅ ማቀመጥ አልተቻለም። እባክዎ አነስ ያለ ፋይል ይምረጡ።');
+                return;
+            }
             renderBooks();
             document.getElementById('bookTitle').value = '';
-        }
+            fileInput.value = '';
+        };
+        reader.readAsDataURL(file);
     }
 
     function renderBooks() {
         const list = document.getElementById('bookList');
         list.innerHTML = '';
-        booksData.forEach((b, i) => {
+
+        if (booksData.length === 0) {
+            list.innerHTML = '<p style="font-size:13px; color:#ccc;">ምንም የተጫነ መጽሐፍ የለም።</p>';
+            return;
+        }
+
+        booksData.forEach((b) => {
             list.innerHTML += `
-                <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:10px; border-radius:6px; margin-top:5px; border:1px solid var(--border);">
-                    <span>📖 <strong>${b.title}</strong> (${b.file})</span>
-                    <button class="btn" style="margin:0;" onclick="alert('ፋይል የወረደ አድርገው ይቁጠሩት፡ ${b.file}')">📥 Download</button>
+                <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:10px; border-radius:6px; margin-top:8px; border:1px solid var(--border);">
+                    <span>📖 <strong>${b.title}</strong> <small>(${b.fileName})</small></span>
+                    <a href="${b.fileData}" download="${b.fileName}" class="btn" style="text-decoration:none; display:inline-block; margin:0;">📥 Download PDF</a>
                 </div>
             `;
         });
@@ -411,17 +444,25 @@
         doc.setFontSize(16);
         doc.text("COMMERCIAL BANK OF ETHIOPIA - BORKENA BRANCH", 15, 20);
         doc.setFontSize(13);
-        doc.text("Weekly Best Staff Performance List", 15, 30);
-        doc.text("----------------------------------------------------------------", 15, 35);
+        doc.text("Weekly Best Staff Performance Report", 15, 30);
+        doc.text("------------------------------------------------------------------", 15, 35);
 
         let y = 45;
         const sorted = [...perfData].sort((a,b) => b.score - a.score);
+
+        if (sorted.length > 0) {
+            doc.text(`🏆 WEEKLY BEST STAFF: ${sorted[0].staff} (${sorted[0].score}%)`, 15, y);
+            y += 12;
+            doc.text("All Rankings:", 15, y);
+            y += 8;
+        }
+
         sorted.forEach((item, index) => {
-            doc.text(`${index + 1}. Staff: ${item.staff} | Score: ${item.score}% | Date: ${item.date}`, 15, y);
-            y += 10;
+            doc.text(`${index + 1}. ${item.staff} | Score: ${item.score}% | Date: ${item.date}`, 15, y);
+            y += 8;
         });
 
-        doc.save("Weekly_Performance_Borkena.pdf");
+        doc.save("Weekly_Best_Staff_Borkena.pdf");
     }
 
     function generateDocument() {
@@ -442,14 +483,14 @@
                 <h2 style="color:${isWarning ? '#ff3366' : '#5c068c'};">
                     ${isWarning ? '⚠️ የፅሁፍ ማስጠንቀቂያ (OFFICIAL WARNING LETTER)' : '📜 የምስጋና ሰርተፊኬት (CERTIFICATE OF EXCELLENCE)'}
                 </h2>
-                <p>ይህ ሰነድ የተሰጠው ለ፡</p>
-                <h1 style="text-decoration:underline;">${staff}</h1>
-                <p style="font-size:16px; margin:20px 0;">
+                <p style="font-size:18px;">ይህ ሰነድ የተሰጠው ለ፡</p>
+                <h1 style="text-decoration:underline; color:#000;">${staff}</h1>
+                <p style="font-size:16px; margin:20px 0; line-height:1.6;">
                     ${isWarning 
-                        ? 'የሳምንታዊ/ወርሃዊ የሥራ አፈጻጸም ምዘና ውጤትዎ ከ 50% በታች በመሆኑ ይህ ማስታወቂያና ማስጠንቀቂያ የተሰጥዎ ሲሆን፤ በቀጣይ አፈጻጸምዎን እንዲያሻሽሉ ይሳሰባል።' 
+                        ? 'የሳምንታዊ/ወርሃዊ የሥራ አፈጻጸም ምዘና ውጤትዎ ከ 75% በታች በመሆኑ ይህ ማስታወቂያና ማስጠንቀቂያ የተሰጥዎ ሲሆን፤ በቀጣይ አፈጻጸምዎን በአስቸኳይ እንዲያሻሽሉ ይሳሰባል።' 
                         : 'በላቀ የሥራ አፈጻጸምዎ እና ለቅርንጫፉ ግብ ስኬት ላበረከቱት ከፍተኛ አስተዋፅኦ ይህ የምስጋና ሰርተፊኬት ተበርክቶሎታል።'}
                 </p>
-                <p><strong>ምክንያት/ማብራሪያ፦</strong> ${reason}</p>
+                <p style="font-size:15px;"><strong>ምክንያት/ማብራሪያ፦</strong> ${reason}</p>
                 <br><br><br>
                 <p>የቅርንጫፉ ሥራ አስኪያጅ ፊርማ፦ ______________________</p>
                 <script>window.print();<\/script>
