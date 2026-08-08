@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CBE Borkena Branch - Operational Home Dashboard</title>
+    <title>CBE Borkena Branch - Performance & Governance System</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <style>
         :root {
             --cbe-purple: #5c068c;
+            --cbe-purple-dark: #3a005c;
             --cbe-gold: #d4af37;
             --bg-light: #f4f6f9;
             --card-bg: #ffffff;
             --text-dark: #2c3e50;
-            --border: #e2e8f0;
+            --text-muted: #6c757d;
             --danger: #dc3545;
             --success: #28a745;
+            --border: #e2e8f0;
         }
 
         body {
@@ -23,40 +27,38 @@
             color: var(--text-dark);
             margin: 0;
             padding: 15px;
+            min-height: 100vh;
         }
 
-        .container { max-width: 1200px; margin: 0 auto; }
-
+        .container { width: 100%; max-width: 1400px; margin: 0 auto; }
+        
         .header {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            padding: 20px;
+            padding: 16px 20px;
             border-radius: 12px;
-            border-bottom: 5px solid var(--cbe-gold);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            border-bottom: 4px solid var(--cbe-gold);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .metric-card {
-            background: var(--card-bg);
-            padding: 18px;
-            border-radius: 10px;
+        .nav-bar { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; justify-content: flex-start; }
+        .nav-btn {
+            background: #ffffff;
+            color: var(--text-dark);
             border: 1px solid var(--border);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 13px;
         }
-
-        .metric-title { font-size: 11px; font-weight: 700; color: #6c757d; text-transform: uppercase; }
-        .metric-value { font-size: 22px; font-weight: bold; color: var(--cbe-purple); margin-top: 5px; }
+        .nav-btn.active, .nav-btn:hover { background: var(--cbe-purple); color: #ffffff; border-color: var(--cbe-purple); }
 
         .card {
             background: var(--card-bg);
@@ -64,134 +66,809 @@
             border-radius: 12px;
             border: 1px solid var(--border);
             margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
         }
 
-        .table-custom {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
-
-        .table-custom th, .table-custom td {
-            border: 1px solid var(--border);
-            padding: 10px;
-            text-align: left;
-        }
-
-        .table-custom th {
-            background-color: #f8fafc;
+        .section-title {
             color: var(--cbe-purple);
+            border-bottom: 2px solid var(--bg-light);
+            padding-bottom: 6px;
+            margin: 18px 0 12px 0;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
-        .btn-danger {
-            background: var(--danger);
-            color: #fff;
-            border: none;
-            padding: 8px 14px;
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+        .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
+
+        @media (max-width: 768px) { 
+            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+            .nav-btn { width: 100%; text-align: center; }
+            .header { text-align: center; justify-content: center; }
+        }
+
+        label { display: block; font-size: 11px; margin-bottom: 5px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+        input, select {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid var(--border);
             border-radius: 6px;
-            cursor: pointer;
+            background: #f8fafc;
+            color: var(--text-dark);
+            box-sizing: border-box;
+            font-size: 13px;
+            outline: none;
+        }
+        input:focus, select:focus { border-color: var(--cbe-purple); background: #ffffff; }
+
+        .btn {
+            background: var(--cbe-purple);
+            color: #ffffff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
             font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn:hover { background: var(--cbe-purple-dark); }
+        .btn-danger { background: var(--danger); }
+        .btn-danger:hover { background: #bd2130; }
+        .btn-success { background: var(--success); }
+        .btn-success:hover { background: #218838; }
+
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+        .data-table th, .data-table td { border: 1px solid var(--border); padding: 8px 10px; text-align: center; }
+        .data-table th { background: #f1f5f9; color: var(--cbe-purple-dark); font-weight: 700; white-space: nowrap; }
+
+        .top-performer { background: #d4edda; font-weight: bold; }
+        .low-performer { background: #f8d7da; }
+
+        .hidden { display: none !important; }
+
+        .login-box {
+            max-width: 380px;
+            margin: 80px auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border-top: 5px solid var(--cbe-purple);
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- Header -->
-    <div class="header">
-        <div>
-            <h2 style="margin:0; color:var(--cbe-purple);">Commercial Bank of Ethiopia - Borkena Branch</h2>
-            <p style="margin:4px 0 0 0; font-size:13px; color:#6c757d;">Executive Home Dashboard & Operational Performance Summary</p>
-        </div>
-        <button class="btn-danger" onclick="clearAllSubmittedData()">🗑️ Delete / Clear All Submitted Data</button>
+    <!-- LOGIN PAGE -->
+    <div id="loginSection" class="login-box">
+        <h2 style="color:var(--cbe-purple); margin-top:0; text-align:center;">🔐 CBE Borkena Portal</h2>
+        <p style="font-size:12px; color:var(--text-muted); text-align:center;">Sign in with your credentials</p>
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <div style="text-align:left; margin-bottom:12px;">
+                <label>Username</label>
+                <input type="text" id="loginUser" placeholder="e.g. fiseha" required>
+            </div>
+            <div style="text-align:left; margin-bottom:18px;">
+                <label>Password</label>
+                <input type="password" id="loginPass" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn" style="width:100%;">Sign In</button>
+        </form>
+        <p id="loginError" style="color:var(--danger); font-size:12px; margin-top:12px; text-align:center;" class="hidden">Invalid username or password!</p>
     </div>
 
-    <!-- Quick Metric Cards -->
-    <div class="metrics-grid">
-        <div class="metric-card">
-            <div class="metric-title">Retail FCY Achievement</div>
-            <div class="metric-value" style="color:var(--success);">162%</div>
+    <!-- MAIN DASHBOARD -->
+    <div id="mainDashboard" class="hidden">
+        <div class="header">
+            <div>
+                <h2 style="margin:0; color:var(--cbe-purple); font-size: 20px;">Commercial Bank of Ethiopia - Borkena Branch</h2>
+                <p style="margin:2px 0 0 0; font-size:12px; color:var(--text-muted);">Performance & Governance System</p>
+            </div>
+            <div style="text-align:right;">
+                <span id="currentUserDisplay" style="color:var(--cbe-purple); font-weight:bold; font-size:13px;"></span>
+                <button onclick="logout()" class="btn btn-danger" style="padding:5px 10px; font-size:11px; margin-left:10px;">Logout</button>
+            </div>
         </div>
-        <div class="metric-card">
-            <div class="metric-title">Daily Fayda Target</div>
-            <div class="metric-value">20 Registrations</div>
-        </div>
-        <div class="metric-card">
-            <div class="metric-title">Staff Members</div>
-            <div class="metric-value">21 Total</div>
-        </div>
-        <div class="metric-card">
-            <div class="metric-title">Branch Location Status</div>
-            <div class="metric-value" style="font-size:15px; margin-top:10px;">Relocated (+100m Inside)</div>
-        </div>
-    </div>
 
-    <!-- Operational Responsibility Matrix -->
-    <div class="card">
-        <h3 style="color:var(--cbe-purple); margin-top:0;">📋 Key Staff Operational Matrix</h3>
-        <table class="table-custom">
-            <thead>
-                <tr>
-                    <th>Staff Name</th>
-                    <th>Assigned Primary Responsibility</th>
-                    <th>Status / Targets</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Dagmawit Afework</strong></td>
-                    <td>Digital Banking Plans & Service Quality</td>
-                    <td>ATM, Mobile Banking & Digital Onboarding</td>
-                </tr>
-                <tr>
-                    <td><strong>Hermela Getachew</strong></td>
-                    <td>New Customer Recruitment Drive</td>
-                    <td>Account Opening Target Lead</td>
-                </tr>
-                <tr>
-                    <td><strong>Adem Seyid</strong></td>
-                    <td>Foreign Currency (FCY) Targets</td>
-                    <td>Quarterly FCY Mobilization</td>
-                </tr>
-                <tr>
-                    <td><strong>Sintayehu & Dawit</strong></td>
-                    <td>Performance Review & Team Leaders</td>
-                    <td>Team Review & Operations Governance</td>
-                </tr>
-                <tr>
-                    <td><strong>Giwons</strong></td>
-                    <td>National ID (Fayda) Registration</td>
-                    <td>Daily Registration Strategy Execution</td>
-                </tr>
-            </tbody>
-        </table>
+        <!-- Navigation Bar -->
+        <div class="nav-bar">
+            <button class="nav-btn active" onclick="showTab('reportsTab', this)">📊 Performance Entry</button>
+            <button class="nav-btn" onclick="showTab('allReportsTab', this)">🌐 All Staff Reports</button>
+            <button class="nav-btn" onclick="showTab('mobilePortalTab', this)">📱 My Performance</button>
+            <button class="nav-btn hidden" id="adminNavBtn" onclick="showTab('adminTab', this)">⚙️ User Management</button>
+            <button class="nav-btn" onclick="showTab('reportExportTab', this)">📈 Report Downloader</button>
+            <button class="nav-btn" onclick="showTab('libraryTab', this)">📚 E-Library</button>
+            <button class="nav-btn" onclick="showTab('awardsTab', this)">🏆 Awards & Warnings</button>
+            <button class="nav-btn" onclick="showTab('securityTab', this)">🔒 Change Password</button>
+        </div>
+
+        <!-- TAB 1: Performance Entry -->
+        <div id="reportsTab" class="tab-page">
+            <div class="card">
+                <h3 style="color:var(--cbe-purple); margin-top:0; font-size: 16px;">📝 Daily / Weekly Performance Entry</h3>
+                <form id="perfForm">
+                    <div class="grid-4">
+                        <div>
+                            <label>Staff Name</label>
+                            <input type="text" id="perfStaff" readonly>
+                        </div>
+                        <div>
+                            <label>Role</label>
+                            <input type="text" id="perfRole" placeholder="e.g. CSO" required>
+                        </div>
+                        <div>
+                            <label>Date</label>
+                            <input type="date" id="perfDate" required>
+                        </div>
+                        <div>
+                            <label>Overall Score % (Auto)</label>
+                            <input type="number" id="overallScore" placeholder="Auto" readonly style="font-weight:bold; color:var(--cbe-purple);">
+                        </div>
+                    </div>
+
+                    <div class="section-title">📌 Core Metrics (Deposit & FCY)</div>
+                    <div class="grid-3">
+                        <div><label>Deposit Plan (ETB)</label><input type="number" id="depPlan" value="500000" oninput="calcOverall()" required></div>
+                        <div><label>Deposit Actual (ETB)</label><input type="number" id="depActual" oninput="calcOverall()" required></div>
+                        <div><label>FCY Actual ($ USD)</label><input type="number" id="fcyActual" value="0"></div>
+                    </div>
+
+                    <div class="section-title">💰 Loan Recruitment & Harmonization</div>
+                    <div class="grid-4">
+                        <div><label>Loan Plan</label><input type="number" id="loanPlan" value="0" oninput="calcOverall()"></div>
+                        <div><label>Loan Actual</label><input type="number" id="loanActual" value="0" oninput="calcOverall()"></div>
+                        <div><label>Harmonization Plan</label><input type="number" id="harmPlan" value="0" oninput="calcOverall()"></div>
+                        <div><label>Harmonization Actual</label><input type="number" id="harmActual" value="0" oninput="calcOverall()"></div>
+                    </div>
+
+                    <div class="section-title">👥 Customer Base & Digital Banking</div>
+                    <div class="grid-4">
+                        <div><label>Customer Base (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="custPlan" placeholder="Plan" value="0" oninput="calcOverall()"><input type="number" id="custActual" placeholder="Actual" value="0" oninput="calcOverall()"></div></div>
+                        <div><label>Mobile Banking (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="mbPlan" placeholder="Plan" value="0" oninput="calcOverall()"><input type="number" id="mbActual" placeholder="Actual" value="0" oninput="calcOverall()"></div></div>
+                        <div><label>Internet Banking (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="ibPlan" placeholder="Plan" value="0" oninput="calcOverall()"><input type="number" id="ibActual" placeholder="Actual" value="0" oninput="calcOverall()"></div></div>
+                        <div><label>CBE Birr (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="cbeBirrPlan" placeholder="Plan" value="0" oninput="calcOverall()"><input type="number" id="cbeBirrActual" placeholder="Actual" value="0" oninput="calcOverall()"></div></div>
+                    </div>
+
+                    <div class="grid-4" style="margin-top:10px;">
+                        <div><label>ATM Card (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="atmPlan" placeholder="Plan" value="0" oninput="calcOverall()"><input type="number" id="atmActual" placeholder="Actual" value="0" oninput="calcOverall()"></div></div>
+                        <div><label>Agent Banking (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="agentPlan" placeholder="Plan" value="0" oninput="calcOverall()"><input type="number" id="agentActual" placeholder="Actual" value="0" oninput="calcOverall()"></div></div>
+                        <div><label>Merchant (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="merchantPlan" placeholder="Plan" value="0" oninput="calcOverall()"><input type="number" id="merchantActual" placeholder="Actual" value="0" oninput="calcOverall()"></div></div>
+                        <div><label>StarPay (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="starPayPlan" placeholder="Plan" value="0" oninput="calcOverall()"><input type="number" id="starPayActual" placeholder="Actual" value="0" oninput="calcOverall()"></div></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success" style="width:100%; margin-top:20px;">💾 Save Performance Data Online</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- TAB 2: All Staff Reports -->
+        <div id="allReportsTab" class="tab-page hidden">
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <h3 style="color:var(--cbe-purple); margin:0;">🌐 All Branch Submitted Online Reports</h3>
+                    <button onclick="loadDataFromCloud()" class="btn" style="padding:5px 12px; font-size:12px;">🔄 Refresh Data</button>
+                </div>
+                <div style="overflow-x:auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Staff Name</th>
+                                <th>Role</th>
+                                <th>Overall %</th>
+                                <th>Deposit (Act/Plan)</th>
+                                <th>FCY ($)</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="perfTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: Mobile View -->
+        <div id="mobilePortalTab" class="tab-page hidden">
+            <div class="card">
+                <h3 style="color:var(--cbe-purple); margin-top:0;">📱 My Personal Performance Dashboard</h3>
+                <div id="mobileStaffDashboard"></div>
+            </div>
+        </div>
+
+        <!-- TAB 4: User Management -->
+        <div id="adminTab" class="tab-page hidden">
+            <div class="card">
+                <h3 style="color:var(--cbe-purple); margin-top:0;">⚙️ User Management (Super Admin Panel)</h3>
+                
+                <form id="staffForm" style="margin-bottom:25px;" class="hidden">
+                    <div class="grid-4">
+                        <div>
+                            <label>Full Name</label>
+                            <input type="text" id="newStaffName" placeholder="e.g. Abebe Kebede" required>
+                        </div>
+                        <div>
+                            <label>Username</label>
+                            <input type="text" id="newStaffUsername" placeholder="e.g. abebe" required>
+                        </div>
+                        <div>
+                            <label>Password</label>
+                            <input type="password" id="newStaffPassword" placeholder="••••••••" required>
+                        </div>
+                        <div>
+                            <label>Access Right</label>
+                            <select id="newStaffRight">
+                                <option value="Staff">Staff</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Super Admin">Super Admin</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success" style="margin-top:12px;">➕ Add User Account</button>
+                </form>
+
+                <div class="section-title">👥 Active Branch Users</div>
+                <div style="overflow-x:auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Rights</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="staffTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: Report Downloader -->
+        <div id="reportExportTab" class="tab-page hidden">
+            <div class="card">
+                <h3 style="color:var(--cbe-purple); margin-top:0;">📈 Export Reports</h3>
+                <div class="grid-3">
+                    <div>
+                        <label>Report Type</label>
+                        <select id="exportPeriod" onchange="toggleFilterInputs()">
+                            <option value="daily">Daily Report</option>
+                            <option value="monthly">Monthly Report</option>
+                        </select>
+                    </div>
+                    <div id="filterDateBox">
+                        <label>Select Date</label>
+                        <input type="date" id="exportDate">
+                    </div>
+                    <div id="filterMonthBox" class="hidden">
+                        <label>Select Month</label>
+                        <input type="month" id="exportMonth">
+                    </div>
+                </div>
+                <button onclick="downloadFilteredPDF()" class="btn btn-success" style="margin-top:15px;">📥 Download PDF Report</button>
+            </div>
+        </div>
+
+        <!-- TAB 6: E-Library -->
+        <div id="libraryTab" class="tab-page hidden">
+            <div class="card">
+                <h3 style="color:var(--cbe-purple); margin-top:0;">📚 Borkena E-Library</h3>
+                <div class="grid-2">
+                    <div><label>Document Title</label><input type="text" id="bookTitle" placeholder="e.g. CBE Operational Policy"></div>
+                    <div><label>Upload PDF Document</label><input type="file" id="bookFile" accept=".pdf"></div>
+                </div>
+                <button onclick="addBook()" class="btn" style="margin-top:12px;">📤 Upload Document</button>
+            </div>
+            <div class="card">
+                <h3>📖 Available Shared Documents</h3>
+                <div id="bookList"></div>
+            </div>
+        </div>
+
+        <!-- TAB 7: Awards & Warnings -->
+        <div id="awardsTab" class="tab-page hidden">
+            <div class="card">
+                <h3 style="color:var(--cbe-purple); margin-top:0;">🏆 Weekly Top Performer & Document Generator</h3>
+                <button onclick="downloadWeeklyPDF()" class="btn btn-success">📄 Download Weekly Best Performers (PDF)</button>
+                <hr style="border-color:var(--border); margin:20px 0;">
+                <h3>📜 Certificate & Warning Letter Generator</h3>
+                <div class="grid-3">
+                    <div><label>Select Employee</label><select id="certStaff"></select></div>
+                    <div>
+                        <label>Document Type</label>
+                        <select id="certType">
+                            <option value="excellence">🏆 Certificate of Excellence</option>
+                            <option value="warning">⚠️ Official Warning Letter (&lt; 75%)</option>
+                        </select>
+                    </div>
+                    <div><label>Reason / Remarks</label><input type="text" id="certReason" placeholder="Enter reason"></div>
+                </div>
+                <button onclick="generateDocument()" class="btn btn-danger" style="margin-top:12px;">🖨️ Print Document</button>
+            </div>
+        </div>
+
+        <!-- TAB 8: Security -->
+        <div id="securityTab" class="tab-page hidden">
+            <div class="card" style="max-width:400px; margin:0 auto;">
+                <h3 style="color:var(--cbe-purple); margin-top:0;">🔒 Security & Password Update</h3>
+                <form id="changePassForm" onsubmit="handleChangePassword(event)">
+                    <div style="margin-bottom:12px;">
+                        <label>Current Password</label>
+                        <input type="password" id="oldPass" required>
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <label>New Password</label>
+                        <input type="password" id="newPass" required>
+                    </div>
+                    <button type="submit" class="btn btn-success" style="width:100%;">Update Password</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
+    // --- SUPABASE CONFIGURATION ---
     const SUPABASE_URL = 'https://rvixhvzrtmyrncjvnjtp.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_2MuGoOmHDUndYXKyhyolww_zHduKlSN';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Function to Clear/Delete Data
-    async function clearAllSubmittedData() {
-        if (confirm("እርግጠኛ ነዎት የተመዘገቡትን ዳታዎች በሙሉ ማጽዳት/ዲሌት ማድረግ ይፈልጋሉ?")) {
-            // Clear local storage
-            localStorage.removeItem('borkena_perf_full_v3');
-            
-            // Delete online Supabase entries
-            const { error } = await _supabase
-                .from('Employee_data')
-                .delete()
-                .neq('id', 0); // Deletes all rows
+    // Initial User Roster Configuration
+    let defaultStaff = [
+        { name: "Fiseha", username: "fiseha", password: "123", role: "Digital Officer", right: "Super Admin" },
+        { name: "Dawit", username: "dawit", password: "123", role: "Team Leader", right: "Admin" },
+        { name: "Sintayehu", username: "sintayehu", password: "123", role: "Team Leader", right: "Admin" },
+        { name: "Dagmawit Afework", username: "dagmawit", password: "123", role: "CSO", right: "Staff" },
+        { name: "Adem Seyid", username: "adem", password: "123", role: "CSO", right: "Staff" },
+        { name: "Hermela Getachew", username: "hermela", password: "123", role: "CSO", right: "Staff" },
+        { name: "Givens", username: "givens", password: "123", role: "Loan Officer", right: "Staff" }
+    ];
 
-            if (error) {
-                alert("በኦንላይን ዳታቤዝ ላይ ዳታ ለማጽዳት አልተቻለም፦ " + error.message);
-            } else {
-                alert("ሁሉም የተመዘገቡ ዳታዎች በተሳካ ሁኔታ ጸድተዋል (Deleted)!");
-                location.reload();
-            }
+    let staffList = JSON.parse(localStorage.getItem('borkena_staff_list_v3')) || defaultStaff;
+    let perfData = [];
+    let booksData = JSON.parse(localStorage.getItem('borkena_books_v3')) || [];
+    let loggedInUser = null;
+
+    // --- SUPABASE ONLINE SYNC & DELETE ---
+    async function saveDataToCloud(item) {
+        const { data, error } = await _supabase.from('Employee_data').insert([item]);
+        if (error) {
+            console.error('Supabase Error:', error);
+            alert('ኦንላይን ዳታቤዝ ላይ ማስቀመጥ አልተቻለም፦ ' + error.message);
+        } else {
+            alert('መረጃው በኦንላይን ዳታቤዝ ላይ ተመዝግቧል!');
+            loadDataFromCloud();
         }
+    }
+
+    async function loadDataFromCloud() {
+        const { data, error } = await _supabase.from('Employee_data').select('*').order('id', { ascending: false });
+        if (error) {
+            console.error('Error loading:', error);
+        } else if (data) {
+            perfData = data;
+            renderPerf();
+            renderMobileView();
+        }
+    }
+
+    async function deleteRecord(recordId) {
+        if (!confirm('እርግጠኛ ነዎት ይህንን የተመዘገበ ሪፖርት ማጥፋት (Delete) ይፈልጋሉ?')) return;
+
+        const { error } = await _supabase.from('Employee_data').delete().eq('id', recordId);
+        if (error) {
+            alert('ማጥፋት አልተቻለም፦ ' + error.message);
+        } else {
+            alert('መረጃው በተሳካ ሁኔታ ተሰርዟል!');
+            loadDataFromCloud();
+        }
+    }
+
+    // --- Authentication ---
+    function handleLogin(e) {
+        e.preventDefault();
+        const userVal = document.getElementById('loginUser').value.trim().toLowerCase();
+        const passVal = document.getElementById('loginPass').value.trim();
+
+        const userObj = staffList.find(s => s.username.toLowerCase() === userVal && s.password === passVal);
+
+        if (userObj) {
+            loggedInUser = userObj;
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('mainDashboard').classList.remove('hidden');
+            document.getElementById('loginError').classList.add('hidden');
+            
+            initDashboard();
+        } else {
+            document.getElementById('loginError').classList.remove('hidden');
+        }
+    }
+
+    function logout() {
+        loggedInUser = null;
+        document.getElementById('mainDashboard').classList.add('hidden');
+        document.getElementById('loginSection').classList.remove('hidden');
+        document.getElementById('loginUser').value = '';
+        document.getElementById('loginPass').value = '';
+    }
+
+    function initDashboard() {
+        document.getElementById('currentUserDisplay').innerText = `👤 ${loggedInUser.name} (${loggedInUser.right})`;
+        
+        const perfStaffInput = document.getElementById('perfStaff');
+        if (loggedInUser.right === 'Admin' || loggedInUser.right === 'Super Admin') {
+            perfStaffInput.removeAttribute('readonly');
+            perfStaffInput.style.background = '#ffffff';
+        } else {
+            perfStaffInput.setAttribute('readonly', 'readonly');
+            perfStaffInput.style.background = '#e2e8f0';
+        }
+        perfStaffInput.value = loggedInUser.name;
+        document.getElementById('perfRole').value = loggedInUser.role || 'CSO';
+
+        const adminBtn = document.getElementById('adminNavBtn');
+        const addUserForm = document.getElementById('staffForm');
+        
+        if (loggedInUser.right === 'Super Admin') {
+            adminBtn.classList.remove('hidden');
+            addUserForm.classList.remove('hidden');
+        } else {
+            adminBtn.classList.add('hidden');
+            addUserForm.classList.add('hidden');
+        }
+
+        loadDropdowns();
+        renderStaffTable();
+        loadDataFromCloud();
+        renderBooks();
+
+        document.getElementById('perfDate').valueAsDate = new Date();
+        document.getElementById('exportDate').valueAsDate = new Date();
+    }
+
+    function handleChangePassword(e) {
+        e.preventDefault();
+        const oldP = document.getElementById('oldPass').value;
+        const newP = document.getElementById('newPass').value;
+
+        if (oldP !== loggedInUser.password) {
+            alert('Current password incorrect!');
+            return;
+        }
+
+        loggedInUser.password = newP;
+        const idx = staffList.findIndex(s => s.username === loggedInUser.username);
+        if (idx !== -1) staffList[idx].password = newP;
+
+        localStorage.setItem('borkena_staff_list_v3', JSON.stringify(staffList));
+        alert('Password updated successfully!');
+        e.target.reset();
+    }
+
+    // --- Admin Operations ---
+    document.getElementById('staffForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (loggedInUser.right !== 'Super Admin') {
+            alert('Access denied: Super Admin privilege required.');
+            return;
+        }
+
+        const name = document.getElementById('newStaffName').value.trim();
+        const username = document.getElementById('newStaffUsername').value.trim();
+        const password = document.getElementById('newStaffPassword').value.trim();
+        const right = document.getElementById('newStaffRight').value;
+
+        staffList.push({ name, username, password, role: "Staff", right });
+        localStorage.setItem('borkena_staff_list_v3', JSON.stringify(staffList));
+        loadDropdowns();
+        renderStaffTable();
+        e.target.reset();
+        alert('User account created!');
+    });
+
+    function resetPassword(index) {
+        if (loggedInUser.right !== 'Super Admin') return;
+        const newPass = prompt("Enter new password for " + staffList[index].name + ":", "123456");
+        if (newPass) {
+            staffList[index].password = newPass;
+            localStorage.setItem('borkena_staff_list_v3', JSON.stringify(staffList));
+            alert("Password reset successfully.");
+        }
+    }
+
+    function deleteStaff(index) {
+        if (loggedInUser.right !== 'Super Admin') return;
+        if (confirm('Are you sure you want to remove this user account?')) {
+            staffList.splice(index, 1);
+            localStorage.setItem('borkena_staff_list_v3', JSON.stringify(staffList));
+            loadDropdowns();
+            renderStaffTable();
+        }
+    }
+
+    function renderStaffTable() {
+        const tbody = document.getElementById('staffTableBody');
+        tbody.innerHTML = '';
+        staffList.forEach((st, idx) => {
+            const isSuperAdmin = loggedInUser.right === 'Super Admin';
+            tbody.innerHTML += `
+                <tr>
+                    <td>${idx + 1}</td>
+                    <td><strong>${st.name}</strong></td>
+                    <td>${st.username}</td>
+                    <td>${st.role}</td>
+                    <td><span style="color:var(--cbe-purple); font-weight:bold;">${st.right}</span></td>
+                    <td>
+                        ${isSuperAdmin ? `
+                            <button onclick="resetPassword(${idx})" class="btn" style="padding:3px 8px; font-size:10px;">Reset Pass</button>
+                            <button onclick="deleteStaff(${idx})" class="btn btn-danger" style="padding:3px 8px; font-size:10px;">Remove</button>
+                        ` : '<span style="color:var(--text-muted);">Restricted</span>'}
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    // --- Navigation & Core Calculations ---
+    function loadDropdowns() {
+        const certSel = document.getElementById('certStaff');
+        certSel.innerHTML = '';
+        staffList.forEach(st => certSel.innerHTML += `<option value="${st.name}">${st.name}</option>`);
+    }
+
+    function showTab(tabId, btn) {
+        document.querySelectorAll('.tab-page').forEach(p => p.classList.add('hidden'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabId).classList.remove('hidden');
+        if (btn) btn.classList.add('active');
+    }
+
+    function calcOverall() {
+        let items = [
+            { plan: parseFloat(document.getElementById('depPlan').value)||0, act: parseFloat(document.getElementById('depActual').value)||0 },
+            { plan: parseFloat(document.getElementById('loanPlan').value)||0, act: parseFloat(document.getElementById('loanActual').value)||0 },
+            { plan: parseFloat(document.getElementById('harmPlan').value)||0, act: parseFloat(document.getElementById('harmActual').value)||0 },
+            { plan: parseFloat(document.getElementById('custPlan').value)||0, act: parseFloat(document.getElementById('custActual').value)||0 },
+            { plan: parseFloat(document.getElementById('mbPlan').value)||0, act: parseFloat(document.getElementById('mbActual').value)||0 },
+            { plan: parseFloat(document.getElementById('ibPlan').value)||0, act: parseFloat(document.getElementById('ibActual').value)||0 },
+            { plan: parseFloat(document.getElementById('cbeBirrPlan').value)||0, act: parseFloat(document.getElementById('cbeBirrActual').value)||0 },
+            { plan: parseFloat(document.getElementById('atmPlan').value)||0, act: parseFloat(document.getElementById('atmActual').value)||0 },
+            { plan: parseFloat(document.getElementById('agentPlan').value)||0, act: parseFloat(document.getElementById('agentActual').value)||0 },
+            { plan: parseFloat(document.getElementById('merchantPlan').value)||0, act: parseFloat(document.getElementById('merchantActual').value)||0 },
+            { plan: parseFloat(document.getElementById('starPayPlan').value)||0, act: parseFloat(document.getElementById('starPayActual').value)||0 }
+        ];
+
+        let validItems = items.filter(i => i.plan > 0);
+        if (validItems.length === 0) {
+            document.getElementById('overallScore').value = 0;
+            return;
+        }
+
+        let totalScore = validItems.reduce((acc, curr) => acc + Math.min((curr.act / curr.plan) * 100, 100), 0);
+        document.getElementById('overallScore').value = (totalScore / validItems.length).toFixed(1);
+    }
+
+    // --- Performance Entries Handling ---
+    document.getElementById('perfForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const item = {
+            date: document.getElementById('perfDate').value,
+            staff: document.getElementById('perfStaff').value,
+            role: document.getElementById('perfRole').value,
+            score: parseFloat(document.getElementById('overallScore').value) || 0,
+            depPlan: parseFloat(document.getElementById('depPlan').value) || 0,
+            depActual: parseFloat(document.getElementById('depActual').value) || 0,
+            fcy: parseFloat(document.getElementById('fcyActual').value) || 0
+        };
+
+        saveDataToCloud(item);
+    });
+
+    function renderPerf() {
+        const tbody = document.getElementById('perfTableBody');
+        tbody.innerHTML = '';
+        if (perfData.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8">No reports submitted online yet.</td></tr>';
+            return;
+        }
+
+        perfData.forEach(p => {
+            const isTop = p.score >= 100;
+            const isLow = p.score < 75;
+
+            let status = `<span style="color:var(--success);">Satisfactory (${p.score}%)</span>`;
+            if (isTop) status = `<span style="color:var(--cbe-purple); font-weight:bold;">🏆 Outstanding (${p.score}%)</span>`;
+            else if (isLow) status = `<span style="color:var(--danger); font-weight:bold;">⚠️ Below Target (&lt;75%)</span>`;
+
+            const canDelete = loggedInUser.right === 'Admin' || loggedInUser.right === 'Super Admin' || loggedInUser.name === p.staff;
+
+            tbody.innerHTML += `
+                <tr class="${isTop ? 'top-performer' : (isLow ? 'low-performer' : '')}">
+                    <td>${p.date || '-'}</td>
+                    <td><strong>${p.staff || 'Staff'}</strong></td>
+                    <td><small>${p.role || 'CSO'}</small></td>
+                    <td><strong>${p.score}%</strong></td>
+                    <td>${(p.depActual || 0).toLocaleString()} / ${(p.depPlan || 0).toLocaleString()}</td>
+                    <td>$${p.fcy || 0}</td>
+                    <td>${status}</td>
+                    <td>
+                        ${canDelete ? `<button onclick="deleteRecord(${p.id})" class="btn btn-danger" style="padding:3px 8px; font-size:10px;">🗑️ Delete</button>` : '-'}
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    function renderMobileView() {
+        const container = document.getElementById('mobileStaffDashboard');
+        const myReports = perfData.filter(p => p.staff === loggedInUser.name);
+
+        if (myReports.length === 0) {
+            container.innerHTML = `<p style="text-align:center;">No performance records registered under <strong>${loggedInUser.name}</strong>.</p>`;
+            return;
+        }
+
+        const latest = myReports[0];
+
+        container.innerHTML = `
+            <div style="background:#f8fafc; border:1px solid var(--border); padding:15px; border-radius:10px; margin-bottom:15px; text-align:center;">
+                <h3 style="margin:0; color:var(--cbe-purple);">${latest.staff}</h3>
+                <p style="margin:4px 0; font-size:12px; color:var(--text-muted);">Role: ${latest.role}</p>
+                <p style="margin:4px 0; font-size:14px;">Latest Evaluation: <span style="font-size:20px; font-weight:bold; color:var(--cbe-purple);">${latest.score}%</span></p>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Score %</th>
+                            <th>Deposit Actual/Plan</th>
+                            <th>FCY ($)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${myReports.map(r => `
+                            <tr>
+                                <td>${r.date || '-'}</td>
+                                <td><strong>${r.score}%</strong></td>
+                                <td>${(r.depActual || 0).toLocaleString()} / ${(r.depPlan || 0).toLocaleString()}</td>
+                                <td>$${r.fcy || 0}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        `;
+    }
+
+    // --- Exports & Library ---
+    function toggleFilterInputs() {
+        const p = document.getElementById('exportPeriod').value;
+        document.getElementById('filterDateBox').classList.toggle('hidden', p !== 'daily');
+        document.getElementById('filterMonthBox').classList.toggle('hidden', p !== 'monthly');
+    }
+
+    function downloadFilteredPDF() {
+        const period = document.getElementById('exportPeriod').value;
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        doc.setFontSize(16);
+        doc.text("COMMERCIAL BANK OF ETHIOPIA - BORKENA BRANCH", 15, 20);
+        doc.setFontSize(12);
+        doc.text(`Performance Summary Report - (${period.toUpperCase()})`, 15, 28);
+
+        let filtered = [...perfData];
+        if (period === 'daily') {
+            const d = document.getElementById('exportDate').value;
+            filtered = perfData.filter(p => p.date === d);
+        } else if (period === 'monthly') {
+            const m = document.getElementById('exportMonth').value;
+            filtered = perfData.filter(p => p.date && p.date.startsWith(m));
+        }
+
+        let y = 40;
+        if (filtered.length === 0) {
+            doc.text("No records found for the selected timeline.", 15, y);
+        } else {
+            filtered.forEach((item, index) => {
+                doc.text(`${index + 1}. ${item.staff} (${item.role}) | Score: ${item.score}% | Date: ${item.date}`, 15, y);
+                y += 8;
+            });
+        }
+        doc.save(`Borkena_Branch_${period}_Report.pdf`);
+    }
+
+    function addBook() {
+        const title = document.getElementById('bookTitle').value;
+        const fileInput = document.getElementById('bookFile');
+        const file = fileInput.files[0];
+
+        if (!title || !file) {
+            alert('Please specify title and upload a valid PDF file.');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            booksData.push({ id: Date.now(), title, fileName: file.name, fileData: e.target.result });
+            localStorage.setItem('borkena_books_v3', JSON.stringify(booksData));
+            renderBooks();
+            document.getElementById('bookTitle').value = '';
+            fileInput.value = '';
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function renderBooks() {
+        const list = document.getElementById('bookList');
+        list.innerHTML = booksData.length === 0 ? '<p style="font-size:12px; color:var(--text-muted);">No uploaded documents.</p>' : '';
+        booksData.forEach((b) => {
+            list.innerHTML += `
+                <div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:10px; border-radius:6px; margin-top:8px; border:1px solid var(--border);">
+                    <span>📖 <strong>${b.title}</strong> <small>(${b.fileName})</small></span>
+                    <a href="${b.fileData}" download="${b.fileName}" class="btn" style="text-decoration:none; padding:5px 10px; font-size:11px;">Download PDF</a>
+                </div>
+            `;
+        });
+    }
+
+    function downloadWeeklyPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.setFontSize(16);
+        doc.text("COMMERCIAL BANK OF ETHIOPIA - BORKENA BRANCH", 15, 20);
+        doc.setFontSize(12);
+        doc.text("Weekly Best Staff Performance Assessment", 15, 28);
+
+        let y = 40;
+        const sorted = [...perfData].sort((a,b) => b.score - a.score);
+        sorted.forEach((item, index) => {
+            doc.text(`${index + 1}. ${item.staff} | Rating: ${item.score}% | Date: ${item.date}`, 15, y);
+            y += 8;
+        });
+        doc.save("Weekly_Top_Staff_Borkena.pdf");
+    }
+
+    function generateDocument() {
+        const staff = document.getElementById('certStaff').value;
+        const type = document.getElementById('certType').value;
+        const reason = document.getElementById('certReason').value || 'Performance evaluation standards compliance';
+
+        const isWarning = type === 'warning';
+        const printWin = window.open('', '_blank');
+
+        printWin.document.write(`
+            <html>
+            <head><title>Print Official Document</title></head>
+            <body style="font-family:Arial, sans-serif; text-align:center; padding:40px; border:8px solid ${isWarning ? '#dc3545' : '#5c068c'}; color:#2c3e50;">
+                <h1 style="color:#5c068c; margin-bottom:5px;">COMMERCIAL BANK OF ETHIOPIA</h1>
+                <h3 style="margin-top:0;">BORKENA BRANCH</h3>
+                <hr style="margin:20px 0;">
+                <h2 style="color:${isWarning ? '#dc3545' : '#5c068c'};">
+                    ${isWarning ? '⚠️ OFFICIAL WARNING LETTER' : '📜 CERTIFICATE OF EXCELLENCE'}
+                </h2>
+                <p style="font-size:16px;">This official notice is issued to:</p>
+                <h1 style="text-decoration:underline;">${staff}</h1>
+                <p style="font-size:15px; margin:20px 0; line-height:1.6;">
+                    ${isWarning 
+                        ? 'Your current performance rating falls below the mandatory 75% operational target threshold. You are hereby advised to improve performance metrics immediately.' 
+                        : 'In recognition of your exceptional performance and valuable contribution towards achieving branch targets.'}
+                </p>
+                <p style="font-size:14px;"><strong>Remarks:</strong> ${reason}</p>
+                <br><br><br>
+                <p>Branch Manager Signature: ______________________</p>
+                <script>window.print();<\/script>
+            </body>
+            </html>
+        `);
     }
 </script>
 
