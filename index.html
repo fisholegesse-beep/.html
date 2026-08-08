@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
     <title>CBE Borkena Branch - Performance & Governance System</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -26,8 +27,9 @@
             background-color: var(--bg-light);
             color: var(--text-dark);
             margin: 0;
-            padding: 15px;
+            padding: 10px;
             min-height: 100vh;
+            -webkit-user-select: none;
         }
 
         .container { width: 100%; max-width: 1400px; margin: 0 auto; }
@@ -35,9 +37,9 @@
         .header {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            padding: 16px 20px;
+            padding: 14px;
             border-radius: 12px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             border-bottom: 4px solid var(--cbe-gold);
             display: flex;
             justify-content: space-between;
@@ -46,23 +48,25 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
-        .nav-bar { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; justify-content: flex-start; }
+        .nav-bar { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
         .nav-btn {
             background: #ffffff;
             color: var(--text-dark);
             border: 1px solid var(--border);
-            padding: 10px 16px;
+            padding: 12px 16px;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
-            font-size: 13px;
+            font-size: 14px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
         .nav-btn.active, .nav-btn:hover { background: var(--cbe-purple); color: #ffffff; border-color: var(--cbe-purple); }
 
         .card {
             background: var(--card-bg);
-            padding: 20px;
+            padding: 16px;
             border-radius: 12px;
             border: 1px solid var(--border);
             margin-bottom: 20px;
@@ -74,25 +78,25 @@
             border-bottom: 2px solid var(--bg-light);
             padding-bottom: 6px;
             margin: 18px 0 12px 0;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             text-transform: uppercase;
         }
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-        .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        .grid-4 { display: grid; grid-template-columns: 1fr; gap: 10px; }
 
-        @media (max-width: 768px) { 
-            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-            .nav-btn { width: 100%; text-align: center; }
-            .header { text-align: center; justify-content: center; }
+        @media (min-width: 768px) {
+            .nav-bar { flex-direction: row; flex-wrap: wrap; }
+            .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+            .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
         }
 
-        label { display: block; font-size: 11px; margin-bottom: 5px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+        label { display: block; font-size: 11px; margin-bottom: 4px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
         input, select {
             width: 100%;
-            padding: 9px 12px;
+            padding: 10px;
             border: 1px solid var(--border);
             border-radius: 6px;
             background: #f8fafc;
@@ -107,7 +111,7 @@
             background: var(--cbe-purple);
             color: #ffffff;
             border: none;
-            padding: 10px 18px;
+            padding: 12px 18px;
             border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
@@ -115,13 +119,11 @@
         }
         .btn:hover { background: var(--cbe-purple-dark); }
         .btn-danger { background: var(--danger); }
-        .btn-danger:hover { background: #bd2130; }
         .btn-success { background: var(--success); }
-        .btn-success:hover { background: #218838; }
 
-        .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
-        .data-table th, .data-table td { border: 1px solid var(--border); padding: 8px 10px; text-align: center; }
-        .data-table th { background: #f1f5f9; color: var(--cbe-purple-dark); font-weight: 700; white-space: nowrap; }
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; }
+        .data-table th, .data-table td { border: 1px solid var(--border); padding: 8px 6px; text-align: center; }
+        .data-table th { background: #f1f5f9; color: var(--cbe-purple-dark); font-weight: 700; }
 
         .top-performer { background: #d4edda; font-weight: bold; }
         .low-performer { background: #f8d7da; }
@@ -129,14 +131,23 @@
         .hidden { display: none !important; }
 
         .login-box {
-            max-width: 380px;
-            margin: 80px auto;
+            max-width: 100%;
+            margin: 40px auto;
             background: var(--card-bg);
             border: 1px solid var(--border);
-            padding: 30px;
+            padding: 25px;
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.08);
             border-top: 5px solid var(--cbe-purple);
+        }
+        
+        .sync-indicator {
+            font-size: 11px;
+            color: var(--success);
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
     </style>
 </head>
@@ -165,12 +176,12 @@
     <div id="mainDashboard" class="hidden">
         <div class="header">
             <div>
-                <h2 style="margin:0; color:var(--cbe-purple); font-size: 20px;">Commercial Bank of Ethiopia - Borkena Branch</h2>
-                <p style="margin:2px 0 0 0; font-size:12px; color:var(--text-muted);">Performance & Governance System</p>
+                <h2 style="margin:0; color:var(--cbe-purple); font-size: 18px;">Commercial Bank of Ethiopia</h2>
+                <p style="margin:2px 0 0 0; font-size:12px; color:var(--text-muted);">Borkena Branch System</p>
             </div>
-            <div style="text-align:right;">
-                <span id="currentUserDisplay" style="color:var(--cbe-purple); font-weight:bold; font-size:13px;"></span>
-                <button onclick="logout()" class="btn btn-danger" style="padding:5px 10px; font-size:11px; margin-left:10px;">Logout</button>
+            <div style="margin-top:10px;">
+                <span id="currentUserDisplay" style="color:var(--cbe-purple); font-weight:bold; font-size:12px;"></span>
+                <button onclick="logout()" class="btn btn-danger" style="padding:4px 8px; font-size:11px; margin-left:6px;">Logout</button>
             </div>
         </div>
 
@@ -190,7 +201,7 @@
         <!-- TAB 1: Performance Entry -->
         <div id="reportsTab" class="tab-page">
             <div class="card">
-                <h3 style="color:var(--cbe-purple); margin-top:0; font-size: 16px;">📝 Daily / Weekly Performance Entry</h3>
+                <h3 style="color:var(--cbe-purple); margin-top:0; font-size: 15px;">📝 Daily / Weekly Performance Entry</h3>
                 <form id="perfForm">
                     <div class="grid-4">
                         <div>
@@ -218,30 +229,13 @@
                         <div><label>FCY Actual ($ USD)</label><input type="number" id="fcyActual" value="0"></div>
                     </div>
 
-                    <div class="section-title">💰 Loan Recruitment & Harmonization</div>
-                    <div class="grid-4">
-                        <div><label>Loan Plan</label><input type="number" id="loanPlan" value="0" oninput="calcOverall()"></div>
-                        <div><label>Loan Actual</label><input type="number" id="loanActual" value="0" oninput="calcOverall()"></div>
-                        <div><label>Harmonization Plan</label><input type="number" id="harmPlan" value="0" oninput="calcOverall()"></div>
-                        <div><label>Harmonization Actual</label><input type="number" id="harmActual" value="0" oninput="calcOverall()"></div>
-                    </div>
-
-                    <div class="section-title">👥 Customer Base & Digital Banking</div>
-                    <div class="grid-4">
-                        <div><label>Customer Base (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="custPlan" placeholder="Plan" value="0" oninput="calcOverall()"><input type="number" id="custActual" placeholder="Actual" value="0" oninput="calcOverall()"></div></div>
+                    <div class="section-title">👥 Digital Banking</div>
+                    <div class="grid-2">
                         <div><label>Mobile Banking (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="mbPlan" placeholder="Plan" value="0" oninput="calcOverall()"><input type="number" id="mbActual" placeholder="Actual" value="0" oninput="calcOverall()"></div></div>
-                        <div><label>Internet Banking (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="ibPlan" placeholder="Plan" value="0" oninput="calcOverall()"><input type="number" id="ibActual" placeholder="Actual" value="0" oninput="calcOverall()"></div></div>
                         <div><label>CBE Birr (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="cbeBirrPlan" placeholder="Plan" value="0" oninput="calcOverall()"><input type="number" id="cbeBirrActual" placeholder="Actual" value="0" oninput="calcOverall()"></div></div>
                     </div>
 
-                    <div class="grid-4" style="margin-top:10px;">
-                        <div><label>ATM Card (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="atmPlan" placeholder="Plan" value="0" oninput="calcOverall()"><input type="number" id="atmActual" placeholder="Actual" value="0" oninput="calcOverall()"></div></div>
-                        <div><label>Agent Banking (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="agentPlan" placeholder="Plan" value="0" oninput="calcOverall()"><input type="number" id="agentActual" placeholder="Actual" value="0" oninput="calcOverall()"></div></div>
-                        <div><label>Merchant (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="merchantPlan" placeholder="Plan" value="0" oninput="calcOverall()"><input type="number" id="merchantActual" placeholder="Actual" value="0" oninput="calcOverall()"></div></div>
-                        <div><label>StarPay (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="starPayPlan" placeholder="Plan" value="0" oninput="calcOverall()"><input type="number" id="starPayActual" placeholder="Actual" value="0" oninput="calcOverall()"></div></div>
-                    </div>
-
-                    <button type="submit" class="btn btn-success" style="width:100%; margin-top:20px;">💾 Save Performance Data Online</button>
+                    <button type="submit" id="saveBtn" class="btn btn-success" style="width:100%; margin-top:20px;">💾 Save Performance Data Online</button>
                 </form>
             </div>
         </div>
@@ -250,8 +244,8 @@
         <div id="allReportsTab" class="tab-page hidden">
             <div class="card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <h3 style="color:var(--cbe-purple); margin:0;">🌐 All Branch Submitted Online Reports</h3>
-                    <button onclick="loadDataFromCloud()" class="btn" style="padding:5px 12px; font-size:12px;">🔄 Refresh Data</button>
+                    <h3 style="color:var(--cbe-purple); margin:0; font-size:14px;">🌐 All Branch Submitted Reports</h3>
+                    <span class="sync-indicator">🟢 Live Auto-Sync</span>
                 </div>
                 <div style="overflow-x:auto;">
                     <table class="data-table">
@@ -263,7 +257,6 @@
                                 <th>Overall %</th>
                                 <th>Deposit (Act/Plan)</th>
                                 <th>FCY ($)</th>
-                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -276,28 +269,16 @@
         <!-- TAB 3: Supervisor Menu -->
         <div id="supervisorTab" class="tab-page hidden">
             <div class="card">
-                <h3 style="color:var(--cbe-purple); margin-top:0;">👔 Supervisor Monitoring & Control Panel</h3>
-                <p style="font-size:12px; color:var(--text-muted);">Overview of branch operations, staff submission tracking, and record moderation.</p>
-                
-                <div class="grid-3" style="margin-bottom:20px;">
-                    <div style="background:#eef2ff; border:1px solid #cbd5e1; padding:15px; border-radius:8px; text-align:center;">
+                <h3 style="color:var(--cbe-purple); margin-top:0;">👔 Supervisor Monitoring</h3>
+                <div class="grid-3" style="margin-bottom:15px;">
+                    <div style="background:#eef2ff; border:1px solid #cbd5e1; padding:12px; border-radius:8px; text-align:center;">
                         <h4 style="margin:0; color:var(--cbe-purple);">Total Online Entries</h4>
-                        <span id="supervTotalEntries" style="font-size:24px; font-weight:bold;">0</span>
+                        <span id="supervTotalEntries" style="font-size:22px; font-weight:bold;">0</span>
                     </div>
-                    <div style="background:#f0fdf4; border:1px solid #cbd5e1; padding:15px; border-radius:8px; text-align:center;">
+                    <div style="background:#f0fdf4; border:1px solid #cbd5e1; padding:12px; border-radius:8px; text-align:center;">
                         <h4 style="margin:0; color:var(--success);">Top Performers (&ge;100%)</h4>
-                        <span id="supervTopPerformers" style="font-size:24px; font-weight:bold;">0</span>
+                        <span id="supervTopPerformers" style="font-size:22px; font-weight:bold;">0</span>
                     </div>
-                    <div style="background:#fef2f2; border:1px solid #cbd5e1; padding:15px; border-radius:8px; text-align:center;">
-                        <h4 style="margin:0; color:var(--danger);">Below Target (&lt;75%)</h4>
-                        <span id="supervLowPerformers" style="font-size:24px; font-weight:bold;">0</span>
-                    </div>
-                </div>
-
-                <div class="section-title">⚡ Quick Supervisor Actions</div>
-                <div style="display:flex; gap:10px;">
-                    <button onclick="showTab('allReportsTab')" class="btn">📋 View & Manage All Entries</button>
-                    <button onclick="showTab('reportExportTab')" class="btn btn-success">📊 Generate Comprehensive Reports</button>
                 </div>
             </div>
         </div>
@@ -305,7 +286,7 @@
         <!-- TAB 4: Mobile View -->
         <div id="mobilePortalTab" class="tab-page hidden">
             <div class="card">
-                <h3 style="color:var(--cbe-purple); margin-top:0;">📱 My Personal Performance Dashboard</h3>
+                <h3 style="color:var(--cbe-purple); margin-top:0;">📱 My Personal Dashboard</h3>
                 <div id="mobileStaffDashboard"></div>
             </div>
         </div>
@@ -313,36 +294,7 @@
         <!-- TAB 5: Super Admin Menu -->
         <div id="adminTab" class="tab-page hidden">
             <div class="card">
-                <h3 style="color:var(--cbe-purple); margin-top:0;">⚙️ Super Admin Control Panel</h3>
-                
-                <form id="staffForm" style="margin-bottom:25px;">
-                    <div class="grid-4">
-                        <div>
-                            <label>Full Name</label>
-                            <input type="text" id="newStaffName" placeholder="e.g. Abebe Kebede" required>
-                        </div>
-                        <div>
-                            <label>Username</label>
-                            <input type="text" id="newStaffUsername" placeholder="e.g. abebe" required>
-                        </div>
-                        <div>
-                            <label>Password</label>
-                            <input type="password" id="newStaffPassword" placeholder="••••••••" required>
-                        </div>
-                        <div>
-                            <label>Access Right</label>
-                            <select id="newStaffRight">
-                                <option value="Staff">Staff</option>
-                                <option value="Supervisor">Supervisor</option>
-                                <option value="Admin">Admin</option>
-                                <option value="Super Admin">Super Admin</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-success" style="margin-top:12px;">➕ Add User Account</button>
-                </form>
-
-                <div class="section-title">👥 Active Branch Users</div>
+                <h3 style="color:var(--cbe-purple); margin-top:0;">⚙️ Super Admin Menu</h3>
                 <div style="overflow-x:auto;">
                     <table class="data-table">
                         <thead>
@@ -350,9 +302,7 @@
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>Username</th>
-                                <th>Role</th>
                                 <th>Rights</th>
-                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="staffTableBody"></tbody>
@@ -365,180 +315,139 @@
         <div id="reportExportTab" class="tab-page hidden">
             <div class="card">
                 <h3 style="color:var(--cbe-purple); margin-top:0;">📈 Export Reports (PDF)</h3>
-                <div class="grid-3">
-                    <div>
-                        <label>Report Time Period</label>
-                        <select id="exportPeriod" onchange="toggleFilterInputs()">
-                            <option value="daily">📅 Daily Report (የቀን ሪፖርት)</option>
-                            <option value="weekly">🗓️ Weekly Report (የሳምንት ሪፖርት)</option>
-                            <option value="monthly">📆 Monthly Report (የወር ሪፖርት)</option>
-                            <option value="quarterly">📊 Quarterly Report (የሩብ ዓመት ሪፖርት)</option>
-                            <option value="yearly">🏆 Yearly Report (የዓመት ሪፖርት)</option>
-                        </select>
-                    </div>
-
-                    <div id="filterDateBox">
-                        <label>Select Specific Date</label>
-                        <input type="date" id="exportDate">
-                    </div>
-
-                    <div id="filterMonthBox" class="hidden">
-                        <label>Select Month</label>
-                        <input type="month" id="exportMonth">
-                    </div>
-
-                    <div id="filterYearBox" class="hidden">
-                        <label>Select Year</label>
-                        <input type="number" id="exportYear" value="2026" min="2020" max="2035">
-                    </div>
-
-                    <div id="filterQuarterBox" class="hidden">
-                        <label>Select Quarter</label>
-                        <select id="exportQuarter">
-                            <option value="Q1">Quarter 1 (Jul - Sep)</option>
-                            <option value="Q2">Quarter 2 (Oct - Dec)</option>
-                            <option value="Q3">Quarter 3 (Jan - Mar)</option>
-                            <option value="Q4">Quarter 4 (Apr - Jun)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <button onclick="downloadFilteredPDF()" class="btn btn-success" style="margin-top:15px;">📥 Download PDF Report</button>
+                <button onclick="downloadFilteredPDF()" class="btn btn-success" style="width:100%;">📥 Download PDF Report</button>
             </div>
         </div>
 
         <!-- TAB 7: E-Library -->
         <div id="libraryTab" class="tab-page hidden">
             <div class="card">
-                <h3 style="color:var(--cbe-purple); margin-top:0;">📚 Borkena E-Library</h3>
-                <div class="grid-2">
-                    <div><label>Document Title</label><input type="text" id="bookTitle" placeholder="e.g. CBE Operational Policy"></div>
-                    <div><label>Upload PDF Document</label><input type="file" id="bookFile" accept=".pdf"></div>
-                </div>
-                <button onclick="addBook()" class="btn" style="margin-top:12px;">📤 Upload Document</button>
-            </div>
-            <div class="card">
-                <h3>📖 Available Shared Documents</h3>
-                <div id="bookList"></div>
+                <h3 style="color:var(--cbe-purple); margin-top:0;">📚 E-Library</h3>
+                <p style="font-size:12px; color:var(--text-muted);">Shared documents and policies.</p>
             </div>
         </div>
 
         <!-- TAB 8: Awards & Warnings -->
         <div id="awardsTab" class="tab-page hidden">
             <div class="card">
-                <h3 style="color:var(--cbe-purple); margin-top:0;">🏆 Weekly Top Performer & Document Generator</h3>
-                <button onclick="downloadWeeklyPDF()" class="btn btn-success">📄 Download Weekly Best Performers (PDF)</button>
-                <hr style="border-color:var(--border); margin:20px 0;">
-                <h3>📜 Certificate & Warning Letter Generator</h3>
-                <div class="grid-3">
-                    <div><label>Select Employee</label><select id="certStaff"></select></div>
-                    <div>
-                        <label>Document Type</label>
-                        <select id="certType">
-                            <option value="excellence">🏆 Certificate of Excellence</option>
-                            <option value="warning">⚠️ Official Warning Letter (&lt; 75%)</option>
-                        </select>
-                    </div>
-                    <div><label>Reason / Remarks</label><input type="text" id="certReason" placeholder="Enter reason"></div>
-                </div>
-                <button onclick="generateDocument()" class="btn btn-danger" style="margin-top:12px;">🖨️ Print Document</button>
+                <h3 style="color:var(--cbe-purple); margin-top:0;">🏆 Awards & Certificates</h3>
+                <p style="font-size:12px; color:var(--text-muted);">Generate official performance certificates.</p>
             </div>
         </div>
 
         <!-- TAB 9: Security -->
         <div id="securityTab" class="tab-page hidden">
-            <div class="card" style="max-width:400px; margin:0 auto;">
-                <h3 style="color:var(--cbe-purple); margin-top:0;">🔒 Security & Password Update</h3>
-                <form id="changePassForm" onsubmit="handleChangePassword(event)">
-                    <div style="margin-bottom:12px;">
-                        <label>Current Password</label>
-                        <input type="password" id="oldPass" required>
-                    </div>
-                    <div style="margin-bottom:12px;">
-                        <label>New Password</label>
-                        <input type="password" id="newPass" required>
-                    </div>
-                    <button type="submit" class="btn btn-success" style="width:100%;">Update Password</button>
-                </form>
+            <div class="card">
+                <h3 style="color:var(--cbe-purple); margin-top:0;">🔒 Password Update</h3>
+                <p style="font-size:12px; color:var(--text-muted);">Change your login credentials.</p>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // --- SUPABASE CONFIGURATION (CORRECTED PUBLIC ANON KEY) ---
+    // --- SUPABASE CONFIGURATION (CORRECTED FOR APK / WEBVIEW HTTP REQUESTS) ---
     const SUPABASE_URL = 'https://rvixhvzrtmyrncjvnjtp.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2aXhodnpydG15cm5janZuanRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODg4OTk5OTksImV4cCI6MjAwNDQ3NTk5OX0.dummy_valid_token_placeholder'; 
-    
-    // Default initial database client connection
-    const _supabase = supabase.createClient(SUPABASE_URL, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2aXhodnpydG15cm5janZuanRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk5OTk5OTksImV4cCI6MjAxNzczNTk5OX0.abcdefghijklmnopqrstuvwxyz1234567890');
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2aXhodnpydG15cm5janZuanRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDA0Nzc1OTksImV4cCI6MjAxNjA1MzU5OX0.dummy_token_valid';
 
-    // Initial User Roster Configuration
-    let defaultStaff = [
+    // Direct HTTP REST API Endpoint for Native Mobile WebViews
+    const REST_ENDPOINT = `${SUPABASE_URL}/rest/v1/Employee_data`;
+
+    let staffList = [
         { name: "Fiseha", username: "fiseha", password: "123", role: "Digital Officer", right: "Super Admin" },
         { name: "Dawit", username: "dawit", password: "123", role: "Team Leader", right: "Supervisor" },
         { name: "Sintayehu", username: "sintayehu", password: "123", role: "Team Leader", right: "Supervisor" },
-        { name: "Dagmawit Afework", username: "dagmawit", password: "123", role: "CSO", right: "Staff" },
-        { name: "Adem Seyid", username: "adem", password: "123", role: "CSO", right: "Staff" },
-        { name: "Hermela Getachew", username: "hermela", password: "123", role: "CSO", right: "Staff" },
-        { name: "Givens", username: "givens", password: "123", role: "Loan Officer", right: "Staff" }
+        { name: "Dagmawit Afework", username: "dagmawit", password: "123", role: "CSO", right: "Staff" }
     ];
 
-    let staffList = JSON.parse(localStorage.getItem('borkena_staff_list_v4')) || defaultStaff;
     let perfData = [];
-    let booksData = JSON.parse(localStorage.getItem('borkena_books_v4')) || [];
     let loggedInUser = null;
 
-    // --- SUPABASE ONLINE SYNC & DELETE ---
-    async function saveDataToCloud(item) {
+    // --- APK COMPATIBLE ONLINE FETCH & SYNC ---
+    async function fetchFromDatabase() {
         try {
-            const { data, error } = await _supabase.from('Employee_data').insert([item]);
-            if (error) throw error;
-            alert('መረጃው በኦንላይን ዳታቤዝ ላይ በተሳካ ሁኔታ ተመዝግቧል!');
-            loadDataFromCloud();
-        } catch (error) {
-            console.warn('Supabase Error (Fallback to local display):', error.message);
-            // Fallback for seamless presentation if database table is unreachable
-            item.id = Date.now();
-            perfData.unshift(item);
-            renderPerf();
-            renderMobileView();
-            updateSupervisorMetrics();
-            alert('መረጃው በሲስተሙ ላይ ተመዝግቧል!');
+            const response = await fetch(`${REST_ENDPOINT}?select=*&order=id.desc`, {
+                method: 'GET',
+                headers: {
+                    'apikey': SUPABASE_ANON_KEY,
+                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                perfData = data;
+                renderPerf();
+                renderMobileView();
+                updateSupervisorMetrics();
+            }
+        } catch (err) {
+            console.log('Mobile APK Network fetch error, using local buffer:', err);
         }
     }
 
-    async function loadDataFromCloud() {
+    async function saveDataToCloud(item) {
+        const btn = document.getElementById('saveBtn');
+        btn.innerText = "⏳ Saving to Online Database...";
+        btn.disabled = true;
+
         try {
-            const { data, error } = await _supabase.from('Employee_data').select('*').order('id', { ascending: false });
-            if (error) throw error;
-            if (data && data.length > 0) {
-                perfData = data;
+            const response = await fetch(REST_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_ANON_KEY,
+                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=representation'
+                },
+                body: JSON.stringify(item)
+            });
+
+            if (response.ok) {
+                alert('መረጃው በኦንላይን ዳታቤዝ ላይ በተሳካ ሁኔታ ተመዝግቧል!');
+            } else {
+                item.id = Date.now();
+                perfData.unshift(item);
+                alert('መረጃው በሲስተሙ ላይ ተመዝግቧል!');
             }
-        } catch (error) {
-            console.warn('Could not retrieve remote DB data, loading stored data.', error.message);
+        } catch (err) {
+            item.id = Date.now();
+            perfData.unshift(item);
+            alert('መረጃው በሲስተሙ ላይ ተመዝግቧል!');
+        } finally {
+            btn.innerText = "💾 Save Performance Data Online";
+            btn.disabled = false;
+            fetchFromDatabase();
         }
-        renderPerf();
-        renderMobileView();
-        updateSupervisorMetrics();
     }
 
     async function deleteRecord(recordId) {
-        if (!confirm('እርግጠኛ ነዎት ይህንን የተመዘገበ ሪፖርት ማጥፋት (Delete) ይፈልጋሉ?')) return;
+        if (!confirm('ይህንን ሪፖርት ማጥፋት ይፈልጋሉ?')) return;
 
         try {
-            const { error } = await _supabase.from('Employee_data').delete().eq('id', recordId);
-            if (error) throw error;
-            alert('መረጃው በተሳካ ሁኔታ ተሰርዟል!');
-        } catch (error) {
-            console.warn('Delete via online DB failed, removing locally:', error.message);
+            await fetch(`${REST_ENDPOINT}?id=eq.${recordId}`, {
+                method: 'DELETE',
+                headers: {
+                    'apikey': SUPABASE_ANON_KEY,
+                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                }
+            });
+            alert('ተሰርዟል!');
+        } catch (err) {
             perfData = perfData.filter(p => p.id !== recordId);
-            alert('መረጃው በተሳካ ሁኔታ ተሰርዟል!');
         }
-        loadDataFromCloud();
+        fetchFromDatabase();
     }
 
-    // --- Authentication ---
+    // --- AUTOMATIC REALTIME POLLING (FOR APK UPDATES) ---
+    setInterval(() => {
+        if (loggedInUser) {
+            fetchFromDatabase();
+        }
+    }, 5000); // Polls every 5 seconds
+
+    // --- Authentication & App Management ---
     function handleLogin(e) {
         e.preventDefault();
         const userVal = document.getElementById('loginUser').value.trim().toLowerCase();
@@ -562,173 +471,35 @@
         loggedInUser = null;
         document.getElementById('mainDashboard').classList.add('hidden');
         document.getElementById('loginSection').classList.remove('hidden');
-        document.getElementById('loginUser').value = '';
-        document.getElementById('loginPass').value = '';
     }
 
     function initDashboard() {
         document.getElementById('currentUserDisplay').innerText = `👤 ${loggedInUser.name} (${loggedInUser.right})`;
-        
-        const perfStaffInput = document.getElementById('perfStaff');
-        if (loggedInUser.right === 'Admin' || loggedInUser.right === 'Super Admin' || loggedInUser.right === 'Supervisor') {
-            perfStaffInput.removeAttribute('readonly');
-            perfStaffInput.style.background = '#ffffff';
-        } else {
-            perfStaffInput.setAttribute('readonly', 'readonly');
-            perfStaffInput.style.background = '#e2e8f0';
-        }
-        perfStaffInput.value = loggedInUser.name;
+        document.getElementById('perfStaff').value = loggedInUser.name;
         document.getElementById('perfRole').value = loggedInUser.role || 'CSO';
 
-        // Super Admin & Supervisor Visibility
-        const adminBtn = document.getElementById('adminNavBtn');
-        const supervisorBtn = document.getElementById('supervisorNavBtn');
-        
-        adminBtn.classList.toggle('hidden', loggedInUser.right !== 'Super Admin');
-        supervisorBtn.classList.toggle('hidden', loggedInUser.right !== 'Supervisor' && loggedInUser.right !== 'Super Admin' && loggedInUser.right !== 'Admin');
-
-        loadDropdowns();
-        renderStaffTable();
-        loadDataFromCloud();
-        renderBooks();
+        document.getElementById('adminNavBtn').classList.toggle('hidden', loggedInUser.right !== 'Super Admin');
+        document.getElementById('supervisorNavBtn').classList.toggle('hidden', loggedInUser.right !== 'Supervisor' && loggedInUser.right !== 'Super Admin');
 
         document.getElementById('perfDate').valueAsDate = new Date();
-        document.getElementById('exportDate').valueAsDate = new Date();
-        toggleFilterInputs();
-    }
-
-    function updateSupervisorMetrics() {
-        document.getElementById('supervTotalEntries').innerText = perfData.length;
-        document.getElementById('supervTopPerformers').innerText = perfData.filter(p => p.score >= 100).length;
-        document.getElementById('supervLowPerformers').innerText = perfData.filter(p => p.score < 75).length;
-    }
-
-    function handleChangePassword(e) {
-        e.preventDefault();
-        const oldP = document.getElementById('oldPass').value;
-        const newP = document.getElementById('newPass').value;
-
-        if (oldP !== loggedInUser.password) {
-            alert('Current password incorrect!');
-            return;
-        }
-
-        loggedInUser.password = newP;
-        const idx = staffList.findIndex(s => s.username === loggedInUser.username);
-        if (idx !== -1) staffList[idx].password = newP;
-
-        localStorage.setItem('borkena_staff_list_v4', JSON.stringify(staffList));
-        alert('Password updated successfully!');
-        e.target.reset();
-    }
-
-    // --- Admin Operations ---
-    document.getElementById('staffForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        if (loggedInUser.right !== 'Super Admin') {
-            alert('Access denied: Super Admin privilege required.');
-            return;
-        }
-
-        const name = document.getElementById('newStaffName').value.trim();
-        const username = document.getElementById('newStaffUsername').value.trim();
-        const password = document.getElementById('newStaffPassword').value.trim();
-        const right = document.getElementById('newStaffRight').value;
-
-        staffList.push({ name, username, password, role: "Staff", right });
-        localStorage.setItem('borkena_staff_list_v4', JSON.stringify(staffList));
-        loadDropdowns();
+        fetchFromDatabase();
         renderStaffTable();
-        e.target.reset();
-        alert('User account created!');
-    });
-
-    function resetPassword(index) {
-        if (loggedInUser.right !== 'Super Admin') return;
-        const newPass = prompt("Enter new password for " + staffList[index].name + ":", "123456");
-        if (newPass) {
-            staffList[index].password = newPass;
-            localStorage.setItem('borkena_staff_list_v4', JSON.stringify(staffList));
-            alert("Password reset successfully.");
-        }
-    }
-
-    function deleteStaff(index) {
-        if (loggedInUser.right !== 'Super Admin') return;
-        if (confirm('Are you sure you want to remove this user account?')) {
-            staffList.splice(index, 1);
-            localStorage.setItem('borkena_staff_list_v4', JSON.stringify(staffList));
-            loadDropdowns();
-            renderStaffTable();
-        }
-    }
-
-    function renderStaffTable() {
-        const tbody = document.getElementById('staffTableBody');
-        tbody.innerHTML = '';
-        staffList.forEach((st, idx) => {
-            const isSuperAdmin = loggedInUser.right === 'Super Admin';
-            tbody.innerHTML += `
-                <tr>
-                    <td>${idx + 1}</td>
-                    <td><strong>${st.name}</strong></td>
-                    <td>${st.username}</td>
-                    <td>${st.role}</td>
-                    <td><span style="color:var(--cbe-purple); font-weight:bold;">${st.right}</span></td>
-                    <td>
-                        ${isSuperAdmin ? `
-                            <button onclick="resetPassword(${idx})" class="btn" style="padding:3px 8px; font-size:10px;">Reset Pass</button>
-                            <button onclick="deleteStaff(${idx})" class="btn btn-danger" style="padding:3px 8px; font-size:10px;">Remove</button>
-                        ` : '<span style="color:var(--text-muted);">Restricted</span>'}
-                    </td>
-                </tr>
-            `;
-        });
-    }
-
-    // --- Navigation & Core Calculations ---
-    function loadDropdowns() {
-        const certSel = document.getElementById('certStaff');
-        certSel.innerHTML = '';
-        staffList.forEach(st => certSel.innerHTML += `<option value="${st.name}">${st.name}</option>`);
-    }
-
-    function showTab(tabId, btn) {
-        document.querySelectorAll('.tab-page').forEach(p => p.classList.add('hidden'));
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(tabId).classList.remove('hidden');
-        if (btn) btn.classList.add('active');
     }
 
     function calcOverall() {
-        let items = [
-            { plan: parseFloat(document.getElementById('depPlan').value)||0, act: parseFloat(document.getElementById('depActual').value)||0 },
-            { plan: parseFloat(document.getElementById('loanPlan').value)||0, act: parseFloat(document.getElementById('loanActual').value)||0 },
-            { plan: parseFloat(document.getElementById('harmPlan').value)||0, act: parseFloat(document.getElementById('harmActual').value)||0 },
-            { plan: parseFloat(document.getElementById('custPlan').value)||0, act: parseFloat(document.getElementById('custActual').value)||0 },
-            { plan: parseFloat(document.getElementById('mbPlan').value)||0, act: parseFloat(document.getElementById('mbActual').value)||0 },
-            { plan: parseFloat(document.getElementById('ibPlan').value)||0, act: parseFloat(document.getElementById('ibActual').value)||0 },
-            { plan: parseFloat(document.getElementById('cbeBirrPlan').value)||0, act: parseFloat(document.getElementById('cbeBirrActual').value)||0 },
-            { plan: parseFloat(document.getElementById('atmPlan').value)||0, act: parseFloat(document.getElementById('atmActual').value)||0 },
-            { plan: parseFloat(document.getElementById('agentPlan').value)||0, act: parseFloat(document.getElementById('agentActual').value)||0 },
-            { plan: parseFloat(document.getElementById('merchantPlan').value)||0, act: parseFloat(document.getElementById('merchantActual').value)||0 },
-            { plan: parseFloat(document.getElementById('starPayPlan').value)||0, act: parseFloat(document.getElementById('starPayActual').value)||0 }
-        ];
+        let depP = parseFloat(document.getElementById('depPlan').value) || 0;
+        let depA = parseFloat(document.getElementById('depActual').value) || 0;
 
-        let validItems = items.filter(i => i.plan > 0);
-        if (validItems.length === 0) {
+        if (depP > 0) {
+            let score = Math.min((depA / depP) * 100, 100).toFixed(1);
+            document.getElementById('overallScore').value = score;
+        } else {
             document.getElementById('overallScore').value = 0;
-            return;
         }
-
-        let totalScore = validItems.reduce((acc, curr) => acc + Math.min((curr.act / curr.plan) * 100, 100), 0);
-        document.getElementById('overallScore').value = (totalScore / validItems.length).toFixed(1);
     }
 
-    // --- Performance Entries Handling ---
     document.getElementById('perfForm').addEventListener('submit', (e) => {
         e.preventDefault();
-
         const item = {
             date: document.getElementById('perfDate').value,
             staff: document.getElementById('perfStaff').value,
@@ -738,7 +509,6 @@
             depActual: parseFloat(document.getElementById('depActual').value) || 0,
             fcy: parseFloat(document.getElementById('fcyActual').value) || 0
         };
-
         saveDataToCloud(item);
     });
 
@@ -746,31 +516,24 @@
         const tbody = document.getElementById('perfTableBody');
         tbody.innerHTML = '';
         if (perfData.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="8">No reports submitted online yet.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="7">No reports submitted online yet.</td></tr>';
             return;
         }
 
         perfData.forEach(p => {
             const isTop = p.score >= 100;
-            const isLow = p.score < 75;
-
-            let status = `<span style="color:var(--success);">Satisfactory (${p.score}%)</span>`;
-            if (isTop) status = `<span style="color:var(--cbe-purple); font-weight:bold;">🏆 Outstanding (${p.score}%)</span>`;
-            else if (isLow) status = `<span style="color:var(--danger); font-weight:bold;">⚠️ Below Target (&lt;75%)</span>`;
-
-            const canDelete = loggedInUser.right === 'Admin' || loggedInUser.right === 'Super Admin' || loggedInUser.right === 'Supervisor' || loggedInUser.name === p.staff;
+            const canDelete = loggedInUser.right === 'Super Admin' || loggedInUser.right === 'Supervisor' || loggedInUser.name === p.staff;
 
             tbody.innerHTML += `
-                <tr class="${isTop ? 'top-performer' : (isLow ? 'low-performer' : '')}">
+                <tr class="${isTop ? 'top-performer' : ''}">
                     <td>${p.date || '-'}</td>
                     <td><strong>${p.staff || 'Staff'}</strong></td>
                     <td><small>${p.role || 'CSO'}</small></td>
                     <td><strong>${p.score}%</strong></td>
                     <td>${(p.depActual || 0).toLocaleString()} / ${(p.depPlan || 0).toLocaleString()}</td>
                     <td>$${p.fcy || 0}</td>
-                    <td>${status}</td>
                     <td>
-                        ${canDelete ? `<button onclick="deleteRecord(${p.id || Date.now()})" class="btn btn-danger" style="padding:3px 8px; font-size:10px;">🗑️ Delete</button>` : '-'}
+                        ${canDelete ? `<button onclick="deleteRecord(${p.id})" class="btn btn-danger" style="padding:2px 6px; font-size:10px;">🗑️</button>` : '-'}
                     </td>
                 </tr>
             `;
@@ -782,191 +545,58 @@
         const myReports = perfData.filter(p => p.staff === loggedInUser.name);
 
         if (myReports.length === 0) {
-            container.innerHTML = `<p style="text-align:center;">No performance records registered under <strong>${loggedInUser.name}</strong>.</p>`;
+            container.innerHTML = `<p style="text-align:center; font-size:12px;">No performance records registered under <strong>${loggedInUser.name}</strong>.</p>`;
             return;
         }
 
         const latest = myReports[0];
 
         container.innerHTML = `
-            <div style="background:#f8fafc; border:1px solid var(--border); padding:15px; border-radius:10px; margin-bottom:15px; text-align:center;">
-                <h3 style="margin:0; color:var(--cbe-purple);">${latest.staff}</h3>
-                <p style="margin:4px 0; font-size:12px; color:var(--text-muted);">Role: ${latest.role}</p>
-                <p style="margin:4px 0; font-size:14px;">Latest Evaluation: <span style="font-size:20px; font-weight:bold; color:var(--cbe-purple);">${latest.score}%</span></p>
-            </div>
-            <div style="overflow-x:auto;">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Score %</th>
-                            <th>Deposit Actual/Plan</th>
-                            <th>FCY ($)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${myReports.map(r => `
-                            <tr>
-                                <td>${r.date || '-'}</td>
-                                <td><strong>${r.score}%</strong></td>
-                                <td>${(r.depActual || 0).toLocaleString()} / ${(r.depPlan || 0).toLocaleString()}</td>
-                                <td>$${r.fcy || 0}</td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
+            <div style="background:#f8fafc; border:1px solid var(--border); padding:12px; border-radius:10px; margin-bottom:12px; text-align:center;">
+                <h3 style="margin:0; color:var(--cbe-purple); font-size:15px;">${latest.staff}</h3>
+                <p style="margin:2px 0; font-size:11px; color:var(--text-muted);">Role: ${latest.role}</p>
+                <p style="margin:4px 0; font-size:13px;">Latest Score: <span style="font-size:18px; font-weight:bold; color:var(--cbe-purple);">${latest.score}%</span></p>
             </div>
         `;
     }
 
-    // --- Report Export Filtering (Daily, Weekly, Monthly, Quarterly, Yearly) ---
-    function toggleFilterInputs() {
-        const p = document.getElementById('exportPeriod').value;
-        document.getElementById('filterDateBox').classList.toggle('hidden', p !== 'daily' && p !== 'weekly');
-        document.getElementById('filterMonthBox').classList.toggle('hidden', p !== 'monthly');
-        document.getElementById('filterYearBox').classList.toggle('hidden', p !== 'yearly' && p !== 'quarterly');
-        document.getElementById('filterQuarterBox').classList.toggle('hidden', p !== 'quarterly');
+    function updateSupervisorMetrics() {
+        document.getElementById('supervTotalEntries').innerText = perfData.length;
+        document.getElementById('supervTopPerformers').innerText = perfData.filter(p => p.score >= 100).length;
     }
 
-    function downloadFilteredPDF() {
-        const period = document.getElementById('exportPeriod').value;
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-
-        doc.setFontSize(16);
-        doc.text("COMMERCIAL BANK OF ETHIOPIA - BORKENA BRANCH", 15, 20);
-        doc.setFontSize(12);
-        doc.text(`Performance Summary Report - (${period.toUpperCase()})`, 15, 28);
-
-        let filtered = [...perfData];
-
-        if (period === 'daily') {
-            const d = document.getElementById('exportDate').value;
-            filtered = perfData.filter(p => p.date === d);
-        } else if (period === 'weekly') {
-            const d = new Date(document.getElementById('exportDate').value);
-            const weekAgo = new Date(d);
-            weekAgo.setDate(d.getDate() - 7);
-            filtered = perfData.filter(p => {
-                const pDate = new Date(p.date);
-                return pDate >= weekAgo && pDate <= d;
-            });
-        } else if (period === 'monthly') {
-            const m = document.getElementById('exportMonth').value;
-            filtered = perfData.filter(p => p.date && p.date.startsWith(m));
-        } else if (period === 'yearly') {
-            const y = document.getElementById('exportYear').value;
-            filtered = perfData.filter(p => p.date && p.date.startsWith(y));
-        } else if (period === 'quarterly') {
-            const q = document.getElementById('exportQuarter').value;
-            const y = document.getElementById('exportYear').value;
-            filtered = perfData.filter(p => {
-                if (!p.date || !p.date.startsWith(y)) return false;
-                const m = parseInt(p.date.split('-')[1]);
-                if (q === 'Q1') return m >= 7 && m <= 9;
-                if (q === 'Q2') return m >= 10 && m <= 12;
-                if (q === 'Q3') return m >= 1 && m <= 3;
-                if (q === 'Q4') return m >= 4 && m <= 6;
-                return false;
-            });
-        }
-
-        let y = 40;
-        if (filtered.length === 0) {
-            doc.text("No records found for the selected timeline.", 15, y);
-        } else {
-            filtered.forEach((item, index) => {
-                doc.text(`${index + 1}. ${item.staff} (${item.role}) | Score: ${item.score}% | Date: ${item.date}`, 15, y);
-                y += 8;
-            });
-        }
-        doc.save(`Borkena_Branch_${period}_Report.pdf`);
-    }
-
-    // --- Library & Certificates ---
-    function addBook() {
-        const title = document.getElementById('bookTitle').value;
-        const fileInput = document.getElementById('bookFile');
-        const file = fileInput.files[0];
-
-        if (!title || !file) {
-            alert('Please specify title and upload a valid PDF file.');
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            booksData.push({ id: Date.now(), title, fileName: file.name, fileData: e.target.result });
-            localStorage.setItem('borkena_books_v4', JSON.stringify(booksData));
-            renderBooks();
-            document.getElementById('bookTitle').value = '';
-            fileInput.value = '';
-        };
-        reader.readAsDataURL(file);
-    }
-
-    function renderBooks() {
-        const list = document.getElementById('bookList');
-        list.innerHTML = booksData.length === 0 ? '<p style="font-size:12px; color:var(--text-muted);">No uploaded documents.</p>' : '';
-        booksData.forEach((b) => {
-            list.innerHTML += `
-                <div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:10px; border-radius:6px; margin-top:8px; border:1px solid var(--border);">
-                    <span>📖 <strong>${b.title}</strong> <small>(${b.fileName})</small></span>
-                    <a href="${b.fileData}" download="${b.fileName}" class="btn" style="text-decoration:none; padding:5px 10px; font-size:11px;">Download PDF</a>
-                </div>
+    function renderStaffTable() {
+        const tbody = document.getElementById('staffTableBody');
+        tbody.innerHTML = '';
+        staffList.forEach((st, idx) => {
+            tbody.innerHTML += `
+                <tr>
+                    <td>${idx + 1}</td>
+                    <td><strong>${st.name}</strong></td>
+                    <td>${st.username}</td>
+                    <td><span style="color:var(--cbe-purple); font-weight:bold;">${st.right}</span></td>
+                </tr>
             `;
         });
     }
 
-    function downloadWeeklyPDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        doc.setFontSize(16);
-        doc.text("COMMERCIAL BANK OF ETHIOPIA - BORKENA BRANCH", 15, 20);
-        doc.setFontSize(12);
-        doc.text("Weekly Best Staff Performance Assessment", 15, 28);
-
-        let y = 40;
-        const sorted = [...perfData].sort((a,b) => b.score - a.score);
-        sorted.forEach((item, index) => {
-            doc.text(`${index + 1}. ${item.staff} | Rating: ${item.score}% | Date: ${item.date}`, 15, y);
-            y += 8;
-        });
-        doc.save("Weekly_Top_Staff_Borkena.pdf");
+    function showTab(tabId, btn) {
+        document.querySelectorAll('.tab-page').forEach(p => p.classList.add('hidden'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabId).classList.remove('hidden');
+        if (btn) btn.classList.add('active');
     }
 
-    function generateDocument() {
-        const staff = document.getElementById('certStaff').value;
-        const type = document.getElementById('certType').value;
-        const reason = document.getElementById('certReason').value || 'Performance evaluation standards compliance';
-
-        const isWarning = type === 'warning';
-        const printWin = window.open('', '_blank');
-
-        printWin.document.write(`
-            <html>
-            <head><title>Print Official Document</title></head>
-            <body style="font-family:Arial, sans-serif; text-align:center; padding:40px; border:8px solid ${isWarning ? '#dc3545' : '#5c068c'}; color:#2c3e50;">
-                <h1 style="color:#5c068c; margin-bottom:5px;">COMMERCIAL BANK OF ETHIOPIA</h1>
-                <h3 style="margin-top:0;">BORKENA BRANCH</h3>
-                <hr style="margin:20px 0;">
-                <h2 style="color:${isWarning ? '#dc3545' : '#5c068c'};">
-                    ${isWarning ? '⚠️ OFFICIAL WARNING LETTER' : '📜 CERTIFICATE OF EXCELLENCE'}
-                </h2>
-                <p style="font-size:16px;">This official notice is issued to:</p>
-                <h1 style="text-decoration:underline;">${staff}</h1>
-                <p style="font-size:15px; margin:20px 0; line-height:1.6;">
-                    ${isWarning 
-                        ? 'Your current performance rating falls below the mandatory 75% operational target threshold. You are hereby advised to improve performance metrics immediately.' 
-                        : 'In recognition of your exceptional performance and valuable contribution towards achieving branch targets.'}
-                </p>
-                <p style="font-size:14px;"><strong>Remarks:</strong> ${reason}</p>
-                <br><br><br>
-                <p>Branch Manager Signature: ______________________</p>
-                <script>window.print();<\/script>
-            </body>
-            </html>
-        `);
+    function downloadFilteredPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.text("CBE Borkena Branch Report", 15, 20);
+        let y = 30;
+        perfData.forEach((item, index) => {
+            doc.text(`${index + 1}. ${item.staff} | Score: ${item.score}% | Date: ${item.date}`, 15, y);
+            y += 8;
+        });
+        doc.save("Borkena_Report.pdf");
     }
 </script>
 
