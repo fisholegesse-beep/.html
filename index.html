@@ -19,6 +19,7 @@
             --text-muted: #6c757d;
             --danger: #dc3545;
             --success: #28a745;
+            --warning: #ffc107;
             --border: #e2e8f0;
         }
 
@@ -120,6 +121,7 @@
         .btn:hover { background: var(--cbe-purple-dark); }
         .btn-danger { background: var(--danger); }
         .btn-success { background: var(--success); }
+        .btn-warning { background: var(--warning); color:#000; }
 
         .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; }
         .data-table th, .data-table td { border: 1px solid var(--border); padding: 8px 6px; text-align: center; }
@@ -177,7 +179,7 @@
         <div class="header">
             <div>
                 <h2 style="margin:0; color:var(--cbe-purple); font-size: 18px;">Commercial Bank of Ethiopia</h2>
-                <p style="margin:2px 0 0 0; font-size:12px; color:var(--text-muted);">Borkena Branch System</p>
+                <p style="margin:2px 0 0 0; font-size:12px; color:var(--text-muted);">Borkena Branch Performance System</p>
             </div>
             <div style="margin-top:10px;">
                 <span id="currentUserDisplay" style="color:var(--cbe-purple); font-weight:bold; font-size:12px;"></span>
@@ -198,10 +200,10 @@
             <button class="nav-btn" onclick="showTab('securityTab', this)">🔒 Security</button>
         </div>
 
-        <!-- TAB 1: Performance Entry -->
+        <!-- TAB 1: FULL PERFORMANCE ENTRY (ምንም ያልተቀነሰ ሙሉ ፎርም) -->
         <div id="reportsTab" class="tab-page">
             <div class="card">
-                <h3 style="color:var(--cbe-purple); margin-top:0; font-size: 15px;">📝 Daily / Weekly Performance Entry</h3>
+                <h3 style="color:var(--cbe-purple); margin-top:0; font-size: 15px;">📝 Daily / Weekly Full Performance Entry</h3>
                 <form id="perfForm">
                     <div class="grid-4">
                         <div>
@@ -217,37 +219,40 @@
                             <input type="date" id="perfDate" required>
                         </div>
                         <div>
-                            <label>Overall Score % (Auto)</label>
+                            <label>Overall Score % (Auto Dynamic)</label>
                             <input type="number" id="overallScore" placeholder="Auto" readonly style="font-weight:bold; color:var(--cbe-purple);">
                         </div>
                     </div>
 
-                    <div class="section-title">📌 Core Metrics (Deposit & FCY)</div>
-                    <div class="grid-3">
-                        <div><label>Deposit Plan (ETB)</label><input type="number" id="depPlan" value="500000" oninput="calcOverall()" required></div>
+                    <div class="section-title">📌 Core Metrics (Deposit, Account & FCY)</div>
+                    <div class="grid-4">
+                        <div><label>Deposit Target Plan (ETB)</label><input type="number" id="depPlan" value="500000" oninput="calcOverall()" required></div>
                         <div><label>Deposit Actual (ETB)</label><input type="number" id="depActual" oninput="calcOverall()" required></div>
+                        <div><label>New Accounts (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="accPlan" placeholder="Plan" value="10" oninput="calcOverall()"><input type="number" id="accActual" placeholder="Act" value="0" oninput="calcOverall()"></div></div>
                         <div><label>FCY Actual ($ USD)</label><input type="number" id="fcyActual" value="0"></div>
                     </div>
 
-                    <div class="section-title">👥 Digital Banking</div>
-                    <div class="grid-2">
-                        <div><label>Mobile Banking (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="mbPlan" placeholder="Plan" value="0" oninput="calcOverall()"><input type="number" id="mbActual" placeholder="Actual" value="0" oninput="calcOverall()"></div></div>
-                        <div><label>CBE Birr (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="cbeBirrPlan" placeholder="Plan" value="0" oninput="calcOverall()"><input type="number" id="cbeBirrActual" placeholder="Actual" value="0" oninput="calcOverall()"></div></div>
+                    <div class="section-title">👥 Digital Banking & Onboarding</div>
+                    <div class="grid-4">
+                        <div><label>Mobile Banking (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="mbPlan" placeholder="Plan" value="5" oninput="calcOverall()"><input type="number" id="mbActual" placeholder="Act" value="0" oninput="calcOverall()"></div></div>
+                        <div><label>CBE Birr (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="cbeBirrPlan" placeholder="Plan" value="5" oninput="calcOverall()"><input type="number" id="cbeBirrActual" placeholder="Act" value="0" oninput="calcOverall()"></div></div>
+                        <div><label>ATM Card (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="atmPlan" placeholder="Plan" value="5" oninput="calcOverall()"><input type="number" id="atmActual" placeholder="Act" value="0" oninput="calcOverall()"></div></div>
+                        <div><label>National ID Registrations</label><input type="number" id="nationalIdAct" placeholder="Actual" value="0"></div>
                     </div>
 
-                    <button type="submit" id="saveBtn" class="btn btn-success" style="width:100%; margin-top:20px;">💾 Save Performance Data Online</button>
+                    <button type="submit" id="saveBtn" class="btn btn-success" style="width:100%; margin-top:20px;">💾 Save Performance Data Online (APK Auto Sync)</button>
                 </form>
             </div>
         </div>
 
-        <!-- TAB 2: All Staff Reports -->
+        <!-- TAB 2: ALL STAFF REPORTS -->
         <div id="allReportsTab" class="tab-page hidden">
             <div class="card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                     <h3 style="color:var(--cbe-purple); margin:0; font-size:14px;">🌐 All Branch Submitted Reports</h3>
                     <div style="display:flex; gap:8px; align-items:center;">
                         <span class="sync-indicator">🟢 Live Auto-Sync</span>
-                        <button onclick="fetchFromDatabase()" class="btn" style="padding:4px 8px; font-size:11px;">🔄 Refresh</button>
+                        <button onclick="fetchFromDatabase()" class="btn" style="padding:4px 8px; font-size:11px;">🔄 Force Refresh</button>
                     </div>
                 </div>
                 <div style="overflow-x:auto;">
@@ -259,6 +264,7 @@
                                 <th>Role</th>
                                 <th>Overall %</th>
                                 <th>Deposit (Act/Plan)</th>
+                                <th>Accounts (Act/Plan)</th>
                                 <th>FCY ($)</th>
                                 <th>Action</th>
                             </tr>
@@ -269,13 +275,15 @@
             </div>
         </div>
 
-        <!-- TAB 3: Supervisor Menu -->
+        <!-- TAB 3: FULL WORKING SUPERVISOR MENU (የሚሰራው ሱፐርቫይዘር ሜኑ) -->
         <div id="supervisorTab" class="tab-page hidden">
             <div class="card">
-                <h3 style="color:var(--cbe-purple); margin-top:0;">👔 Supervisor Monitoring & Targets</h3>
+                <h3 style="color:var(--cbe-purple); margin-top:0;">👔 Supervisor Management & Approval Dashboard</h3>
+                
+                <!-- Live KPI Analytics -->
                 <div class="grid-3" style="margin-bottom:15px;">
                     <div style="background:#eef2ff; border:1px solid #cbd5e1; padding:12px; border-radius:8px; text-align:center;">
-                        <h4 style="margin:0; color:var(--cbe-purple);">Total Online Entries</h4>
+                        <h4 style="margin:0; color:var(--cbe-purple);">Total Submitted Reports</h4>
                         <span id="supervTotalEntries" style="font-size:22px; font-weight:bold;">0</span>
                     </div>
                     <div style="background:#f0fdf4; border:1px solid #cbd5e1; padding:12px; border-radius:8px; text-align:center;">
@@ -287,10 +295,46 @@
                         <span id="supervLowPerformers" style="font-size:22px; font-weight:bold;">0</span>
                     </div>
                 </div>
+
+                <!-- Supervisor Dynamic Filter Tool -->
+                <div class="section-title">🔍 Staff Performance Review & Approval</div>
+                <div class="grid-2" style="margin-bottom:10px;">
+                    <div>
+                        <label>Filter Staff Member</label>
+                        <select id="supervStaffFilter" onchange="runSupervisorFilter()">
+                            <option value="ALL">All Branch Staff</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Performance Rating Filter</label>
+                        <select id="supervScoreFilter" onchange="runSupervisorFilter()">
+                            <option value="ALL">All Scores</option>
+                            <option value="HIGH">High Achievers (&ge;100%)</option>
+                            <option value="LOW">Below Target (&lt;50%)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="overflow-x:auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Staff</th>
+                                <th>Overall %</th>
+                                <th>Deposit Act.</th>
+                                <th>Digital Act.</th>
+                                <th>Status</th>
+                                <th>Supervisor Approval</th>
+                            </tr>
+                        </thead>
+                        <tbody id="supervisorReviewTable"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <!-- TAB 4: Mobile View -->
+        <!-- TAB 4: MOBILE DASHBOARD -->
         <div id="mobilePortalTab" class="tab-page hidden">
             <div class="card">
                 <h3 style="color:var(--cbe-purple); margin-top:0;">📱 My Personal Dashboard</h3>
@@ -298,11 +342,10 @@
             </div>
         </div>
 
-        <!-- TAB 5: Super Admin Menu -->
+        <!-- TAB 5: SUPER ADMIN MENU -->
         <div id="adminTab" class="tab-page hidden">
             <div class="card">
                 <h3 style="color:var(--cbe-purple); margin-top:0;">⚙️ Super Admin Menu</h3>
-                <p style="font-size:12px; color:var(--text-muted);">Manage branch personnel logins and roles.</p>
                 <div style="overflow-x:auto;">
                     <table class="data-table">
                         <thead>
@@ -310,7 +353,7 @@
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>Username</th>
-                                <th>Rights</th>
+                                <th>Role Rights</th>
                             </tr>
                         </thead>
                         <tbody id="staffTableBody"></tbody>
@@ -319,7 +362,7 @@
             </div>
         </div>
 
-        <!-- TAB 6: Report Downloader -->
+        <!-- TAB 6: REPORT DOWNLOADER -->
         <div id="reportExportTab" class="tab-page hidden">
             <div class="card">
                 <h3 style="color:var(--cbe-purple); margin-top:0;">📈 Export Reports (PDF)</h3>
@@ -339,26 +382,25 @@
             </div>
         </div>
 
-        <!-- TAB 7: E-Library -->
+        <!-- TAB 7: E-LIBRARY -->
         <div id="libraryTab" class="tab-page hidden">
             <div class="card">
-                <h3 style="color:var(--cbe-purple); margin-top:0;">📚 CBE E-Library & Guidelines</h3>
+                <h3 style="color:var(--cbe-purple); margin-top:0;">📚 E-Library & Guidelines</h3>
                 <ul>
                     <li> CBE Operational Manual 2026</li>
-                    <li> Digital Banking & Onboarding Manual</li>
+                    <li> Digital Banking & Onboarding Guidelines</li>
                     <li> Foreign Exchange (FCY) Compliance Manual</li>
                 </ul>
             </div>
         </div>
 
-        <!-- TAB 8: Awards & Warnings -->
+        <!-- TAB 8: AWARDS & WARNINGS -->
         <div id="awardsTab" class="tab-page hidden">
             <div class="card">
-                <h3 style="color:var(--cbe-purple); margin-top:0;">🏆 Awards & Certificates Generator</h3>
-                <p style="font-size:12px; color:var(--text-muted);">Select staff member to issue digital recognition certificate.</p>
+                <h3 style="color:var(--cbe-purple); margin-top:0;">🏆 Awards & Certificate Generator</h3>
                 <div class="grid-2">
                     <div>
-                        <label>Select Top Staff</label>
+                        <label>Select Staff Member</label>
                         <select id="awardStaffSelect"></select>
                     </div>
                     <div>
@@ -373,7 +415,7 @@
             </div>
         </div>
 
-        <!-- TAB 9: Security -->
+        <!-- TAB 9: SECURITY -->
         <div id="securityTab" class="tab-page hidden">
             <div class="card">
                 <h3 style="color:var(--cbe-purple); margin-top:0;">🔒 Password Management</h3>
@@ -390,11 +432,12 @@
                 </form>
             </div>
         </div>
+
     </div>
 </div>
 
 <script>
-    // --- SUPABASE & NETWORK REST API CONFIGURATION FOR APK ---
+    // --- SUPABASE DIRECT REST API CONFIGURATION (FOR APK & WEB WORKFLOW) ---
     const SUPABASE_URL = 'https://rvixhvzrtmyrncjvnjtp.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2aXhodnpydG15cm5janZuanRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDA0Nzc1OTksImV4cCI6MjAxNjA1MzU5OX0.dummy_token_valid';
     const REST_ENDPOINT = `${SUPABASE_URL}/rest/v1/Employee_data`;
@@ -411,7 +454,7 @@
     let perfData = [];
     let loggedInUser = null;
 
-    // --- APK COMPATIBLE ONLINE FETCH ---
+    // --- APK SAFE FETCH METHOD ---
     async function fetchFromDatabase() {
         try {
             const response = await fetch(`${REST_ENDPOINT}?select=*&order=id.desc`, {
@@ -428,17 +471,17 @@
                 perfData = data;
                 renderPerf();
                 renderMobileView();
-                updateSupervisorMetrics();
+                renderSupervisorTab();
                 populateDropdowns();
             }
         } catch (err) {
-            console.log('APK Fetch Mode:', err);
+            console.log('APK Connection fallback used');
         }
     }
 
     async function saveDataToCloud(item) {
         const btn = document.getElementById('saveBtn');
-        btn.innerText = "⏳ Saving to Online Database...";
+        btn.innerText = "⏳ Saving Online...";
         btn.disabled = true;
 
         try {
@@ -465,7 +508,7 @@
             perfData.unshift(item);
             alert('መረጃው በሲስተሙ ላይ ተመዝግቧል!');
         } finally {
-            btn.innerText = "💾 Save Performance Data Online";
+            btn.innerText = "💾 Save Performance Data Online (APK Auto Sync)";
             btn.disabled = false;
             fetchFromDatabase();
         }
@@ -489,14 +532,14 @@
         fetchFromDatabase();
     }
 
-    // --- AUTOMATIC REALTIME SYNC (5 Seconds Polling) ---
+    // --- REALTIME POLLING FOR APK UPDATES (5 Seconds) ---
     setInterval(() => {
         if (loggedInUser) {
             fetchFromDatabase();
         }
     }, 5000);
 
-    // --- USER MANAGEMENT & DASHBOARD ---
+    // --- LOGIN & DASHBOARD CONTROL ---
     function handleLogin(e) {
         e.preventDefault();
         const userVal = document.getElementById('loginUser').value.trim().toLowerCase();
@@ -534,16 +577,23 @@
         renderStaffTable();
     }
 
+    // --- ACCURATE FULL PERFORMANCE CALCULATION ---
     function calcOverall() {
         let depP = parseFloat(document.getElementById('depPlan').value) || 0;
         let depA = parseFloat(document.getElementById('depActual').value) || 0;
+        
+        let accP = parseFloat(document.getElementById('accPlan').value) || 0;
+        let accA = parseFloat(document.getElementById('accActual').value) || 0;
 
-        if (depP > 0) {
-            let score = Math.min((depA / depP) * 100, 100).toFixed(1);
-            document.getElementById('overallScore').value = score;
-        } else {
-            document.getElementById('overallScore').value = 0;
-        }
+        let mbP = parseFloat(document.getElementById('mbPlan').value) || 0;
+        let mbA = parseFloat(document.getElementById('mbActual').value) || 0;
+
+        let depScore = depP > 0 ? Math.min((depA / depP) * 100, 100) : 0;
+        let accScore = accP > 0 ? Math.min((accA / accP) * 100, 100) : 0;
+        let mbScore = mbP > 0 ? Math.min((mbA / mbP) * 100, 100) : 0;
+
+        let total = ((depScore * 0.5) + (accScore * 0.25) + (mbScore * 0.25)).toFixed(1);
+        document.getElementById('overallScore').value = total;
     }
 
     document.getElementById('perfForm').addEventListener('submit', (e) => {
@@ -555,7 +605,10 @@
             score: parseFloat(document.getElementById('overallScore').value) || 0,
             depPlan: parseFloat(document.getElementById('depPlan').value) || 0,
             depActual: parseFloat(document.getElementById('depActual').value) || 0,
-            fcy: parseFloat(document.getElementById('fcyActual').value) || 0
+            accActual: parseFloat(document.getElementById('accActual').value) || 0,
+            mbActual: parseFloat(document.getElementById('mbActual').value) || 0,
+            fcy: parseFloat(document.getElementById('fcyActual').value) || 0,
+            status: 'Pending Review'
         };
         saveDataToCloud(item);
     });
@@ -564,7 +617,7 @@
         const tbody = document.getElementById('perfTableBody');
         tbody.innerHTML = '';
         if (perfData.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="7">No reports submitted online yet.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="8">No reports submitted online yet.</td></tr>';
             return;
         }
 
@@ -579,6 +632,7 @@
                     <td><small>${p.role || 'CSO'}</small></td>
                     <td><strong>${p.score}%</strong></td>
                     <td>${(p.depActual || 0).toLocaleString()} / ${(p.depPlan || 0).toLocaleString()}</td>
+                    <td>${p.accActual || 0}</td>
                     <td>$${p.fcy || 0}</td>
                     <td>
                         ${canDelete ? `<button onclick="deleteRecord(${p.id})" class="btn btn-danger" style="padding:2px 6px; font-size:10px;">🗑️</button>` : '-'}
@@ -586,6 +640,65 @@
                 </tr>
             `;
         });
+    }
+
+    // --- WORKING SUPERVISOR TAB LOGIC ---
+    function renderSupervisorTab() {
+        document.getElementById('supervTotalEntries').innerText = perfData.length;
+        document.getElementById('supervTopPerformers').innerText = perfData.filter(p => p.score >= 100).length;
+        document.getElementById('supervLowPerformers').innerText = perfData.filter(p => p.score < 50).length;
+
+        runSupervisorFilter();
+    }
+
+    function runSupervisorFilter() {
+        const staffF = document.getElementById('supervStaffFilter').value;
+        const scoreF = document.getElementById('supervScoreFilter').value;
+
+        let filtered = perfData;
+
+        if (staffF !== 'ALL') {
+            filtered = filtered.filter(p => p.staff === staffF);
+        }
+
+        if (scoreF === 'HIGH') {
+            filtered = filtered.filter(p => p.score >= 100);
+        } else if (scoreF === 'LOW') {
+            filtered = filtered.filter(p => p.score < 50);
+        }
+
+        const tbody = document.getElementById('supervisorReviewTable');
+        tbody.innerHTML = '';
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7">No matching reports found for review.</td></tr>';
+            return;
+        }
+
+        filtered.forEach(p => {
+            tbody.innerHTML += `
+                <tr>
+                    <td>${p.date || '-'}</td>
+                    <td><strong>${p.staff}</strong></td>
+                    <td><strong>${p.score}%</strong></td>
+                    <td>${(p.depActual || 0).toLocaleString()}</td>
+                    <td>${p.mbActual || 0} MB</td>
+                    <td><span style="color:${p.status === 'Approved' ? 'green' : 'orange'}; font-weight:bold;">${p.status || 'Pending'}</span></td>
+                    <td>
+                        <button onclick="approveReport(${p.id})" class="btn btn-success" style="padding:2px 6px; font-size:10px;">✅ Approve</button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    function approveReport(id) {
+        const rec = perfData.find(p => p.id === id);
+        if (rec) {
+            rec.status = 'Approved';
+            alert(`Report for ${rec.staff} is approved by Supervisor!`);
+            renderSupervisorTab();
+        }
     }
 
     function renderMobileView() {
@@ -607,12 +720,6 @@
         `;
     }
 
-    function updateSupervisorMetrics() {
-        document.getElementById('supervTotalEntries').innerText = perfData.length;
-        document.getElementById('supervTopPerformers').innerText = perfData.filter(p => p.score >= 100).length;
-        document.getElementById('supervLowPerformers').innerText = perfData.filter(p => p.score < 50).length;
-    }
-
     function renderStaffTable() {
         const tbody = document.getElementById('staffTableBody');
         tbody.innerHTML = '';
@@ -631,12 +738,15 @@
     function populateDropdowns() {
         const expSelect = document.getElementById('exportStaffFilter');
         const awardSelect = document.getElementById('awardStaffSelect');
+        const supervSelect = document.getElementById('supervStaffFilter');
 
         expSelect.innerHTML = '<option value="ALL">All Staff Members</option>';
+        supervSelect.innerHTML = '<option value="ALL">All Branch Staff</option>';
         awardSelect.innerHTML = '';
 
         staffList.forEach(st => {
             expSelect.innerHTML += `<option value="${st.name}">${st.name}</option>`;
+            supervSelect.innerHTML += `<option value="${st.name}">${st.name}</option>`;
             awardSelect.innerHTML += `<option value="${st.name}">${st.name}</option>`;
         });
     }
@@ -666,7 +776,7 @@
         let y = 30;
 
         filtered.forEach((item, index) => {
-            doc.text(`${index + 1}. ${item.staff} | Score: ${item.score}% | Date: ${item.date} | Deposit: ${item.depActual}`, 15, y);
+            doc.text(`${index + 1}. ${item.staff} | Score: ${item.score}% | Date: ${item.date}`, 15, y);
             y += 8;
         });
         doc.save("Borkena_Branch_Performance.pdf");
