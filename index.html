@@ -827,3 +827,35 @@
 
 </body>
 </html>
+<!-- Supabase Library -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const SUPABASE_URL = 'https://rvixhvzrtmyrncjvnjtp.supabase.co';
+  const SUPABASE_KEY = 'YOUR_KEY_HERE';
+
+  const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // ዳታ በኦንላይን ሴቭ ለማድረግ
+  async function saveDataToCloud(formData) {
+    const { data, error } = await _supabase
+      .from('Employee_data')
+      .insert([ formData ]);
+      
+    if (error) console.error('Error saving:', error);
+  }
+
+  // ኦንላይን የተቀመጠውን ዳታ ለማሳየት
+  async function loadDataFromCloud() {
+    const { data, error } = await _supabase
+      .from('Employee_data')
+      .select('*');
+      
+    if (data) {
+      renderTable(data);
+    }
+  }
+
+  loadDataFromCloud();
+</script>
+
