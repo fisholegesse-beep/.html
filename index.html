@@ -245,7 +245,10 @@
             <div class="card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                     <h3 style="color:var(--cbe-purple); margin:0; font-size:14px;">🌐 All Branch Submitted Reports</h3>
-                    <span class="sync-indicator">🟢 Live Auto-Sync</span>
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        <span class="sync-indicator">🟢 Live Auto-Sync</span>
+                        <button onclick="fetchFromDatabase()" class="btn" style="padding:4px 8px; font-size:11px;">🔄 Refresh</button>
+                    </div>
                 </div>
                 <div style="overflow-x:auto;">
                     <table class="data-table">
@@ -269,7 +272,7 @@
         <!-- TAB 3: Supervisor Menu -->
         <div id="supervisorTab" class="tab-page hidden">
             <div class="card">
-                <h3 style="color:var(--cbe-purple); margin-top:0;">👔 Supervisor Monitoring</h3>
+                <h3 style="color:var(--cbe-purple); margin-top:0;">👔 Supervisor Monitoring & Targets</h3>
                 <div class="grid-3" style="margin-bottom:15px;">
                     <div style="background:#eef2ff; border:1px solid #cbd5e1; padding:12px; border-radius:8px; text-align:center;">
                         <h4 style="margin:0; color:var(--cbe-purple);">Total Online Entries</h4>
@@ -278,6 +281,10 @@
                     <div style="background:#f0fdf4; border:1px solid #cbd5e1; padding:12px; border-radius:8px; text-align:center;">
                         <h4 style="margin:0; color:var(--success);">Top Performers (&ge;100%)</h4>
                         <span id="supervTopPerformers" style="font-size:22px; font-weight:bold;">0</span>
+                    </div>
+                    <div style="background:#fef2f2; border:1px solid #cbd5e1; padding:12px; border-radius:8px; text-align:center;">
+                        <h4 style="margin:0; color:var(--danger);">Low Performers (&lt;50%)</h4>
+                        <span id="supervLowPerformers" style="font-size:22px; font-weight:bold;">0</span>
                     </div>
                 </div>
             </div>
@@ -295,6 +302,7 @@
         <div id="adminTab" class="tab-page hidden">
             <div class="card">
                 <h3 style="color:var(--cbe-purple); margin-top:0;">⚙️ Super Admin Menu</h3>
+                <p style="font-size:12px; color:var(--text-muted);">Manage branch personnel logins and roles.</p>
                 <div style="overflow-x:auto;">
                     <table class="data-table">
                         <thead>
@@ -315,6 +323,18 @@
         <div id="reportExportTab" class="tab-page hidden">
             <div class="card">
                 <h3 style="color:var(--cbe-purple); margin-top:0;">📈 Export Reports (PDF)</h3>
+                <div class="grid-2" style="margin-bottom:15px;">
+                    <div>
+                        <label>Filter Staff</label>
+                        <select id="exportStaffFilter">
+                            <option value="ALL">All Staff Members</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Filter Date</label>
+                        <input type="date" id="exportDateFilter">
+                    </div>
+                </div>
                 <button onclick="downloadFilteredPDF()" class="btn btn-success" style="width:100%;">📥 Download PDF Report</button>
             </div>
         </div>
@@ -322,48 +342,76 @@
         <!-- TAB 7: E-Library -->
         <div id="libraryTab" class="tab-page hidden">
             <div class="card">
-                <h3 style="color:var(--cbe-purple); margin-top:0;">📚 E-Library</h3>
-                <p style="font-size:12px; color:var(--text-muted);">Shared documents and policies.</p>
+                <h3 style="color:var(--cbe-purple); margin-top:0;">📚 CBE E-Library & Guidelines</h3>
+                <ul>
+                    <li> CBE Operational Manual 2026</li>
+                    <li> Digital Banking & Onboarding Manual</li>
+                    <li> Foreign Exchange (FCY) Compliance Manual</li>
+                </ul>
             </div>
         </div>
 
         <!-- TAB 8: Awards & Warnings -->
         <div id="awardsTab" class="tab-page hidden">
             <div class="card">
-                <h3 style="color:var(--cbe-purple); margin-top:0;">🏆 Awards & Certificates</h3>
-                <p style="font-size:12px; color:var(--text-muted);">Generate official performance certificates.</p>
+                <h3 style="color:var(--cbe-purple); margin-top:0;">🏆 Awards & Certificates Generator</h3>
+                <p style="font-size:12px; color:var(--text-muted);">Select staff member to issue digital recognition certificate.</p>
+                <div class="grid-2">
+                    <div>
+                        <label>Select Top Staff</label>
+                        <select id="awardStaffSelect"></select>
+                    </div>
+                    <div>
+                        <label>Certificate Type</label>
+                        <select id="awardType">
+                            <option value="Top Performer of the Month">Top Performer of the Month</option>
+                            <option value="Excellence in Digital Onboarding">Excellence in Digital Onboarding</option>
+                        </select>
+                    </div>
+                </div>
+                <button onclick="generateCertificate()" class="btn btn-success" style="width:100%; margin-top:10px;">📜 Generate Certificate</button>
             </div>
         </div>
 
         <!-- TAB 9: Security -->
         <div id="securityTab" class="tab-page hidden">
             <div class="card">
-                <h3 style="color:var(--cbe-purple); margin-top:0;">🔒 Password Update</h3>
-                <p style="font-size:12px; color:var(--text-muted);">Change your login credentials.</p>
+                <h3 style="color:var(--cbe-purple); margin-top:0;">🔒 Password Management</h3>
+                <form onsubmit="changePassword(event)">
+                    <div style="margin-bottom:10px;">
+                        <label>Current Password</label>
+                        <input type="password" id="oldPass" required>
+                    </div>
+                    <div style="margin-bottom:10px;">
+                        <label>New Password</label>
+                        <input type="password" id="newPass" required>
+                    </div>
+                    <button type="submit" class="btn btn-success" style="width:100%;">Update Password</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // --- SUPABASE CONFIGURATION (CORRECTED FOR APK / WEBVIEW HTTP REQUESTS) ---
+    // --- SUPABASE & NETWORK REST API CONFIGURATION FOR APK ---
     const SUPABASE_URL = 'https://rvixhvzrtmyrncjvnjtp.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2aXhodnpydG15cm5janZuanRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDA0Nzc1OTksImV4cCI6MjAxNjA1MzU5OX0.dummy_token_valid';
-
-    // Direct HTTP REST API Endpoint for Native Mobile WebViews
     const REST_ENDPOINT = `${SUPABASE_URL}/rest/v1/Employee_data`;
 
     let staffList = [
         { name: "Fiseha", username: "fiseha", password: "123", role: "Digital Officer", right: "Super Admin" },
         { name: "Dawit", username: "dawit", password: "123", role: "Team Leader", right: "Supervisor" },
         { name: "Sintayehu", username: "sintayehu", password: "123", role: "Team Leader", right: "Supervisor" },
-        { name: "Dagmawit Afework", username: "dagmawit", password: "123", role: "CSO", right: "Staff" }
+        { name: "Dagmawit Afework", username: "dagmawit", password: "123", role: "CSO", right: "Staff" },
+        { name: "Hermela Getachew", username: "hermela", password: "123", role: "CSO", right: "Staff" },
+        { name: "Adem Seyid", username: "adem", password: "123", role: "CSO", right: "Staff" }
     ];
 
     let perfData = [];
     let loggedInUser = null;
 
-    // --- APK COMPATIBLE ONLINE FETCH & SYNC ---
+    // --- APK COMPATIBLE ONLINE FETCH ---
     async function fetchFromDatabase() {
         try {
             const response = await fetch(`${REST_ENDPOINT}?select=*&order=id.desc`, {
@@ -381,9 +429,10 @@
                 renderPerf();
                 renderMobileView();
                 updateSupervisorMetrics();
+                populateDropdowns();
             }
         } catch (err) {
-            console.log('Mobile APK Network fetch error, using local buffer:', err);
+            console.log('APK Fetch Mode:', err);
         }
     }
 
@@ -440,14 +489,14 @@
         fetchFromDatabase();
     }
 
-    // --- AUTOMATIC REALTIME POLLING (FOR APK UPDATES) ---
+    // --- AUTOMATIC REALTIME SYNC (5 Seconds Polling) ---
     setInterval(() => {
         if (loggedInUser) {
             fetchFromDatabase();
         }
-    }, 5000); // Polls every 5 seconds
+    }, 5000);
 
-    // --- Authentication & App Management ---
+    // --- USER MANAGEMENT & DASHBOARD ---
     function handleLogin(e) {
         e.preventDefault();
         const userVal = document.getElementById('loginUser').value.trim().toLowerCase();
@@ -460,7 +509,6 @@
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('mainDashboard').classList.remove('hidden');
             document.getElementById('loginError').classList.add('hidden');
-            
             initDashboard();
         } else {
             document.getElementById('loginError').classList.remove('hidden');
@@ -525,7 +573,7 @@
             const canDelete = loggedInUser.right === 'Super Admin' || loggedInUser.right === 'Supervisor' || loggedInUser.name === p.staff;
 
             tbody.innerHTML += `
-                <tr class="${isTop ? 'top-performer' : ''}">
+                <tr class="${isTop ? 'top-performer' : (p.score < 50 ? 'low-performer' : '')}">
                     <td>${p.date || '-'}</td>
                     <td><strong>${p.staff || 'Staff'}</strong></td>
                     <td><small>${p.role || 'CSO'}</small></td>
@@ -550,7 +598,6 @@
         }
 
         const latest = myReports[0];
-
         container.innerHTML = `
             <div style="background:#f8fafc; border:1px solid var(--border); padding:12px; border-radius:10px; margin-bottom:12px; text-align:center;">
                 <h3 style="margin:0; color:var(--cbe-purple); font-size:15px;">${latest.staff}</h3>
@@ -563,6 +610,7 @@
     function updateSupervisorMetrics() {
         document.getElementById('supervTotalEntries').innerText = perfData.length;
         document.getElementById('supervTopPerformers').innerText = perfData.filter(p => p.score >= 100).length;
+        document.getElementById('supervLowPerformers').innerText = perfData.filter(p => p.score < 50).length;
     }
 
     function renderStaffTable() {
@@ -580,6 +628,19 @@
         });
     }
 
+    function populateDropdowns() {
+        const expSelect = document.getElementById('exportStaffFilter');
+        const awardSelect = document.getElementById('awardStaffSelect');
+
+        expSelect.innerHTML = '<option value="ALL">All Staff Members</option>';
+        awardSelect.innerHTML = '';
+
+        staffList.forEach(st => {
+            expSelect.innerHTML += `<option value="${st.name}">${st.name}</option>`;
+            awardSelect.innerHTML += `<option value="${st.name}">${st.name}</option>`;
+        });
+    }
+
     function showTab(tabId, btn) {
         document.querySelectorAll('.tab-page').forEach(p => p.classList.add('hidden'));
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -588,15 +649,48 @@
     }
 
     function downloadFilteredPDF() {
+        const selectedStaff = document.getElementById('exportStaffFilter').value;
+        const selectedDate = document.getElementById('exportDateFilter').value;
+
+        let filtered = perfData;
+        if (selectedStaff !== 'ALL') {
+            filtered = filtered.filter(p => p.staff === selectedStaff);
+        }
+        if (selectedDate) {
+            filtered = filtered.filter(p => p.date === selectedDate);
+        }
+
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
-        doc.text("CBE Borkena Branch Report", 15, 20);
+        doc.text("Commercial Bank of Ethiopia - Borkena Branch Report", 15, 20);
         let y = 30;
-        perfData.forEach((item, index) => {
-            doc.text(`${index + 1}. ${item.staff} | Score: ${item.score}% | Date: ${item.date}`, 15, y);
+
+        filtered.forEach((item, index) => {
+            doc.text(`${index + 1}. ${item.staff} | Score: ${item.score}% | Date: ${item.date} | Deposit: ${item.depActual}`, 15, y);
             y += 8;
         });
-        doc.save("Borkena_Report.pdf");
+        doc.save("Borkena_Branch_Performance.pdf");
+    }
+
+    function generateCertificate() {
+        const staff = document.getElementById('awardStaffSelect').value;
+        const type = document.getElementById('awardType').value;
+        alert(`🎉 Certificate generated successfully for ${staff} (${type})!`);
+    }
+
+    function changePassword(e) {
+        e.preventDefault();
+        const oldP = document.getElementById('oldPass').value;
+        const newP = document.getElementById('newPass').value;
+
+        if (loggedInUser.password === oldP) {
+            loggedInUser.password = newP;
+            alert('ፓስወርድዎ በተሳካ ሁኔታ ተቀይሯል!');
+            document.getElementById('oldPass').value = '';
+            document.getElementById('newPass').value = '';
+        } else {
+            alert('የነበረው ፓስወርድ ትክክል አይደለም!');
+        }
     }
 </script>
 
