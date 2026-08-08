@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CBE Borkena Branch - Performance & Governance System</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Supabase SDK (በስህተት CSS ውስጥ የነበረው እዚህ ተስተካክሏል) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <style>
         :root {
             --cbe-purple: #5c068c;
@@ -18,16 +21,6 @@
             --success: #28a745;
             --border: #e2e8f0;
         }
-
-        <!-- Supabase SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-  const SUPABASE_URL = 'https://rvixhvzrtmyrncjvnjtp.supabase.co';
-  const SUPABASE_KEY = 'sb_publishable_2MuGoOmHDUndYXKyhyolww_zHduKlSN';
-
-  const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-</script>
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -284,12 +277,12 @@
             </div>
         </div>
 
-        <!-- TAB 4: Super Admin & Management (User Management) -->
+        <!-- TAB 4: User Management -->
         <div id="adminTab" class="tab-page hidden">
             <div class="card">
                 <h3 style="color:var(--cbe-purple); margin-top:0;">⚙️ User Management (Super Admin Panel)</h3>
                 
-                <form id="staffForm" style="margin-bottom:25px;" class="hidden" id="addUserContainer">
+                <form id="staffForm" style="margin-bottom:25px;" class="hidden">
                     <div class="grid-4">
                         <div>
                             <label>Full Name</label>
@@ -418,6 +411,11 @@
 </div>
 
 <script>
+    // --- SUPABASE CONFIGURATION ---
+    const SUPABASE_URL = 'https://rvixhvzrtmyrncjvnjtp.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_2MuGoOmHDUndYXKyhyolww_zHduKlSN';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
     // Initial User Roster Configuration
     let defaultStaff = [
         { name: "Fiseha", username: "fiseha", password: "123", role: "Digital Officer", right: "Super Admin" },
@@ -430,9 +428,32 @@
     ];
 
     let staffList = JSON.parse(localStorage.getItem('borkena_staff_list_v3')) || defaultStaff;
-    let perfData = JSON.parse(localStorage.getItem('borkena_perf_full_v3')) || [];
+    let perfData = [];
     let booksData = JSON.parse(localStorage.getItem('borkena_books_v3')) || [];
     let loggedInUser = null;
+
+    // --- SUPABASE CLOUD SYNC FUNCTIONS ---
+    async function saveDataToCloud(item) {
+        const { data, error } = await _supabase.from('Employee_data').insert([item]);
+        if (error) {
+            console.error('Supabase Error:', error);
+            alert('ኦንላይን ዳታቤዝ ላይ ማስቀመጥ አልተቻለም፡ ' + error.message);
+        } else {
+            alert('Performance record saved to Cloud successfully!');
+            loadDataFromCloud();
+        }
+    }
+
+    async function loadDataFromCloud() {
+        const { data, error } = await _supabase.from('Employee_data').select('*');
+        if (error) {
+            console.error('Error loading:', error);
+        } else if (data) {
+            perfData = data;
+            renderPerf();
+            renderMobileView();
+        }
+    }
 
     // --- Authentication ---
     function handleLogin(e) {
@@ -466,7 +487,6 @@
         document.getElementById('currentUserDisplay').innerText = `👤 ${loggedInUser.name} (${loggedInUser.right})`;
         
         const perfStaffInput = document.getElementById('perfStaff');
-        // Admin and Super Admin can edit/write any staff name
         if (loggedInUser.right === 'Admin' || loggedInUser.right === 'Super Admin') {
             perfStaffInput.removeAttribute('readonly');
             perfStaffInput.style.background = '#ffffff';
@@ -477,7 +497,6 @@
         perfStaffInput.value = loggedInUser.name;
         document.getElementById('perfRole').value = loggedInUser.role || 'CSO';
 
-        // Super Admin Restrictions for User Management
         const adminBtn = document.getElementById('adminNavBtn');
         const addUserForm = document.getElementById('staffForm');
         
@@ -491,9 +510,8 @@
 
         loadDropdowns();
         renderStaffTable();
-        renderPerf();
+        loadDataFromCloud(); // Fetch real-time online data from Supabase
         renderBooks();
-        renderMobileView();
 
         document.getElementById('perfDate').valueAsDate = new Date();
         document.getElementById('exportDate').valueAsDate = new Date();
@@ -518,7 +536,7 @@
         e.target.reset();
     }
 
-    // --- Admin Operations (Super Admin Only) ---
+    // --- Admin Operations ---
     document.getElementById('staffForm').addEventListener('submit', (e) => {
         e.preventDefault();
         if (loggedInUser.right !== 'Super Admin') {
@@ -621,7 +639,7 @@
         document.getElementById('overallScore').value = (totalScore / validItems.length).toFixed(1);
     }
 
-    // --- Performance Entries Handling ---
+    // --- Performance Entries Handling (Updated for Supabase) ---
     document.getElementById('perfForm').addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -635,11 +653,7 @@
             fcy: parseFloat(document.getElementById('fcyActual').value) || 0
         };
 
-        perfData.push(item);
-        localStorage.setItem('borkena_perf_full_v3', JSON.stringify(perfData));
-        renderPerf();
-        renderMobileView();
-        alert('Performance record saved successfully!');
+        saveDataToCloud(item);
     });
 
     function renderPerf() {
@@ -661,8 +675,8 @@
                     <td><strong>${p.staff}</strong></td>
                     <td><small>${p.role || 'Staff'}</small></td>
                     <td><strong>${p.score}%</strong></td>
-                    <td>${p.depActual.toLocaleString()} / ${p.depPlan.toLocaleString()}</td>
-                    <td>$${p.fcy}</td>
+                    <td>${(p.depActual || 0).toLocaleString()} / ${(p.depPlan || 0).toLocaleString()}</td>
+                    <td>$${p.fcy || 0}</td>
                     <td>${status}</td>
                 </tr>
             `;
@@ -701,8 +715,8 @@
                             <tr>
                                 <td>${r.date}</td>
                                 <td><strong>${r.score}%</strong></td>
-                                <td>${r.depActual.toLocaleString()} / ${r.depPlan.toLocaleString()}</td>
-                                <td>$${r.fcy}</td>
+                                <td>${(r.depActual || 0).toLocaleString()} / ${(r.depPlan || 0).toLocaleString()}</td>
+                                <td>$${r.fcy || 0}</td>
                             </tr>
                         `).join('')}
                     </tbody>
@@ -734,7 +748,7 @@
             filtered = perfData.filter(p => p.date === d);
         } else if (period === 'monthly') {
             const m = document.getElementById('exportMonth').value;
-            filtered = perfData.filter(p => p.date.startsWith(m));
+            filtered = perfData.filter(p => p.date && p.date.startsWith(m));
         }
 
         let y = 40;
@@ -837,35 +851,3 @@
 
 </body>
 </html>
-<!-- Supabase Library -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-  const SUPABASE_URL = 'https://rvixhvzrtmyrncjvnjtp.supabase.co';
-  const SUPABASE_KEY = 'YOUR_KEY_HERE';
-
-  const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-  // ዳታ በኦንላይን ሴቭ ለማድረግ
-  async function saveDataToCloud(formData) {
-    const { data, error } = await _supabase
-      .from('Employee_data')
-      .insert([ formData ]);
-      
-    if (error) console.error('Error saving:', error);
-  }
-
-  // ኦንላይን የተቀመጠውን ዳታ ለማሳየት
-  async function loadDataFromCloud() {
-    const { data, error } = await _supabase
-      .from('Employee_data')
-      .select('*');
-      
-    if (data) {
-      renderTable(data);
-    }
-  }
-
-  loadDataFromCloud();
-</script>
-
