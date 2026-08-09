@@ -3,27 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CBE Borkena Branch - Dynamic Performance & eBook Library System</title>
+    <title>CBE Borkena Branch - Complete Enterprise System</title>
     
-    <!-- PDF and Excel Libraries -->
+    <!-- PDF and Excel Export Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     
     <style>
         :root {
             --cbe-purple: #5c068c;
             --cbe-purple-dark: #3a005c;
             --cbe-gold: #d4af37;
-            --bg-light: #f4f6f9;
-            --card-bg: #ffffff;
-            --text-dark: #2c3e50;
-            --text-muted: #6c757d;
-            --danger: #dc3545;
-            --success: #28a745;
-            --warning: #ffc107;
-            --border: #cbd5e1;
+            --bg-light: #0f172a;
+            --card-bg: #1e293b;
+            --text-dark: #f8fafc;
+            --text-muted: #94a3b8;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --border: #334155;
+            --input-bg: #0f172a;
         }
 
         body {
@@ -48,12 +47,12 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
 
         .nav-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
         .nav-btn {
-            background: #ffffff;
+            background: var(--card-bg);
             color: var(--text-dark);
             border: 1px solid var(--border);
             padding: 10px 14px;
@@ -61,7 +60,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
-            font-size: 13px;
+            font-size: 12px;
         }
         .nav-btn.active, .nav-btn:hover { background: var(--cbe-purple); color: #ffffff; border-color: var(--cbe-purple); }
 
@@ -71,23 +70,36 @@
             border-radius: 12px;
             border: 1px solid var(--border);
             margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .section-title {
+            color: var(--cbe-gold);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 6px;
+            margin: 18px 0 12px 0;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
         .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
-        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
 
         label { display: block; font-size: 11px; margin-bottom: 4px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
-        input, select {
+        input, select, textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid var(--border);
             border-radius: 6px;
-            background: #f8fafc;
-            color: var(--text-dark);
+            background: var(--input-bg);
+            color: #ffffff;
             box-sizing: border-box;
             font-size: 13px;
+            outline: none;
         }
+        input:focus, select:focus { border-color: var(--cbe-purple); }
 
         .btn {
             background: var(--cbe-purple);
@@ -99,242 +111,529 @@
             cursor: pointer;
         }
         .btn:hover { background: var(--cbe-purple-dark); }
+        .btn-danger { background: var(--danger); }
+        .btn-success { background: var(--success); }
         .btn-excel { background: #1D6F42; color: #ffffff; }
-        .btn-excel:hover { background: #155231; }
         .btn-pdf { background: #E1251B; color: #ffffff; }
-        .btn-pdf:hover { background: #b81c14; }
 
         .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; }
         .data-table th, .data-table td { border: 1px solid var(--border); padding: 8px 5px; text-align: center; }
-        .data-table th { background: #f1f5f9; color: var(--cbe-purple-dark); font-weight: 700; }
+        .data-table th { background: #0f172a; color: var(--cbe-gold); font-weight: 700; }
+
+        .badge-approved { background: #166534; color: #dcfce7; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 10px; }
+        .badge-pending { background: #854d0e; color: #fef3c7; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 10px; }
 
         .hidden { display: none !important; }
+
+        .login-box {
+            max-width: 400px;
+            margin: 60px auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            border-top: 5px solid var(--cbe-purple);
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header">
-        <div>
-            <h2 style="margin:0; color:var(--cbe-purple); font-size: 18px;">Commercial Bank of Ethiopia</h2>
-            <p style="margin:2px 0 0 0; font-size:12px; color:var(--text-muted);">Borkena Branch - eBook Library & Reports Export</p>
-        </div>
+    
+    <!-- 🔐 LOGIN SCREEN (ዘላቂ መፍትሄ - ሁልጊዜ በቅድሚያ የሚከፈት) -->
+    <div id="loginSection" class="login-box">
+        <h2 style="color:var(--cbe-gold); margin-top:0; text-align:center;">🔐 CBE Borkena Portal</h2>
+        <p style="font-size:12px; color:var(--text-muted); text-align:center;">እባክዎ ለመግባት Username እና Password ያስገቡ</p>
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <div style="margin-bottom:12px;">
+                <label>Username</label>
+                <input type="text" id="loginUser" placeholder="e.g. fiseha" required>
+            </div>
+            <div style="margin-bottom:18px;">
+                <label>Password</label>
+                <input type="password" id="loginPass" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn" style="width:100%;">Sign In</button>
+        </form>
+        <p id="loginError" style="color:var(--danger); font-size:12px; margin-top:12px; text-align:center;" class="hidden">❌ ተሳስተዋል! Username ወይም Password አልተገኘም።</p>
     </div>
 
-    <!-- NAVIGATION -->
-    <div class="nav-bar">
-        <button class="nav-btn active" onclick="showTab('ebookTab', this)">📚 ቦርከና ኢቡክ ላይብረሪ</button>
-        <button class="nav-btn" onclick="showTab('exportTab', this)">📊 Report Downloader (Excel & PDF)</button>
-    </div>
-
-    <!-- TAB 1: EBOOK LIBRARY -->
-    <div id="ebookTab" class="tab-page">
-        <div class="card">
-            <h3 style="color:var(--cbe-purple); margin-top:0;">📚 ቦርከና ኢቡክ ላይብረሪ (Borkena eBook Library)</h3>
-            <p style="font-size:12px; color:var(--text-muted);">የቅርንጫፉ የባንኪንግ መመሪያዎች፣ ህጎች እና የሰራተኞች የጥናት ሰነዶች</p>
-            
-            <div style="overflow-x:auto; margin-top:15px;">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>የመጽሐፉ/ሰነዱ ርዕስ (Book Title)</th>
-                            <th>ምድብ (Category)</th>
-                            <th>ደራሲ/ዘጋጅ (Author)</th>
-                            <th>ዳውንሎድ ማድረጊያ (Download)</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ebookTableBody">
-                        <tr>
-                            <td>1</td>
-                            <td>CBE Operational Guideline 2026</td>
-                            <td>Banking Procedure</td>
-                            <td>CBE Head Office</td>
-                            <td>
-                                <button onclick="downloadPdfDoc('CBE_Operational_Guideline')" class="btn btn-pdf" style="padding:4px 8px; font-size:11px;">📄 PDF Downloader</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Digital Banking & Channel Strategy</td>
-                            <td>Digital Services</td>
-                            <td>Borkena Branch Team</td>
-                            <td>
-                                <button onclick="downloadPdfDoc('Digital_Banking_Strategy')" class="btn btn-pdf" style="padding:4px 8px; font-size:11px;">📄 PDF Downloader</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>FCY & Foreign Exchange Directives</td>
-                            <td>International Banking</td>
-                            <td>NBE / CBE</td>
-                            <td>
-                                <button onclick="downloadPdfDoc('FCY_Directives_2026')" class="btn btn-pdf" style="padding:4px 8px; font-size:11px;">📄 PDF Downloader</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+    <!-- 🌐 MAIN SYSTEM DASHBOARD (ሲገቡ ብቻ የሚከፈት) -->
+    <div id="mainDashboard" class="hidden">
+        <div class="header">
+            <div>
+                <h2 style="margin:0; color:var(--cbe-gold); font-size: 18px;">Commercial Bank of Ethiopia</h2>
+                <p style="margin:2px 0 0 0; font-size:12px; color:var(--text-muted);">Borkena Branch Operational & eBook System</p>
+            </div>
+            <div>
+                <span id="currentUserDisplay" style="color:var(--cbe-gold); font-weight:bold; font-size:12px; margin-right:8px;"></span>
+                <button onclick="logout()" class="btn btn-danger" style="padding:4px 10px; font-size:11px;">Logout</button>
             </div>
         </div>
-    </div>
 
-    <!-- TAB 2: EXPORT / DOWNLOAD MENU (EXCEL & PDF) -->
-    <div id="exportTab" class="tab-page hidden">
-        <div class="card">
-            <h3 style="color:var(--cbe-purple); margin-top:0;">📊 የተሰራው ስራ ዳውንሎድ ማድረጊያ ሜኑ (Export Menu)</h3>
-            <p style="font-size:12px; color:var(--text-muted);">የተሰሩ ስራዎችን በ Excel (.xlsx) ወይም በ PDF መርጠው ማውረድ ይችላሉ።</p>
-            
-            <div class="grid-2" style="margin-bottom:20px; background:#f8fafc; padding:15px; border-radius:8px; border:1px solid var(--border);">
-                <div>
-                    <label>የሰራተኛ ስም ይምረጡ</label>
-                    <select id="exportStaffFilter">
-                        <option value="ALL">ለሁሉም ሰራተኛ (All Staff Reports)</option>
-                    </select>
+        <!-- NAVIGATION MENU -->
+        <div class="nav-bar">
+            <button class="nav-btn active" onclick="showTab('ebookTab', this)">📚 ቦርከና ኢቡክ ላይብረሪ</button>
+            <button class="nav-btn" onclick="showTab('reportsTab', this)">📝 Performance Entry</button>
+            <button class="nav-btn" onclick="showTab('allReportsTab', this)">🌐 All Staff Reports</button>
+            <button class="nav-btn" onclick="showTab('exportTab', this)">📊 Report Downloader (Excel/PDF)</button>
+            <button class="nav-btn hidden" id="supervisorNavBtn" onclick="showTab('supervisorTab', this)">👔 Supervisor Approval</button>
+            <button class="nav-btn hidden" id="adminNavBtn" onclick="showTab('adminTab', this)">⚙️ Staff Manager</button>
+            <button class="nav-btn" onclick="showTab('securityTab', this)">🔒 Password & Security</button>
+        </div>
+
+        <!-- TAB 1: EBOOK LIBRARY -->
+        <div id="ebookTab" class="tab-page">
+            <div class="card">
+                <h3 style="color:var(--cbe-gold); margin-top:0;">📚 ቦርከና ኢቡክ ላይብረሪ (Borkena eBook Library)</h3>
+                <p style="font-size:12px; color:var(--text-muted);">የቅርንጫፉ የባንኪንግ መመሪያዎች፣ ህጎች እና የሰራተኞች የጥናት ሰነዶች</p>
+                
+                <div style="overflow-x:auto; margin-top:15px;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>የመጽሐፉ/ሰነዱ ርዕስ (Book Title)</th>
+                                <th>ምድብ (Category)</th>
+                                <th>ደራሲ/ዘጋጅ (Author)</th>
+                                <th>ማውረጃ (Download)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>CBE Operational Guideline 2026</td>
+                                <td>Banking Procedure</td>
+                                <td>CBE Head Office</td>
+                                <td><button onclick="alert('Downloading CBE Operational Guideline...')" class="btn btn-pdf" style="padding:4px 8px; font-size:10px;">📄 PDF Downloader</button></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Digital Banking & Channel Strategy</td>
+                                <td>Digital Services</td>
+                                <td>Borkena Branch Team</td>
+                                <td><button onclick="alert('Downloading Digital Banking Strategy...')" class="btn btn-pdf" style="padding:4px 8px; font-size:10px;">📄 PDF Downloader</button></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>FCY & Foreign Exchange Directives</td>
+                                <td>International Banking</td>
+                                <td>NBE / CBE</td>
+                                <td><button onclick="alert('Downloading FCY Directives...')" class="btn btn-pdf" style="padding:4px 8px; font-size:10px;">📄 PDF Downloader</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div style="display:flex; gap:10px; align-items:flex-end;">
-                    <button onclick="exportToExcel()" class="btn btn-excel" style="flex:1;">📊 Export to Excel (.XLSX)</button>
-                    <button onclick="exportToPDF()" class="btn btn-pdf" style="flex:1;">📄 Export to PDF (.PDF)</button>
-                </div>
-            </div>
-
-            <div class="section-title" style="margin-top:15px; font-weight:bold; color:var(--cbe-purple);">📝 የወረዱ መረጃዎች ቅድመ-እይታ (Data Preview)</div>
-            <div style="overflow-x:auto; margin-top:10px;">
-                <table class="data-table" id="reportPreviewTable">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Staff Name</th>
-                            <th>Role</th>
-                            <th>Overall Score</th>
-                            <th>Deposit (Act)</th>
-                            <th>FCY USD (Act)</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="previewTableBody"></tbody>
-                </table>
             </div>
         </div>
+
+        <!-- TAB 2: PERFORMANCE ENTRY -->
+        <div id="reportsTab" class="tab-page hidden">
+            <div class="card">
+                <h3 style="color:var(--cbe-gold); margin-top:0;">📝 Daily / Weekly Performance Entry Form</h3>
+                <form id="perfForm">
+                    <div class="grid-4">
+                        <div><label>Staff Name</label><input type="text" id="perfStaff" readonly style="font-weight:bold; color:var(--cbe-gold);"></div>
+                        <div><label>Role</label><input type="text" id="perfRole" readonly style="font-weight:bold;"></div>
+                        <div><label>Date</label><input type="date" id="perfDate" required></div>
+                        <div><label>Overall Score % (Auto)</label><input type="number" id="overallScore" placeholder="Auto Calc" readonly style="font-weight:bold; color:var(--cbe-gold);"></div>
+                    </div>
+
+                    <div class="section-title">📌 Core Metrics (Deposit, Account & FCY)</div>
+                    <div class="grid-4">
+                        <div><label>Deposit Plan (ETB)</label><input type="number" id="depPlan" value="500000" oninput="calcOverall()" required></div>
+                        <div><label>Deposit Actual (ETB)</label><input type="number" id="depActual" value="0" oninput="calcOverall()" required></div>
+                        <div><label>New Accounts (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="accPlan" value="10" oninput="calcOverall()"><input type="number" id="accActual" value="0" oninput="calcOverall()"></div></div>
+                        <div><label>FCY Target Plan ($ USD)</label><input type="number" id="fcyPlan" value="1000" oninput="calcOverall()" required></div>
+                        <div><label>FCY Actual ($ USD)</label><input type="number" id="fcyActual" value="0" oninput="calcOverall()" required></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success" style="width:100%; margin-top:15px;">💾 Save Performance Report</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- TAB 3: ALL STAFF REPORTS -->
+        <div id="allReportsTab" class="tab-page hidden">
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                    <h3 style="color:var(--cbe-gold); margin:0;">🌐 Branch Staff Live Submissions</h3>
+                    <input type="text" id="searchStaffReports" placeholder="🔍 በሰራተኛ ስም ፈልግ..." onkeyup="renderPerfTable()" style="max-width:250px;">
+                </div>
+                <div style="overflow-x:auto; margin-top:10px;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Staff Name</th>
+                                <th>Role</th>
+                                <th>Score %</th>
+                                <th>Deposit (Act/Plan)</th>
+                                <th>Accounts (Act/Plan)</th>
+                                <th>FCY USD (Act/Plan)</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="perfTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: EXPORT MENU (EXCEL & PDF) -->
+        <div id="exportTab" class="tab-page hidden">
+            <div class="card">
+                <h3 style="color:var(--cbe-gold); margin-top:0;">📊 Export Reports (Excel & PDF Downloader)</h3>
+                <div class="grid-2" style="margin-bottom:15px; background:var(--input-bg); padding:15px; border-radius:8px; border:1px solid var(--border);">
+                    <div>
+                        <label>Select Staff Filter</label>
+                        <select id="exportStaffFilter"><option value="ALL">All Staff Members</option></select>
+                    </div>
+                    <div style="display:flex; gap:10px; align-items:flex-end;">
+                        <button onclick="exportToExcel()" class="btn btn-excel" style="flex:1;">📊 Export to Excel (.XLSX)</button>
+                        <button onclick="exportToPDF()" class="btn btn-pdf" style="flex:1;">📄 Export to PDF (.PDF)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: SUPERVISOR APPROVAL -->
+        <div id="supervisorTab" class="tab-page hidden">
+            <div class="card">
+                <h3 style="color:var(--cbe-gold); margin-top:0;">👔 Supervisor Review & Approval</h3>
+                <div style="overflow-x:auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Staff Name</th>
+                                <th>Overall %</th>
+                                <th>Deposit Act.</th>
+                                <th>FCY Act. ($)</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="supervisorReviewTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 6: ADMIN STAFF MANAGER -->
+        <div id="adminTab" class="tab-page hidden">
+            <div class="card">
+                <h3 style="color:var(--cbe-gold); margin-top:0;">⚙️ Staff Management (Super Admin)</h3>
+                <div style="background: var(--input-bg); padding:12px; border-radius:8px; border:1px solid var(--border); margin-bottom:15px;">
+                    <h4 style="margin:0 0 10px 0; color:var(--cbe-gold);">➕ አዲስ ሰራተኛ መመዝገቢያ</h4>
+                    <form onsubmit="addNewStaff(event)">
+                        <div class="grid-4">
+                            <div><label>Full Name</label><input type="text" id="newStaffName" required></div>
+                            <div><label>Username</label><input type="text" id="newStaffUsername" required></div>
+                            <div><label>Password</label><input type="password" id="newStaffPassword" required></div>
+                            <div><label>Role</label><input type="text" id="newStaffRole" required></div>
+                        </div>
+                        <div style="margin-top:10px; display:flex; gap:10px; align-items:center;">
+                            <div style="flex:1;">
+                                <label>Access Right Level</label>
+                                <select id="newStaffRight">
+                                    <option value="Staff">Staff</option>
+                                    <option value="Supervisor">Supervisor</option>
+                                    <option value="Super Admin">Super Admin</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-success" style="margin-top:15px;">+ Add Staff</button>
+                        </div>
+                    </form>
+                </div>
+                <div style="overflow-x:auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Full Name</th>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Access Right</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="staffTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 7: SECURITY -->
+        <div id="securityTab" class="tab-page hidden">
+            <div class="card">
+                <h3 style="color:var(--cbe-gold); margin-top:0;">🔒 Password & Security Management</h3>
+                <form onsubmit="changePassword(event)">
+                    <div style="margin-bottom:10px;"><label>Current Password</label><input type="password" id="oldPass" required></div>
+                    <div style="margin-bottom:10px;"><label>New Password</label><input type="password" id="newPass" required></div>
+                    <button type="submit" class="btn btn-success" style="width:100%;">Update Password</button>
+                </form>
+            </div>
+        </div>
+
     </div>
 </div>
 
 <script>
-    // Sample Data (Or load from your LocalStorage/Firebase)
-    let perfData = JSON.parse(localStorage.getItem('cbe_borkena_perf_data')) || [
-        { date: '2026-08-01', staff: 'Fiseha', role: 'Digital Officer', score: 98.5, depActual: 650000, fcyActual: 1200, status: 'Approved' },
-        { date: '2026-08-02', staff: 'Dawit', role: 'Team Leader', score: 92.0, depActual: 500000, fcyActual: 800, status: 'Approved' },
-        { date: '2026-08-03', staff: 'Dagmawit Afework', role: 'Digital & Service Quality', score: 88.0, depActual: 450000, fcyActual: 500, status: 'Pending' }
+    const defaultStaff = [
+        { id: 1, name: "Fiseha", username: "fiseha", password: "123", role: "Digital Officer", right: "Super Admin" },
+        { id: 2, name: "Dawit", username: "dawit", password: "123", role: "Team Leader", right: "Supervisor" },
+        { id: 3, name: "Sintayehu", username: "sintayehu", password: "123", role: "Team Leader", right: "Supervisor" },
+        { id: 4, name: "Dagmawit Afework", username: "dagmawit", password: "123", role: "Digital & Service Quality", right: "Staff" },
+        { id: 5, name: "Hermela Getachew", username: "hermela", password: "123", role: "New Customer Recruitment", right: "Staff" },
+        { id: 6, name: "Adem Seyid", username: "adem", password: "123", role: "FCY Target Manager", right: "Staff" },
+        { id: 7, name: "Giwons", username: "giwons", password: "123", role: "National ID Lead", right: "Staff" }
     ];
 
-    let staffList = JSON.parse(localStorage.getItem('cbe_borkena_staff')) || [
-        { name: "Fiseha" }, { name: "Dawit" }, { name: "Sintayehu" }, { name: "Dagmawit Afework" }, { name: "Hermela Getachew" }, { name: "Adem Seyid" }, { name: "Giwons" }
-    ];
+    let staffList = JSON.parse(localStorage.getItem('cbe_borkena_staff')) || defaultStaff;
+    let perfData = JSON.parse(localStorage.getItem('cbe_borkena_perf_data')) || [];
+    let loggedInUser = null;
 
-    window.onload = function() {
-        populateStaffDropdown();
-        renderPreviewTable();
-    };
+    function handleLogin(e) {
+        e.preventDefault();
+        const userVal = document.getElementById('loginUser').value.trim().toLowerCase();
+        const passVal = document.getElementById('loginPass').value.trim();
 
-    function populateStaffDropdown() {
-        const select = document.getElementById('exportStaffFilter');
-        select.innerHTML = '<option value="ALL">ለሁሉም ሰራተኛ (All Staff Reports)</option>';
-        staffList.forEach(s => {
-            select.innerHTML += `<option value="${s.name}">${s.name}</option>`;
-        });
+        const userObj = staffList.find(s => s.username.toLowerCase() === userVal && s.password === passVal);
+
+        if (userObj) {
+            loggedInUser = userObj;
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('mainDashboard').classList.remove('hidden');
+            document.getElementById('loginError').classList.add('hidden');
+            initDashboard();
+        } else {
+            document.getElementById('loginError').classList.remove('hidden');
+        }
     }
 
-    function renderPreviewTable() {
-        const tbody = document.getElementById('previewTableBody');
+    function logout() {
+        loggedInUser = null;
+        document.getElementById('mainDashboard').classList.add('hidden');
+        document.getElementById('loginSection').classList.remove('hidden');
+        document.getElementById('loginUser').value = '';
+        document.getElementById('loginPass').value = '';
+    }
+
+    function initDashboard() {
+        document.getElementById('currentUserDisplay').innerText = `👤 ${loggedInUser.name} (${loggedInUser.right})`;
+        document.getElementById('perfStaff').value = loggedInUser.name;
+        document.getElementById('perfRole').value = loggedInUser.role;
+
+        const isAdmin = loggedInUser.right === 'Super Admin';
+        const isSupervisor = loggedInUser.right === 'Supervisor' || isAdmin;
+
+        document.getElementById('adminNavBtn').classList.toggle('hidden', !isAdmin);
+        document.getElementById('supervisorNavBtn').classList.toggle('hidden', !isSupervisor);
+
+        document.getElementById('perfDate').valueAsDate = new Date();
+        refreshAllViews();
+    }
+
+    function refreshAllViews() {
+        renderPerfTable();
+        renderSupervisorTab();
+        renderStaffTable();
+        populateDropdowns();
+    }
+
+    function calcOverall() {
+        let depP = parseFloat(document.getElementById('depPlan').value) || 0;
+        let depA = parseFloat(document.getElementById('depActual').value) || 0;
+        let accP = parseFloat(document.getElementById('accPlan').value) || 0;
+        let accA = parseFloat(document.getElementById('accActual').value) || 0;
+        let fcyP = parseFloat(document.getElementById('fcyPlan').value) || 0;
+        let fcyA = parseFloat(document.getElementById('fcyActual').value) || 0;
+
+        let depScore = depP > 0 ? (depA / depP) * 100 : 0;
+        let accScore = accP > 0 ? (accA / accP) * 100 : 0;
+        let fcyScore = fcyP > 0 ? (fcyA / fcyP) * 100 : 0;
+
+        let total = ((depScore * 0.40) + (accScore * 0.30) + (fcyScore * 0.30)).toFixed(1);
+        document.getElementById('overallScore').value = total;
+    }
+
+    document.getElementById('perfForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const record = {
+            id: Date.now(),
+            date: document.getElementById('perfDate').value,
+            staff: document.getElementById('perfStaff').value,
+            role: document.getElementById('perfRole').value,
+            score: parseFloat(document.getElementById('overallScore').value) || 0,
+            depPlan: parseFloat(document.getElementById('depPlan').value) || 0,
+            depActual: parseFloat(document.getElementById('depActual').value) || 0,
+            accPlan: parseFloat(document.getElementById('accPlan').value) || 0,
+            accActual: parseFloat(document.getElementById('accActual').value) || 0,
+            fcyPlan: parseFloat(document.getElementById('fcyPlan').value) || 0,
+            fcyActual: parseFloat(document.getElementById('fcyActual').value) || 0,
+            status: 'Pending Review'
+        };
+
+        perfData.unshift(record);
+        saveData();
+        alert('✅ የመረጡት መረጃ በተሳካ ሁኔታ ተመዝግቧል!');
+    });
+
+    function renderPerfTable() {
+        const tbody = document.getElementById('perfTableBody');
+        const query = (document.getElementById('searchStaffReports')?.value || '').toLowerCase();
         tbody.innerHTML = '';
-        perfData.forEach(p => {
+
+        const filtered = perfData.filter(p => p.staff.toLowerCase().includes(query));
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="9">ምንም የተመዘገበ ሪፖርት የለም።</td></tr>';
+            return;
+        }
+
+        filtered.forEach(p => {
+            const canDelete = loggedInUser && (loggedInUser.right === 'Super Admin' || loggedInUser.name === p.staff);
             tbody.innerHTML += `
                 <tr>
                     <td>${p.date}</td>
                     <td><strong>${p.staff}</strong></td>
-                    <td>${p.role}</td>
-                    <td>${p.score}%</td>
-                    <td>ETB ${p.depActual.toLocaleString()}</td>
-                    <td>$${p.fcyActual}</td>
-                    <td>${p.status}</td>
+                    <td><small>${p.role}</small></td>
+                    <td><strong style="color:var(--cbe-gold);">${p.score}%</strong></td>
+                    <td>${(p.depActual || 0).toLocaleString()} / ${(p.depPlan || 0).toLocaleString()}</td>
+                    <td>${p.accActual || 0} / ${p.accPlan || 0}</td>
+                    <td>$${p.fcyActual || 0} / $${p.fcyPlan || 0}</td>
+                    <td><span class="${p.status === 'Approved' ? 'badge-approved' : 'badge-pending'}">${p.status}</span></td>
+                    <td>${canDelete ? `<button onclick="deleteRecord(${p.id})" class="btn btn-danger" style="padding:2px 6px; font-size:10px;">🗑️</button>` : '-'}</td>
                 </tr>
             `;
         });
     }
 
-    // --- EXCEL DOWNLOAD FUNCTION ---
+    function deleteRecord(id) {
+        if (confirm('እርግጠኛ ነዎት ይህ ሪፖርት ይዘረዝ?')) {
+            perfData = perfData.filter(p => p.id !== id);
+            saveData();
+        }
+    }
+
+    function renderSupervisorTab() {
+        const tbody = document.getElementById('supervisorReviewTable');
+        tbody.innerHTML = '';
+
+        if (perfData.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7">ምንም የቀረበ ሪፖርት የለም።</td></tr>';
+            return;
+        }
+
+        perfData.forEach(p => {
+            const canApprove = loggedInUser && (loggedInUser.right === 'Super Admin' || loggedInUser.right === 'Supervisor');
+            tbody.innerHTML += `
+                <tr>
+                    <td>${p.date}</td>
+                    <td><strong>${p.staff}</strong></td>
+                    <td><strong>${p.score}%</strong></td>
+                    <td>${(p.depActual || 0).toLocaleString()}</td>
+                    <td>$${(p.fcyActual || 0).toLocaleString()}</td>
+                    <td><span class="${p.status === 'Approved' ? 'badge-approved' : 'badge-pending'}">${p.status}</span></td>
+                    <td>${p.status !== 'Approved' && canApprove ? `<button onclick="approveReport(${p.id})" class="btn btn-success" style="padding:2px 6px; font-size:10px;">✅ Approve</button>` : '✔️ Verified'}</td>
+                </tr>
+            `;
+        });
+    }
+
+    function approveReport(id) {
+        const rec = perfData.find(p => p.id === id);
+        if (rec) {
+            rec.status = 'Approved';
+            saveData();
+            alert(`የ ${rec.staff} ሪፖርት ፅድቋል!`);
+        }
+    }
+
+    function renderStaffTable() {
+        const tbody = document.getElementById('staffTableBody');
+        tbody.innerHTML = '';
+        staffList.forEach((st, idx) => {
+            tbody.innerHTML += `
+                <tr>
+                    <td>${idx + 1}</td>
+                    <td><strong>${st.name}</strong></td>
+                    <td>${st.username}</td>
+                    <td>${st.role}</td>
+                    <td><strong>${st.right}</strong></td>
+                    <td><button onclick="removeStaff(${st.id})" class="btn btn-danger" style="padding:2px 6px; font-size:10px;">❌ Remove</button></td>
+                </tr>
+            `;
+        });
+    }
+
+    function addNewStaff(e) {
+        e.preventDefault();
+        const name = document.getElementById('newStaffName').value.trim();
+        const username = document.getElementById('newStaffUsername').value.trim().toLowerCase();
+        const password = document.getElementById('newStaffPassword').value.trim();
+        const role = document.getElementById('newStaffRole').value.trim();
+        const right = document.getElementById('newStaffRight').value;
+
+        if (staffList.some(s => s.username === username)) {
+            alert('ይህ Username አስቀድሞ ተይዟል!');
+            return;
+        }
+
+        staffList.push({ id: Date.now(), name, username, password, role, right });
+        saveData();
+        alert('✅ አዲስ ሰራተኛ በተሳካ ሁኔታ ተመዝግቧል!');
+    }
+
+    function removeStaff(id) {
+        if (confirm('እርግጠኛ ነዎት ይህንን ሰራተኛ መሰረዝ ይፈልጋሉ?')) {
+            staffList = staffList.filter(s => s.id !== id);
+            saveData();
+        }
+    }
+
+    function populateDropdowns() {
+        const expSelect = document.getElementById('exportStaffFilter');
+        if (expSelect) {
+            expSelect.innerHTML = '<option value="ALL">All Staff Members</option>';
+            staffList.forEach(st => {
+                expSelect.innerHTML += `<option value="${st.name}">${st.name}</option>`;
+            });
+        }
+    }
+
     function exportToExcel() {
         const filter = document.getElementById('exportStaffFilter').value;
         let dataToExport = perfData;
+        if (filter !== 'ALL') dataToExport = perfData.filter(p => p.staff === filter);
 
-        if (filter !== 'ALL') {
-            dataToExport = perfData.filter(p => p.staff === filter);
-        }
+        if (dataToExport.length === 0) { alert("የሚወርድ መረጃ የለም!"); return; }
 
-        if (dataToExport.length === 0) {
-            alert("የሚወርድ መረጃ የለም!");
-            return;
-        }
-
-        // Prepare Excel Sheet structure
-        const worksheetData = dataToExport.map(item => ({
-            "Date": item.date,
-            "Staff Name": item.staff,
-            "Role": item.role,
-            "Overall Score (%)": item.score,
-            "Deposit Actual (ETB)": item.depActual,
-            "FCY Actual ($ USD)": item.fcyActual,
-            "Approval Status": item.status
-        }));
-
-        const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+        const worksheet = XLSX.utils.json_to_sheet(dataToExport);
         const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Performance Report");
-
-        // Download Excel File
-        const fileName = filter === 'ALL' ? "Borkena_All_Staff_Report.xlsx" : `Borkena_Report_${filter}.xlsx`;
-        XLSX.writeFile(workbook, fileName);
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Performance");
+        XLSX.writeFile(workbook, `Borkena_Report_${filter}.xlsx`);
     }
 
-    // --- PDF DOWNLOAD FUNCTION ---
     function exportToPDF() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
-        const filter = document.getElementById('exportStaffFilter').value;
-
-        let dataToExport = perfData;
-        if (filter !== 'ALL') {
-            dataToExport = perfData.filter(p => p.staff === filter);
-        }
-
-        if (dataToExport.length === 0) {
-            alert("የሚወርድ መረጃ የለም!");
-            return;
-        }
-
-        doc.setFontSize(14);
-        doc.text("CBE Borkena Branch - Performance Report", 14, 15);
-        doc.setFontSize(10);
-        doc.text(`Filter: ${filter === 'ALL' ? 'All Staff Members' : filter}`, 14, 22);
-        doc.text(`Generated Date: ${new Date().toLocaleDateString()}`, 14, 27);
-
-        let y = 35;
-        doc.setFontSize(9);
-        doc.text("Date | Staff Name | Role | Score % | Deposit (ETB) | FCY ($)", 14, y);
-        doc.line(14, y + 2, 195, y + 2);
-        y += 8;
-
-        dataToExport.forEach((item) => {
-            if (y > 280) { doc.addPage(); y = 20; }
-            doc.text(`${item.date} | ${item.staff} | ${item.role} | ${item.score}% | ${item.depActual} | $${item.fcyActual}`, 14, y);
-            y += 7;
+        doc.text("CBE Borkena Branch Performance Report", 10, 20);
+        let y = 30;
+        perfData.forEach((item, index) => {
+            doc.text(`${index + 1}. ${item.staff} (${item.role}) - Score: ${item.score}% | Date: ${item.date}`, 10, y);
+            y += 8;
         });
-
-        const fileName = filter === 'ALL' ? "Borkena_All_Staff_Report.pdf" : `Borkena_Report_${filter}.pdf`;
-        doc.save(fileName);
+        doc.save("Borkena_Report.pdf");
     }
 
-    function downloadPdfDoc(docName) {
-        alert(`" ${docName}.pdf " ሰነድ ማውረድ ጀምሯል...`);
+    function saveData() {
+        localStorage.setItem('cbe_borkena_perf_data', JSON.stringify(perfData));
+        localStorage.setItem('cbe_borkena_staff', JSON.stringify(staffList));
+        refreshAllViews();
     }
 
     function showTab(tabId, btn) {
@@ -342,6 +641,22 @@
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(tabId).classList.remove('hidden');
         if (btn) btn.classList.add('active');
+    }
+
+    function changePassword(e) {
+        e.preventDefault();
+        const oldP = document.getElementById('oldPass').value;
+        const newP = document.getElementById('newPass').value;
+
+        if (loggedInUser.password === oldP) {
+            loggedInUser.password = newP;
+            const target = staffList.find(s => s.id === loggedInUser.id);
+            if (target) target.password = newP;
+            saveData();
+            alert('ፓስወርድዎ ተቀይሯል!');
+        } else {
+            alert('የነበረው ፓስወርድ ትክክል አይደለም!');
+        }
     }
 </script>
 
