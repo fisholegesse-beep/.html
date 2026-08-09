@@ -135,6 +135,16 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             border-top: 5px solid var(--cbe-purple);
         }
+
+        .stat-card {
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        .stat-val { font-size: 20px; font-weight: bold; color: var(--cbe-gold); }
+        .stat-lbl { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
     </style>
 </head>
 <body>
@@ -172,9 +182,10 @@
             </div>
         </div>
 
-        <!-- NAVIGATION MENU -->
+        <!-- NAVIGATION MENU (ዲፎልት ሆም ፔጅ Dashboard ነው) -->
         <div class="nav-bar">
-            <button class="nav-btn active" onclick="showTab('ebookTab', this)">📚 ቦርከና ኢቡክ ላይብረሪ</button>
+            <button class="nav-btn active" id="homeTabBtn" onclick="showTab('dashboardHomeTab', this)">🏠 Dashboard Overview</button>
+            <button class="nav-btn" onclick="showTab('ebookTab', this)">📚 ቦርከና ኢቡክ ላይብረሪ</button>
             <button class="nav-btn" onclick="showTab('reportsTab', this)">📝 Performance Entry</button>
             <button class="nav-btn" onclick="showTab('allReportsTab', this)">🌐 All Staff Reports</button>
             <button class="nav-btn" onclick="showTab('exportTab', this)">📊 Report Downloader (Excel/PDF)</button>
@@ -183,13 +194,77 @@
             <button class="nav-btn" onclick="showTab('securityTab', this)">🔒 Password & Security</button>
         </div>
 
-        <!-- TAB 1: EBOOK LIBRARY -->
-        <div id="ebookTab" class="tab-page">
+        <!-- TAB 0: HOME DASHBOARD OVERVIEW (DEFAULT OPENING PAGE) -->
+        <div id="dashboardHomeTab" class="tab-page">
+            <div class="card">
+                <h3 style="color:var(--cbe-gold); margin-top:0;">📊 Borkena Branch Overall Performance Summary</h3>
+                <div class="grid-4" style="margin-top:15px;">
+                    <div class="stat-card">
+                        <div class="stat-val" id="dashTotalReports">0</div>
+                        <div class="stat-lbl">Total Reports Submitted</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-val" id="dashTotalDeposit">0 ETB</div>
+                        <div class="stat-lbl">Total Deposit Mobilized</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-val" id="dashTotalFCY">$0 USD</div>
+                        <div class="stat-lbl">Total FCY Acquired</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-val" id="dashTotalDigital">0</div>
+                        <div class="stat-lbl">Total Digital Services</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h4 style="color:var(--cbe-gold); margin-top:0;">📌 Quick Staff Performance Snapshot</h4>
+                <div style="overflow-x:auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Staff Name</th>
+                                <th>Role</th>
+                                <th>Latest Score %</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashSummaryTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 1: EBOOK LIBRARY (UPLOAD & DOWNLOAD ENHANCED) -->
+        <div id="ebookTab" class="tab-page hidden">
             <div class="card">
                 <h3 style="color:var(--cbe-gold); margin-top:0;">📚 ቦርከና ኢቡክ ላይብረሪ (Borkena eBook Library)</h3>
-                <p style="font-size:12px; color:var(--text-muted);">የቅርንጫፉ የባንኪንግ መመሪያዎች፣ ህጎች እና የሰራተኞች የጥናት ሰነዶች</p>
-                
-                <div style="overflow-x:auto; margin-top:15px;">
+                <p style="font-size:12px; color:var(--text-muted);">የባንኪንግ መመሪያዎች፣ ህጎች እና የጥናት ሰነዶች ማውረጃና መጫኛ ቦታ</p>
+
+                <!-- 📤 UPLOAD SECTION -->
+                <div style="background: var(--input-bg); padding:12px; border-radius:8px; border:1px solid var(--border); margin-bottom:15px;">
+                    <h4 style="margin:0 0 10px 0; color:var(--cbe-gold);">📤 አዲስ መጽሐፍ/ሰነድ መጫኛ (Upload Book/Document)</h4>
+                    <form onsubmit="uploadEbook(event)">
+                        <div class="grid-4">
+                            <div><label>የመጽሐፉ/ሰነዱ ርዕስ (Title)</label><input type="text" id="ebookTitle" required></div>
+                            <div><label>ምድብ (Category)</label>
+                                <select id="ebookCategory">
+                                    <option value="Banking Procedure">Banking Procedure</option>
+                                    <option value="Digital Services">Digital Services</option>
+                                    <option value="International Banking">International Banking</option>
+                                    <option value="Audit & Compliance">Audit & Compliance</option>
+                                </select>
+                            </div>
+                            <div><label>ደራሲ/ዘጋጅ (Author)</label><input type="text" id="ebookAuthor" required></div>
+                            <div><label>ሰነድ ይምረጡ (Select File)</label><input type="file" id="ebookFile" accept=".pdf,.docx,.xlsx" required></div>
+                        </div>
+                        <button type="submit" class="btn btn-success" style="margin-top:10px;">📤 Upload to Library</button>
+                    </form>
+                </div>
+
+                <!-- 📥 BOOKS LIST TABLE -->
+                <div style="overflow-x:auto;">
                     <table class="data-table">
                         <thead>
                             <tr>
@@ -197,38 +272,18 @@
                                 <th>የመጽሐፉ/ሰነዱ ርዕስ (Book Title)</th>
                                 <th>ምድብ (Category)</th>
                                 <th>ደራሲ/ዘጋጅ (Author)</th>
+                                <th>የተጫነበት ቀን</th>
                                 <th>ማውረጃ (Download)</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>CBE Operational Guideline 2026</td>
-                                <td>Banking Procedure</td>
-                                <td>CBE Head Office</td>
-                                <td><button onclick="alert('Downloading CBE Operational Guideline...')" class="btn btn-pdf" style="padding:4px 8px; font-size:10px;">📄 PDF Downloader</button></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Digital Banking & Channel Strategy</td>
-                                <td>Digital Services</td>
-                                <td>Borkena Branch Team</td>
-                                <td><button onclick="alert('Downloading Digital Banking Strategy...')" class="btn btn-pdf" style="padding:4px 8px; font-size:10px;">📄 PDF Downloader</button></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>FCY & Foreign Exchange Directives</td>
-                                <td>International Banking</td>
-                                <td>NBE / CBE</td>
-                                <td><button onclick="alert('Downloading FCY Directives...')" class="btn btn-pdf" style="padding:4px 8px; font-size:10px;">📄 PDF Downloader</button></td>
-                            </tr>
-                        </tbody>
+                        <tbody id="ebookTableBody"></tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 2: PERFORMANCE ENTRY (የተሟሉ ዲጂታል መዘርዝሮች) -->
+        <!-- TAB 2: PERFORMANCE ENTRY -->
         <div id="reportsTab" class="tab-page hidden">
             <div class="card">
                 <h3 style="color:var(--cbe-gold); margin-top:0;">📝 Daily / Weekly Performance Entry Form</h3>
@@ -240,7 +295,6 @@
                         <div><label>Overall Score % (Auto)</label><input type="number" id="overallScore" placeholder="Auto Calc" readonly style="font-weight:bold; color:var(--cbe-gold);"></div>
                     </div>
 
-                    <!-- 📱 FULL DIGITAL BANKING SERVICES (ሙሉ በሙሉ የተመለሱ) -->
                     <div class="section-title">📱 Digital Banking Services (Act / Plan)</div>
                     <div class="grid-4">
                         <div><label>Mobile Banking (MB)</label><div style="display:flex; gap:4px;"><input type="number" id="mbPlan" value="10" oninput="calcOverall()"><input type="number" id="mbActual" value="0" oninput="calcOverall()"></div></div>
@@ -252,7 +306,6 @@
                         <div><label>StarPay Enrollment</label><div style="display:flex; gap:4px;"><input type="number" id="starPayPlan" value="5" oninput="calcOverall()"><input type="number" id="starPayActual" value="0" oninput="calcOverall()"></div></div>
                     </div>
 
-                    <!-- 📌 FINANCIAL & OPERATIONAL TARGETS -->
                     <div class="section-title">📌 Core Financial & Operational Targets</div>
                     <div class="grid-4">
                         <div><label>Deposit Plan (ETB)</label><input type="number" id="depPlan" value="500000" oninput="calcOverall()" required></div>
@@ -268,7 +321,7 @@
             </div>
         </div>
 
-        <!-- TAB 3: ALL STAFF REPORTS (ሁሉም ሰራተኛ እንዲያየው የተስተካከለ) -->
+        <!-- TAB 3: ALL STAFF REPORTS -->
         <div id="allReportsTab" class="tab-page hidden">
             <div class="card">
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
@@ -302,7 +355,6 @@
         <div id="exportTab" class="tab-page hidden">
             <div class="card">
                 <h3 style="color:var(--cbe-gold); margin-top:0;">📊 Export Reports (Excel & PDF Downloader)</h3>
-                <p style="font-size:12px; color:var(--text-muted);">ማንኛውም ሰራተኛ የራሱን ወይም የሁሉንም ሰራተኞች የዲጂታልና የፋይናንስ ስራዎች ማውረድ ይችላል።</p>
                 <div class="grid-2" style="margin-bottom:15px; background:var(--input-bg); padding:15px; border-radius:8px; border:1px solid var(--border);">
                     <div>
                         <label>Select Staff Filter</label>
@@ -410,8 +462,15 @@
         { id: 7, name: "Giwons", username: "giwons", password: "123", role: "National ID Lead", right: "Staff" }
     ];
 
+    const defaultBooks = [
+        { id: 1, title: "CBE Operational Guideline 2026", category: "Banking Procedure", author: "CBE Head Office", date: "2026-01-10", fileData: "#" },
+        { id: 2, title: "Digital Banking & Channel Strategy", category: "Digital Services", author: "Borkena Branch Team", date: "2026-02-15", fileData: "#" },
+        { id: 3, title: "FCY & Foreign Exchange Directives", category: "International Banking", author: "NBE / CBE", date: "2026-03-01", fileData: "#" }
+    ];
+
     let staffList = JSON.parse(localStorage.getItem('cbe_borkena_staff')) || defaultStaff;
     let perfData = JSON.parse(localStorage.getItem('cbe_borkena_perf_data')) || [];
+    let ebookList = JSON.parse(localStorage.getItem('cbe_borkena_ebooks')) || defaultBooks;
     let loggedInUser = null;
 
     function handleLogin(e) {
@@ -452,14 +511,117 @@
         document.getElementById('supervisorNavBtn').classList.toggle('hidden', !isSupervisor);
 
         document.getElementById('perfDate').valueAsDate = new Date();
+        
+        // ዲፎልት ሆም ፔጅ መክፈቻ (Dashboard Overview)
+        showTab('dashboardHomeTab', document.getElementById('homeTabBtn'));
         refreshAllViews();
     }
 
     function refreshAllViews() {
+        renderHomeDashboard();
+        renderEbooks();
         renderPerfTable();
         renderSupervisorTab();
         renderStaffTable();
         populateDropdowns();
+    }
+
+    function renderHomeDashboard() {
+        document.getElementById('dashTotalReports').innerText = perfData.length;
+        
+        let totalDep = perfData.reduce((acc, curr) => acc + (curr.depActual || 0), 0);
+        let totalFCY = perfData.reduce((acc, curr) => acc + (curr.fcyActual || 0), 0);
+        let totalDig = perfData.reduce((acc, curr) => acc + (curr.mbActual || 0) + (curr.atmActual || 0) + (curr.posActual || 0) + (curr.cbeBirrActual || 0) + (curr.starPayActual || 0), 0);
+
+        document.getElementById('dashTotalDeposit').innerText = totalDep.toLocaleString() + " ETB";
+        document.getElementById('dashTotalFCY').innerText = "$" + totalFCY.toLocaleString() + " USD";
+        document.getElementById('dashTotalDigital').innerText = totalDig.toLocaleString();
+
+        const tbody = document.getElementById('dashSummaryTable');
+        tbody.innerHTML = '';
+        if (perfData.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4">ምንም መረጃ የለም።</td></tr>';
+            return;
+        }
+
+        perfData.slice(0, 5).forEach(p => {
+            tbody.innerHTML += `
+                <tr>
+                    <td><strong>${p.staff}</strong></td>
+                    <td>${p.role}</td>
+                    <td><strong style="color:var(--cbe-gold);">${p.score}%</strong></td>
+                    <td><span class="${p.status === 'Approved' ? 'badge-approved' : 'badge-pending'}">${p.status}</span></td>
+                </tr>
+            `;
+        });
+    }
+
+    function uploadEbook(e) {
+        e.preventDefault();
+        const title = document.getElementById('ebookTitle').value.trim();
+        const category = document.getElementById('ebookCategory').value;
+        const author = document.getElementById('ebookAuthor').value.trim();
+        const fileInput = document.getElementById('ebookFile');
+
+        if (fileInput.files.length === 0) return;
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(evt) {
+            const newBook = {
+                id: Date.now(),
+                title: title,
+                category: category,
+                author: author,
+                date: new Date().toISOString().split('T')[0],
+                fileData: evt.target.result,
+                fileName: file.name
+            };
+
+            ebookList.unshift(newBook);
+            saveData();
+            alert('✅ መጽሐፉ/ሰነዱ በስኬት ኢቡክ ላይብረሪ ውስጥ ተጭኗል!');
+            document.getElementById('ebookTitle').value = '';
+            document.getElementById('ebookAuthor').value = '';
+            document.getElementById('ebookFile').value = '';
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    function renderEbooks() {
+        const tbody = document.getElementById('ebookTableBody');
+        tbody.innerHTML = '';
+
+        if (ebookList.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7">ምንም መጽሐፍ አልተጫነም።</td></tr>';
+            return;
+        }
+
+        ebookList.forEach((b, idx) => {
+            const canDelete = loggedInUser && (loggedInUser.right === 'Super Admin' || loggedInUser.right === 'Supervisor');
+            tbody.innerHTML += `
+                <tr>
+                    <td>${idx + 1}</td>
+                    <td><strong>${b.title}</strong></td>
+                    <td>${b.category}</td>
+                    <td>${b.author}</td>
+                    <td><small>${b.date || '-'}</small></td>
+                    <td>
+                        <a href="${b.fileData}" download="${b.fileName || b.title}" class="btn btn-pdf" style="padding:4px 8px; font-size:10px; text-decoration:none;">📥 Download File</a>
+                    </td>
+                    <td>${canDelete ? `<button onclick="deleteEbook(${b.id})" class="btn btn-danger" style="padding:2px 6px; font-size:10px;">🗑️ Delete</button>` : '-'}</td>
+                </tr>
+            `;
+        });
+    }
+
+    function deleteEbook(id) {
+        if (confirm('እርግጠኛ ነዎት ይህንን መጽሐፍ መሰረዝ ይፈልጋሉ?')) {
+            ebookList = ebookList.filter(b => b.id !== id);
+            saveData();
+        }
     }
 
     function calcOverall() {
@@ -666,6 +828,7 @@
     function saveData() {
         localStorage.setItem('cbe_borkena_perf_data', JSON.stringify(perfData));
         localStorage.setItem('cbe_borkena_staff', JSON.stringify(staffList));
+        localStorage.setItem('cbe_borkena_ebooks', JSON.stringify(ebookList));
         refreshAllViews();
     }
 
