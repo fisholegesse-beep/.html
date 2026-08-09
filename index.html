@@ -161,6 +161,23 @@
             background: var(--card-bg); border: 1px solid var(--border);
             padding: 20px; border-radius: 10px; width: 90%; max-width: 450px;
         }
+
+        /* Certificate Print Styling */
+        .cert-paper {
+            background: #ffffff;
+            color: #000000;
+            padding: 30px;
+            border: 10px solid var(--cbe-purple);
+            outline: 4px solid var(--cbe-gold);
+            text-align: center;
+            border-radius: 8px;
+            margin-top: 15px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+        }
+        .cert-paper-warning {
+            border-color: var(--danger) !important;
+            outline-color: #000000 !important;
+        }
     </style>
 </head>
 <body>
@@ -190,7 +207,7 @@
         <div class="header">
             <div>
                 <h2 style="margin:0; color:var(--cbe-gold); font-size: 16px;">Commercial Bank of Ethiopia</h2>
-                <p style="margin:2px 0 0 0; font-size:11px; color:var(--text-muted);">Borkena Branch Portal (Online View Available)</p>
+                <p style="margin:2px 0 0 0; font-size:11px; color:var(--text-muted);">Borkena Branch Portal</p>
             </div>
             <div style="display:flex; align-items:center; gap:8px;">
                 <span id="currentUserDisplay" style="color:var(--cbe-gold); font-weight:bold; font-size:11px;"></span>
@@ -205,6 +222,7 @@
             <button class="nav-btn" onclick="showTab('reportsTab', this)">📝 ሪፖርት መመዝገቢያ</button>
             <button class="nav-btn" onclick="showTab('allReportsTab', this)">🌐 የሁሉም ሰራተኞች ሪፖርት</button>
             <button class="nav-btn" onclick="showTab('exportTab', this)">📊 Report Downloader</button>
+            <button class="nav-btn" onclick="showTab('certTab', this)">📜 ስርተፍኬት / ማስጠንቀቂያ</button>
             <button class="nav-btn hidden" id="supervisorNavBtn" onclick="showTab('supervisorTab', this)">👔 Approval Menu</button>
             <button class="nav-btn hidden" id="adminNavBtn" onclick="showTab('adminTab', this)">⚙️ Staff Manager</button>
             <button class="nav-btn" onclick="showTab('securityTab', this)">🔒 Password</button>
@@ -336,7 +354,7 @@
             </div>
         </div>
 
-        <!-- TAB 3: ALL STAFF REPORTS (ለሁሉም ሰራተኛ የሚታይ) -->
+        <!-- TAB 3: ALL STAFF REPORTS -->
         <div id="allReportsTab" class="tab-page hidden">
             <div class="card">
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
@@ -351,7 +369,7 @@
                                 <th>የሰራተኛ ስም</th>
                                 <th>ሚና (Role)</th>
                                 <th>Score %</th>
-                                <th>Digital (MB/ATM/IB/Agent/POS/Birr/Star)</th>
+                                <th>Digital Breakdown</th>
                                 <th>Deposit (Act/Plan)</th>
                                 <th>FCY USD</th>
                                 <th>National ID</th>
@@ -365,7 +383,7 @@
             </div>
         </div>
 
-        <!-- TAB 4: EXPORT MENU (ቀን፣ ሳምንት፣ ወር፣ ሩብ አመት፣ አመት) -->
+        <!-- TAB 4: EXPORT MENU -->
         <div id="exportTab" class="tab-page hidden">
             <div class="card">
                 <h3 style="color:var(--cbe-gold); margin-top:0; font-size:14px;">📊 Report Downloader (የጊዜ ማጣሪያ ያለው)</h3>
@@ -395,7 +413,32 @@
             </div>
         </div>
 
-        <!-- TAB 5: SUPERVISOR & ADMIN APPROVAL MENU -->
+        <!-- TAB 5: CERTIFICATE & WARNING LETTER GENERATOR -->
+        <div id="certTab" class="tab-page hidden">
+            <div class="card">
+                <h3 style="color:var(--cbe-gold); margin-top:0; font-size:14px;">📜 የምስክር ወረቀት እና የማስጠንቀቂያ ደብዳቤ ማዘጋጃ</h3>
+                <p style="font-size:11px; color:var(--text-muted);">ከ50% በላይ ላመጡ ሰራተኞች የምስጋና ስርተፍኬት፤ ከ50% በታች ላመጡ ደግሞ የማስጠንቀቂያ ደብዳቤ አውቶማቲክ ያዘጋጃል።</p>
+                
+                <div class="grid-3" style="margin-bottom:12px;">
+                    <div>
+                        <label>ሰራተኛ ይምረጡ</label>
+                        <select id="certStaffSelect" onchange="generateCertificate()"></select>
+                    </div>
+                    <div>
+                        <label>የግምገማ ዘመን (Period)</label>
+                        <input type="text" id="certPeriodText" value="Monthly Performance 2026" oninput="generateCertificate()">
+                    </div>
+                    <div style="display:flex; align-items:flex-end;">
+                        <button onclick="window.print()" class="btn btn-warning" style="width:100%;">🖨️ Print / Save PDF</button>
+                    </div>
+                </div>
+
+                <!-- DYNAMIC CERTIFICATE / WARNING DISPLAY AREA -->
+                <div id="certificatePreviewArea"></div>
+            </div>
+        </div>
+
+        <!-- TAB 6: SUPERVISOR & ADMIN APPROVAL MENU -->
         <div id="supervisorTab" class="tab-page hidden">
             <div class="card">
                 <h3 style="color:var(--cbe-gold); margin-top:0; font-size:14px;">👔 Approval Menu (ለAdmin & Super Admin የተፈቀደ)</h3>
@@ -419,7 +462,7 @@
             </div>
         </div>
 
-        <!-- TAB 6: ADMIN STAFF MANAGER (WITH EDIT FUNCTION) -->
+        <!-- TAB 7: ADMIN STAFF MANAGER -->
         <div id="adminTab" class="tab-page hidden">
             <div class="card">
                 <h3 style="color:var(--cbe-gold); margin-top:0; font-size:14px;">⚙️ Staff Manager (አዲስ መመዝገቢያ እና ማስተካከያ)</h3>
@@ -464,7 +507,7 @@
             </div>
         </div>
 
-        <!-- TAB 7: SECURITY -->
+        <!-- TAB 8: SECURITY -->
         <div id="securityTab" class="tab-page hidden">
             <div class="card">
                 <h3 style="color:var(--cbe-gold); margin-top:0; font-size:14px;">🔒 Password & Security Management</h3>
@@ -595,6 +638,7 @@
         renderSupervisorTab();
         renderStaffTable();
         populateDropdowns();
+        generateCertificate();
     }
 
     function renderHomeDashboard() {
@@ -916,6 +960,76 @@
         }
     }
 
+    /* 📜 CERTIFICATE & WARNING GENERATOR LOGIC */
+    function generateCertificate() {
+        const staffName = document.getElementById('certStaffSelect').value;
+        const periodText = document.getElementById('certPeriodText').value;
+        const container = document.getElementById('certificatePreviewArea');
+
+        if (!staffName) {
+            container.innerHTML = "<p style='text-align:center;'>እባክዎን ሰራተኛ ይምረጡ።</p>";
+            return;
+        }
+
+        // Calculate average score for the selected staff
+        const staffReports = perfData.filter(p => p.staff === staffName);
+        let avgScore = 0;
+        if (staffReports.length > 0) {
+            const sum = staffReports.reduce((acc, curr) => acc + curr.score, 0);
+            avgScore = (sum / staffReports.length).toFixed(1);
+        }
+
+        const staffObj = staffList.find(s => s.name === staffName) || { role: "Staff" };
+
+        if (avgScore >= 50) {
+            // 🎉 EXCELLENCE CERTIFICATE
+            container.innerHTML = `
+                <div class="cert-paper">
+                    <h1 style="color:var(--cbe-purple); margin:0; font-size:24px;">COMMERCIAL BANK OF ETHIOPIA</h1>
+                    <h3 style="color:var(--cbe-gold); margin:5px 0 20px 0; font-size:14px;">BORKENA BRANCH</h3>
+                    <h2 style="font-family:'Georgia', serif; letter-spacing:2px; font-size:20px; color:#1e293b;">CERTIFICATE OF RECOGNITION</h2>
+                    <p style="font-size:12px; color:#475569; margin-top:15px;">THIS CERTIFICATE IS PROUDLY PRESENTED TO</p>
+                    <h2 style="color:var(--cbe-purple); text-decoration:underline; margin:10px 0; font-size:22px;">${staffName}</h2>
+                    <p style="font-size:13px; color:#334155; max-width:600px; margin:0 auto; line-height:1.6;">
+                        In recognition of outstanding performance and dedicated service as <strong>${staffObj.role}</strong> during <strong>${periodText}</strong>, achieving an overall performance rating of <strong style="color:var(--success); font-size:16px;">${avgScore}%</strong>.
+                    </p>
+                    <div style="margin-top:40px; display:flex; justify-content:space-between; align-items:flex-end; padding:0 30px;">
+                        <div style="text-align:center; border-top:1px solid #000; width:150px; padding-top:4px; font-size:10px; font-weight:bold;">Branch Manager</div>
+                        <div style="font-size:10px; color:#64748b;">Date: ${new Date().toLocaleDateString()}</div>
+                        <div style="text-align:center; border-top:1px solid #000; width:150px; padding-top:4px; font-size:10px; font-weight:bold;">Operation Manager</div>
+                    </div>
+                </div>
+            `;
+        } else {
+            // ⚠️ FORMAL WARNING LETTER (UNDER 50%)
+            container.innerHTML = `
+                <div class="cert-paper cert-paper-warning">
+                    <h2 style="color:var(--danger); margin:0; font-size:20px;">COMMERCIAL BANK OF ETHIOPIA</h2>
+                    <h4 style="color:#000; margin:2px 0 15px 0; font-size:12px;">BORKENA BRANCH - HUMAN RESOURCE & MANAGEMENT</h4>
+                    <h3 style="color:var(--danger); font-size:16px; border-bottom:2px solid var(--danger); display:inline-block; padding-bottom:3px;">FORMAL PERFORMANCE WARNING LETTER</h3>
+                    
+                    <div style="text-align:left; font-size:12px; color:#1e293b; margin-top:15px; line-height:1.6;">
+                        <p><strong>To:</strong> ${staffName} (${staffObj.role})</p>
+                        <p><strong>Date:</strong> ${new Date().toLocaleDateString()}</p>
+                        <p><strong>Subject:</strong> Notice of Low Operational Performance (${periodText})</p>
+                        <hr style="border:0; border-top:1px solid #ccc; margin:10px 0;">
+                        <p>
+                            This formal letter serves to notify you that your overall performance evaluation score for the period of <strong>${periodText}</strong> is registered at <strong style="color:var(--danger); font-size:14px;">${avgScore}%</strong>, which is below the minimum required target threshold of <strong>50%</strong>.
+                        </p>
+                        <p>
+                            You are required to improve your operational metrics including Deposit Mobilization, FCY acquisition, and Digital Product activations. Please submit an action plan within three working days.
+                        </p>
+                    </div>
+
+                    <div style="margin-top:40px; display:flex; justify-content:space-between; align-items:flex-end; padding:0 10px;">
+                        <div style="text-align:center; border-top:1px solid #000; width:140px; padding-top:4px; font-size:10px; font-weight:bold;">Branch Manager</div>
+                        <div style="text-align:center; border-top:1px solid #000; width:140px; padding-top:4px; font-size:10px; font-weight:bold;">Employee Acknowledgment</div>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
     function filterByPeriod(data, period) {
         const now = new Date();
         return data.filter(item => {
@@ -978,10 +1092,19 @@
 
     function populateDropdowns() {
         const expSelect = document.getElementById('exportStaffFilter');
+        const certSelect = document.getElementById('certStaffSelect');
+        
         if (expSelect) {
             expSelect.innerHTML = '<option value="ALL">All Staff Members</option>';
             staffList.forEach(st => {
                 expSelect.innerHTML += `<option value="${st.name}">${st.name}</option>`;
+            });
+        }
+
+        if (certSelect) {
+            certSelect.innerHTML = '';
+            staffList.forEach(st => {
+                certSelect.innerHTML += `<option value="${st.name}">${st.name}</option>`;
             });
         }
     }
