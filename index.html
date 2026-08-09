@@ -971,7 +971,6 @@
             return;
         }
 
-        // Calculate average score for the selected staff
         const staffReports = perfData.filter(p => p.staff === staffName);
         let avgScore = 0;
         if (staffReports.length > 0) {
@@ -982,7 +981,6 @@
         const staffObj = staffList.find(s => s.name === staffName) || { role: "Staff" };
 
         if (avgScore >= 50) {
-            // 🎉 EXCELLENCE CERTIFICATE
             container.innerHTML = `
                 <div class="cert-paper">
                     <h1 style="color:var(--cbe-purple); margin:0; font-size:24px;">COMMERCIAL BANK OF ETHIOPIA</h1>
@@ -1001,7 +999,6 @@
                 </div>
             `;
         } else {
-            // ⚠️ FORMAL WARNING LETTER (UNDER 50%)
             container.innerHTML = `
                 <div class="cert-paper cert-paper-warning">
                     <h2 style="color:var(--danger); margin:0; font-size:20px;">COMMERCIAL BANK OF ETHIOPIA</h2>
