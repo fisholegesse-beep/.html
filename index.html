@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CBE Borkena Branch - Complete Performance & Governance System</title>
+    <title>CBE Borkena Branch - Dynamic Performance & Governance System</title>
     
-    <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -105,7 +104,7 @@
             background: var(--cbe-purple);
             color: #ffffff;
             border: none;
-            padding: 12px 18px;
+            padding: 10px 16px;
             border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
@@ -163,7 +162,7 @@
         <div class="header">
             <div>
                 <h2 style="margin:0; color:var(--cbe-purple); font-size: 18px;">Commercial Bank of Ethiopia</h2>
-                <p style="margin:2px 0 0 0; font-size:12px; color:var(--text-muted);">Borkena Branch Operational & Governance Portal</p>
+                <p style="margin:2px 0 0 0; font-size:12px; color:var(--text-muted);">Borkena Branch Operational Portal</p>
             </div>
             <div>
                 <span id="currentUserDisplay" style="color:var(--cbe-purple); font-weight:bold; font-size:13px; margin-right:8px;"></span>
@@ -171,20 +170,18 @@
             </div>
         </div>
 
-        <!-- FULL NAVIGATION -->
+        <!-- NAVIGATION -->
         <div class="nav-bar">
             <button class="nav-btn active" onclick="showTab('reportsTab', this)">📝 Performance Entry</button>
             <button class="nav-btn" onclick="showTab('allReportsTab', this)">🌐 All Staff Reports</button>
-            <button class="nav-btn hidden" id="supervisorNavBtn" onclick="showTab('supervisorTab', this)">👔 Supervisor Menu</button>
-            <button class="nav-btn hidden" id="adminNavBtn" onclick="showTab('adminTab', this)">⚙️ Admin & Staff Manager</button>
+            <button class="nav-btn hidden" id="supervisorNavBtn" onclick="showTab('supervisorTab', this)">👔 Supervisor Approval</button>
+            <button class="nav-btn hidden" id="adminNavBtn" onclick="showTab('adminTab', this)">⚙️ Staff Manager</button>
             <button class="nav-btn" onclick="showTab('mobilePortalTab', this)">📱 My Personal Portal</button>
             <button class="nav-btn" onclick="showTab('reportExportTab', this)">📈 PDF Downloader</button>
-            <button class="nav-btn" onclick="showTab('libraryTab', this)">📚 E-Library & Directives</button>
-            <button class="nav-btn" onclick="showTab('awardsTab', this)">🏆 Awards & Certificates</button>
             <button class="nav-btn" onclick="showTab('securityTab', this)">🔒 Password & Security</button>
         </div>
 
-        <!-- TAB 1: FULL PERFORMANCE ENTRY -->
+        <!-- TAB 1: PERFORMANCE ENTRY -->
         <div id="reportsTab" class="tab-page">
             <div class="card">
                 <h3 style="color:var(--cbe-purple); margin-top:0;">📝 Daily / Weekly Performance Entry Form</h3>
@@ -208,17 +205,15 @@
                         </div>
                     </div>
 
-                    <!-- CORE METRICS (Deposit, Account & FCY) -->
                     <div class="section-title">📌 Core Metrics (Deposit, Account & Foreign Currency)</div>
                     <div class="grid-4">
-                        <div><label>Deposit Target Plan (ETB)</label><input type="number" id="depPlan" value="500000" oninput="calcOverall()" required></div>
+                        <div><label>Deposit Plan (ETB)</label><input type="number" id="depPlan" value="500000" oninput="calcOverall()" required></div>
                         <div><label>Deposit Actual (ETB)</label><input type="number" id="depActual" value="0" oninput="calcOverall()" required></div>
                         <div><label>New Accounts (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="accPlan" value="10" oninput="calcOverall()"><input type="number" id="accActual" value="0" oninput="calcOverall()"></div></div>
                         <div><label>FCY Target Plan ($ USD)</label><input type="number" id="fcyPlan" value="1000" oninput="calcOverall()" required></div>
                         <div><label>FCY Actual ($ USD)</label><input type="number" id="fcyActual" value="0" oninput="calcOverall()" required></div>
                     </div>
 
-                    <!-- DIGITAL BANKING & ONBOARDING (UPDATED METRICS) -->
                     <div class="section-title">👥 Digital Banking & Channels (Plan/Actual)</div>
                     <div class="grid-4">
                         <div><label>Mobile Banking (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="mbPlan" value="5" oninput="calcOverall()"><input type="number" id="mbActual" value="0" oninput="calcOverall()"></div></div>
@@ -231,7 +226,7 @@
                         <div><label>National ID Registrations (Plan/Act)</label><div style="display:flex; gap:4px;"><input type="number" id="nationalIdPlan" value="20" oninput="calcOverall()"><input type="number" id="nationalIdAct" value="0" oninput="calcOverall()"></div></div>
                     </div>
 
-                    <button type="submit" id="saveBtn" class="btn btn-success" style="width:100%; margin-top:20px; font-size:14px;">💾 Save & Broadcast to All Staff</button>
+                    <button type="submit" class="btn btn-success" style="width:100%; margin-top:20px; font-size:14px;">💾 Save Performance Report</button>
                 </form>
             </div>
         </div>
@@ -266,10 +261,10 @@
             </div>
         </div>
 
-        <!-- TAB 3: SUPERVISOR MENU -->
+        <!-- TAB 3: SUPERVISOR APPROVAL MENU -->
         <div id="supervisorTab" class="tab-page hidden">
             <div class="card">
-                <h3 style="color:var(--cbe-purple); margin-top:0;">👔 Supervisor Governance & Review Dashboard</h3>
+                <h3 style="color:var(--cbe-purple); margin-top:0;">👔 Supervisor & Admin Approval Dashboard</h3>
                 <div class="grid-3" style="margin-bottom:15px;">
                     <div style="background:#eef2ff; padding:12px; border-radius:8px; text-align:center; border:1px solid #c7d2fe;">
                         <h4 style="margin:0; color:var(--cbe-purple);">Total Submitted Reports</h4>
@@ -285,7 +280,7 @@
                     </div>
                 </div>
 
-                <div class="section-title">🔍 Staff Review & Approval Filters</div>
+                <div class="section-title">🔍 Filter & Approve Reports</div>
                 <div class="grid-2" style="margin-bottom:10px;">
                     <div>
                         <label>Filter by Staff Name</label>
@@ -313,7 +308,7 @@
                                 <th>Deposit Act.</th>
                                 <th>FCY Act. ($)</th>
                                 <th>Status</th>
-                                <th>Supervisor Approval</th>
+                                <th>Approval Action</th>
                             </tr>
                         </thead>
                         <tbody id="supervisorReviewTable"></tbody>
@@ -325,15 +320,40 @@
         <!-- TAB 4: MY PERSONAL PORTAL -->
         <div id="mobilePortalTab" class="tab-page hidden">
             <div class="card">
-                <h3 style="color:var(--cbe-purple); margin-top:0;">📱 My Personal Target & Achievement Dashboard</h3>
+                <h3 style="color:var(--cbe-purple); margin-top:0;">📱 My Personal Target & Achievement Portal</h3>
                 <div id="mobileStaffDashboard"></div>
             </div>
         </div>
 
-        <!-- TAB 5: ADMIN & STAFF MANAGER -->
+        <!-- TAB 5: ADMIN & STAFF MANAGER (ADD/REMOVE STAFF & CHANGE ROLE) -->
         <div id="adminTab" class="tab-page hidden">
             <div class="card">
-                <h3 style="color:var(--cbe-purple); margin-top:0;">⚙️ System Users & Role Governance</h3>
+                <h3 style="color:var(--cbe-purple); margin-top:0;">⚙️ Staff Management (Super Admin)</h3>
+                
+                <!-- ADD STAFF FORM -->
+                <div style="background: #f8fafc; padding:12px; border-radius:8px; border:1px solid var(--border); margin-bottom:15px;">
+                    <h4 style="margin:0 0 10px 0; color:var(--cbe-purple);">➕ አዲስ ሰራተኛ መመዝገቢያ</h4>
+                    <form onsubmit="addNewStaff(event)">
+                        <div class="grid-4">
+                            <div><label>Full Name</label><input type="text" id="newStaffName" required></div>
+                            <div><label>Username</label><input type="text" id="newStaffUsername" required></div>
+                            <div><label>Password</label><input type="password" id="newStaffPassword" required></div>
+                            <div><label>Role / Position</label><input type="text" id="newStaffRole" required></div>
+                        </div>
+                        <div style="margin-top:10px; display:flex; gap:10px; align-items:center;">
+                            <div style="flex:1;">
+                                <label>Access Right Level</label>
+                                <select id="newStaffRight">
+                                    <option value="Staff">Staff</option>
+                                    <option value="Supervisor">Supervisor</option>
+                                    <option value="Super Admin">Super Admin</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-success" style="margin-top:15px;">+ Add Staff</button>
+                        </div>
+                    </form>
+                </div>
+
                 <div style="overflow-x:auto;">
                     <table class="data-table">
                         <thead>
@@ -342,7 +362,8 @@
                                 <th>Full Name</th>
                                 <th>Username</th>
                                 <th>Role</th>
-                                <th>Access Level</th>
+                                <th>Access Right</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody id="staffTableBody"></tbody>
@@ -351,7 +372,7 @@
             </div>
         </div>
 
-        <!-- TAB 6: REPORT EXPORT -->
+        <!-- TAB 6: EXPORT PDF -->
         <div id="reportExportTab" class="tab-page hidden">
             <div class="card">
                 <h3 style="color:var(--cbe-purple); margin-top:0;">📈 Export Reports (PDF)</h3>
@@ -360,52 +381,15 @@
                         <label>Select Staff Filter</label>
                         <select id="exportStaffFilter"></select>
                     </div>
-                    <div>
-                        <label>Select Date</label>
-                        <input type="date" id="exportDateFilter">
-                    </div>
                 </div>
                 <button onclick="downloadPDF()" class="btn btn-success" style="width:100%;">📥 Generate PDF Report</button>
             </div>
         </div>
 
-        <!-- TAB 7: E-LIBRARY -->
-        <div id="libraryTab" class="tab-page hidden">
-            <div class="card">
-                <h3 style="color:var(--cbe-purple); margin-top:0;">📚 E-Library & Operational Directives</h3>
-                <ul>
-                    <li>CBE Operational Guidelines & Target Allocation Policy</li>
-                    <li>Digital Banking Channel Onboarding Manual</li>
-                    <li>Foreign Currency & Remittance Compliance Policy</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- TAB 8: AWARDS -->
-        <div id="awardsTab" class="tab-page hidden">
-            <div class="card">
-                <h3 style="color:var(--cbe-purple); margin-top:0;">🏆 Branch Awards & Recognition</h3>
-                <div class="grid-2">
-                    <div>
-                        <label>Select Nominee</label>
-                        <select id="awardStaffSelect"></select>
-                    </div>
-                    <div>
-                        <label>Recognition Title</label>
-                        <select id="awardType">
-                            <option value="Top Performer of the Month">Top Performer of the Month</option>
-                            <option value="Digital Champion">Digital Onboarding Champion</option>
-                        </select>
-                    </div>
-                </div>
-                <button onclick="generateCertificate()" class="btn btn-success" style="width:100%; margin-top:12px;">📜 Issue Certificate</button>
-            </div>
-        </div>
-
-        <!-- TAB 9: SECURITY -->
+        <!-- TAB 7: SECURITY -->
         <div id="securityTab" class="tab-page hidden">
             <div class="card">
-                <h3 style="color:var(--cbe-purple); margin-top:0;">🔒 Password & Account Security</h3>
+                <h3 style="color:var(--cbe-purple); margin-top:0;">🔒 Password Management</h3>
                 <form onsubmit="changePassword(event)">
                     <div style="margin-bottom:10px;">
                         <label>Current Password</label>
@@ -424,41 +408,35 @@
 </div>
 
 <script>
-    // --- STAFF LIST & ROLE DEFINITIONS ---
-    const staffList = [
-        { name: "Fiseha", username: "fiseha", password: "123", role: "Digital Officer", right: "Super Admin" },
-        { name: "Dawit", username: "dawit", password: "123", role: "Team Leader", right: "Supervisor" },
-        { name: "Sintayehu", username: "sintayehu", password: "123", role: "Team Leader", right: "Supervisor" },
-        { name: "Dagmawit Afework", username: "dagmawit", password: "123", role: "Digital & Service Quality", right: "Staff" },
-        { name: "Hermela Getachew", username: "hermela", password: "123", role: "New Customer Recruitment", right: "Staff" },
-        { name: "Adem Seyid", username: "adem", password: "123", role: "FCY Target Manager", right: "Staff" },
-        { name: "Giwons", username: "giwons", password: "123", role: "National ID Lead", right: "Staff" }
+    // --- INITIAL STAFF DATA WITH LOCALSTORAGE PERSISTENCE ---
+    const defaultStaff = [
+        { id: 1, name: "Fiseha", username: "fiseha", password: "123", role: "Digital Officer", right: "Super Admin" },
+        { id: 2, name: "Dawit", username: "dawit", password: "123", role: "Team Leader", right: "Supervisor" },
+        { id: 3, name: "Sintayehu", username: "sintayehu", password: "123", role: "Team Leader", right: "Supervisor" },
+        { id: 4, name: "Dagmawit Afework", username: "dagmawit", password: "123", role: "Digital & Service Quality", right: "Staff" },
+        { id: 5, name: "Hermela Getachew", username: "hermela", password: "123", role: "New Customer Recruitment", right: "Staff" },
+        { id: 6, name: "Adem Seyid", username: "adem", password: "123", role: "FCY Target Manager", right: "Staff" },
+        { id: 7, name: "Giwons", username: "giwons", password: "123", role: "National ID Lead", right: "Staff" }
     ];
 
-    let perfData = [];
+    let staffList = JSON.parse(localStorage.getItem('cbe_borkena_staff')) || defaultStaff;
+    let perfData = JSON.parse(localStorage.getItem('cbe_borkena_perf_data')) || [];
     let loggedInUser = null;
 
-    // --- SHARED REALTIME SYNC ---
     const syncChannel = new BroadcastChannel('cbe_borkena_realtime_sync');
 
     syncChannel.onmessage = (event) => {
         if (event.data && event.data.type === 'DATA_UPDATED') {
-            perfData = event.data.payload;
+            perfData = event.data.perfData;
+            staffList = event.data.staffList;
             refreshAllViews();
         }
     };
 
     function broadcastData() {
         localStorage.setItem('cbe_borkena_perf_data', JSON.stringify(perfData));
-        syncChannel.postMessage({ type: 'DATA_UPDATED', payload: perfData });
-        refreshAllViews();
-    }
-
-    function loadInitialData() {
-        const saved = localStorage.getItem('cbe_borkena_perf_data');
-        if (saved) {
-            perfData = JSON.parse(saved);
-        }
+        localStorage.setItem('cbe_borkena_staff', JSON.stringify(staffList));
+        syncChannel.postMessage({ type: 'DATA_UPDATED', perfData, staffList });
         refreshAllViews();
     }
 
@@ -466,6 +444,7 @@
         renderPerfTable();
         renderSupervisorTab();
         renderMobileView();
+        renderStaffTable();
         populateDropdowns();
     }
 
@@ -506,11 +485,10 @@
         document.getElementById('supervisorNavBtn').classList.toggle('hidden', !isSupervisor);
 
         document.getElementById('perfDate').valueAsDate = new Date();
-        loadInitialData();
-        renderStaffTable();
+        refreshAllViews();
     }
 
-    // --- COMPREHENSIVE OVERALL SCORE CALCULATOR (UPDATED) ---
+    // --- SCORE CALCULATOR ---
     function calcOverall() {
         let depP = parseFloat(document.getElementById('depPlan').value) || 0;
         let depA = parseFloat(document.getElementById('depActual').value) || 0;
@@ -519,7 +497,6 @@
         let fcyP = parseFloat(document.getElementById('fcyPlan').value) || 0;
         let fcyA = parseFloat(document.getElementById('fcyActual').value) || 0;
 
-        // Digital Channels
         let mbP = parseFloat(document.getElementById('mbPlan').value) || 0;
         let mbA = parseFloat(document.getElementById('mbActual').value) || 0;
         let atmP = parseFloat(document.getElementById('atmPlan').value) || 0;
@@ -541,25 +518,15 @@
         let accScore = accP > 0 ? (accA / accP) * 100 : 0;
         let fcyScore = fcyP > 0 ? (fcyA / fcyP) * 100 : 0;
 
-        // Digital Individual Scores
-        let mbScore = mbP > 0 ? (mbA / mbP) * 100 : 0;
-        let atmScore = atmP > 0 ? (atmA / atmP) * 100 : 0;
-        let ibScore = ibP > 0 ? (ibA / ibP) * 100 : 0;
-        let agentScore = agentP > 0 ? (agentA / agentP) * 100 : 0;
-        let merchantScore = merchantP > 0 ? (merchantA / merchantP) * 100 : 0;
-        let cbScore = cbP > 0 ? (cbA / cbP) * 100 : 0;
-        let starScore = starP > 0 ? (starA / starP) * 100 : 0;
-        let nidScore = nidP > 0 ? (nidA / nidP) * 100 : 0;
+        let digitalAvg = ((mbP > 0 ? mbA/mbP : 0) + (atmP > 0 ? atmA/atmP : 0) + (ibP > 0 ? ibA/ibP : 0) + 
+                         (agentP > 0 ? agentA/agentP : 0) + (merchantP > 0 ? merchantA/merchantP : 0) + 
+                         (cbP > 0 ? cbA/cbP : 0) + (starP > 0 ? starA/starP : 0) + (nidP > 0 ? nidA/nidP : 0)) / 8 * 100;
 
-        // Average of Digital Channel Performance
-        let digitalAvg = (mbScore + atmScore + ibScore + agentScore + merchantScore + cbScore + starScore + nidScore) / 8;
-
-        // Weighted Average Calculation: Deposit (35%), Accounts (20%), FCY (25%), Digital Channels (20%)
         let total = ((depScore * 0.35) + (accScore * 0.20) + (fcyScore * 0.25) + (digitalAvg * 0.20)).toFixed(1);
         document.getElementById('overallScore').value = total;
     }
 
-    // --- SAVE AND BROADCAST ---
+    // --- SAVE PERFORMANCE REPORT ---
     document.getElementById('perfForm').addEventListener('submit', (e) => {
         e.preventDefault();
         
@@ -576,7 +543,6 @@
             fcyPlan: parseFloat(document.getElementById('fcyPlan').value) || 0,
             fcyActual: parseFloat(document.getElementById('fcyActual').value) || 0,
             
-            // Updated Digital Channels Data
             mbPlan: parseFloat(document.getElementById('mbPlan').value) || 0,
             mbActual: parseFloat(document.getElementById('mbActual').value) || 0,
             atmPlan: parseFloat(document.getElementById('atmPlan').value) || 0,
@@ -599,10 +565,10 @@
 
         perfData.unshift(record);
         broadcastData();
-        alert('✅ የመረጡት መረጃ በተሳካ ሁኔታ ተመዝግቧል! አሁን ለሁሉም ሰራተኞች ይታያል።');
+        alert('✅ የመረጡት መረጃ በተሳካ ሁኔታ ተመዝግቧል!');
     });
 
-    // --- RENDER ALL STAFF REPORTS ---
+    // --- RENDER ALL REPORTS ---
     function renderPerfTable() {
         const tbody = document.getElementById('perfTableBody');
         tbody.innerHTML = '';
@@ -613,7 +579,7 @@
         }
 
         perfData.forEach(p => {
-            const canDelete = loggedInUser.right === 'Super Admin' || loggedInUser.right === 'Supervisor' || loggedInUser.name === p.staff;
+            const canDelete = loggedInUser && (loggedInUser.right === 'Super Admin' || loggedInUser.right === 'Supervisor' || loggedInUser.name === p.staff);
             
             tbody.innerHTML += `
                 <tr>
@@ -642,7 +608,7 @@
         }
     }
 
-    // --- SUPERVISOR REVIEW TAB ---
+    // --- SUPERVISOR & ADMIN APPROVAL ---
     function renderSupervisorTab() {
         document.getElementById('supervTotalEntries').innerText = perfData.length;
         document.getElementById('supervTopPerformers').innerText = perfData.filter(p => p.score >= 100).length;
@@ -669,6 +635,7 @@
         }
 
         filtered.forEach(p => {
+            const canApprove = loggedInUser && (loggedInUser.right === 'Super Admin' || loggedInUser.right === 'Supervisor');
             tbody.innerHTML += `
                 <tr>
                     <td>${p.date}</td>
@@ -678,7 +645,7 @@
                     <td>$${(p.fcyActual || 0).toLocaleString()}</td>
                     <td><span class="${p.status === 'Approved' ? 'badge-approved' : 'badge-pending'}">${p.status}</span></td>
                     <td>
-                        ${p.status !== 'Approved' ? `<button onclick="approveReport(${p.id})" class="btn btn-success" style="padding:2px 6px; font-size:10px;">✅ Approve</button>` : '✔️ Verified'}
+                        ${p.status !== 'Approved' && canApprove ? `<button onclick="approveReport(${p.id})" class="btn btn-success" style="padding:2px 6px; font-size:10px;">✅ Approve</button>` : (p.status === 'Approved' ? '✔️ Verified' : 'No Permission')}
                     </td>
                 </tr>
             `;
@@ -690,63 +657,120 @@
         if (rec) {
             rec.status = 'Approved';
             broadcastData();
-            alert(`የ ${rec.staff} ሪፖርት ሱፐርቫይዘር አጽድቆታል!`);
+            alert(`የ ${rec.staff} ሪፖርት ፅድቋል!`);
         }
     }
 
-    // --- MY PERSONAL PORTAL ---
+    // --- PERSONAL PORTAL ---
     function renderMobileView() {
         const container = document.getElementById('mobileStaffDashboard');
+        if (!loggedInUser) return;
+        
         const myReports = perfData.filter(p => p.staff === loggedInUser.name);
 
         if (myReports.length === 0) {
-            container.innerHTML = `<p style="text-align:center;">በእርስዎ ስም (${loggedInUser.name}) እስካሁን የተመዘገበ ሪፖርት የለም።</p>`;
+            container.innerHTML = `<p style="text-align:center; padding:20px;">በእርስዎ ስም (${loggedInUser.name}) እስካሁን የተመዘገበ ሪፖርት የለም።</p>`;
             return;
         }
 
-        const latest = myReports[0];
-        container.innerHTML = `
-            <div style="background:#f8fafc; border:1px solid var(--border); padding:16px; border-radius:10px; text-align:center;">
-                <h3 style="margin:0; color:var(--cbe-purple);">${latest.staff}</h3>
-                <p style="margin:4px 0; color:var(--text-muted);">${latest.role}</p>
-                <div style="font-size:24px; font-weight:bold; color:var(--cbe-purple); margin:10px 0;">Score: ${latest.score}%</div>
-                <p>Deposit Actual: <strong>ETB ${latest.depActual.toLocaleString()}</strong> | FCY Actual: <strong>$${latest.fcyActual}</strong></p>
-                <p>Status: <span class="${latest.status === 'Approved' ? 'badge-approved' : 'badge-pending'}">${latest.status}</span></p>
-            </div>
-        `;
+        let html = '<div style="display:grid; gap:10px;">';
+        myReports.forEach(rep => {
+            html += `
+                <div style="background:#f8fafc; border:1px solid var(--border); padding:12px; border-radius:8px;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <strong>📅 ${rep.date}</strong>
+                        <span class="${rep.status === 'Approved' ? 'badge-approved' : 'badge-pending'}">${rep.status}</span>
+                    </div>
+                    <div style="font-size:18px; font-weight:bold; color:var(--cbe-purple); margin:6px 0;">Overall Score: ${rep.score}%</div>
+                    <small>Deposit: ETB ${rep.depActual.toLocaleString()} | FCY: $${rep.fcyActual}</small>
+                </div>
+            `;
+        });
+        html += '</div>';
+        container.innerHTML = html;
     }
 
-    // --- RENDER ADMIN STAFF TABLE ---
+    // --- STAFF MANAGEMENT (ADD/REMOVE & CHANGE ROLE) ---
     function renderStaffTable() {
         const tbody = document.getElementById('staffTableBody');
         tbody.innerHTML = '';
+        
         staffList.forEach((st, idx) => {
             tbody.innerHTML += `
                 <tr>
                     <td>${idx + 1}</td>
                     <td><strong>${st.name}</strong></td>
                     <td>${st.username}</td>
-                    <td>${st.role}</td>
-                    <td><span class="badge-role">${st.right}</span></td>
+                    <td>
+                        <input type="text" value="${st.role}" onchange="updateStaffRole(${st.id}, 'role', this.value)" style="padding:4px; font-size:11px;">
+                    </td>
+                    <td>
+                        <select onchange="updateStaffRole(${st.id}, 'right', this.value)" style="padding:4px; font-size:11px;">
+                            <option value="Staff" ${st.right === 'Staff' ? 'selected' : ''}>Staff</option>
+                            <option value="Supervisor" ${st.right === 'Supervisor' ? 'selected' : ''}>Supervisor</option>
+                            <option value="Super Admin" ${st.right === 'Super Admin' ? 'selected' : ''}>Super Admin</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button onclick="removeStaff(${st.id})" class="btn btn-danger" style="padding:2px 6px; font-size:10px;">❌ Remove</button>
+                    </td>
                 </tr>
             `;
         });
     }
 
+    function addNewStaff(e) {
+        e.preventDefault();
+        const name = document.getElementById('newStaffName').value.trim();
+        const username = document.getElementById('newStaffUsername').value.trim().toLowerCase();
+        const password = document.getElementById('newStaffPassword').value.trim();
+        const role = document.getElementById('newStaffRole').value.trim();
+        const right = document.getElementById('newStaffRight').value;
+
+        if (staffList.some(s => s.username === username)) {
+            alert('ይህ Username አስቀድሞ ተይዟል!');
+            return;
+        }
+
+        const newMember = { id: Date.now(), name, username, password, role, right };
+        staffList.push(newMember);
+        broadcastData();
+        alert('✅ አዲስ ሰራተኛ በተሳካ ሁኔታ ተመዝግቧል!');
+
+        document.getElementById('newStaffName').value = '';
+        document.getElementById('newStaffUsername').value = '';
+        document.getElementById('newStaffPassword').value = '';
+        document.getElementById('newStaffRole').value = '';
+    }
+
+    function removeStaff(id) {
+        if (confirm('እርግጠኛ ነዎት ይህንን ሰራተኛ መሰረዝ ይፈልጋሉ?')) {
+            staffList = staffList.filter(s => s.id !== id);
+            broadcastData();
+        }
+    }
+
+    function updateStaffRole(id, field, value) {
+        const st = staffList.find(s => s.id === id);
+        if (st) {
+            st[field] = value;
+            broadcastData();
+        }
+    }
+
     function populateDropdowns() {
         const expSelect = document.getElementById('exportStaffFilter');
-        const awardSelect = document.getElementById('awardStaffSelect');
         const supervSelect = document.getElementById('supervStaffFilter');
 
-        expSelect.innerHTML = '<option value="ALL">All Staff Members</option>';
-        supervSelect.innerHTML = '<option value="ALL">All Staff Members</option>';
-        awardSelect.innerHTML = '';
+        if (expSelect && supervSelect) {
+            expSelect.innerHTML = '<option value="ALL">All Staff Members</option>';
+            supervSelect.innerHTML = '<option value="ALL">All Staff Members</option>';
 
-        staffList.forEach(st => {
-            expSelect.innerHTML += `<option value="${st.name}">${st.name}</option>`;
-            supervSelect.innerHTML += `<option value="${st.name}">${st.name}</option>`;
-            awardSelect.innerHTML += `<option value="${st.name}">${st.name}</option>`;
-        });
+            staffList.forEach(st => {
+                expSelect.innerHTML += `<option value="${st.name}">${st.name}</option>`;
+                supervSelect.innerHTML += `<option value="${st.name}">${st.name}</option>`;
+            });
+        }
     }
 
     function showTab(tabId, btn) {
@@ -759,20 +783,14 @@
     function downloadPDF() {
         const { jsPDF } = window.jspdf;
         doc = new jsPDF();
-        doc.text("Commercial Bank of Ethiopia - Borkena Branch Performance Report", 10, 20);
+        doc.text("CBE Borkena Branch Performance Report", 10, 20);
         let y = 30;
 
         perfData.forEach((item, index) => {
-            doc.text(`${index + 1}. ${item.staff} (${item.role}) - Score: ${item.score}% | Dep Act: ETB ${item.depActual} | FCY: $${item.fcyActual} | Date: ${item.date}`, 10, y);
+            doc.text(`${index + 1}. ${item.staff} (${item.role}) - Score: ${item.score}% | Date: ${item.date}`, 10, y);
             y += 8;
         });
-        doc.save("Borkena_Branch_Performance_Report.pdf");
-    }
-
-    function generateCertificate() {
-        const staff = document.getElementById('awardStaffSelect').value;
-        const type = document.getElementById('awardType').value;
-        alert(`📜 Certificate generated for ${staff} - ${type}!`);
+        doc.save("Borkena_Performance_Report.pdf");
     }
 
     function changePassword(e) {
@@ -782,7 +800,10 @@
 
         if (loggedInUser.password === oldP) {
             loggedInUser.password = newP;
-            alert('ፓስወርድዎ በተሳካ ሁኔታ ተቀይሯል!');
+            const target = staffList.find(s => s.id === loggedInUser.id);
+            if (target) target.password = newP;
+            broadcastData();
+            alert('ፓስወርድዎ ተቀይሯል!');
             document.getElementById('oldPass').value = '';
             document.getElementById('newPass').value = '';
         } else {
